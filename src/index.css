@@ -1,0 +1,32 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&family=Monoton&display=swap");
+
+@import "tailwindcss";
+@plugin "daisyui";
+
+.active {
+  color: #ff9540;
+}
+
+body {
+  font-family: "Lexend Deca", serif;
+}
+
+select {
+  background-color: #314352;
+}
+
+select option:hover {
+  background-color: #b412ff;
+  color: red;
+}
+
+select option {
+  background-color: #314252;
+  color: #ffff;
+}
+
+.extra-font {
+  font-family: "Monoton", serif;
+  font-weight: 400;
+  font-style: normal;
+}
