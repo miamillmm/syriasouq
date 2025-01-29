@@ -8,63 +8,63 @@
       "views": 1200
     },
     {
-        "id": 2,
+      "id": 2,
       "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQf8G0BYbt9A82jA2mO7rHdrIL96WTS8ZAn6w&s",
       "carName": "BMW X5",
       "price": 60999,
       "views": 985
     },
     {
-        "id": 3,
+      "id": 3,
       "image": "https://stimg.cardekho.com/images/carexteriorimages/930x620/Audi/Q7/12198/1732789850926/side-view-(left)-90.jpg",
       "carName": "Audi Q7",
       "price": 68999,
       "views": 1100
     },
     {
-        "id": 4,
+      "id": 4,
       "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmkd5e_Bq8kcICm4-iK0FKiynTvPLe3Vyxqg&s",
       "carName": "Mercedes-Benz GLE",
       "price": 72999,
       "views": 1300
     },
     {
-        "id": 5,
+      "id": 5,
       "image": "https://images.prismic.io/carwow/c2d2e740-99e2-4faf-8cfa-b5a75c5037c0_ford-mustang-2024-lhd-front34static.jpg?auto=format&cs=tinysrgb&fit=crop&q=60&w=750",
       "carName": "Ford Mustang",
       "price": 55999,
       "views": 1450
     },
     {
-        "id": 6,
+      "id": 6,
       "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzKd67PTSEk4QXu6aVdKzy0-MOroC2XXryAw&s",
       "carName": "Chevrolet Camaro",
       "price": 52999,
       "views": 1250
     },
     {
-        "id": 7,
+      "id": 7,
       "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTo4OK6fAthgk4GQuSrTAK-WBp53lPUKHevJQ&s",
       "carName": "Porsche Cayenne",
       "price": 89999,
       "views": 970
     },
     {
-        "id": 8,
+      "id": 8,
       "image": "https://www.autoblog.com/.image/t_share/MjA5MDg5MTU1NjM1NDg4NjEy/2024-range-rover-evoque.jpg",
       "carName": "Range Rover Evoque",
       "price": 67999,
       "views": 1020
     },
     {
-        "id": 9,
+      "id": 9,
       "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZrPg8oxK1WV11VAvG0a3Rf4zft_U2i_pVLA&s",
       "carName": "Toyota Land Cruiser",
       "price": 84999,
       "views": 890
     },
     {
-        "id": 10,
+      "id": 10,
       "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIx9flTs8K82nnkqTpYada_t4NQz3EbJV1Bw&s",
       "carName": "Honda Accord",
       "price": 32999,

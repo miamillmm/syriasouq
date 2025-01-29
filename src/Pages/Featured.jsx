@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router";
 import { TiArrowRight } from "react-icons/ti";
 import axios from "axios";
 import { IoEyeOutline } from "react-icons/io5";
@@ -46,43 +47,44 @@ const Featured = () => {
       {/* All Car cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {datas?.map((data, index) => (
-      
-          <div key={index} className="shadow-sm shadow-indigo-100 rounded ">
-            <div className="overflow-hidden rounded-t-md">
-              <img
-                alt=""
-                src={data.image}
-                className="h-40 sm:h-56 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
-              />
-            </div>
-            <div>
-              <div className="mt-4 ml-4 space-y-1 sm:space-y-2 text-[16px] sm:text-[18px] font-semibold">
-                <h2 className=" text-[#314352]">{data.carName}</h2>
-                <h2 className=" text-[#314352]">${data.price}</h2>
+          <Link to={`/cardetails/${data.carName
+          }`} key={data.id}>
+            <div className="shadow-sm shadow-indigo-100 rounded ">
+              <div className="overflow-hidden rounded-t-md">
+                <img
+                  alt=""
+                  src={data.image}
+                  className="h-40 sm:h-56 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
+                />
               </div>
-              <div className="mt-6 text-xs border-t-2 border-gray-100 py-3">
-                <div className="flex justify-between px-4 py-2">
-                  <div className="flex gap-2 items-center">
-                    <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
-                      <IoEyeOutline className="w-1/2 h-1/2" />
+              <div>
+                <div className="mt-4 ml-4 space-y-1 sm:space-y-2 text-[16px] sm:text-[18px] font-semibold">
+                  <h2 className=" text-[#314352]">{data.carName}</h2>
+                  <h2 className=" text-[#314352]">${data.price}</h2>
+                </div>
+                <div className="mt-6 text-xs border-t-2 border-gray-100 py-3">
+                  <div className="flex justify-between px-4 py-2">
+                    <div className="flex gap-2 items-center">
+                      <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
+                        <IoEyeOutline className="w-1/2 h-1/2" />
+                      </div>
+                      <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
+                        <IoIosGitCompare className="w-1/2 h-1/2" />
+                      </div>
+                      <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
+                        <CiHeart className="w-1/2 h-1/2" />
+                      </div>
                     </div>
-                    <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
-                      <IoIosGitCompare className="w-1/2 h-1/2" />
+                    <div className="flex justify-center items-center cursor-pointer">
+                      <p className="text-gray-400 text-[12px] sm:text-[14px]">
+                        {data.views} Views
+                      </p>
                     </div>
-                    <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
-                      <CiHeart className="w-1/2 h-1/2" />
-                    </div>
-                  </div>
-                  <div className="flex justify-center items-center cursor-pointer">
-                    <p className="text-gray-400 text-[12px] sm:text-[14px]">
-                      {data.views} Views
-                    </p>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          
+          </Link>
         ))}
       </div>
     </div>
