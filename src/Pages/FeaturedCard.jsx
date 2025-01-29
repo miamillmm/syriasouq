@@ -48,13 +48,13 @@ const FeaturedCard = () => {
         <div className="flex space-x-2">
           <button
             onClick={prevListing}
-            className="p-2 bg-gray-300 rounded hover:bg-gray-400"
+            className="p-2 bg-gray-300 rounded hover:bg-gray-400 cursor-pointer"
           >
             <FaChevronLeft size={16} />
           </button>
           <button
             onClick={nextListing}
-            className="p-2 bg-[#ff9540] text-white rounded "
+            className="p-2 bg-[#ff9540] text-white rounded cursor-pointer"
           >
             <FaChevronRight size={16} />
           </button>

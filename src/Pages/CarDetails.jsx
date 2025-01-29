@@ -32,12 +32,12 @@ const CarDetails = () => {
   const { carname } = useParams();
 
   return (
-    <div className="pt-24 px-28">
+    <div className="pt-24 px-5 md:px-16 lg:px-28">
       {/* top path and slider */}
       <h2 className="mb-8 mt-7">
         <Breadcrumb carname={carname} />
       </h2>
-      <div className="w-full max-w-4xl mx-auto h-screen">
+      <div className="w-full max-w-4xl mx-auto h-auto md:h-screen">
         <Swiper
           spaceBetween={30}
           centeredSlides={true}
@@ -85,15 +85,15 @@ const CarDetails = () => {
       {/* car details and user details  */}
       <div className="container mx-auto py-6">
         {/* Grid Layout */}
-        <div className="grid grid-cols-12 gap-6 w-au h-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Left Side (3/4) - Car Details */}
-          <div className="col-span-8 min-h-screen">
+          <div className="lg:col-span-8 min-h-screen">
             <div className="space-y-5 bg-white shadow rounded-lg p-6">
               <p className="text-gray-500 text-sm flex items-center gap-2">
                 <span>🕒</span> 3 years ago
               </p>
               <h1 className="text-2xl text-[#314352] font-bold mt-2">
-                Maserati GranCabrio
+                {carname}
               </h1>
               <p className="text-3xl font-semibold text-[#314352] mt-2">
                 $44,900
@@ -125,14 +125,14 @@ const CarDetails = () => {
               <h1 className="text-2xl text-[#314352] font-bold mt-2">
                 Description:
               </h1>
-              <p className="text-[#314352] mt-2 mb-15">
+              <p className="text-[#314352] mt-2 mb-5">
                 We are TangibleDesign – a group of developers with experience in
                 managing successful websites and e-commerce shops. We know how
                 hard it is for you or your clients to gain a competitive
                 advantage and we are ready to create the optimum products for
                 the growth of your business in the new age of competition.
               </p>
-              <span className="border-t-1 pt-5 border-gray-400 font-bold text-gray-400 mb-2 inline-block">
+              <span className="border-t pt-5 border-gray-400 font-bold text-gray-400 mb-2 inline-block">
                 Related
               </span>
               <div className="flex justify-between items-center w-full">
@@ -162,7 +162,7 @@ const CarDetails = () => {
           </div>
 
           {/* Right Side (1/4) - Seller Info & Buttons */}
-          <div className="col-span-4 bg-white p-6 rounded-lg shadow">
+          <div className="lg:col-span-4 bg-white p-6 rounded-lg shadow">
             {/* Seller Info */}
             <div className="flex items-center gap-6 text-left">
               <div className="avatar">
@@ -185,11 +185,11 @@ const CarDetails = () => {
             </div>
 
             {/* Action Buttons */}
-            <div className="mt-12 flex gap-5 justify-between">
-              <button className="w-full bg-[#ff9540] text-[#314352] py-4 px-8 font-semibold rounded-md flex items-center justify-center gap-2">
+            <div className="mt-12 flex flex-col md:flex-row gap-5 justify-between">
+              <button className="w-full bg-[#ff9540] text-[#314352] py-4 px-8 font-semibold rounded-md flex items-center justify-center gap-2 cursor-pointer">
                 <TiMessages /> Chat
               </button>
-              <button className="w-full bg-[#ff9540] text-[#314352] py-4 px-8 font-semibold rounded-md flex items-center justify-center gap-2">
+              <button className="w-full bg-[#ff9540] text-[#314352] py-4 px-8 font-semibold rounded-md flex items-center justify-center gap-2 cursor-pointer">
                 <MdOutlineMailOutline /> E-mail
               </button>
             </div>
@@ -197,19 +197,19 @@ const CarDetails = () => {
             {/* Icons Section */}
             <div className="mt-6 flex justify-center shadow p-5 space-x-4">
               <div className="flex gap-2 items-center">
-                <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-12 h-12 rounded-full flex justify-center items-center border border-gray-400">
+                <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-12 h-12 rounded-full flex justify-center items-center border border-gray-400 cursor-pointer">
                   <IoEyeOutline className="w-1/2 h-1/2" />
                 </div>
-                <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-12 h-12 rounded-full flex justify-center items-center border border-gray-400">
+                <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-12 h-12 rounded-full flex justify-center items-center border border-gray-400 cursor-pointer">
                   <IoIosGitCompare className="w-1/2 h-1/2" />
                 </div>
-                <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-12 h-12 rounded-full flex justify-center items-center border border-gray-400">
+                <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-12 h-12 rounded-full flex justify-center items-center border border-gray-400 cursor-pointer">
                   <CiHeart className="w-1/2 h-1/2" />
                 </div>
               </div>
             </div>
             {/* error  */}
-            <div className="flex justify-center items-center my-8 gap-2 text-xl text-[#ED5E54]">
+            <div className="flex justify-center items-center my-8 gap-2 text-xl text-[#ED5E54] cursor-pointer">
               <MdErrorOutline />
               <h2>Report abuse</h2>
             </div>

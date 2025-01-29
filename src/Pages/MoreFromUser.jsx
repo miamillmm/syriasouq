@@ -98,23 +98,23 @@ export default function MoreFromUser({title, button}) {
 
   return (
     <div className="w-full py-10 relative">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-3xl text-[#314252] font-bold">
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
+        <h2 className="sm:text-3xl text-2xl text-[#314252] font-bold">
           {title}
         </h2>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 mt-4 sm:mt-0">
           <button className="bg-[#ff9540] px-4 py-2 rounded-md text-[#314352] cursor-pointer">
             {button}
           </button>
           <button
             onClick={() => swiperRef.current?.slidePrev()}
-            className="bg-gray-800 text-[#ff9540] p-2 rounded"
+            className="bg-gray-800 text-[#ff9540] p-2 rounded cursor-pointer"
           >
             <FaChevronLeft size={24} />
           </button>
           <button
             onClick={() => swiperRef.current?.slideNext()}
-            className="bg-gray-800 text-[#ff9540] p-2 rounded"
+            className="bg-gray-800 text-[#ff9540] p-2 rounded cursor-pointer"
           >
             <FaChevronRight size={24} />
           </button>
@@ -123,7 +123,12 @@ export default function MoreFromUser({title, button}) {
       <Swiper
         modules={[Navigation]}
         spaceBetween={20}
-        slidesPerView={4}
+        slidesPerView={1}
+        breakpoints={{
+          640:{slidesPerView:2},
+          768:{slidesPerView:3},
+          1024:{slidesPerView:4},
+        }}
         onSwiper={(swiper) => (swiperRef.current = swiper)}
         className="overflow-hidden"
       >
