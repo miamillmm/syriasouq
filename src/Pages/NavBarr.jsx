@@ -181,9 +181,14 @@ const Navbar = () => {
             </a>
 
             {/* Add Listing Button */}
-            <button className="bg-[#ff9540] text-[#314352] text-[18px] font-light px-4 py-2 rounded-md cursor-pointer">
-              Add Listing <span>+</span>
-            </button>
+            <NavLink to="/addlisting">
+              <button className="bg-[#FF9540] text-[#314352] px-4 py-2 rounded-md  cursor-pointer">
+                Add Listing <span>+</span>
+              </button>
+            </NavLink>
+            {/* <button className="bg-[#ff9540] text-[#314352] text-[18px] font-light px-4 py-2 rounded-md cursor-pointer">
+              Add Listing 
+            </button> */}
           </div>
         </div>
       </div>
@@ -255,9 +260,11 @@ const Navbar = () => {
                 </div>
               </li>
               <li>
-                <button className="bg-yellow-500 px-4 py-2 rounded-md hover:bg-yellow-600 cursor-pointer">
-                  Add Listing
-                </button>
+                <NavLink to="/addlisting">
+                  <button className="bg-yellow-500 px-4 py-2 rounded-md hover:bg-yellow-600 cursor-pointer">
+                    Add Listing
+                  </button>
+                </NavLink>
               </li>
             </ul>
           </div>
