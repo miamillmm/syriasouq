@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 // Importing images from the local assets folder
@@ -34,7 +34,11 @@ const FeaturedCard = () => {
       <div className="mb-5 pb-4 border-b border-gray-400 font-semibold text-gray-700">
         Featured listings
       </div>
-      <img src={image} alt={title} className="w-full h-48 object-cover rounded" />
+      <img
+        src={image}
+        alt={title}
+        className="w-full h-48 object-cover rounded"
+      />
       <div className="p-4">
         <h2 className="text-lg font-bold text-[#314352]">{title}</h2>
         <p className="text-[#314352] text-lg">{price}</p>

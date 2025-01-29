@@ -1,5 +1,5 @@
-import React from "react";
-import { IoIosGitCompare } from "react-icons/io";
+// import React from "react";
+// import { IoIosGitCompare } from "react-icons/io";
 import flag from "../assets/flag/syriaflag.jpg";
 import img1 from "../assets/icon/service_1.png";
 import img2 from "../assets/icon/service_2.png";
