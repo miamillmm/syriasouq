@@ -10,7 +10,7 @@ const Featured = () => {
   const [datas, setDatas] = useState([]);
   useEffect(() => {
     axios
-      .get("http://localhost:3000/car")
+      .get(`http://localhost:3000/api/cars`)
       .then((res) => {
         setDatas(res.data);
       })
@@ -47,8 +47,7 @@ const Featured = () => {
       {/* All Car cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {datas?.map((data, index) => (
-          <Link to={`/cardetails/${data.carName
-          }`} key={data.id}>
+          <Link to={`/cardetails/${data.carName}`} key={data.id}>
             <div className="shadow-sm shadow-indigo-100 rounded ">
               <div className="overflow-hidden rounded-t-md">
                 <img

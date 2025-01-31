@@ -1,10 +1,28 @@
-import React from "react";
+import { useState } from "react";
 import img from "../assets/bg-image/banner-img.jpg";
+import { useNavigate } from "react-router";
 
 const BannerSection = () => {
+  const navigate = useNavigate();
+
+  const [searchMake, setSerachMake] = useState(null);
+  const [searchModel, setSerachModel] = useState(null);
+  const [minYear, setMinYear] = useState(null);
+  const [maxYear, setMaxYear] = useState(null);
+  const [minPrice, setMinPrice] = useState(null);
+  const [maxPrice, setMaxPrice] = useState(null);
+
+  const handleSerach = (e) => {
+    e.preventDefault();
+    alert("Submited");
+    navigate(
+      `/search?minYear=${minYear}&maxYear=${maxYear}&minPrice=${minPrice}&maxPrice=${maxPrice}`
+    );
+  };
+
   return (
     <div
-      className="relative border-t-2 border-[#576877] py-16 pt-34 sm:py-24 flex items-center justify-center"
+      className="relative border-t-2 border-[#576877] py-16 pt-34 sm:py-24 flex items-center justify-center min-h-[80vh]"
       style={{
         backgroundImage: `url(${img})`,
         backgroundSize: "cover",
@@ -20,7 +38,7 @@ const BannerSection = () => {
       ></div>
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 sm:px-8 md:px-16 grid grid-cols-1 md:grid-cols-2 gap-4 items-center w-full">
+      <div className="relative z-10 container mx-auto px-4 sm:px-8 md:px-16 md:py-10 grid grid-cols-1 md:grid-cols-2 gap-4 items-center w-full">
         {/* Left Side */}
         <div className="text-white text-center md:text-left">
           <h1 className="text-2xl sm:text-4xl md:text-7xl font-bold mb-4 tracking-[-0.04em]">
@@ -55,17 +73,20 @@ const BannerSection = () => {
         </div>
 
         {/* Right Side - Form */}
-        <div className="bg-[#374b5c] shadow-lg rounded-2xl w-full md:w-3/4 p-6 sm:p-8 ml-auto mt-10 md:mt-16">
+        <div className="bg-[#374b5c] shadow-lg rounded-2xl w-full md:w-3/4 p-6 sm:p-8 ml-auto mt-10 md:mt-0">
           <h2 className="text-xl sm:text-2xl font-bold mb-4 text-white text-center">
             Search listings
           </h2>
-          <form className="space-y-4 sm:space-y-6">
+          <form className="space-y-4 sm:space-y-6" onSubmit={handleSerach}>
             <div className="space-y-4">
               <select
                 name="make"
                 className="w-full rounded-lg border-gray-300 hover:border-[#ff9540] px-4 py-3 sm:py-4 text-white bg-transparent"
+                onChange={(e) => setSerachMake(e.target.value)}
               >
-                <option value="">Make</option>
+                <option value="" disabled selected>
+                  -- Make --
+                </option>
                 <option value="BMW">BMW</option>
                 <option value="Chevrolet">Chevrolet</option>
                 <option value="Ferrari">Ferrari</option>
@@ -73,37 +94,50 @@ const BannerSection = () => {
               <select
                 name="model"
                 className="w-full rounded-lg border-gray-300 hover:border-[#ff9540] px-4 py-3 sm:py-4 text-white bg-transparent"
+                onChange={(e) => setSerachModel(e.target.value)}
               >
-                <option value="">Model</option>
+                <option value="" disabled selected>
+                  -- Model --
+                </option>
                 <option value="BMW">BMW</option>
                 <option value="Chevrolet">Chevrolet</option>
                 <option value="Ferrari">Ferrari</option>
               </select>
             </div>
-            <div className="flex gap-4">
-              <input
-                type="number"
-                placeholder="Min Year"
-                className="w-1/2 rounded-lg border-gray-300 hover:border-[#ff9540] px-4 py-3 sm:py-4 text-white placeholder:text-white"
-              />
-              <input
-                type="number"
-                placeholder="Max Year"
-                className="w-1/2 rounded-lg border-gray-300 hover:border-[#ff9540] px-4 py-3 sm:py-4 text-white placeholder:text-white"
-              />
-            </div>
-            <div className="flex gap-4">
-              <input
-                type="number"
-                placeholder="Min Price"
-                className="w-1/2 rounded-lg border-gray-300 hover:border-[#ff9540] px-4 py-3 sm:py-4 text-white placeholder:text-white"
-              />
-              <input
-                type="number"
-                placeholder="Max Price"
-                className="w-1/2 rounded-lg border-gray-300 hover:border-[#ff9540] px-4 py-3 sm:py-4 text-white placeholder:text-white"
-              />
-            </div>
+
+            {searchMake && searchModel && (
+              <>
+                <div className="flex gap-4">
+                  <input
+                    type="number"
+                    placeholder="Min Year"
+                    className="w-1/2 rounded-lg border-gray-300 hover:border-[#ff9540] px-4 py-3 sm:py-4 text-white placeholder:text-white"
+                    onChange={(e) => setMinYear(e.target.value)}
+                  />
+                  <input
+                    type="number"
+                    placeholder="Max Year"
+                    className="w-1/2 rounded-lg border-gray-300 hover:border-[#ff9540] px-4 py-3 sm:py-4 text-white placeholder:text-white"
+                    onChange={(e) => setMaxYear(e.target.value)}
+                  />
+                </div>
+                <div className="flex gap-4">
+                  <input
+                    type="number"
+                    placeholder="Min Price"
+                    className="w-1/2 rounded-lg border-gray-300 hover:border-[#ff9540] px-4 py-3 sm:py-4 text-white placeholder:text-white"
+                    onChange={(e) => setMinPrice(e.target.value)}
+                  />
+                  <input
+                    type="number"
+                    placeholder="Max Price"
+                    className="w-1/2 rounded-lg border-gray-300 hover:border-[#ff9540] px-4 py-3 sm:py-4 text-white placeholder:text-white"
+                    onChange={(e) => setMaxPrice(e.target.value)}
+                  />
+                </div>
+              </>
+            )}
+
             <button
               type="submit"
               className="w-full bg-[#ff9540] hover:bg-[#ffa258] py-3 sm:py-4 rounded-lg text-[#314352] text-lg cursor-pointer"
