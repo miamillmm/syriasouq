@@ -1,191 +1,262 @@
 import { useState } from "react";
-import cover from "../../assets/service/cover.jpg";
+import { useForm } from "react-hook-form";
 import axios from "axios";
+import cover from "../../assets/service/cover.jpg";
 
 const LoginAndRegister = () => {
   const [activeTab, setActiveTab] = useState("login");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const closeModal = () => setIsModalOpen(false);
+  const {
+    register: loginRegister,
+    handleSubmit: handleLoginSubmit,
+    reset: resetLogin,
+    formState: { errors: loginErrors },
+  } = useForm({ defaultValues: { email: "", password: "" } });
 
-  const handleLogin = async () => {
-    const response = await axios.post(
-      `${import.meta.env.VITE_API_URL}/auth/login`,
-      { username: "" }
-    );
-    if (response) {
-      return false;
+  const {
+    register: registerRegister,
+    handleSubmit: handleRegisterSubmit,
+    reset: resetRegister,
+    formState: { errors: registerErrors },
+  } = useForm({
+    defaultValues: { username: "", email: "", phone: "", password: "" },
+  });
+
+  const {
+    register: forgotPasswordRegister,
+    handleSubmit: handleForgotPasswordSubmit,
+    reset: resetForgotPassword,
+    formState: { errors: forgotPasswordErrors },
+  } = useForm({ defaultValues: { email: "" } });
+
+  const handleLogin = async (data) => {
+    console.log("Login Data:", data);
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/auth/login`,
+        data
+      );
+      console.log("Login Response:", response.data);
+      resetLogin();
+    } catch (error) {
+      console.error("Login Error:", error);
+    }
+  };
+
+  const handleRegister = async (data) => {
+    console.log("Register Data:", data);
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/auth/register`,
+        data
+      );
+      console.log("Register Response:", response.data);
+      resetRegister();
+    } catch (error) {
+      console.error("Register Error:", error);
+    }
+  };
+
+  const handleForgotPassword = async (data) => {
+    console.log("Forgot Password Data:", data);
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/auth/forgot-password`,
+        data
+      );
+      console.log("Forgot Password Response:", response.data);
+      resetForgotPassword();
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error("Forgot Password Error:", error);
     }
   };
 
   return (
     <div
-      className="relative sm:pt-10 md:pt-30 flex justify-center items-center min-h-screen bg-cover bg-center"
-      style={{
-        backgroundImage: `url(${cover})`,
-        backgroundAttachment: "fixed",
-      }}
+      className="relative flex justify-center items-center min-h-screen bg-cover bg-center"
+      style={{ backgroundImage: `url(${cover})` }}
     >
-      {/* Overlay */}
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundColor: "#304455",
-          opacity: 0.85,
-        }}
-      ></div>
-
-      {/* Main Content */}
-      <div
-        className={`bg-white mb-10 sm:mb-20 shadow-md rounded-lg p-6 sm:p-8 w-[90%] sm:w-96 z-10 transition-all duration-500 ${
-          activeTab === "register" ? "pb-10 sm:pb-14" : "pb-4 sm:pb-6"
-        }`}
-      >
-        {/* Tab Navigation */}
+      <div className="absolute inset-0 bg-[#304455] opacity-85"></div>
+      <div className="bg-white shadow-md rounded-lg p-8 w-[90%] sm:w-96 z-10">
         <div className="flex justify-center mb-6 gap-5">
           <button
             onClick={() => setActiveTab("login")}
-            className={`w-1/2 py-2 font-bold text-base sm:text-lg ${
+            className={
               activeTab === "login"
-                ? "border-b-4 border-orange-400 text-[#314352] cursor-pointer"
+                ? "border-b-4 border-orange-400 cursor-pointer"
                 : "text-gray-500 cursor-pointer"
-            }`}
+            }
           >
             Login
           </button>
           <button
             onClick={() => setActiveTab("register")}
-            className={`w-1/2 py-2 font-bold text-base sm:text-lg ${
+            className={
               activeTab === "register"
-                ? "border-b-4 border-orange-400 text-[#314352] cursor-pointer"
+                ? "border-b-4 border-orange-400 cursor-pointer"
                 : "text-gray-500 cursor-pointer"
-            }`}
+            }
           >
             Register
           </button>
         </div>
-
-        {/* Tab Content */}
-        {activeTab === "login" && (
-          <div className="space-y-4">
+        {activeTab === "login" ? (
+          <form onSubmit={handleLoginSubmit(handleLogin)} className="space-y-4">
             <input
-              type="text"
+              {...loginRegister("email", { required: "Email is required" })}
               placeholder="Email or Username"
-              className="w-full p-3 border rounded-lg focus:outline-orange-400 placeholder-[#314352]"
+              className="w-full p-3 border rounded-lg"
             />
+            {loginErrors.email && (
+              <p className="text-red-500 text-sm">
+                {loginErrors.email.message}
+              </p>
+            )}
             <input
+              {...loginRegister("password", {
+                required: "Password is required",
+                pattern: {
+                  value: /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/,
+                  message:
+                    "Password must contain at least one uppercase letter, one lowercase letter, and be at least 6 characters long",
+                },
+              })}
               type="password"
               placeholder="Password"
-              className="w-full placeholder-[#314352] p-3 border rounded-lg focus:outline-orange-400"
+              className="w-full p-3 border rounded-lg"
             />
-            <div className="flex justify-between items-center">
-              <label className="flex items-center checkbox-bg-[#ff9540] space-x-2 cursor-pointer text-[#314352]">
-                <input
-                  type="checkbox"
-                  className="accent-[#ff9540] rounded p-1"
-                />
-                <span>Remember me</span>
-              </label>
-              <button
-                onClick={() => setIsModalOpen(true)}
-                className="text-[#ff9540] text-sm cursor-pointer"
-              >
-                Forgot password?
-              </button>
-            </div>
-            <button className="w-full bg-[#ff9540] text-[#314352] py-3 rounded-lg cursor-pointer text-lg">
+            {loginErrors.password && (
+              <p className="text-red-500 text-sm">
+                {loginErrors.password.message}
+              </p>
+            )}
+            <button
+              type="button"
+              onClick={() => setIsModalOpen(true)}
+              className="text-orange-400 text-sm cursor-pointer"
+            >
+              Forgot Password?
+            </button>
+            <button
+              type="submit"
+              className="w-full bg-[#ff9540] py-3 rounded-lg cursor-pointer"
+            >
               Login
             </button>
-          </div>
-        )}
-
-        {activeTab === "register" && (
-          <div className="space-y-4">
+          </form>
+        ) : (
+          <form
+            onSubmit={handleRegisterSubmit(handleRegister)}
+            className="space-y-4"
+          >
             <input
-              type="text"
+              {...registerRegister("username", {
+                required: "Username is required",
+              })}
               placeholder="Username"
-              className="w-full p-3 border rounded-lg focus:outline-[#ff9540]"
+              className="w-full p-3 border rounded-lg"
             />
+            {registerErrors.username && (
+              <p className="text-red-500 text-sm">
+                {registerErrors.username.message}
+              </p>
+            )}
             <input
+              {...registerRegister("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[^@\s]+@[^@\s]+\.[^@\s]+$/,
+                  message: "Invalid email format",
+                },
+              })}
               type="email"
               placeholder="E-mail"
-              className="w-full p-3 border rounded-lg focus:outline-[#ff9540]"
+              className="w-full p-3 border rounded-lg"
             />
+            {registerErrors.email && (
+              <p className="text-red-500 text-sm">
+                {registerErrors.email.message}
+              </p>
+            )}
             <input
-              type="text"
+              {...registerRegister("phone", {
+                required: "Phone number is required",
+                pattern: {
+                  value: /^[0-9]+$/,
+                  message: "Only numeric values allowed",
+                },
+              })}
               placeholder="Phone"
-              className="w-full p-3 border rounded-lg focus:outline-[#ff9540]"
+              className="w-full p-3 border rounded-lg"
             />
-            <div className="flex items-center space-x-2">
-              <label className="flex items-center checkbox-bg-[#ff9540] space-x-2 cursor-pointer text-[#314352]">
-                <input
-                  type="checkbox"
-                  className="accent-[#ff9540] rounded p-1"
-                />
-                <span>Enable WhatsApp Communication</span>
-              </label>
-            </div>
+            {registerErrors.phone && (
+              <p className="text-red-500 text-sm">
+                {registerErrors.phone.message}
+              </p>
+            )}
             <input
+              {...registerRegister("password", {
+                required: "Password is required",
+                pattern: {
+                  value: /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/,
+                  message:
+                    "Password must contain at least one uppercase letter, one lowercase letter, and be at least 6 characters long",
+                },
+              })}
               type="password"
               placeholder="Password"
-              className="w-full p-3 border rounded-lg focus:outline-orange-400"
+              className="w-full p-3 border rounded-lg"
             />
-            <div className="flex items-center space-x-2">
-              <label className="flex items-center checkbox-bg-[#ff9540] space-x-2 cursor-pointer text-[#314352]">
-                <input
-                  type="checkbox"
-                  className="accent-[#ff9540] rounded p-1"
-                />
-                <span>
-                  I accept the{" "}
-                  <a
-                    href="#"
-                    className="text-[#ff9540] relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#ff9540] after:transition-all after:duration-500 after:ease-in-out hover:after:w-full"
-                  >
-                    Privacy Policy
-                  </a>
-                </span>
-              </label>
-            </div>
-
-            <button className="w-full bg-[#ff9540] text-white py-3 rounded-lg font-bold cursor-pointer">
+            {registerErrors.password && (
+              <p className="text-red-500 text-sm">
+                {registerErrors.password.message}
+              </p>
+            )}
+            <button
+              type="submit"
+              className="w-full bg-[#ff9540] py-3 rounded-lg cursor-pointer"
+            >
               Register
             </button>
-          </div>
+          </form>
         )}
       </div>
-
-      {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-20 backdrop-blur-sm bg-black/50">
-          <div className="bg-white rounded-lg shadow-md p-6 sm:p-8 w-[90%] sm:w-[30rem] relative z-30">
-            <div className="flex flex-col items-center mb-4">
-              <div className="bg-gray-200 p-6 rounded-full mb-4">
-                <span className="text-4xl text-gray-600">?</span>
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 pointer-events-auto">
+          <div className="bg-white p-6 rounded-lg w-[90%] sm:w-96 z-50">
+            <h2 className="text-lg font-bold mb-4">Reset Password</h2>
+            <form onSubmit={handleForgotPasswordSubmit(handleForgotPassword)}>
+              <input
+                {...forgotPasswordRegister("email", {
+                  required: "Email is required",
+                })}
+                type="email"
+                placeholder="Enter your email"
+                className="w-full p-3 border rounded-lg"
+              />
+              {forgotPasswordErrors.email && (
+                <p className="text-red-500 text-sm">
+                  {forgotPasswordErrors.email.message}
+                </p>
+              )}
+              <div className="flex justify-between mt-4">
+                <button
+                  type="submit"
+                  className="bg-orange-400 text-white px-4 py-2 rounded cursor-pointer"
+                >
+                  Send
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  className="bg-gray-300 px-4 py-2 rounded cursor-pointer"
+                >
+                  Cancel
+                </button>
               </div>
-              <h2 className="text-xl sm:text-3xl font-bold text-gray-800">
-                Reset Password
-              </h2>
-              <p className="text-sm sm:text-base text-gray-600 text-center">
-                Enter the email address associated with the account.
-              </p>
-            </div>
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="w-full p-3 border rounded-lg mb-4 focus:outline-orange-400"
-            />
-            <div className="flex justify-between">
-              <button className="bg-[#ff9540] text-white px-6 py-2 rounded-lg font-bold">
-                Send
-              </button>
-              <button
-                onClick={closeModal}
-                className="bg-gray-300 text-gray-800 px-6 py-2 rounded-lg font-bold"
-              >
-                Cancel
-              </button>
-            </div>
+            </form>
           </div>
         </div>
       )}
