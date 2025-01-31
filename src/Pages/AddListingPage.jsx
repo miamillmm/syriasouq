@@ -3,6 +3,7 @@ import Select from "react-select";
 import FeaturesSection from "./FeaturesSection";
 import DescriptionEditor from "./DescriptionEditor";
 import ImageUpload from "./ImageUpload";
+import { Link } from "react-router";
 
 const carMakes = [
   { value: "Abarth", label: "Abarth" },
@@ -57,7 +58,7 @@ const AddListingPage = () => {
       interiorColor,
       description,
       selectedFeatures,
-      uploadedImages
+      uploadedImages,
     };
 
     console.log("Form Data Submitted:", formData);
@@ -74,8 +75,15 @@ const AddListingPage = () => {
         <h1 className="text-[#314352] text-3xl font-bold py-10">Add Listing</h1>
         <div className="border-2 border-dashed border-gray-300 rounded bg-gray-50 py-8 flex items-center justify-center mb-8">
           <h1>
-            You can also <span className="text-[#ff9540]">Log In</span> or{" "}
-            <span className="text-[#ff9540]">Register</span> first.
+            You can also{" "}
+            <Link to="/login-and-register" className="text-[#ff9540]">
+              Log In
+            </Link>{" "}
+            or{" "}
+            <Link to="/login-and-register" className="text-[#ff9540]">
+              Register
+            </Link>{" "}
+            first.
           </h1>
         </div>
       </div>
@@ -349,7 +357,10 @@ const AddListingPage = () => {
             />
           </div>
           <div className="mt-10">
-            <ImageUpload uploadedImages={uploadedImages} setUploadedImages={setUploadedImages}/>
+            <ImageUpload
+              uploadedImages={uploadedImages}
+              setUploadedImages={setUploadedImages}
+            />
           </div>
 
           <div className="flex justify-end py-20">
