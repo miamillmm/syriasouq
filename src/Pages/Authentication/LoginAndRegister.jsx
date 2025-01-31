@@ -1,11 +1,22 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import cover from "../../assets/service/cover.jpg";
+import axios from "axios";
 
 const LoginAndRegister = () => {
   const [activeTab, setActiveTab] = useState("login");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const closeModal = () => setIsModalOpen(false);
+
+  const handleLogin = async () => {
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_URL}/auth/login`,
+      { username: "" }
+    );
+    if (response) {
+      return false;
+    }
+  };
 
   return (
     <div
@@ -114,15 +125,6 @@ const LoginAndRegister = () => {
                 <span>Enable WhatsApp Communication</span>
               </label>
             </div>
-            <div className="flex items-center space-x-2">
-              <label className="flex items-center checkbox-bg-[#ff9540] space-x-2 cursor-pointer text-[#314352]">
-                <input
-                  type="checkbox"
-                  className="accent-[#ff9540] rounded p-1"
-                />
-                <span>Enable Viber Communication</span>
-              </label>
-            </div>
             <input
               type="password"
               placeholder="Password"
@@ -155,9 +157,7 @@ const LoginAndRegister = () => {
 
       {/* Modal */}
       {isModalOpen && (
-        <div
-          className="fixed inset-0 flex items-center justify-center z-20 backdrop-blur-sm bg-black/50"
-        >
+        <div className="fixed inset-0 flex items-center justify-center z-20 backdrop-blur-sm bg-black/50">
           <div className="bg-white rounded-lg shadow-md p-6 sm:p-8 w-[90%] sm:w-[30rem] relative z-30">
             <div className="flex flex-col items-center mb-4">
               <div className="bg-gray-200 p-6 rounded-full mb-4">
