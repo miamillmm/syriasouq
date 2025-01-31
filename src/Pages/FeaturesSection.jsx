@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const FeaturesSection = () => {
+const FeaturesSection = ({selectedFeatures,setSelectedFeatures}) => {
   const features = [
     "360-degree camera",
     "Adaptive headlights",
@@ -27,8 +27,6 @@ const FeaturesSection = () => {
     "Side airbags",
     "USB port",
   ];
-
-  const [selectedFeatures, setSelectedFeatures] = useState([]);
 
   const toggleFeature = (feature) => {
     if (selectedFeatures.includes(feature)) {
