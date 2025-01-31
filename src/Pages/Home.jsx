@@ -1,11 +1,8 @@
-import React from "react";
 import Bannerr from "./Bannerr";
 import Featured from "./Featured";
 import BestCar from "./BestCar";
 import Subscribe from "./Subscribe";
 import Button from "./Button";
-
-
 
 const Home = () => {
   return (
@@ -15,7 +12,6 @@ const Home = () => {
       <BestCar />
       <Subscribe />
       <Button />
-      
     </div>
   );
 };
