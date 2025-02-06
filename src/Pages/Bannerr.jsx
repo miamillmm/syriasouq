@@ -1,24 +1,34 @@
 import { useState } from "react";
 import img from "../assets/bg-image/banner-img.jpg";
 import { useNavigate } from "react-router";
+import { makes } from "../utils/utils";
+import Translate from "../utils/Translate";
 
 const BannerSection = () => {
   const navigate = useNavigate();
 
   const [searchMake, setSerachMake] = useState(null);
+  const [make, setMake] = useState(null);
   const [searchModel, setSerachModel] = useState(null);
-  const [minYear, setMinYear] = useState(null);
-  const [maxYear, setMaxYear] = useState(null);
-  const [minPrice, setMinPrice] = useState(null);
-  const [maxPrice, setMaxPrice] = useState(null);
 
   const handleSerach = (e) => {
     e.preventDefault();
-    alert("Submited");
-    navigate(
-      `/search?minYear=${minYear}&maxYear=${maxYear}&minPrice=${minPrice}&maxPrice=${maxPrice}`
-    );
+
+    if (searchMake && searchModel) {
+      navigate(`/search?make=${searchMake}&model=${searchModel}`);
+    } else {
+      alert("Please choose make and model");
+    }
   };
+
+  const modelOptions = make
+    ? makes
+        .find((m) => m.value === make.value)
+        ?.models.map((model) => ({
+          value: model,
+          label: model,
+        })) || []
+    : [];
 
   return (
     <div
@@ -42,7 +52,8 @@ const BannerSection = () => {
         {/* Left Side */}
         <div className="text-white text-center md:text-left">
           <h1 className="text-2xl sm:text-4xl md:text-7xl font-bold mb-4 tracking-[-0.04em]">
-            The #1 Website <span className="text-[#ff9540]">buy</span> &{" "}
+            <Translate text="The #1 Website" />{" "}
+            <span className="text-[#ff9540]">buy</span> &{" "}
             <span className="text-[#ff9540]">sell</span> cars in Syria
           </h1>
           <p className="text-base sm:text-lg md:text-2xl font-light">
@@ -82,14 +93,24 @@ const BannerSection = () => {
               <select
                 name="make"
                 className="w-full rounded-lg border-gray-300 hover:border-[#ff9540] px-4 py-3 sm:py-4 text-white bg-transparent"
-                onChange={(e) => setSerachMake(e.target.value)}
+                onChange={(e) => {
+                  const selectedMake = makes.find(
+                    (m) => m.value === e.target.value
+                  );
+                  setMake(selectedMake);
+                  setSerachMake(selectedMake.value);
+                  console.log(selectedMake.value);
+                  setSerachModel(null); // Reset model when make changes
+                }}
               >
                 <option value="" disabled selected>
                   -- Make --
                 </option>
-                <option value="BMW">BMW</option>
-                <option value="Chevrolet">Chevrolet</option>
-                <option value="Ferrari">Ferrari</option>
+                {makes.map((make) => (
+                  <>
+                    <option value={make.value}>{make.label}</option>
+                  </>
+                ))}
               </select>
               <select
                 name="model"
@@ -99,44 +120,13 @@ const BannerSection = () => {
                 <option value="" disabled selected>
                   -- Model --
                 </option>
-                <option value="BMW">BMW</option>
-                <option value="Chevrolet">Chevrolet</option>
-                <option value="Ferrari">Ferrari</option>
+                {modelOptions.map((model) => (
+                  <>
+                    <option value={model.value}>{model.label}</option>
+                  </>
+                ))}
               </select>
             </div>
-
-            {searchMake && searchModel && (
-              <>
-                <div className="flex gap-4">
-                  <input
-                    type="number"
-                    placeholder="Min Year"
-                    className="w-1/2 rounded-lg border-gray-300 hover:border-[#ff9540] px-4 py-3 sm:py-4 text-white placeholder:text-white"
-                    onChange={(e) => setMinYear(e.target.value)}
-                  />
-                  <input
-                    type="number"
-                    placeholder="Max Year"
-                    className="w-1/2 rounded-lg border-gray-300 hover:border-[#ff9540] px-4 py-3 sm:py-4 text-white placeholder:text-white"
-                    onChange={(e) => setMaxYear(e.target.value)}
-                  />
-                </div>
-                <div className="flex gap-4">
-                  <input
-                    type="number"
-                    placeholder="Min Price"
-                    className="w-1/2 rounded-lg border-gray-300 hover:border-[#ff9540] px-4 py-3 sm:py-4 text-white placeholder:text-white"
-                    onChange={(e) => setMinPrice(e.target.value)}
-                  />
-                  <input
-                    type="number"
-                    placeholder="Max Price"
-                    className="w-1/2 rounded-lg border-gray-300 hover:border-[#ff9540] px-4 py-3 sm:py-4 text-white placeholder:text-white"
-                    onChange={(e) => setMaxPrice(e.target.value)}
-                  />
-                </div>
-              </>
-            )}
 
             <button
               type="submit"

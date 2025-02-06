@@ -2,21 +2,13 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
-import img1 from "../assets/car/IMG_1.jpeg";
-import img2 from "../assets/car/IMG_2.jpeg";
-import img3 from "../assets/car/IMG_3.jpeg";
-import img4 from "../assets/car/IMG_4.jpeg";
-import img5 from "../assets/car/IMG_5.jpeg";
-import img6 from "../assets/car/IMG_6.jpeg";
-import img7 from "../assets/car/IMG_7.jpeg";
-import img8 from "../assets/car/IMG_8.jpeg";
-import img9 from "../assets/car/IMG_9.jpeg";
 import { Link } from "react-router";
 import { IoEyeOutline } from "react-icons/io5";
 import { IoIosGitCompare } from "react-icons/io";
 import { CiHeart } from "react-icons/ci";
+import axios from "axios";
 
 const cars = [
   {
@@ -93,8 +85,24 @@ const cars = [
   },
 ];
 
-export default function MoreFromUser({title, button}) {
+export default function MoreFromUser({ title, button, uid }) {
   const swiperRef = useRef(null);
+
+  const [listings, setListings] = useState([]);
+
+  useEffect(() => {
+    console.log(uid);
+    const getCars = async () => {
+      const url = uid
+        ? `${import.meta.env.VITE_API_URL}/cars/uid/${uid}`
+        : `${import.meta.env.VITE_API_URL}/cars`;
+      const response = await axios.get(url);
+      if (response.data) {
+        setListings(response.data.data);
+      }
+    };
+    getCars();
+  }, [uid]);
 
   return (
     <div className="w-full py-10 relative">
@@ -125,55 +133,60 @@ export default function MoreFromUser({title, button}) {
         spaceBetween={20}
         slidesPerView={1}
         breakpoints={{
-          640:{slidesPerView:2},
-          768:{slidesPerView:3},
-          1024:{slidesPerView:4},
+          640: { slidesPerView: 2 },
+          768: { slidesPerView: 3 },
+          1024: { slidesPerView: 4 },
         }}
         onSwiper={(swiper) => (swiperRef.current = swiper)}
         className="overflow-hidden"
       >
-        {cars.map((car) => (
-          <SwiperSlide key={car.id}>
-       <Link to={`/cardetails/${car.carName
-          }`} >
-            <div className="shadow-sm shadow-indigo-100 rounded">
-              <div className="overflow-hidden rounded-t-md">
-                <img
-                  alt=""
-                  src={car.image}
-                  className="h-40 sm:h-56 w-full object-cover bg-center transition-transform duration-500 hover:scale-105 ease-in-out"
-                />
-              </div>
-              <div>
-                <div className=" space-y-1 sm:space-y-2 text-[16px] sm:text-[18px] font-semibold text-left p-4">
-                  <h2 className=" text-[#314352]">{car.carName}</h2>
-                  <h2 className=" text-[#314352]">${car.price}</h2>
-                </div>
-                <div className="mt-6 text-xs border-t-2 border-gray-100 py-3">
-                  <div className="flex justify-between px-4 py-2">
-                    <div className="flex gap-2 items-center">
-                      <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
-                        <IoEyeOutline className="w-1/2 h-1/2" />
-                      </div>
-                      <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
-                        <IoIosGitCompare className="w-1/2 h-1/2" />
-                      </div>
-                      <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
-                        <CiHeart className="w-1/2 h-1/2" />
-                      </div>
+        {listings.length > 0 ? (
+          listings.map((car) => (
+            <SwiperSlide key={car.id}>
+              <Link to={`/listing/${car._id}`}>
+                <div className="shadow-sm shadow-indigo-100 rounded">
+                  <div className="overflow-hidden rounded-t-md">
+                    <img
+                      alt=""
+                      src={`http://localhost:5001/uploads/cars/${car.images[0]}`}
+                      className="!h-40 sm:!h-56 w-full object-fit bg-center transition-transform duration-500 hover:scale-105 ease-in-out"
+                    />
+                  </div>
+                  <div>
+                    <div className=" space-y-1 sm:space-y-2 text-[16px] sm:text-[18px] font-semibold text-left p-4">
+                      <h2 className=" text-[#314352]">{car.make}</h2>
+                      <h2 className=" text-[#314352]">${car.priceUSD}</h2>
                     </div>
-                    <div className="flex justify-center items-center cursor-pointer">
-                      <p className="text-gray-400 text-[12px] sm:text-[14px]">
-                        {car.views} Views
-                      </p>
+                    <div className="mt-6 text-xs border-t-2 border-gray-100 py-3">
+                      <div className="flex justify-between px-4 py-2">
+                        <div className="flex gap-2 items-center">
+                          {/* <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
+                            <IoEyeOutline className="w-1/2 h-1/2" />
+                          </div>
+                          <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
+                            <IoIosGitCompare className="w-1/2 h-1/2" />
+                          </div> */}
+                          <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
+                            <CiHeart className="w-1/2 h-1/2" />
+                          </div>
+                        </div>
+                        <div className="flex justify-center items-center cursor-pointer">
+                          <p className="text-gray-400 text-[12px] sm:text-[14px]">
+                            {car?.views} Views
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </Link>
-          </SwiperSlide>
-        ))}
+              </Link>
+            </SwiperSlide>
+          ))
+        ) : (
+          <>
+            {/* <h2 className="text-red-500 font-bold text-md">No Listing</h2> */}
+          </>
+        )}
       </Swiper>
     </div>
   );

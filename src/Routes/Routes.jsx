@@ -1,4 +1,3 @@
-import React from "react";
 import { createBrowserRouter } from "react-router";
 import Main from "../Layout/Main";
 import About from "../Pages/About";
@@ -7,6 +6,9 @@ import Home from "../Pages/Home";
 import LoginAndRegister from "../Pages/Authentication/LoginAndRegister";
 import CarDetails from "../Pages/CarDetails";
 import AddListingPage from "../Pages/AddListingPage";
+import Dashboard from "../Pages/Dashboard";
+import MessagesPage from "../Pages/Dashboard/MessagesPage";
+import SerachPage from "../Pages/SerachPage";
 
 const router = createBrowserRouter([
   {
@@ -30,14 +32,25 @@ const router = createBrowserRouter([
         element: <LoginAndRegister />,
       },
       {
-        path: "/cardetails/:carname",
+        path: "/listing/:id",
         element: <CarDetails />,
       },
       {
         path: "/addlisting",
         element: <AddListingPage />,
       },
-
+      {
+        path: "/search",
+        element: <SerachPage />,
+      },
+      {
+        path: "/dashboard",
+        element: <Dashboard />,
+      },
+      {
+        path: "/messages",
+        element: <MessagesPage />,
+      },
     ],
   },
 ]);

@@ -2,10 +2,12 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import cover from "../../assets/service/cover.jpg";
+import { useNavigate } from "react-router";
 
 const LoginAndRegister = () => {
   const [activeTab, setActiveTab] = useState("login");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const {
     register: loginRegister,
@@ -37,9 +39,18 @@ const LoginAndRegister = () => {
         `${import.meta.env.VITE_API_URL}/auth/login`,
         data
       );
-      console.log("Login Response:", response.data);
-      resetLogin();
+
+      if (!response?.data?.message) {
+        console.log("Login Response:", response.data);
+        const data = response.data;
+        localStorage.setItem("SyriaSouq-auth", JSON.stringify(data));
+        resetLogin();
+        navigate("/dashboard");
+      } else {
+        alert(response?.data?.message);
+      }
     } catch (error) {
+      alert(error?.response?.data?.message);
       console.error("Login Error:", error);
     }
   };
@@ -51,10 +62,19 @@ const LoginAndRegister = () => {
         `${import.meta.env.VITE_API_URL}/auth/register`,
         data
       );
-      console.log("Register Response:", response.data);
-      resetRegister();
+
+      if (!response?.data?.message) {
+        console.log("Register Response:", response.data);
+        const data = response.data;
+        localStorage.setItem("SyriaSouq-auth", JSON.stringify(data));
+        resetRegister();
+        navigate("/dashboard");
+      } else {
+        alert(response?.data?.message);
+      }
     } catch (error) {
-      console.error("Register Error:", error);
+      alert(error?.response?.data?.message);
+      console.error("Register Error:", error.response.data.message);
     }
   };
 

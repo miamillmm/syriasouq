@@ -1,5 +1,4 @@
-import React from "react";
-import { useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -10,37 +9,92 @@ import "swiper/css/navigation";
 
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 
-import img1 from "../assets/car/IMG_1.jpeg";
-import img2 from "../assets/car/IMG_2.jpeg";
-import img3 from "../assets/car/IMG_3.jpeg";
-import img4 from "../assets/car/IMG_4.jpeg";
-import img5 from "../assets/car/IMG_5.jpeg";
-import img6 from "../assets/car/IMG_6.jpeg";
-import img7 from "../assets/car/IMG_7.jpeg";
-import img8 from "../assets/car/IMG_8.jpeg";
-import img9 from "../assets/car/IMG_9.jpeg";
 import Breadcrumb from "./Breadcumb";
 import { TiMessages } from "react-icons/ti";
-import { MdOutlineMailOutline, MdErrorOutline } from "react-icons/md";
+import {
+  MdOutlineMailOutline,
+  MdErrorOutline,
+  MdOutlinePhone,
+} from "react-icons/md";
 import { IoEyeOutline } from "react-icons/io5";
 import { IoIosGitCompare } from "react-icons/io";
 import { CiHeart } from "react-icons/ci";
 import FeaturedCard from "./FeaturedCard";
 import MoreFromUser from "./MoreFromUser";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { FaWhatsapp } from "react-icons/fa";
 
 const CarDetails = () => {
-  const { carname } = useParams();
+  const { id } = useParams();
+  const [carDetails, setCarDetails] = useState({});
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("SyriaSouq-auth"));
+    if (storedUser) {
+      setUser(storedUser);
+    }
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_API_URL}/cars/${id}`)
+      .then((res) => {
+        console.log(res);
+        setCarDetails(res.data.data);
+      })
+      .catch((error) => {
+        console.log("error fetching data:", error);
+      });
+  }, [id]);
+
+  const startNewChat = async (receiver) => {
+    try {
+      // let conversation = conversations.find((c) =>
+      //   c.participants.includes(receiver.id)
+      // );
+
+      // if (!conversation) {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/conversations`,
+        {
+          recipientId: receiver._id, // ✅ Changed "receiverId" to "recipientId"
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.jwt}`, // ✅ Send JWT in headers
+          },
+        }
+      );
+
+      if (response.data) {
+        return navigate("/messages");
+      }
+
+      // conversation = response.data;
+      // setConversations([conversation, ...conversations]);
+      // }
+
+      // setSelectedChat(conversation);
+      // fetchMessages(conversation.id);
+    } catch (error) {
+      console.error("Error starting new chat", error);
+    }
+  };
 
   return (
     <div className="pt-24 px-5 md:px-16 lg:px-28">
       {/* top path and slider */}
       <h2 className="mb-8 mt-7">
-        <Breadcrumb carname={carname} />
+        <Breadcrumb carname={id} />
       </h2>
-      <div className="w-full max-w-4xl mx-auto h-auto md:h-screen">
+      <div className="w-full mx-auto h-auto md:h-screen max-h-[60vh] object-fit">
         <Swiper
           spaceBetween={30}
           centeredSlides={true}
+          slidesPerView={2}
           autoplay={{
             delay: 2500,
             disableOnInteraction: false,
@@ -52,33 +106,16 @@ const CarDetails = () => {
           modules={[Autoplay, Pagination, Navigation]}
           className="mySwiper"
         >
-          <SwiperSlide>
-            <img src={img1} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img src={img2} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img src={img3} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img src={img4} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img src={img5} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img src={img6} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img src={img7} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img src={img8} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img src={img9} />
-          </SwiperSlide>
+          {carDetails?.images?.map((img) => (
+            <>
+              <SwiperSlide>
+                <img
+                  src={`http://localhost:5001/uploads/cars/${img}`}
+                  className="!max-h-[60vh] !h-full w-full object-cover"
+                />
+              </SwiperSlide>
+            </>
+          ))}
         </Swiper>
       </div>
 
@@ -93,10 +130,10 @@ const CarDetails = () => {
                 <span>🕒</span> 3 years ago
               </p>
               <h1 className="text-2xl text-[#314352] font-bold mt-2">
-                {carname}
+                {carDetails?.make}
               </h1>
               <p className="text-3xl font-semibold text-[#314352] mt-2">
-                $44,900
+                ${carDetails?.priceUSD}
               </p>
             </div>
 
@@ -107,16 +144,16 @@ const CarDetails = () => {
               </h2>
               <div className="grid grid-cols-2 gap-y-2 text-[#314352]">
                 <p className="font-semibold">Make:</p>
-                <p>Maserati</p>
+                <p>{carDetails?.make}</p>
 
                 <p className="font-semibold">Model:</p>
-                <p>GranCabrio</p>
+                <p>{carDetails?.model}</p>
 
                 <p className="font-semibold">Price:</p>
-                <p>$44,900</p>
+                <p>${carDetails?.priceUSD}</p>
 
                 <p className="font-semibold">Kilometer:</p>
-                <p>20,197 km</p>
+                <p>{carDetails?.kilometer} km</p>
               </div>
             </div>
 
@@ -126,11 +163,7 @@ const CarDetails = () => {
                 Description:
               </h1>
               <p className="text-[#314352] mt-2 mb-5">
-                We are TangibleDesign – a group of developers with experience in
-                managing successful websites and e-commerce shops. We know how
-                hard it is for you or your clients to gain a competitive
-                advantage and we are ready to create the optimum products for
-                the growth of your business in the new age of competition.
+                {carDetails?.description}
               </p>
               <span className="border-t pt-5 border-gray-400 font-bold text-gray-400 mb-2 inline-block">
                 Related
@@ -165,38 +198,67 @@ const CarDetails = () => {
           <div className="lg:col-span-4 bg-white p-6 rounded-lg shadow">
             {/* Seller Info */}
             <div className="flex items-center gap-6 text-left">
-              <div className="avatar">
+              {/* <div className="avatar">
                 <div className="w-14 rounded-full ">
                   <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
                 </div>
+              </div> */}
+              <div className="w-12 h-12 rounded-full bg-orange-300 text-center flex items-center justify-center font-bold text-xl">
+                {(() => {
+                  const firstLetter =
+                    carDetails?.user?.username?.charAt(0).toUpperCase() || "?";
+                  return firstLetter;
+                })()}
               </div>
               <div className="space-y-2">
-                <p className="mt-2 font-semibold text-gray-900">
-                  syriasouqshop
-                </p>
-                <p className="text-sm text-gray-500">● User is offline</p>
+                <Link to={`/dashboard?uid=${user?._id}`}>
+                  <p className="mt-2 font-semibold text-orange-400 underline italic">
+                    {carDetails?.user?.username}
+                  </p>
+                </Link>
+                {/* <p className="text-sm text-gray-500">● User is offline</p> */}
                 {/* See All Ads Link */}
                 <div>
-                  <a href="#" className="text-[#ff9540] border-b-2">
+                  {/* <a href="#" className="text-[#ff9540] border-b-2">
                     See all ads
-                  </a>
+                  </a> */}
                 </div>
               </div>
             </div>
 
             {/* Action Buttons */}
-            <div className="mt-12 flex flex-col md:flex-row gap-5 justify-between">
-              <button className="w-full bg-[#ff9540] text-[#314352] py-4 px-8 font-semibold rounded-md flex items-center justify-center gap-2 cursor-pointer">
+            <div className="mt-12 flex flex-col  gap-5 justify-between">
+              {/* <button
+                onClick={() => startNewChat(carDetails?.user)}
+                className="w-full bg-[#ff9540] text-[#314352] py-4 px-8 font-semibold rounded-md flex items-center justify-center gap-2 cursor-pointer"
+              >
                 <TiMessages /> Chat
-              </button>
-              <button className="w-full bg-[#ff9540] text-[#314352] py-4 px-8 font-semibold rounded-md flex items-center justify-center gap-2 cursor-pointer">
+              </button> */}
+              {/* <a
+                href={`mailto:${carDetails?.user?.email}`}
+                className="w-full bg-[#ff9540] text-[#314352] py-4 px-8 font-semibold rounded-md flex items-center justify-center gap-2 cursor-pointer"
+              >
                 <MdOutlineMailOutline /> E-mail
-              </button>
+              </a> */}
+              <a
+                href={`tel:${carDetails?.user?.phone}`}
+                className="w-full bg-[#ff9540] text-[#314352] py-4 px-8 font-semibold rounded-md flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <MdOutlinePhone /> {carDetails?.user?.phone}
+              </a>
+              <a
+                href={`https://wa.me/${carDetails?.user?.phone}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full bg-[#25D366] text-white py-4 px-8 font-semibold rounded-md flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <FaWhatsapp /> Chat on WhatsApp
+              </a>
             </div>
 
             {/* Icons Section */}
             <div className="mt-6 flex justify-center shadow p-5 space-x-4">
-              <div className="flex gap-2 items-center">
+              {/* <div className="flex gap-2 items-center">
                 <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-12 h-12 rounded-full flex justify-center items-center border border-gray-400 cursor-pointer">
                   <IoEyeOutline className="w-1/2 h-1/2" />
                 </div>
@@ -206,7 +268,7 @@ const CarDetails = () => {
                 <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-12 h-12 rounded-full flex justify-center items-center border border-gray-400 cursor-pointer">
                   <CiHeart className="w-1/2 h-1/2" />
                 </div>
-              </div>
+              </div> */}
             </div>
             {/* error  */}
             <div className="flex justify-center items-center my-8 gap-2 text-xl text-[#ED5E54] cursor-pointer">
@@ -220,6 +282,7 @@ const CarDetails = () => {
         <MoreFromUser
           title={"More from this user"}
           button={"Display All From SyriaSouq"}
+          uid={user?._id}
         />
         <MoreFromUser
           title={"You may also like..."}
