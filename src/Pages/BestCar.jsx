@@ -26,9 +26,9 @@ const BestCar = () => {
       {/* content  */}
       <div className="z-10 w-full">
         <div className="md:w-2/3 mx-auto text-center mb-14">
-          <button className="text-[12px] md:text-[14px] font-[400] text-white bg-[#374b5c] py-2 px-4 rounded cursor-pointer">
+          {/* <button className="text-[12px] md:text-[14px] font-[400] text-white bg-[#374b5c] py-2 px-4 rounded cursor-pointer">
             Explore the best car listings
-          </button>
+          </button> */}
           <div className="text-white">
             <h1 className="text-2xl md:text-5xl lg:text-7xl font-[700] mb-4 tracking-[-0.05em]">
               Everything <span className="text-[#ff9540]">you need</span>

@@ -1,10 +1,26 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router";
+import { useEffect, useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router";
 import logo from "../assets/images/logo/logo.png";
 import avatar from "../assets/images/avatar/photo.png";
 
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("SyriaSouq-auth"));
+    console.log(storedUser);
+    if (storedUser) {
+      setUser(storedUser);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("SyriaSouq-auth");
+    navigate("/");
+  };
 
   return (
     <nav className="bg-[#374b5c] w-screen text-white py-4 px-4 md:px-28 fixed z-20">
@@ -43,6 +59,12 @@ const Navbar = () => {
         <NavLink className="w-14 md:hidden" to="/">
           <img src={logo} className="w-14" alt="Logos" />
         </NavLink>
+
+        <Link to={"/addlisting"} className="block md:hidden">
+          <button className="bg-[#FF9540] text-[#314352] px-2 py-1 rounded-md  cursor-pointer text-xs">
+            Add Listing <span>+</span>
+          </button>
+        </Link>
 
         {/* Right: Avatar (Mobile) */}
         <div className="avatar md:hidden">
@@ -112,12 +134,21 @@ const Navbar = () => {
                       </NavLink>
                     </li>
                     <li>
-                      <NavLink
-                        to="/login-and-register"
-                        className="hover:text-[#ff9540] duration-500 text-[18px] font-[500]"
-                      >
-                        Login/Register
-                      </NavLink>
+                      {user ? (
+                        <NavLink
+                          to="/dashboaard"
+                          className="hover:text-[#ff9540] duration-500 text-[18px] font-[500]"
+                        >
+                          Listing
+                        </NavLink>
+                      ) : (
+                        <NavLink
+                          to="/login-and-register"
+                          className="hover:text-[#ff9540] duration-500 text-[18px] font-[500]"
+                        >
+                          Login/Register
+                        </NavLink>
+                      )}
                     </li>
                   </ul>
                 </div>
@@ -159,26 +190,49 @@ const Navbar = () => {
             </div>
 
             {/* Avatar */}
-            <div className="avatar">
-              <div className="w-12 rounded-full">
-                <img src={avatar} alt="avatar" />
-              </div>
-            </div>
+            {user && (
+              <>
+                <div className="avatar">
+                  <Link to={"/dashboard"}>
+                    <div className="w-10 rounded-full h-10 bg-teal-400 !flex items-center justify-center font-black text-lg">
+                      {/* <img src={avatar} alt="avatar" /> */}
+                      {(() => {
+                        const firstLetter =
+                          user?.username?.charAt(0).toUpperCase() || "?";
+                        return firstLetter;
+                      })()}
+                    </div>
+                  </Link>
+                </div>
+              </>
+            )}
 
             {/* Login/Register */}
-            <a
-              href="/login-and-register"
-              className="hover:text-[#ff9540] text-[18px] font-[500] duration-500"
-            >
-              Login
-            </a>
-            <span className="border-r border-gray-300 h-6"></span>
-            <a
-              href="/login-and-register"
-              className="hover:text-[#ff9540] text-[18px] font-[500] duration-500"
-            >
-              Register
-            </a>
+            {user && (
+              <button
+                onClick={handleLogout}
+                className="cursor-pointer text-red-400"
+              >
+                Logout
+              </button>
+            )}
+            {!user && (
+              <>
+                <Link
+                  to="/login-and-register"
+                  className="hover:text-[#ff9540] text-[18px] font-[500] duration-500"
+                >
+                  Login
+                </Link>
+                <span className="border-r border-gray-300 h-6"></span>
+                <Link
+                  to="/login-and-register"
+                  className="hover:text-[#ff9540] text-[18px] font-[500] duration-500"
+                >
+                  Register
+                </Link>
+              </>
+            )}
 
             {/* Add Listing Button */}
             <NavLink to="/addlisting">

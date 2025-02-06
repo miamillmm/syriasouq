@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import Select from "react-select";
 import FeaturesSection from "./FeaturesSection";
-import DescriptionEditor from "./DescriptionEditor";
+// import DescriptionEditor from "./DescriptionEditor";
 import ImageUpload from "./ImageUpload";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { makes } from "../utils/utils";
 
 const carMakes = [
   { value: "Abarth", label: "Abarth" },
@@ -20,8 +21,9 @@ const carMakes = [
 ];
 
 const AddListingPage = () => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
   // State variables for each input/select field
-  const [listingName, setListingName] = useState("");
   const [make, setMake] = useState(null);
   const [model, setModel] = useState(null);
   const [priceUSD, setPriceUSD] = useState("");
@@ -38,42 +40,91 @@ const AddListingPage = () => {
   const [selectedFeatures, setSelectedFeatures] = useState([]);
   const [uploadedImages, setUploadedImages] = useState([]);
 
+  const modelOptions = make
+    ? makes
+        .find((m) => m.value === make.value)
+        ?.models.map((model) => ({
+          value: model,
+          label: model,
+        })) || []
+    : [];
+
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("SyriaSouq-auth"));
+    console.log(storedUser);
+    if (storedUser) {
+      return setUser(storedUser);
+    }
+    alert("Please loggin beofre add listing");
+    return navigate("/login-and-register");
+  }, [navigate]);
+
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = {
-      listingName,
-      make,
-      model,
-      priceUSD,
-      priceSYP,
-      year,
-      kilometer,
-      engineSize,
-      location,
-      transmission,
-      fuelType,
-      exteriorColor,
-      interiorColor,
-      description,
-      selectedFeatures,
-      uploadedImages,
-    };
+    // Create FormData to handle image uploads
+    const formData = new FormData();
 
-    console.log("Form Data Submitted:", formData);
+    formData.append("make", make?.value || "");
+    formData.append("model", model?.value || "");
+    formData.append("priceUSD", priceUSD);
+    formData.append("priceSYP", priceSYP);
+    formData.append("year", year);
+    formData.append("kilometer", kilometer);
+    formData.append("engineSize", engineSize?.value || "");
+    formData.append("location", location?.value || "");
+    formData.append("transmission", transmission?.value || "");
+    formData.append("fuelType", fuelType?.value || "");
+    formData.append("exteriorColor", exteriorColor?.value || "");
+    formData.append("interiorColor", interiorColor?.value || "");
+    formData.append("description", description);
+
+    // Append selected features as JSON string
+    formData.append("selectedFeatures", JSON.stringify(selectedFeatures));
+
+    // Append uploaded images
+    uploadedImages.forEach((image, index) => {
+      formData.append(`images`, image.file);
+    });
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/cars`, {
+        method: "POST",
+        headers: {
+          authorization: `Bearer ${user.jwt}`, // Ensure `user.jwt` exists
+        },
+        body: formData, // Let the browser set Content-Type automatically
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        alert("Listing added successfully! This will expire after 35 days");
+        navigate("/dashboard");
+      } else {
+        alert(`Error: ${result.message}`);
+      }
+    } catch (error) {
+      console.error("Error submitting listing:", error);
+      alert("Failed to submit listing.");
+    }
   };
 
-  const handleDescriptionChange = (value) => {
-    setDescription(value);
-  };
+  // const handleDescriptionChange = (value) => {
+  //   setDescription(value);
+  // };
 
   return (
     <div className="pt-25">
       {/* login or register first */}
       <div className="px-28">
         <h1 className="text-[#314352] text-3xl font-bold py-10">Add Listing</h1>
-        <div className="border-2 border-dashed border-gray-300 rounded bg-gray-50 py-8 flex items-center justify-center mb-8">
+        <div
+          className={`border-2 border-dashed border-gray-300 rounded bg-gray-50 py-8 flex items-center justify-center mb-8 ${
+            user ? "hidden" : ""
+          }`}
+        >
           <h1>
             You can also{" "}
             <Link to="/login-and-register" className="text-[#ff9540]">
@@ -98,31 +149,16 @@ const AddListingPage = () => {
           <button className="text-gray-400 hover:text-gray-600">▼</button>
         </div>
         <form onSubmit={handleSubmit}>
-          <label className="w-full">
-            <div className="mb-2 px-3">
-              <h3 className="font-semibold">Listing Name*</h3>
-            </div>
-            <input
-              type="text"
-              name="listing"
-              placeholder="Type here Listing Name"
-              className="w-full py-4 border-gray-300 rounded px-6"
-              value={listingName}
-              onChange={(e) => setListingName(e.target.value)}
-              required
-            />
-          </label>
           <div className="flex justify-between items-center gap-10 mt-8">
             <label className="w-full">
               <div className="mb-2 px-3">
                 <h3 className="font-semibold">Make</h3>
               </div>
               <Select
-                options={carMakes}
+                options={makes} // Directly use the makes array
                 value={make}
                 onChange={setMake}
-                required
-                placeholder="Make"
+                placeholder="Select Make"
                 isSearchable
                 className="cursor-pointer"
                 styles={{
@@ -140,7 +176,7 @@ const AddListingPage = () => {
                 <h3 className="font-semibold">Model</h3>
               </div>
               <Select
-                options={carMakes}
+                options={modelOptions}
                 value={model}
                 onChange={setModel}
                 required
@@ -214,13 +250,14 @@ const AddListingPage = () => {
           <div className="flex justify-between items-center gap-10 mt-8">
             <label className="w-full">
               <div className="mb-2 px-3">
-                <h3 className="font-semibold">Engine Size (CC)</h3>
+                <h3 className="font-semibold text-orange-400">
+                  Engine Size (CC) <span className="text-xs">(Optional)</span>
+                </h3>
               </div>
               <Select
                 options={carMakes}
                 value={engineSize}
                 onChange={setEngineSize}
-                required
                 placeholder="Engine Size (CC)"
                 isSearchable
                 className="cursor-pointer"
@@ -235,13 +272,14 @@ const AddListingPage = () => {
             </label>
             <label className="w-full">
               <div className="mb-2 px-3">
-                <h3 className="font-semibold">Location</h3>
+                <h3 className="font-semibold text-orange-400">
+                  Location <span className="text-xs">(Optional)</span>
+                </h3>
               </div>
               <Select
                 options={carMakes}
                 value={location}
                 onChange={setLocation}
-                required
                 placeholder="Location"
                 isSearchable
                 className="cursor-pointer"
@@ -256,13 +294,14 @@ const AddListingPage = () => {
             </label>
             <label className="w-full">
               <div className="mb-2 px-3">
-                <h3 className="font-semibold">Transmission</h3>
+                <h3 className="font-semibold text-orange-400">
+                  Transmission <span className="text-xs">(Optional)</span>{" "}
+                </h3>
               </div>
               <Select
                 options={carMakes}
                 value={transmission}
                 onChange={setTransmission}
-                required
                 placeholder="Transmission"
                 isSearchable
                 className="cursor-pointer"
@@ -279,13 +318,14 @@ const AddListingPage = () => {
           <div className="flex justify-between items-center gap-10 mt-8">
             <label className="w-full">
               <div className="mb-2 px-3">
-                <h3 className="font-semibold">Fuel Type</h3>
+                <h3 className="font-semibold text-orange-400">
+                  Fuel Type <span className="text-xs">(Optional)</span>
+                </h3>
               </div>
               <Select
                 options={carMakes}
                 value={fuelType}
                 onChange={setFuelType}
-                required
                 placeholder="Fuel Type"
                 isSearchable
                 className="cursor-pointer"
@@ -300,13 +340,14 @@ const AddListingPage = () => {
             </label>
             <label className="w-full">
               <div className="mb-2 px-3">
-                <h3 className="font-semibold">Exterior Color</h3>
+                <h3 className="font-semibold text-orange-400">
+                  Exterior Color <span className="text-xs">(Optional)</span>
+                </h3>
               </div>
               <Select
                 options={carMakes}
                 value={exteriorColor}
                 onChange={setExteriorColor}
-                required
                 placeholder="Exterior Color"
                 isSearchable
                 className="cursor-pointer"
@@ -321,13 +362,14 @@ const AddListingPage = () => {
             </label>
             <label className="w-full">
               <div className="mb-2 px-3">
-                <h3 className="font-semibold">Interior Color</h3>
+                <h3 className="font-semibold text-orange-400">
+                  Interior Color <span className="text-xs">(Optional)</span>
+                </h3>
               </div>
               <Select
                 options={carMakes}
                 value={interiorColor}
                 onChange={setInteriorColor}
-                required
                 placeholder="Interior Color"
                 isSearchable
                 className="cursor-pointer"
@@ -350,11 +392,12 @@ const AddListingPage = () => {
             />
           </div>
           <div className="mt-10">
-            <DescriptionEditor
-              description={description}
-              setDescription={setDescription}
-              handleDescriptionChange={handleDescriptionChange}
-            />
+            <h2 className="text-xl mb-2 font-bold">Description</h2>
+            <textarea
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-full bg-white outline-none rounded-lg p-2"
+              rows={8}
+            ></textarea>
           </div>
           <div className="mt-10">
             <ImageUpload

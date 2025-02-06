@@ -4,6 +4,8 @@ import { AiOutlineCloudUpload, AiOutlineClose } from "react-icons/ai";
 const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
   // Handle file upload
   const handleFileChange = (event) => {
+    if (uploadedImages?.length > 9)
+      return alert("You can upload maximum 10 images");
     const files = event.target.files;
     if (files) {
       const newImages = Array.from(files).map((file) => ({
@@ -17,6 +19,8 @@ const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
   // Handle drag-and-drop
   const handleDrop = (event) => {
     event.preventDefault();
+    if (uploadedImages?.length > 9)
+      return alert("You can upload maximum 10 images");
     const files = event.dataTransfer.files;
     if (files) {
       const newImages = Array.from(files).map((file) => ({
