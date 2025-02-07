@@ -32,7 +32,7 @@ const Inbox = () => {
 
   useEffect(() => {
     if (selectedChat) {
-      socket.emit("joinConversation", selectedChat._id); // ✅ Join room
+      socket.emit("joinConversation", selectedChat._id);
     }
   }, [selectedChat]);
 

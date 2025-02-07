@@ -19,6 +19,73 @@ const carMakes = [
   { value: "Bugatti", label: "Bugatti" },
   { value: "BYD", label: "BYD" },
 ];
+const alllocation = [
+  { value: "Al-Hasakah", label: "Al-Hasakah" },
+  { value: "Aleppo", label: "Aleppo" },
+  { value: "Damascus", label: "Damascus" },
+  { value: "Daraa", label: "Daraa" },
+  { value: "Deir ez-Zor", label: "Deir ez-Zor" },
+  { value: "Hama", label: "Hama" },
+  { value: "Homs", label: "Homs" },
+  { value: "Idlib", label: "Idlib" },
+  { value: "Latakia", label: "Latakia" },
+  { value: "Qamishli", label: "Qamishli" },
+  { value: "Raqqa", label: "Raqqa" },
+  { value: "Rif Dimashq", label: "Rif Dimashq" },
+  { value: "Suweida", label: "Suweida" },
+  { value: "Tartus", label: "Tartus" },
+];
+
+const allenginesize = [
+  { value: "0-499 cc", label: "0-499 cc" },
+  { value: "1000-1499 cc", label: "1000-1499 cc" },
+  { value: "1500-1999 cc", label: "1500-1999 cc" },
+  { value: "2000-2499 cc", label: "2000-2499 cc" },
+  { value: "2500-2999 cc", label: "2500-2999 cc" },
+  { value: "3000-3499 cc", label: "3000-3499 cc" },
+  { value: "3500-3999 cc", label: "3500-3999 cc" },
+  { value: "4000+ cc", label: "4000+ cc" },
+  { value: "500-999 cc", label: "500-999 cc" },
+  { value: "Other", label: "Other" },
+  { value: "Unknown", label: "Unknown" },
+];
+
+const allTransmission = [
+  { value: "Automatic", label: "Automatic" },
+  { value: "Manual", label: "Manual" },
+];
+
+const allFuelType = [
+  { value: "Diesel", label: "Diesel" },
+  { value: "Electric", label: "Electric" },
+  { value: "Hybrid", label: "Hybrid" },
+  { value: "Petrol", label: "Petrol" },
+];
+
+const allExteriorColor = [
+  { value: "BLACK", label: "BLACK" },
+  { value: "Blue", label: "Blue" },
+  { value: "Brown", label: "Brown" },
+  { value: "Gold", label: "Gold" },
+  { value: "Green", label: "Green" },
+  { value: "Orange", label: "Orange" },
+  { value: "Pink", label: "Pink" },
+  { value: "Purple", label: "Purple" },
+  { value: "Red", label: "Red" },
+  { value: "Silver", label: "Silver" },
+  { value: "White", label: "White" },
+  { value: "Yellow", label: "Yellow" },
+  { value: "other", label: "other" },
+];
+
+const allInteriorColor = [
+  { value: "Beige", label: "Beige" },
+  { value: "Black", label: "Black" },
+  { value: "Blue", label: "Blue" },
+  { value: "Brown", label: "Brown" },
+  { value: "Red", label: "Red" },
+  { value: "White", label: "White" },
+];
 
 const AddListingPage = () => {
   const navigate = useNavigate();
@@ -255,7 +322,7 @@ const AddListingPage = () => {
                 </h3>
               </div>
               <Select
-                options={carMakes}
+                options={allenginesize}
                 value={engineSize}
                 onChange={setEngineSize}
                 placeholder="Engine Size (CC)"
@@ -277,7 +344,7 @@ const AddListingPage = () => {
                 </h3>
               </div>
               <Select
-                options={carMakes}
+                options={alllocation}
                 value={location}
                 onChange={setLocation}
                 placeholder="Location"
@@ -299,7 +366,7 @@ const AddListingPage = () => {
                 </h3>
               </div>
               <Select
-                options={carMakes}
+                options={allTransmission}
                 value={transmission}
                 onChange={setTransmission}
                 placeholder="Transmission"
@@ -323,7 +390,7 @@ const AddListingPage = () => {
                 </h3>
               </div>
               <Select
-                options={carMakes}
+                options={allFuelType}
                 value={fuelType}
                 onChange={setFuelType}
                 placeholder="Fuel Type"
@@ -345,7 +412,7 @@ const AddListingPage = () => {
                 </h3>
               </div>
               <Select
-                options={carMakes}
+                options={allExteriorColor}
                 value={exteriorColor}
                 onChange={setExteriorColor}
                 placeholder="Exterior Color"
@@ -367,7 +434,7 @@ const AddListingPage = () => {
                 </h3>
               </div>
               <Select
-                options={carMakes}
+                options={allInteriorColor}
                 value={interiorColor}
                 onChange={setInteriorColor}
                 placeholder="Interior Color"
