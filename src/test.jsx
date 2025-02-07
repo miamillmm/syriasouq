@@ -107,7 +107,7 @@ const Test = () => {
         <div className="mt-4 ml-4 space-y-1 sm:space-y-2 text-[16px] sm:text-[18px] font-semibold">
           <div className="flex items-center gap-2">
             <h2 className=" text-[#314352]">{data.make}</h2>
-            <p className="px-2 text-xs bg-orange-400 text-white rounded-full">
+            <p className="px-2 text-xs bg-red-400 text-white rounded-full">
               {data.model}
             </p>
           </div>
@@ -120,17 +120,17 @@ const Test = () => {
         <div className="mt-6 text-xs border-t-2 border-gray-100 py-3">
           <div className="flex justify-between px-4 py-2">
             <div className="flex gap-2 items-center">
-              {/* <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
+              {/* <div className="hover:text-red-500 hover:border-red-500 duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
                             <IoEyeOutline className="w-1/2 h-1/2" />
                           </div>
-                          <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
+                          <div className="hover:text-red-500 hover:border-red-500 duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
                             <IoIosGitCompare className="w-1/2 h-1/2" />
                           </div> */}
               <div
                 onClick={() => handleWishlist(data)}
-                className={`hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400 cursor-pointer ${
+                className={`hover:text-red-500 hover:border-red-500 duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400 cursor-pointer ${
                   wishlist.some((item) => item.car === data._id)
-                    ? "bg-[#ff9540] text-white border-[#ff9540]"
+                    ? "bg-red-500 text-white border-red-500"
                     : ""
                 }`}
               >
@@ -138,7 +138,7 @@ const Test = () => {
               </div>
               <div
                 onClick={() => handleShare(data)}
-                className={`hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400 cursor-pointer`}
+                className={`hover:text-red-500 hover:border-red-500 duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400 cursor-pointer`}
               >
                 <CiShare2 className="w-1/2 h-1/2" />
               </div>

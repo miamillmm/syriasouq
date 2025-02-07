@@ -1,9 +1,8 @@
 import React from "react";
-import cover from "../assets/bg-image/cover-2.jpg";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
-import { NavLink } from "react-router";
 import { TiArrowRight } from "react-icons/ti";
-import { MdOutlineAttachEmail } from "react-icons/md";
+import { NavLink } from "react-router";
+import cover from "../assets/bg-image/cover-2.jpg";
 
 const Contact = () => {
   return (
@@ -26,7 +25,10 @@ const Contact = () => {
         <div className="relative z-10 container mx-auto px-4 sm:px-8 lg:px-18 h-full flex flex-col justify-center">
           {/* Title */}
           <h1 className="text-3xl sm:text-5xl font-bold text-white tracking-[-0.04em] pt-10">
-            <span className="text-[#FF9540] text-[38px] sm:text-[58px]">Contact</span> us
+            <span className="text-red-500 text-[38px] sm:text-[58px]">
+              Contact
+            </span>{" "}
+            us
           </h1>
 
           {/* Breadcrumb */}
@@ -34,7 +36,7 @@ const Contact = () => {
             <nav className="flex items-center text-sm text-gray-300 space-x-2">
               <NavLink
                 to="/"
-                className="hover:text-[#ff9540] duration-500 transition-all ease-in-out"
+                className="hover:text-red-500 duration-500 transition-all ease-in-out"
               >
                 Home
               </NavLink>
@@ -96,7 +98,7 @@ const Contact = () => {
             <div className="flex justify-center">
               <button
                 type="submit"
-                className="w-full sm:w-2/3 bg-[#ff9540] hover:bg-[#ffa258] py-3 sm:py-4 rounded-lg text-[#314352] text-lg cursor-pointer flex justify-between items-center px-12"
+                className="w-full sm:w-2/3 bg-red-500 hover:bg-red-500 py-3 sm:py-4 rounded-lg text-[#314352] text-lg cursor-pointer flex justify-between items-center px-12"
               >
                 Send Message{" "}
                 <span>
@@ -110,7 +112,7 @@ const Contact = () => {
 
       <section className="bg-[#F8FAFD] py-12">
         <div className="relative max-w-6xl mx-auto bg-[#FDFDFE] rounded-lg p-8 text-center space-y-5">
-          <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-orange-400 w-16 h-16 rounded-full flex items-center justify-center border-4 border-[#FDFDFE]">
+          <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-red-400 w-16 h-16 rounded-full flex items-center justify-center border-4 border-[#FDFDFE]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -127,7 +129,9 @@ const Contact = () => {
             </svg>
           </div>
 
-          <h2 className="text-2xl font-semibold text-gray-700 mt-5">Write to Us</h2>
+          <h2 className="text-2xl font-semibold text-gray-700 mt-5">
+            Write to Us
+          </h2>
           <p className="text-gray-600 mt-2">syriasouq.shop@outlook.com</p>
         </div>
       </section>

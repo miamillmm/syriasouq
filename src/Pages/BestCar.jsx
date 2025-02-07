@@ -31,9 +31,9 @@ const BestCar = () => {
           </button> */}
           <div className="text-white">
             <h1 className="text-2xl md:text-5xl lg:text-7xl font-[700] mb-4 tracking-[-0.05em]">
-              Everything <span className="text-[#ff9540]">you need</span>
+              Everything <span className="text-red-500">you need</span>
               <br />
-              in <span className="text-[#ff9540]">SyriaSouq</span>
+              in <span className="text-red-500">SyriaSouq</span>
             </h1>
           </div>
         </div>

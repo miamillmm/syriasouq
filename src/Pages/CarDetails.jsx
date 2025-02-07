@@ -8,22 +8,14 @@ import "swiper/css/navigation";
 
 import { Navigation } from "swiper/modules";
 
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { FaWhatsapp } from "react-icons/fa";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { MdErrorOutline, MdOutlinePhone } from "react-icons/md";
 import Breadcrumb from "./Breadcumb";
-import { TiMessages } from "react-icons/ti";
-import {
-  MdOutlineMailOutline,
-  MdErrorOutline,
-  MdOutlinePhone,
-} from "react-icons/md";
-import { IoEyeOutline } from "react-icons/io5";
-import { IoIosArrowDown, IoIosArrowUp, IoIosGitCompare } from "react-icons/io";
-import { CiHeart } from "react-icons/ci";
 import FeaturedCard from "./FeaturedCard";
 import MoreFromUser from "./MoreFromUser";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { FaWhatsapp } from "react-icons/fa";
-import Gallery from "./galary/CarImageGallery";
 
 const CarDetails = () => {
   const { id } = useParams();
@@ -90,36 +82,6 @@ const CarDetails = () => {
       <h2 className="mb-8 mt-7">
         <Breadcrumb carname={id} />
       </h2>
-      {/* <div className="w-full mx-auto h-auto md:h-screen max-h-[60vh] object-fit">
-        <Swiper
-          spaceBetween={30}
-          centeredSlides={true}
-          slidesPerView={2}
-          autoplay={{
-            delay: 2500,
-            disableOnInteraction: false,
-          }}
-          pagination={{
-            clickable: true,
-          }}
-          navigation={true}
-          modules={[Autoplay, Pagination, Navigation]}
-          className="mySwiper"
-        >
-          {carDetails?.images?.map((img) => (
-            <>
-              <SwiperSlide>
-                <img
-                  src={`http://localhost:5001/uploads/cars/${img}`}
-                  className="!max-h-[60vh] !h-full w-full object-cover"
-                />
-              </SwiperSlide>
-            </>
-          ))}
-        </Swiper>
-      </div> */}
-      {/* <Gallery/> */}
-
       <div className="flex flex-col md:flex-row gap-4 p-4 max-w-5xl mx-auto">
         {/* Left Side - Main Image */}
         <div className="w-full md:w-2/3">
@@ -218,21 +180,21 @@ const CarDetails = () => {
               </span>
               <div className="flex justify-between items-center w-full">
                 <div className="w-1/3">
-                  <h3 className="text-[#ff9540] relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#ff9540] after:transition-all after:duration-500 after:ease-in-out hover:after:w-full">
+                  <h3 className="text-red-500 relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-red-500 after:transition-all after:duration-500 after:ease-in-out hover:after:w-full">
                     Maserati GranCabrio
                   </h3>
                   <h4 className="text-gray-400">19/06/2022</h4>
                   <h4 className="text-gray-400">Similar post</h4>
                 </div>
                 <div className="w-1/3 text-left">
-                  <h3 className="text-[#ff9540] relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#ff9540] after:transition-all after:duration-500 after:ease-in-out hover:after:w-full">
+                  <h3 className="text-red-500 relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-red-500 after:transition-all after:duration-500 after:ease-in-out hover:after:w-full">
                     Ferrari F8 Tributo
                   </h3>
                   <h4 className="text-gray-400">17/06/2022</h4>
                   <h4 className="text-gray-400">Similar post</h4>
                 </div>
                 <div className="w-1/3 ">
-                  <h3 className="text-[#ff9540] relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#ff9540] after:transition-all after:duration-500 after:ease-in-out hover:after:w-full">
+                  <h3 className="text-red-500 relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-red-500 after:transition-all after:duration-500 after:ease-in-out hover:after:w-full">
                     Lamborghini Aventador S
                   </h3>
                   <h4 className="text-gray-400">18/06/2022</h4>
@@ -251,7 +213,7 @@ const CarDetails = () => {
                   <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
                 </div>
               </div> */}
-              <div className="w-12 h-12 rounded-full bg-orange-300 text-center flex items-center justify-center font-bold text-xl">
+              <div className="w-12 h-12 rounded-full bg-red-300 text-center flex items-center justify-center font-bold text-xl">
                 {(() => {
                   const firstLetter =
                     carDetails?.user?.username?.charAt(0).toUpperCase() || "?";
@@ -260,14 +222,14 @@ const CarDetails = () => {
               </div>
               <div className="space-y-2">
                 <Link to={`/dashboard?uid=${user?._id}`}>
-                  <p className="mt-2 font-semibold text-orange-400 underline italic">
+                  <p className="mt-2 font-semibold text-red-400 underline italic">
                     {carDetails?.user?.username}
                   </p>
                 </Link>
                 {/* <p className="text-sm text-gray-500">● User is offline</p> */}
                 {/* See All Ads Link */}
                 <div>
-                  {/* <a href="#" className="text-[#ff9540] border-b-2">
+                  {/* <a href="#" className="text-red-500 border-b-2">
                     See all ads
                   </a> */}
                 </div>
@@ -278,19 +240,19 @@ const CarDetails = () => {
             <div className="mt-12 flex flex-col  gap-5 justify-between">
               {/* <button
                 onClick={() => startNewChat(carDetails?.user)}
-                className="w-full bg-[#ff9540] text-[#314352] py-4 px-8 font-semibold rounded-md flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full bg-red-500 text-[#314352] py-4 px-8 font-semibold rounded-md flex items-center justify-center gap-2 cursor-pointer"
               >
                 <TiMessages /> Chat
               </button> */}
               {/* <a
                 href={`mailto:${carDetails?.user?.email}`}
-                className="w-full bg-[#ff9540] text-[#314352] py-4 px-8 font-semibold rounded-md flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full bg-red-500 text-[#314352] py-4 px-8 font-semibold rounded-md flex items-center justify-center gap-2 cursor-pointer"
               >
                 <MdOutlineMailOutline /> E-mail
               </a> */}
               <a
                 href={`tel:${carDetails?.user?.phone}`}
-                className="w-full bg-[#ff9540] text-[#314352] py-4 px-8 font-semibold rounded-md flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full bg-red-500 text-[#314352] py-4 px-8 font-semibold rounded-md flex items-center justify-center gap-2 cursor-pointer"
               >
                 <MdOutlinePhone /> {carDetails?.user?.phone}
               </a>
@@ -307,13 +269,13 @@ const CarDetails = () => {
             {/* Icons Section */}
             <div className="mt-6 flex justify-center shadow p-5 space-x-4">
               {/* <div className="flex gap-2 items-center">
-                <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-12 h-12 rounded-full flex justify-center items-center border border-gray-400 cursor-pointer">
+                <div className="hover:text-red-500 hover:border-red-500 duration-500 w-12 h-12 rounded-full flex justify-center items-center border border-gray-400 cursor-pointer">
                   <IoEyeOutline className="w-1/2 h-1/2" />
                 </div>
-                <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-12 h-12 rounded-full flex justify-center items-center border border-gray-400 cursor-pointer">
+                <div className="hover:text-red-500 hover:border-red-500 duration-500 w-12 h-12 rounded-full flex justify-center items-center border border-gray-400 cursor-pointer">
                   <IoIosGitCompare className="w-1/2 h-1/2" />
                 </div>
-                <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-12 h-12 rounded-full flex justify-center items-center border border-gray-400 cursor-pointer">
+                <div className="hover:text-red-500 hover:border-red-500 duration-500 w-12 h-12 rounded-full flex justify-center items-center border border-gray-400 cursor-pointer">
                   <CiHeart className="w-1/2 h-1/2" />
                 </div>
               </div> */}

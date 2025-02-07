@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { FaTh, FaList } from "react-icons/fa";
-import Breadcrumb from "./Breadcumb";
-import { Link } from "react-router";
-import { IoEyeOutline } from "react-icons/io5";
-import { IoIosGitCompare } from "react-icons/io";
+import React, { useEffect, useState } from "react";
 import { CiHeart } from "react-icons/ci";
+import { FaList, FaTh } from "react-icons/fa";
+import { Link } from "react-router";
+import Breadcrumb from "./Breadcumb";
 
 const SearchPage = () => {
   const [datas, setDatas] = useState([]);
@@ -356,7 +354,7 @@ const SearchPage = () => {
           <div className="flex justify-between items-center mb-4 p-2 rounded bg-transparent">
             <h2 className="text-[24px] font-semibold mr-4">
               {filteredData?.length} Results{" "}
-              <span className="text-[#ff9540] text-[15px]">Classified Ads</span>
+              <span className="text-red-500 text-[15px]">Classified Ads</span>
             </h2>
             <div className="flex items-center gap-8">
               {/* <select
@@ -418,9 +416,9 @@ const SearchPage = () => {
 
               <button
                 onClick={() => setView("grid")}
-                className={`p-2 w-20 h-16 flex items-center justify-center rounded cursor-pointer border hover:text-[#ff9540] hover:border-[#ff9540] duration-300 ${
+                className={`p-2 w-20 h-16 flex items-center justify-center rounded cursor-pointer border hover:text-red-500 hover:border-red-500 duration-300 ${
                   view === "grid"
-                    ? "border-[#ff9540] bg-[#ff9540] duration-100"
+                    ? "border-red-500 bg-red-500 duration-100"
                     : "border-gray-200"
                 }`}
               >
@@ -428,9 +426,9 @@ const SearchPage = () => {
               </button>
               <button
                 onClick={() => setView("list")}
-                className={`p-2 w-20 h-16 flex items-center justify-center rounded cursor-pointer border hover:text-[#ff9540] hover:border-[#ff9540] duration-300 ${
+                className={`p-2 w-20 h-16 flex items-center justify-center rounded cursor-pointer border hover:text-red-500 hover:border-red-500 duration-300 ${
                   view === "list"
-                    ? "border-[#ff9540] bg-[#ff9540] duration-100"
+                    ? "border-red-500 bg-red-500 duration-100"
                     : "border-gray-200"
                 }`}
               >
@@ -450,13 +448,13 @@ const SearchPage = () => {
                 <Link to={`/listing/${data._id}`} key={data.id}>
                   <div
                     className={`relative shadow-sm rounded ${
-                      index < 2 ? "border-[#ff9540] border-2 bg-[#FFEEE2]" : ""
+                      index < 2 ? "border-red-500 border-2 bg-[#FFEEE2]" : ""
                     }`} // Apply border to first two cards
                   >
                     {/* Add "Featured" badge */}
 
                     {index < 2 && (
-                      <div className="absolute top-5 left-5 bg-[#FF9540] text-white text-sm font-bold px-2 py-1 rounded-tr-lg rounded-bl-lg z-10 pointer-events-none">
+                      <div className="absolute top-5 left-5 bg-red-500 text-white text-sm font-bold px-2 py-1 rounded-tr-lg rounded-bl-lg z-10 pointer-events-none">
                         Featured
                       </div>
                     )}
@@ -486,13 +484,13 @@ const SearchPage = () => {
                         <div className="mt-6 text-xs border-t-2 border-gray-100 py-3">
                           <div className="flex justify-between px-4 py-2">
                             <div className="flex gap-2 items-center">
-                              {/* <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
+                              {/* <div className="hover:text-red-500 hover:border-red-500 duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
                                 <IoEyeOutline className="w-1/2 h-1/2" />
                               </div>
-                              <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
+                              <div className="hover:text-red-500 hover:border-red-500 duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
                                 <IoIosGitCompare className="w-1/2 h-1/2" />
                               </div> */}
-                              <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
+                              <div className="hover:text-red-500 hover:border-red-500 duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
                                 <CiHeart className="w-1/2 h-1/2" />
                               </div>
                             </div>
@@ -533,13 +531,13 @@ const SearchPage = () => {
 
                         {/* Icons in the bottom-right corner in list view */}
                         <div className="absolute bottom-2 right-2 flex gap-2">
-                          {/* <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
+                          {/* <div className="hover:text-red-500 hover:border-red-500 duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
                             <IoEyeOutline className="w-1/2 h-1/2" />
                           </div>
-                          <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
+                          <div className="hover:text-red-500 hover:border-red-500 duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
                             <IoIosGitCompare className="w-1/2 h-1/2" />
                           </div> */}
-                          <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
+                          <div className="hover:text-red-500 hover:border-red-500 duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
                             <CiHeart className="w-1/2 h-1/2" />
                           </div>
                         </div>

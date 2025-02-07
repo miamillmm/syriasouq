@@ -1,14 +1,12 @@
-import { Swiper, SwiperSlide } from "swiper/react";
+import axios from "axios";
+import { useEffect, useRef, useState } from "react";
+import { CiHeart } from "react-icons/ci";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { Link } from "react-router";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
-import { useEffect, useRef, useState } from "react";
-import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
-import { Link } from "react-router";
-import { IoEyeOutline } from "react-icons/io5";
-import { IoIosGitCompare } from "react-icons/io";
-import { CiHeart } from "react-icons/ci";
-import axios from "axios";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 const cars = [
   {
@@ -111,18 +109,18 @@ export default function MoreFromUser({ title, button, uid }) {
           {title}
         </h2>
         <div className="flex items-center gap-2 mt-4 sm:mt-0">
-          <button className="bg-[#ff9540] px-4 py-2 rounded-md text-[#314352] cursor-pointer">
+          <button className="bg-red-500 px-4 py-2 rounded-md text-[#314352] cursor-pointer">
             {button}
           </button>
           <button
             onClick={() => swiperRef.current?.slidePrev()}
-            className="bg-gray-800 text-[#ff9540] p-2 rounded cursor-pointer"
+            className="bg-gray-800 text-red-500 p-2 rounded cursor-pointer"
           >
             <FaChevronLeft size={24} />
           </button>
           <button
             onClick={() => swiperRef.current?.slideNext()}
-            className="bg-gray-800 text-[#ff9540] p-2 rounded cursor-pointer"
+            className="bg-gray-800 text-red-500 p-2 rounded cursor-pointer"
           >
             <FaChevronRight size={24} />
           </button>
@@ -160,13 +158,13 @@ export default function MoreFromUser({ title, button, uid }) {
                     <div className="mt-6 text-xs border-t-2 border-gray-100 py-3">
                       <div className="flex justify-between px-4 py-2">
                         <div className="flex gap-2 items-center">
-                          {/* <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
+                          {/* <div className="hover:text-red-500 hover:border-red-500 duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
                             <IoEyeOutline className="w-1/2 h-1/2" />
                           </div>
-                          <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
+                          <div className="hover:text-red-500 hover:border-red-500 duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
                             <IoIosGitCompare className="w-1/2 h-1/2" />
                           </div> */}
-                          <div className="hover:text-[#ff9540] hover:border-[#ff9540] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
+                          <div className="hover:text-red-500 hover:border-red-500 duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
                             <CiHeart className="w-1/2 h-1/2" />
                           </div>
                         </div>

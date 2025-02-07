@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
-import logo from "../assets/images/logo/logo.png";
 import avatar from "../assets/images/avatar/photo.png";
+import logo from "../assets/images/logo/logo.png";
 
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -61,7 +61,7 @@ const Navbar = () => {
         </NavLink>
 
         <Link to={"/addlisting"} className="block md:hidden">
-          <button className="bg-[#FF9540] text-[#314352] px-2 py-1 rounded-md  cursor-pointer text-xs">
+          <button className="bg-red-500 text-[#314352] px-2 py-1 rounded-md  cursor-pointer text-xs">
             Add Listing <span>+</span>
           </button>
         </Link>
@@ -83,7 +83,7 @@ const Navbar = () => {
               <li className="relative group">
                 <NavLink
                   to="/"
-                  className="hover:text-[#ff9540] duration-500 text-[18px] font-[500]"
+                  className="hover:text-red-500 duration-500 text-[18px] font-[500]"
                 >
                   <span className="absolute left-[-20px] opacity-0 group-hover:opacity-100 group-hover:translate-x-2.5 transition-all duration-500 ease-in-out">
                     •
@@ -93,7 +93,7 @@ const Navbar = () => {
               </li>
               <li className="relative group">
                 <div className="dropdown dropdown-hover">
-                  <button className="hover:text-[#ff9540] duration-500 text-[18px] font-[500] cursor-pointer flex items-center">
+                  <button className="hover:text-red-500 duration-500 text-[18px] font-[500] cursor-pointer flex items-center">
                     <span className="absolute left-[-20px] opacity-0 group-hover:opacity-100 group-hover:translate-x-2.5 transition-all duration-500 ease-in-out">
                       •
                     </span>
@@ -120,7 +120,7 @@ const Navbar = () => {
                     <li>
                       <NavLink
                         to="/about"
-                        className="hover:text-[#ff9540] duration-500 text-[18px] font-[500]"
+                        className="hover:text-red-500 duration-500 text-[18px] font-[500]"
                       >
                         About Us
                       </NavLink>
@@ -128,7 +128,7 @@ const Navbar = () => {
                     <li>
                       <NavLink
                         to="/contact"
-                        className="hover:text-[#ff9540] duration-500 text-[18px] font-[500]"
+                        className="hover:text-red-500 duration-500 text-[18px] font-[500]"
                       >
                         Contact
                       </NavLink>
@@ -137,14 +137,14 @@ const Navbar = () => {
                       {user ? (
                         <NavLink
                           to="/dashboaard"
-                          className="hover:text-[#ff9540] duration-500 text-[18px] font-[500]"
+                          className="hover:text-red-500 duration-500 text-[18px] font-[500]"
                         >
                           Listing
                         </NavLink>
                       ) : (
                         <NavLink
                           to="/login-and-register"
-                          className="hover:text-[#ff9540] duration-500 text-[18px] font-[500]"
+                          className="hover:text-red-500 duration-500 text-[18px] font-[500]"
                         >
                           Login/Register
                         </NavLink>
@@ -159,7 +159,7 @@ const Navbar = () => {
           <div className="relative group flex items-center justify-between gap-10">
             {/* Currency Dropdown */}
             <div className="dropdown dropdown-hover">
-              <button className="hover:text-[#ff9540] duration-500 text-[18px] font-[500] cursor-pointer flex items-center">
+              <button className="hover:text-red-500 duration-500 text-[18px] font-[500] cursor-pointer flex items-center">
                 SYP
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -178,7 +178,7 @@ const Navbar = () => {
               </button>
               <ul
                 tabIndex={0}
-                className="dropdown-content menu text-black hover:text-[#ff9540] text-[18px] font-[500] bg-base-100 rounded-box z-10 w-32 mt-10 p-2 shadow-sm"
+                className="dropdown-content menu text-black hover:text-red-500 text-[18px] font-[500] bg-base-100 rounded-box z-10 w-32 mt-10 p-2 shadow-sm"
               >
                 <li>
                   <NavLink to="/about">USD</NavLink>
@@ -220,14 +220,14 @@ const Navbar = () => {
               <>
                 <Link
                   to="/login-and-register"
-                  className="hover:text-[#ff9540] text-[18px] font-[500] duration-500"
+                  className="hover:text-red-500 text-[18px] font-[500] duration-500"
                 >
                   Login
                 </Link>
                 <span className="border-r border-gray-300 h-6"></span>
                 <Link
                   to="/login-and-register"
-                  className="hover:text-[#ff9540] text-[18px] font-[500] duration-500"
+                  className="hover:text-red-500 text-[18px] font-[500] duration-500"
                 >
                   Register
                 </Link>
@@ -236,11 +236,11 @@ const Navbar = () => {
 
             {/* Add Listing Button */}
             <NavLink to="/addlisting">
-              <button className="bg-[#FF9540] text-[#314352] px-4 py-2 rounded-md  cursor-pointer">
+              <button className="bg-red-500 px-4 py-2 rounded-md  cursor-pointer text-white">
                 Add Listing <span>+</span>
               </button>
             </NavLink>
-            {/* <button className="bg-[#ff9540] text-[#314352] text-[18px] font-light px-4 py-2 rounded-md cursor-pointer">
+            {/* <button className="bg-red-500 text-[#314352] text-[18px] font-light px-4 py-2 rounded-md cursor-pointer">
               Add Listing 
             </button> */}
           </div>
@@ -278,26 +278,23 @@ const Navbar = () => {
             </button>
             <ul className="space-y-4">
               <li>
-                <NavLink to="/" className="block hover:text-yellow-500">
+                <NavLink to="/" className="block hover:text-red-500">
                   Home
                 </NavLink>
               </li>
               <li>
                 <div className="dropdown">
-                  <button className="hover:text-yellow-500">Page</button>
+                  <button className="hover:text-red-500">Page</button>
                   <ul className="ml-4 mt-2 space-y-2">
                     <li>
-                      <NavLink
-                        to="/about"
-                        className="block hover:text-yellow-500"
-                      >
+                      <NavLink to="/about" className="block hover:text-red-500">
                         About Us
                       </NavLink>
                     </li>
                     <li>
                       <NavLink
                         to="/contact"
-                        className="block hover:text-yellow-500"
+                        className="block hover:text-red-500"
                       >
                         Contact
                       </NavLink>
@@ -305,7 +302,7 @@ const Navbar = () => {
                     <li>
                       <NavLink
                         to="/login-and-register"
-                        className="block hover:text-yellow-500"
+                        className="block hover:text-red-500"
                       >
                         Login/Register
                       </NavLink>
@@ -315,7 +312,7 @@ const Navbar = () => {
               </li>
               <li>
                 <NavLink to="/addlisting">
-                  <button className="bg-yellow-500 px-4 py-2 rounded-md hover:bg-yellow-600 cursor-pointer">
+                  <button className="bg-red-500 px-4 py-2 text-white rounded-md hover:bg-red-600 cursor-pointer">
                     Add Listing
                   </button>
                 </NavLink>

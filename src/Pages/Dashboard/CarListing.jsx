@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import { Link } from "react-router";
 
 const getUidFromUrl = () => {
@@ -111,7 +111,7 @@ const CarListing = () => {
                       "https://via.placeholder.com/400x300?text=No+Image")
                   }
                 />
-                <span className="absolute top-2 right-2 bg-orange-600 text-white text-sm px-3 py-1 rounded-full">
+                <span className="absolute top-2 right-2 bg-red-600 text-white text-sm px-3 py-1 rounded-full">
                   {car.priceUSD}
                 </span>
               </div>
@@ -128,7 +128,7 @@ const CarListing = () => {
                 {/* <p className="text-gray-500">⛽ {car.fuelType}</p>
                 <p className="text-gray-600 mt-1">📍 {car.location}</p> */}
                 <Link to={`/listing/${car?._id}`}>
-                  <button className="mt-5 w-full bg-orange-500 text-white font-bold px-4 py-3 rounded-lg hover:bg-orange-600 transition text-lg cursor-pointer">
+                  <button className="mt-5 w-full bg-red-500 text-white font-bold px-4 py-3 rounded-lg hover:bg-red-600 transition text-lg cursor-pointer">
                     View Details
                   </button>
                 </Link>

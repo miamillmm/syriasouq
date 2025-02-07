@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
-const FeaturesSection = ({selectedFeatures,setSelectedFeatures}) => {
+const FeaturesSection = ({ selectedFeatures, setSelectedFeatures }) => {
   const features = [
     "360-degree camera",
     "Adaptive headlights",
@@ -60,7 +60,7 @@ const FeaturesSection = ({selectedFeatures,setSelectedFeatures}) => {
             <div
               className={`w-5 h-5 flex items-center justify-center rounded border-2 ${
                 selectedFeatures.includes(feature)
-                  ? "border-[#FF9540] bg-[#FF9540]"
+                  ? "border-red-500 bg-red-500"
                   : "border-[#314352] bg-transparent"
               }`}
             >
@@ -84,7 +84,7 @@ const FeaturesSection = ({selectedFeatures,setSelectedFeatures}) => {
             <span
               className={`${
                 selectedFeatures.includes(feature)
-                  ? "text-[#FF9540]"
+                  ? "text-red-500"
                   : "text-[#314352]"
               }`}
             >

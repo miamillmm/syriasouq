@@ -58,7 +58,7 @@ const FeaturedCard = () => {
           </button>
           <button
             onClick={nextListing}
-            className="p-2 bg-[#ff9540] text-white rounded cursor-pointer"
+            className="p-2 bg-red-500 text-white rounded cursor-pointer"
           >
             <FaChevronRight size={16} />
           </button>

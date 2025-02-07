@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import Select from "react-select";
 import FeaturesSection from "./FeaturesSection";
 // import DescriptionEditor from "./DescriptionEditor";
-import ImageUpload from "./ImageUpload";
 import { Link, useNavigate } from "react-router";
 import { makes } from "../utils/utils";
+import ImageUpload from "./ImageUpload";
 
 const carMakes = [
   { value: "Abarth", label: "Abarth" },
@@ -68,13 +68,13 @@ const allExteriorColor = [
   { value: "Brown", label: "Brown" },
   { value: "Gold", label: "Gold" },
   { value: "Green", label: "Green" },
-  { value: "Orange", label: "Orange" },
+  { value: "red", label: "red" },
   { value: "Pink", label: "Pink" },
   { value: "Purple", label: "Purple" },
   { value: "Red", label: "Red" },
   { value: "Silver", label: "Silver" },
   { value: "White", label: "White" },
-  { value: "Yellow", label: "Yellow" },
+  { value: "red", label: "red" },
   { value: "other", label: "other" },
 ];
 
@@ -85,6 +85,7 @@ const allInteriorColor = [
   { value: "Brown", label: "Brown" },
   { value: "Red", label: "Red" },
   { value: "White", label: "White" },
+  { value: "Other", label: "Other" },
 ];
 
 const AddListingPage = () => {
@@ -194,11 +195,11 @@ const AddListingPage = () => {
         >
           <h1>
             You can also{" "}
-            <Link to="/login-and-register" className="text-[#ff9540]">
+            <Link to="/login-and-register" className="text-red-500">
               Log In
             </Link>{" "}
             or{" "}
-            <Link to="/login-and-register" className="text-[#ff9540]">
+            <Link to="/login-and-register" className="text-red-500">
               Register
             </Link>{" "}
             first.
@@ -317,7 +318,7 @@ const AddListingPage = () => {
           <div className="flex justify-between items-center gap-10 mt-8">
             <label className="w-full">
               <div className="mb-2 px-3">
-                <h3 className="font-semibold text-orange-400">
+                <h3 className="font-semibold text-red-400">
                   Engine Size (CC) <span className="text-xs">(Optional)</span>
                 </h3>
               </div>
@@ -339,7 +340,7 @@ const AddListingPage = () => {
             </label>
             <label className="w-full">
               <div className="mb-2 px-3">
-                <h3 className="font-semibold text-orange-400">
+                <h3 className="font-semibold text-red-400">
                   Location <span className="text-xs">(Optional)</span>
                 </h3>
               </div>
@@ -361,7 +362,7 @@ const AddListingPage = () => {
             </label>
             <label className="w-full">
               <div className="mb-2 px-3">
-                <h3 className="font-semibold text-orange-400">
+                <h3 className="font-semibold text-red-400">
                   Transmission <span className="text-xs">(Optional)</span>{" "}
                 </h3>
               </div>
@@ -385,7 +386,7 @@ const AddListingPage = () => {
           <div className="flex justify-between items-center gap-10 mt-8">
             <label className="w-full">
               <div className="mb-2 px-3">
-                <h3 className="font-semibold text-orange-400">
+                <h3 className="font-semibold text-red-400">
                   Fuel Type <span className="text-xs">(Optional)</span>
                 </h3>
               </div>
@@ -407,7 +408,7 @@ const AddListingPage = () => {
             </label>
             <label className="w-full">
               <div className="mb-2 px-3">
-                <h3 className="font-semibold text-orange-400">
+                <h3 className="font-semibold text-red-400">
                   Exterior Color <span className="text-xs">(Optional)</span>
                 </h3>
               </div>
@@ -429,7 +430,7 @@ const AddListingPage = () => {
             </label>
             <label className="w-full">
               <div className="mb-2 px-3">
-                <h3 className="font-semibold text-orange-400">
+                <h3 className="font-semibold text-red-400">
                   Interior Color <span className="text-xs">(Optional)</span>
                 </h3>
               </div>
@@ -476,7 +477,7 @@ const AddListingPage = () => {
           <div className="flex justify-end py-20">
             <button
               type="submit"
-              className="bg-[#FF9540] text-[#314352] px-4 py-2 rounded-md  cursor-pointer"
+              className="bg-red-500 text-[#314352] px-4 py-2 rounded-md  cursor-pointer"
             >
               Add Listing +
             </button>

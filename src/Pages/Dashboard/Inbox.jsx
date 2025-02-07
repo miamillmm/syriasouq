@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { io } from "socket.io-client";
 import axios from "axios";
-import { FiSend, FiSearch, FiUserPlus, FiMic } from "react-icons/fi";
+import { useEffect, useState } from "react";
+import { FiSend } from "react-icons/fi";
+import { io } from "socket.io-client";
 
 // const socket = io(import.meta.env.VITE_API_URL);
 const socket = io("http://localhost:5001");
@@ -249,7 +249,7 @@ const Inbox = () => {
             key={chat.id}
             onClick={() => setSelectedChat(chat)}
             className={`flex items-center gap-4 p-3 rounded-lg cursor-pointer hover:bg-gray-100 transition ${
-              selectedChat?.id === chat.id ? "bg-orange-100" : ""
+              selectedChat?.id === chat.id ? "bg-red-100" : ""
             }`}
           >
             {/* <img
@@ -257,7 +257,7 @@ const Inbox = () => {
               className="w-12 h-12 rounded-full"
               alt="avatar"
             /> */}
-            <div className="w-12 h-12 rounded-full bg-orange-300 text-center flex items-center justify-center font-bold text-xl">
+            <div className="w-12 h-12 rounded-full bg-red-300 text-center flex items-center justify-center font-bold text-xl">
               {(() => {
                 const participant = chat?.participants?.find(
                   (u) => u._id !== user._id
@@ -299,7 +299,7 @@ const Inbox = () => {
                 className="w-10 h-10 rounded-full"
               />
               <span className="flex-1">{u.name}</span>
-              <FiUserPlus className="text-orange-500" />
+              <FiUserPlus className="text-red-500" />
             </div>
           ))} */}
       </div>
@@ -327,7 +327,7 @@ const Inbox = () => {
                     key={index}
                     className={`p-3 rounded-lg max-w-xs ${
                       (msg.sender._id || msg.sender) === user._id
-                        ? "bg-orange-500 text-white ml-auto"
+                        ? "bg-red-500 text-white ml-auto"
                         : "bg-gray-200 text-gray-800"
                     }`}
                   >
@@ -358,7 +358,7 @@ const Inbox = () => {
               />
               <button
                 onClick={sendMessage}
-                className="bg-orange-500 text-white p-3 rounded-lg hover:bg-orange-600"
+                className="bg-red-500 text-white p-3 rounded-lg hover:bg-red-600"
               >
                 <FiSend size={24} />
               </button>

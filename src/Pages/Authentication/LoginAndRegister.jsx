@@ -1,8 +1,8 @@
+import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import axios from "axios";
-import cover from "../../assets/service/cover.jpg";
 import { useNavigate } from "react-router";
+import cover from "../../assets/service/cover.jpg";
 
 const LoginAndRegister = () => {
   const [activeTab, setActiveTab] = useState("login");
@@ -105,7 +105,7 @@ const LoginAndRegister = () => {
             onClick={() => setActiveTab("login")}
             className={
               activeTab === "login"
-                ? "border-b-4 border-orange-400 cursor-pointer"
+                ? "border-b-4 border-red-400 cursor-pointer"
                 : "text-gray-500 cursor-pointer"
             }
           >
@@ -115,7 +115,7 @@ const LoginAndRegister = () => {
             onClick={() => setActiveTab("register")}
             className={
               activeTab === "register"
-                ? "border-b-4 border-orange-400 cursor-pointer"
+                ? "border-b-4 border-red-400 cursor-pointer"
                 : "text-gray-500 cursor-pointer"
             }
           >
@@ -155,13 +155,13 @@ const LoginAndRegister = () => {
             <button
               type="button"
               onClick={() => setIsModalOpen(true)}
-              className="text-orange-400 text-sm cursor-pointer"
+              className="text-red-400 text-sm cursor-pointer"
             >
               Forgot Password?
             </button>
             <button
               type="submit"
-              className="w-full bg-[#ff9540] py-3 rounded-lg cursor-pointer"
+              className="w-full bg-red-500 py-3 rounded-lg cursor-pointer"
             >
               Login
             </button>
@@ -236,7 +236,7 @@ const LoginAndRegister = () => {
             )}
             <button
               type="submit"
-              className="w-full bg-[#ff9540] py-3 rounded-lg cursor-pointer"
+              className="w-full bg-red-500 py-3 rounded-lg cursor-pointer"
             >
               Register
             </button>
@@ -264,7 +264,7 @@ const LoginAndRegister = () => {
               <div className="flex justify-between mt-4">
                 <button
                   type="submit"
-                  className="bg-orange-400 text-white px-4 py-2 rounded cursor-pointer"
+                  className="bg-red-400 text-white px-4 py-2 rounded cursor-pointer"
                 >
                   Send
                 </button>

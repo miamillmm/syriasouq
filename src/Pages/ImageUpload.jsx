@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { AiOutlineCloudUpload, AiOutlineClose } from "react-icons/ai";
+import React from "react";
+import { AiOutlineClose, AiOutlineCloudUpload } from "react-icons/ai";
 
 const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
   // Handle file upload
@@ -59,7 +59,7 @@ const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
           >
             <AiOutlineCloudUpload className="text-4xl text-gray-400" />
             <p className="text-gray-600">
-              <span className="text-orange-500">Choose images</span> or drag it
+              <span className="text-red-500">Choose images</span> or drag it
               here
             </p>
             <input

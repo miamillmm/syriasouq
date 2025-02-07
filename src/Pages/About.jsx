@@ -1,12 +1,12 @@
 import React from "react";
+import { MdOutlineKeyboardArrowRight } from "react-icons/md";
+import { TiArrowRight } from "react-icons/ti";
+import { NavLink } from "react-router";
 import cover from "../assets/bg-image/cover-1.jpg";
+import hand from "../assets/bg-image/hand.jpg";
 import service1 from "../assets/service/service1.png";
 import service2 from "../assets/service/service2.png";
 import service3 from "../assets/service/service3.png";
-import { NavLink } from "react-router";
-import { MdOutlineKeyboardArrowRight } from "react-icons/md";
-import hand from "../assets/bg-image/hand.jpg";
-import { TiArrowRight } from "react-icons/ti";
 import Subscribe from "./Subscribe";
 
 const About = () => {
@@ -31,7 +31,7 @@ const About = () => {
         <div className="relative z-10 container mx-auto px-4 sm:px-8 lg:px-18 h-full flex flex-col justify-center">
           {/* Title */}
           <h1 className="text-3xl sm:text-5xl font-bold text-white tracking-[-0.04em] pt-10">
-            <span className="text-[#FF9540] text-[38px] sm:text-[58px]">
+            <span className="text-red-500 text-[38px] sm:text-[58px]">
               About
             </span>{" "}
             SyriaSouq
@@ -42,7 +42,7 @@ const About = () => {
             <nav className="flex items-center text-sm text-gray-300 space-x-2">
               <NavLink
                 to="/"
-                className="hover:text-[#ff9540] duration-500 transition-all ease-in-out"
+                className="hover:text-red-500 duration-500 transition-all ease-in-out"
               >
                 Home
               </NavLink>
@@ -78,11 +78,11 @@ const About = () => {
 
           <button
             type="submit"
-            className="w-full sm:w-2/3 bg-[#374B5C] py-3 sm:py-4 rounded-lg text-[#ff9540] text-lg cursor-pointer flex justify-between items-center px-6 sm:px-12 mt-6 sm:mt-10"
+            className="w-full sm:w-2/3 bg-[#374B5C] py-3 sm:py-4 rounded-lg text-red-500 text-lg cursor-pointer flex justify-between items-center px-6 sm:px-12 mt-6 sm:mt-10"
           >
             Explore Listings{" "}
             <span>
-              <TiArrowRight className="text-3xl text-[#ff9540]" />
+              <TiArrowRight className="text-3xl text-red-500" />
             </span>
           </button>
         </div>
@@ -104,7 +104,7 @@ const About = () => {
           {/* Stat Item */}
           <div className="bg-white rounded-lg p-6 text-center">
             <h3
-              className="text-[#ff9540] text-3xl sm:text-4xl font-bold"
+              className="text-red-500 text-3xl sm:text-4xl font-bold"
               style={{ fontFamily: "Monoton, sans-serif" }}
             >
               <span className="extra-font">120</span>
@@ -116,7 +116,7 @@ const About = () => {
           {/* Stat Item */}
           <div className="bg-white rounded-lg p-6 text-center">
             <h3
-              className="text-[#ff9540] text-3xl sm:text-4xl font-bold"
+              className="text-red-500 text-3xl sm:text-4xl font-bold"
               style={{ fontFamily: "Monoton, sans-serif" }}
             >
               <span className="extra-font">2.7</span>
@@ -127,7 +127,7 @@ const About = () => {
 
           {/* Stat Item */}
           <div className="bg-white rounded-lg p-6 text-center">
-            <h3 className="text-[#ff9540] text-3xl sm:text-4xl font-bold">
+            <h3 className="text-red-500 text-3xl sm:text-4xl font-bold">
               <span className="extra-font">20k</span>
               <span className="text-[20px]">+</span>
             </h3>
@@ -136,7 +136,7 @@ const About = () => {
 
           {/* Stat Item */}
           <div className="bg-white rounded-lg p-6 text-center">
-            <h3 className="text-[#ff9540] text-3xl sm:text-4xl font-bold ">
+            <h3 className="text-red-500 text-3xl sm:text-4xl font-bold ">
               <span className="extra-font">50</span>
               <span className="text-[20px]">+</span>
             </h3>
@@ -162,7 +162,7 @@ const About = () => {
           {/* Horizontal Dashed Line */}
           <div className="absolute inset-0 flex items-center justify-between w-full">
             <div className="w-full flex items-center">
-              <div className="w-2/3 mx-auto h-px border-dashed border-t-2 border-[#FF9540]"></div>
+              <div className="w-2/3 mx-auto h-px border-dashed border-t-2 border-red-500"></div>
             </div>
           </div>
 
