@@ -4,10 +4,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
 import "swiper/css";
-import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { Navigation } from "swiper/modules";
 
 import Breadcrumb from "./Breadcumb";
 import { TiMessages } from "react-icons/ti";
@@ -17,13 +16,14 @@ import {
   MdOutlinePhone,
 } from "react-icons/md";
 import { IoEyeOutline } from "react-icons/io5";
-import { IoIosGitCompare } from "react-icons/io";
+import { IoIosArrowDown, IoIosArrowUp, IoIosGitCompare } from "react-icons/io";
 import { CiHeart } from "react-icons/ci";
 import FeaturedCard from "./FeaturedCard";
 import MoreFromUser from "./MoreFromUser";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { FaWhatsapp } from "react-icons/fa";
+import Gallery from "./galary/CarImageGallery";
 
 const CarDetails = () => {
   const { id } = useParams();
@@ -90,7 +90,7 @@ const CarDetails = () => {
       <h2 className="mb-8 mt-7">
         <Breadcrumb carname={id} />
       </h2>
-      <div className="w-full mx-auto h-auto md:h-screen max-h-[60vh] object-fit">
+      {/* <div className="w-full mx-auto h-auto md:h-screen max-h-[60vh] object-fit">
         <Swiper
           spaceBetween={30}
           centeredSlides={true}
@@ -117,6 +117,54 @@ const CarDetails = () => {
             </>
           ))}
         </Swiper>
+      </div> */}
+      {/* <Gallery/> */}
+
+      <div className="flex flex-col md:flex-row gap-4 p-4 max-w-5xl mx-auto">
+        {/* Left Side - Main Image */}
+        <div className="w-full md:w-2/3">
+          {carDetails?.images?.[0] && (
+            <img
+              src={`http://localhost:5001/uploads/cars/${carDetails?.images[0]}`}
+              alt="Main Preview"
+              className="w-full h-[300px] md:h-[500px] object-cover rounded-lg shadow-lg"
+            />
+          )}
+        </div>
+
+        {/* Right Side - Swiper Slider */}
+        <div className="w-full md:w-1/3 flex flex-col gap-2 relative h-[320px] md:h-[500px]">
+          {/* Custom Navigation Buttons */}
+          <button className="swiper-button-prev-custom absolute -top-6 left-1/2 transform -translate-x-1/2 text-white p-2 z-10 cursor-pointer">
+            <IoIosArrowUp className="text-gray-500 w-8 h-8 md:w-16 md:h-16" />
+          </button>
+          <button className="swiper-button-next-custom absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-white p-2 cursor-pointer z-10">
+            <IoIosArrowDown className="text-gray-500 w-8 h-8 md:w-16 md:h-16" />
+          </button>
+
+          <Swiper
+            direction="vertical"
+            slidesPerView={2}
+            spaceBetween={10}
+            navigation={{
+              nextEl: ".swiper-button-next-custom",
+              prevEl: ".swiper-button-prev-custom",
+            }}
+            modules={[Navigation]}
+            className="h-full"
+          >
+            {carDetails?.images?.map((img, index) => (
+              <SwiperSlide key={index} className="h-[140px] md:h-[240px]">
+                <img
+                  src={`http://localhost:5001/uploads/cars/${img}`}
+                  alt={`Thumbnail ${index}`}
+                  className="w-full h-full object-cover cursor-pointer rounded-lg hover:opacity-80"
+                  onClick={() => setMainImage(img)}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
       </div>
 
       {/* car details and user details  */}
