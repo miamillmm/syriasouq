@@ -9,6 +9,8 @@ import AddListingPage from "../Pages/AddListingPage";
 import Dashboard from "../Pages/Dashboard";
 import MessagesPage from "../Pages/Dashboard/MessagesPage";
 import SerachPage from "../Pages/SerachPage";
+import PrivacyPolicy from "../Pages/PrivacyPolicy";
+import TermsPage from "../Pages/TermAndUse";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +52,14 @@ const router = createBrowserRouter([
       {
         path: "/messages",
         element: <MessagesPage />,
+      },
+      {
+        path: "/privacy-policy",
+        element: <PrivacyPolicy />,
+      },
+      {
+        path: "/term-and-use",
+        element: <TermsPage />,
       },
     ],
   },

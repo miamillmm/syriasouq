@@ -31,11 +31,14 @@ const About = () => {
         <div className="relative z-10 container mx-auto px-4 sm:px-8 lg:px-18 h-full flex flex-col justify-center">
           {/* Title */}
           <h1 className="text-3xl sm:text-5xl font-bold text-white tracking-[-0.04em] pt-10">
-            <span className="text-[#FF9540] text-[38px] sm:text-[58px]">About</span> SyriaSouq
+            <span className="text-[#FF9540] text-[38px] sm:text-[58px]">
+              About
+            </span>{" "}
+            SyriaSouq
           </h1>
 
           {/* Breadcrumb */}
-          <div className="bg-white/10 backdrop-blur-none  w-1/6 flex justify-center  p-4 rounded-tr-lg rounded-tl-lg mt-auto">
+          <div className="bg-white/10 backdrop-blur-none  w-full sm:w-1/6 flex justify-center  p-4 rounded-tr-lg rounded-tl-lg mt-auto">
             <nav className="flex items-center text-sm text-gray-300 space-x-2">
               <NavLink
                 to="/"
@@ -44,7 +47,7 @@ const About = () => {
                 Home
               </NavLink>
               <MdOutlineKeyboardArrowRight />
-              <span className="text-white">Contact</span>
+              <span className="text-white">About</span>
             </nav>
           </div>
         </div>
@@ -169,7 +172,11 @@ const About = () => {
             <div className="relative flex flex-col items-center text-center space-y-4 ">
               {/* Circle SVG */}
               <div className="flex items-center justify-center w-16 h-16">
-                <img src={service1} alt="Search Icon" className="w-full h-full" />
+                <img
+                  src={service1}
+                  alt="Search Icon"
+                  className="w-full h-full"
+                />
               </div>
 
               {/* Icon */}
@@ -195,7 +202,9 @@ const About = () => {
               </div>
 
               {/* Step Title */}
-              <h3 className="text-2xl tracking-[-0.04em] font-bold text-[#314352]">Search</h3>
+              <h3 className="text-2xl tracking-[-0.04em] font-bold text-[#314352]">
+                Search
+              </h3>
 
               {/* Step Description */}
               <p className="text-gray-600 text-[16px]">
@@ -251,7 +260,9 @@ const About = () => {
               </div>
 
               {/* Step Title */}
-              <h3 className="text-2xl tracking-[-0.04em] font-bold text-[#314352]">Find</h3>
+              <h3 className="text-2xl tracking-[-0.04em] font-bold text-[#314352]">
+                Find
+              </h3>
 
               {/* Step Description */}
               <p className="text-gray-600 text-[16px]">
@@ -280,7 +291,11 @@ const About = () => {
             <div className="relative flex flex-col items-center text-center space-y-4">
               {/* Circle SVG */}
               <div className="flex items-center justify-center w-16 h-16">
-                <img src={service3} alt="Connect Icon" className="w-full h-full" />
+                <img
+                  src={service3}
+                  alt="Connect Icon"
+                  className="w-full h-full"
+                />
               </div>
 
               {/* Icon */}
@@ -305,7 +320,9 @@ const About = () => {
                 </svg>
               </div>
               {/* Step Title */}
-              <h3 className="text-2xl tracking-[-0.04em] font-bold text-[#314352]">Connect</h3>
+              <h3 className="text-2xl tracking-[-0.04em] font-bold text-[#314352]">
+                Connect
+              </h3>
 
               {/* Step Description */}
               <p className="text-gray-600 text-[16px]">
