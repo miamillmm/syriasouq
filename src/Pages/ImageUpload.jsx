@@ -59,7 +59,7 @@ const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
           >
             <AiOutlineCloudUpload className="text-4xl text-gray-400" />
             <p className="text-gray-600">
-              <span className="text-red-500">Choose images</span> or drag it
+              <span className="text-[#B80200]">Choose images</span> or drag it
               here
             </p>
             <input
@@ -89,7 +89,7 @@ const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
                   />
                   <button
                     onClick={() => handleRemoveImage(image.id)}
-                    className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1"
+                    className="absolute top-1 right-1 bg-[#B80200] text-white rounded-full p-1"
                   >
                     <AiOutlineClose className="w-4 h-4" />
                   </button>

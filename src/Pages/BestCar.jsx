@@ -1,6 +1,7 @@
 // import React from "react";
 // import { IoIosGitCompare } from "react-icons/io";
-import flag from "../assets/flag/syriaflag.jpg";
+// import flag from "../assets/flag/syriaflag.jpg";
+import flag from "../assets/flag/syriaflag-1.jpeg";
 import img1 from "../assets/icon/service_1.png";
 import img2 from "../assets/icon/service_2.png";
 import img3 from "../assets/icon/service_3.png";
@@ -31,14 +32,14 @@ const BestCar = () => {
           </button> */}
           <div className="text-white">
             <h1 className="text-2xl md:text-5xl lg:text-7xl font-[700] mb-4 tracking-[-0.05em]">
-              Everything <span className="text-red-500">you need</span>
+              Everything <span className="text-[#B80200]">you need</span>
               <br />
-              in <span className="text-red-500">SyriaSouq</span>
+              in <span className="text-[#B80200]">SyriaSouq</span>
             </h1>
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-10 w-full">
-          <div className="w-full h-auto bg-[#374b5c] py-8 px-6 text-center space-y-3 rounded">
+          <div className="w-full h-auto bg-[#323232fa] py-8 px-6 text-center space-y-3 rounded">
             <div className="w-14 h-14 rounded-full flex justify-center items-center bg-[#314352] mx-auto">
               <img src={img1} alt="image-1" className="w-8 h-8" />
             </div>
@@ -49,7 +50,7 @@ const BestCar = () => {
               There are hundreds of options
             </p>
           </div>
-          <div className="w-full h-auto bg-[#374b5c] py-8 px-6 text-center space-y-3 rounded">
+          <div className="w-full h-auto bg-[#323232fa] py-8 px-6 text-center space-y-3 rounded">
             <div className="w-14 h-14 rounded-full flex justify-center items-center bg-[#314352] mx-auto">
               <img src={img2} alt="image-2" className="w-8 h-8" />
             </div>
@@ -60,7 +61,7 @@ const BestCar = () => {
               Syrian owned website for the people
             </p>
           </div>
-          <div className="w-full h-auto bg-[#374b5c] py-8 px-6 text-center space-y-3 rounded">
+          <div className="w-full h-auto bg-[#323232fa] py-8 px-6 text-center space-y-3 rounded">
             <div className="w-14 h-14 rounded-full flex justify-center items-center bg-[#314352] mx-auto">
               <img src={img3} alt="image-3" className="w-8 h-8" />
             </div>
@@ -72,7 +73,7 @@ const BestCar = () => {
               security
             </p>
           </div>
-          <div className="w-full h-auto bg-[#374b5c] py-8 px-6 text-center space-y-3 rounded">
+          <div className="w-full h-auto bg-[#323232fa] py-8 px-6 text-center space-y-3 rounded">
             <div className="w-14 h-14 rounded-full flex justify-center items-center bg-[#314352] mx-auto">
               <img src={img4} alt="image-4" className="w-8 h-8" />
             </div>

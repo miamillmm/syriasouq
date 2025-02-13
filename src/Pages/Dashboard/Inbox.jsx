@@ -327,7 +327,7 @@ const Inbox = () => {
                     key={index}
                     className={`p-3 rounded-lg max-w-xs ${
                       (msg.sender._id || msg.sender) === user._id
-                        ? "bg-red-500 text-white ml-auto"
+                        ? "bg-[#B80200] text-white ml-auto"
                         : "bg-gray-200 text-gray-800"
                     }`}
                   >
@@ -358,7 +358,7 @@ const Inbox = () => {
               />
               <button
                 onClick={sendMessage}
-                className="bg-red-500 text-white p-3 rounded-lg hover:bg-red-600"
+                className="bg-[#B80200] text-white p-3 rounded-lg hover:bg-[#B80200]"
               >
                 <FiSend size={24} />
               </button>

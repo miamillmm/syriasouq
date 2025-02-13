@@ -180,21 +180,21 @@ const CarDetails = () => {
               </span>
               <div className="flex justify-between items-center w-full">
                 <div className="w-1/3">
-                  <h3 className="text-red-500 relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-red-500 after:transition-all after:duration-500 after:ease-in-out hover:after:w-full">
+                  <h3 className="text-[#B80200] relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-red-500 after:transition-all after:duration-500 after:ease-in-out hover:after:w-full">
                     Maserati GranCabrio
                   </h3>
                   <h4 className="text-gray-400">19/06/2022</h4>
                   <h4 className="text-gray-400">Similar post</h4>
                 </div>
                 <div className="w-1/3 text-left">
-                  <h3 className="text-red-500 relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-red-500 after:transition-all after:duration-500 after:ease-in-out hover:after:w-full">
+                  <h3 className="text-[#B80200] relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-red-500 after:transition-all after:duration-500 after:ease-in-out hover:after:w-full">
                     Ferrari F8 Tributo
                   </h3>
                   <h4 className="text-gray-400">17/06/2022</h4>
                   <h4 className="text-gray-400">Similar post</h4>
                 </div>
                 <div className="w-1/3 ">
-                  <h3 className="text-red-500 relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-red-500 after:transition-all after:duration-500 after:ease-in-out hover:after:w-full">
+                  <h3 className="text-[#B80200] relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-red-500 after:transition-all after:duration-500 after:ease-in-out hover:after:w-full">
                     Lamborghini Aventador S
                   </h3>
                   <h4 className="text-gray-400">18/06/2022</h4>
@@ -222,7 +222,7 @@ const CarDetails = () => {
               </div>
               <div className="space-y-2">
                 <Link to={`/dashboard?uid=${user?._id}`}>
-                  <p className="mt-2 font-semibold text-red-400 underline italic">
+                  <p className="mt-2 font-semibold text-[#B80200] underline italic">
                     {carDetails?.user?.username}
                   </p>
                 </Link>
@@ -252,7 +252,7 @@ const CarDetails = () => {
               </a> */}
               <a
                 href={`tel:${carDetails?.user?.phone}`}
-                className="w-full bg-red-500 text-[#314352] py-4 px-8 font-semibold rounded-md flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full bg-[#B80200] text-white py-4 px-8 font-semibold rounded-md flex items-center justify-center gap-2 cursor-pointer"
               >
                 <MdOutlinePhone /> {carDetails?.user?.phone}
               </a>
@@ -281,7 +281,7 @@ const CarDetails = () => {
               </div> */}
             </div>
             {/* error  */}
-            <div className="flex justify-center items-center my-8 gap-2 text-xl text-[#ED5E54] cursor-pointer">
+            <div className="flex justify-center items-center my-8 gap-2 text-xl text-[#B80200] cursor-pointer">
               <MdErrorOutline />
               <h2>Report abuse</h2>
             </div>

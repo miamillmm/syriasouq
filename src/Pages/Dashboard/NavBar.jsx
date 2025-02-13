@@ -17,8 +17,8 @@ const Navbar = () => {
                 to={path}
                 className={`relative text-gray-800 text-lg font-medium pb-1 transition duration-300 ${
                   isActive
-                    ? "border-b-2 border-red-500"
-                    : "hover:border-b-2 hover:border-red-400"
+                    ? "border-b-2 border-[#B80200]"
+                    : "hover:border-b-2 hover:border-[#B80200]"
                 }`}
               >
                 {labels[index]}

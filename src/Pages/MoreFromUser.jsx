@@ -109,18 +109,18 @@ export default function MoreFromUser({ title, button, uid }) {
           {title}
         </h2>
         <div className="flex items-center gap-2 mt-4 sm:mt-0">
-          <button className="bg-red-500 px-4 py-2 rounded-md text-[#314352] cursor-pointer">
+          <button className="bg-[#B80200] px-4 py-2 rounded-md text-white cursor-pointer">
             {button}
           </button>
           <button
             onClick={() => swiperRef.current?.slidePrev()}
-            className="bg-gray-800 text-red-500 p-2 rounded cursor-pointer"
+            className="bg-[#B80200] text-white p-2 rounded cursor-pointer"
           >
             <FaChevronLeft size={24} />
           </button>
           <button
             onClick={() => swiperRef.current?.slideNext()}
-            className="bg-gray-800 text-red-500 p-2 rounded cursor-pointer"
+            className="bg-[#B80200] text-white p-2 rounded cursor-pointer"
           >
             <FaChevronRight size={24} />
           </button>
@@ -164,7 +164,7 @@ export default function MoreFromUser({ title, button, uid }) {
                           <div className="hover:text-red-500 hover:border-red-500 duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
                             <IoIosGitCompare className="w-1/2 h-1/2" />
                           </div> */}
-                          <div className="hover:text-red-500 hover:border-red-500 duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
+                          <div className="hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
                             <CiHeart className="w-1/2 h-1/2" />
                           </div>
                         </div>

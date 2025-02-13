@@ -110,11 +110,11 @@ const Featured = () => {
           </h2>
         </div>
         <div className="flex gap-4 mt-6 md:mt-0">
-          <button className="text-[14px] sm:text-[16px] font-[400] text-red-500 bg-[#314352] py-3 sm:py-4 px-6 sm:px-8 rounded cursor-pointer">
+          <button className="text-[14px] sm:text-[16px] font-[400] text-white bg-[#4b4b4bfa] py-3 sm:py-4 px-6 sm:px-8 rounded cursor-pointer">
             All
           </button>
           <Link to={"/search"}>
-            <button className="bg-red-500 text-[#314352] text-[16px] sm:text-[18px] font-[400] justify-between py-3 sm:py-4 px-8 sm:px-12 rounded-md flex items-center gap-2 cursor-pointer">
+            <button className="bg-[#B80200] text-white text-[16px] sm:text-[18px] font-[400] justify-between py-3 sm:py-4 px-8 sm:px-12 rounded-md flex items-center gap-2 cursor-pointer">
               View All
               <span>
                 <TiArrowRight />
@@ -144,9 +144,9 @@ const Featured = () => {
                     <div className="absolute top-2 right-2 flex items-center gap-2">
                       <div
                         onClick={() => handleWishlist(data)}
-                        className={`hover:text-red-500 hover:border-red-500 duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-white cursor-pointer text-white ${
+                        className={`hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-white cursor-pointer text-white ${
                           wishlist.some((item) => item.car === data._id)
-                            ? "bg-red-500 border-red-500"
+                            ? "bg-[#B80200] border-[#B80200]"
                             : ""
                         }`}
                       >
@@ -154,7 +154,7 @@ const Featured = () => {
                       </div>
                       <div
                         onClick={() => handleShare(data)}
-                        className={`hover:text-red-500 hover:border-red-500 duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-white cursor-pointer text-white`}
+                        className={`hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-white cursor-pointer text-white`}
                       >
                         <CiShare2 className="w-1/2 h-1/2" />
                       </div>
@@ -165,7 +165,7 @@ const Featured = () => {
                       <h2 className="text-3xl font-bold">
                         ${data?.priceUSD ? data?.priceUSD : "N/A"}
                       </h2>
-                      <span className="block px-2 py-1 rounded bg-red-300 text-white text-xs">
+                      <span className="block px-2 py-1 rounded bg-[#B80200] text-white text-xs">
                         PREMIUM
                       </span>
                     </div>
@@ -199,7 +199,7 @@ const Featured = () => {
                     <div className="flex items-center gap-3 mt-2 md:mt-4">
                       <Link
                         to={`/listing/${data?._id}`}
-                        className="block bg-red-500 text-white text-lg py-1 px-4 rounded"
+                        className="block bg-[#B80200] text-white text-lg py-1 px-4 rounded"
                       >
                         View Details
                       </Link>
@@ -212,7 +212,7 @@ const Featured = () => {
         ) : (
           <>
             <div className="">
-              <h2 className="text-3xl text-red-600 text-center">
+              <h2 className="text-3xl text-[#B80200] text-center">
                 No Result Found
               </h2>
             </div>

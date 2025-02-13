@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import img from "../assets/bg-image/banner-img.jpg";
+// import img from "../assets/bg-image/banner-img.jpg";
+import img from "../assets/bg-image/banner-img-1.png";
 import Translate from "../utils/Translate";
 import { makes } from "../utils/utils";
 
@@ -37,6 +38,7 @@ const BannerSection = () => {
         backgroundImage: `url(${img})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
       }}
     >
       <div
@@ -53,8 +55,8 @@ const BannerSection = () => {
         <div className="text-white text-center md:text-left">
           <h1 className="text-2xl sm:text-4xl md:text-7xl font-bold mb-4 tracking-[-0.04em]">
             <Translate text="The #1 Website" />{" "}
-            <span className="text-red-500">buy</span> &{" "}
-            <span className="text-red-500">sell</span> cars in Syria
+            <span className="text-[#B80200]">buy</span> &{" "}
+            <span className="text-[#B80200]">sell</span> cars in Syria
           </h1>
           <p className="text-base sm:text-lg md:text-2xl font-light">
             Our goal is to meet your needs <br className="hidden sm:block" />{" "}
@@ -84,7 +86,7 @@ const BannerSection = () => {
         </div>
 
         {/* Right Side - Form */}
-        <div className="bg-[#374b5c] shadow-lg rounded-2xl w-full md:w-3/4 p-6 sm:p-8 ml-auto mt-10 md:mt-0">
+        <div className="bg-[#323232fa] shadow-lg rounded-2xl w-full md:w-3/4 p-6 sm:p-8 ml-auto mt-10 md:mt-0">
           <h2 className="text-xl sm:text-2xl font-bold mb-4 text-white text-center">
             Search listings
           </h2>
@@ -92,7 +94,7 @@ const BannerSection = () => {
             <div className="space-y-4">
               <select
                 name="make"
-                className="w-full rounded-lg border-gray-300 hover:border-red-500 px-4 py-3 sm:py-4 text-white bg-transparent"
+                className="w-full rounded-lg border-gray-300 hover:border-[#B80200] px-4 py-3 sm:py-4 text-white !bg-[#323232fa]"
                 onChange={(e) => {
                   const selectedMake = makes.find(
                     (m) => m.value === e.target.value
@@ -114,7 +116,7 @@ const BannerSection = () => {
               </select>
               <select
                 name="model"
-                className="w-full rounded-lg border-gray-300 hover:border-red-500 px-4 py-3 sm:py-4 text-white bg-transparent"
+                className="w-full rounded-lg border-gray-300 hover:border-[#B80200] px-4 py-3 sm:py-4 text-white !bg-[#323232fa]"
                 onChange={(e) => setSerachModel(e.target.value)}
               >
                 <option value="" disabled selected>
@@ -130,7 +132,7 @@ const BannerSection = () => {
 
             <button
               type="submit"
-              className="w-full bg-red-500 hover:bg-red-500 py-3 sm:py-4 rounded-lg text-[#314352] text-lg cursor-pointer"
+              className="w-full bg-[#B80200] hover:bg-[#B80200] py-3 sm:py-4 rounded-lg text-white text-lg cursor-pointer"
             >
               Search
             </button>
