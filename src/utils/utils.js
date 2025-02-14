@@ -1151,7 +1151,7 @@ export const arabicMakes = [
   },
 
   {
-    label: "Alfa Romeo",
+    label: "Alfa Romeo arabic",
     value: "Alfa Romeo",
     models: [
       "147",

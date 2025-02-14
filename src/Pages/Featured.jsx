@@ -16,7 +16,9 @@ const Featured = () => {
     const fetchData = async () => {
       try {
         // Fetch all cars
-        const carRes = await axios.get(`${import.meta.env.VITE_API_URL}/cars`);
+        const carRes = await axios.get(
+          `${import.meta.env.VITE_API_URL}/cars?status=available`
+        );
         setCars(carRes.data.data);
 
         // Fetch the user's wishlist

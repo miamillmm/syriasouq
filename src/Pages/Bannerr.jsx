@@ -3,7 +3,8 @@ import { useNavigate } from "react-router";
 // import img from "../assets/bg-image/banner-img.jpg";
 import img from "../assets/bg-image/banner-img-1.png";
 import Translate from "../utils/Translate";
-import { makes } from "../utils/utils";
+import { arabicMakes, makes } from "../utils/utils";
+import { useTranslation } from "react-i18next";
 
 const BannerSection = () => {
   const navigate = useNavigate();
@@ -30,6 +31,9 @@ const BannerSection = () => {
           label: model,
         })) || []
     : [];
+
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language; // Gets current language
 
   return (
     <div
@@ -115,11 +119,17 @@ const BannerSection = () => {
                 <option value="" disabled selected>
                   <Translate text={"-- Make --"} />
                 </option>
-                {makes.map((make) => (
-                  <>
-                    <option value={make.value}>{make.label}</option>
-                  </>
-                ))}
+                {currentLanguage === "ar"
+                  ? arabicMakes.map((make) => (
+                      <option key={make.value} value={make.value}>
+                        {make.label}
+                      </option>
+                    ))
+                  : makes.map((make) => (
+                      <option key={make.value} value={make.value}>
+                        {make.label}
+                      </option>
+                    ))}
               </select>
               <select
                 name="model"
