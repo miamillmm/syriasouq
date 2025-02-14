@@ -6,6 +6,7 @@ import img1 from "../assets/icon/service_1.png";
 import img2 from "../assets/icon/service_2.png";
 import img3 from "../assets/icon/service_3.png";
 import img4 from "../assets/icon/service_4.png";
+import Translate from "../utils/Translate";
 
 const BestCar = () => {
   return (
@@ -32,9 +33,15 @@ const BestCar = () => {
           </button> */}
           <div className="text-white">
             <h1 className="text-2xl md:text-5xl lg:text-7xl font-[700] mb-4 tracking-[-0.05em]">
-              Everything <span className="text-[#B80200]">you need</span>
+              <Translate text={"Everything"} />{" "}
+              <span className="text-[#B80200]">
+                <Translate text={"you need"} />
+              </span>
               <br />
-              in <span className="text-[#B80200]">SyriaSouq</span>
+              <Translate text={"in"} />{" "}
+              <span className="text-[#B80200]">
+                <Translate text={"SyriaSouq"} />
+              </span>
             </h1>
           </div>
         </div>
@@ -44,10 +51,10 @@ const BestCar = () => {
               <img src={img1} alt="image-1" className="w-8 h-8" />
             </div>
             <h2 className="text-lg md:text-[24px] font-[700] leading-none text-[#F3F4F6]">
-              Huge cars inventory
+              <Translate text={"Huge cars inventory"} />
             </h2>
             <p className="text-sm md:text-base text-[#9AA4AD] leading-none">
-              There are hundreds of options
+              <Translate text={"There are hundreds of options"} />
             </p>
           </div>
           <div className="w-full h-auto bg-[#323232fa] py-8 px-6 text-center space-y-3 rounded">
@@ -55,10 +62,10 @@ const BestCar = () => {
               <img src={img2} alt="image-2" className="w-8 h-8" />
             </div>
             <h2 className="text-lg md:text-[24px] font-[700] leading-none text-[#F3F4F6]">
-              A Trusted Syrian Website
+              <Translate text={"A Trusted Syrian Website"} />
             </h2>
             <p className="text-sm md:text-base text-[#9AA4AD] leading-none">
-              Syrian owned website for the people
+              <Translate text={"Syrian owned website for the people"} />
             </p>
           </div>
           <div className="w-full h-auto bg-[#323232fa] py-8 px-6 text-center space-y-3 rounded">
@@ -66,11 +73,14 @@ const BestCar = () => {
               <img src={img3} alt="image-3" className="w-8 h-8" />
             </div>
             <h2 className="text-lg md:text-[24px] font-[700] leading-none text-[#F3F4F6]">
-              Account protected
+              <Translate text={"Account protected"} />
             </h2>
             <p className="text-sm md:text-base text-[#9AA4AD] leading-none">
-              To post an advertisement each account is checked through safety &
-              security
+              <Translate
+                text={
+                  "To post an advertisement each account is checked through safety & security"
+                }
+              />
             </p>
           </div>
           <div className="w-full h-auto bg-[#323232fa] py-8 px-6 text-center space-y-3 rounded">
@@ -78,10 +88,14 @@ const BestCar = () => {
               <img src={img4} alt="image-4" className="w-8 h-8" />
             </div>
             <h2 className="text-lg md:text-[24px] font-[700] leading-none text-[#F3F4F6]">
-              Transactions Seller to Client
+              <Translate text={"Transactions Seller to Client"} />
             </h2>
             <p className="text-sm md:text-base text-[#9AA4AD] leading-none">
-              Easy transactions and communication between client & seller
+              <Translate
+                text={
+                  "Easy transactions and communication between client & seller"
+                }
+              />
             </p>
           </div>
         </div>

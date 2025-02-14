@@ -16,6 +16,7 @@ import { MdErrorOutline, MdOutlinePhone } from "react-icons/md";
 import Breadcrumb from "./Breadcumb";
 import FeaturedCard from "./FeaturedCard";
 import MoreFromUser from "./MoreFromUser";
+import Translate from "../utils/Translate";
 
 const CarDetails = () => {
   const { id } = useParams();
@@ -137,7 +138,7 @@ const CarDetails = () => {
           <div className="lg:col-span-8 min-h-screen">
             <div className="space-y-5 bg-white shadow rounded-lg p-6">
               <p className="text-gray-500 text-sm flex items-center gap-2">
-                <span>🕒</span> 3 years ago
+                <span>🕒</span> <Translate text={carDetails?.year} />
               </p>
               <h1 className="text-2xl text-[#314352] font-bold mt-2">
                 {carDetails?.make}
@@ -150,55 +151,77 @@ const CarDetails = () => {
             {/* Car Information */}
             <div className="p-6">
               <h2 className="text-2xl pb-4 text-[#314352] font-semibold">
-                Information:
+                <Translate text={"Information:"} />
               </h2>
               <div className="grid grid-cols-2 gap-y-2 text-[#314352]">
-                <p className="font-semibold">Make:</p>
+                <p className="font-semibold">
+                  <Translate text={"Make:"} />
+                </p>
                 <p>{carDetails?.make}</p>
 
-                <p className="font-semibold">Model:</p>
+                <p className="font-semibold">
+                  <Translate text={"Model:"} />
+                </p>
                 <p>{carDetails?.model}</p>
 
-                <p className="font-semibold">Price:</p>
+                <p className="font-semibold">
+                  <Translate text={"Price:"} />
+                </p>
                 <p>${carDetails?.priceUSD}</p>
 
-                <p className="font-semibold">Kilometer:</p>
-                <p>{carDetails?.kilometer} km</p>
+                <p className="font-semibold">
+                  <Translate text={"Kilometer:"} />
+                </p>
+                <p>
+                  {carDetails?.kilometer} <Translate text={"km"} />
+                </p>
               </div>
             </div>
 
             {/* car details  */}
             <div className="space-y-5 bg-white shadow rounded-lg p-6">
               <h1 className="text-2xl text-[#314352] font-bold mt-2">
-                Description:
+                <Translate text={"Description:"} />
               </h1>
               <p className="text-[#314352] mt-2 mb-5">
                 {carDetails?.description}
               </p>
               <span className="border-t pt-5 border-gray-400 font-bold text-gray-400 mb-2 inline-block">
-                Related
+                <Translate text={"Related"} />
               </span>
               <div className="flex justify-between items-center w-full">
                 <div className="w-1/3">
                   <h3 className="text-[#B80200] relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-red-500 after:transition-all after:duration-500 after:ease-in-out hover:after:w-full">
-                    Maserati GranCabrio
+                    <Translate text={"Maserati GranCabrio"} />
                   </h3>
-                  <h4 className="text-gray-400">19/06/2022</h4>
-                  <h4 className="text-gray-400">Similar post</h4>
+                  <h4 className="text-gray-400">
+                    <Translate text={"19/06/2022"} />
+                  </h4>
+                  <h4 className="text-gray-400">
+                    <Translate text={"Similar post"} />
+                  </h4>
                 </div>
                 <div className="w-1/3 text-left">
                   <h3 className="text-[#B80200] relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-red-500 after:transition-all after:duration-500 after:ease-in-out hover:after:w-full">
-                    Ferrari F8 Tributo
+                    <Translate text={"Ferrari F8 Tributo"} />
                   </h3>
-                  <h4 className="text-gray-400">17/06/2022</h4>
-                  <h4 className="text-gray-400">Similar post</h4>
+                  <h4 className="text-gray-400">
+                    <Translate text={"17/06/2022"} />
+                  </h4>
+                  <h4 className="text-gray-400">
+                    <Translate text={"Similar post"} />
+                  </h4>
                 </div>
                 <div className="w-1/3 ">
                   <h3 className="text-[#B80200] relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-red-500 after:transition-all after:duration-500 after:ease-in-out hover:after:w-full">
-                    Lamborghini Aventador S
+                    <Translate text={"Lamborghini Aventador S"} />
                   </h3>
-                  <h4 className="text-gray-400">18/06/2022</h4>
-                  <h4 className="text-gray-400">Similar post</h4>
+                  <h4 className="text-gray-400">
+                    <Translate text={"18/06/2022"} />
+                  </h4>
+                  <h4 className="text-gray-400">
+                    <Translate text={"Similar post"} />
+                  </h4>
                 </div>
               </div>
             </div>
@@ -214,11 +237,14 @@ const CarDetails = () => {
                 </div>
               </div> */}
               <div className="w-12 h-12 rounded-full bg-red-300 text-center flex items-center justify-center font-bold text-xl">
-                {(() => {
-                  const firstLetter =
-                    carDetails?.user?.username?.charAt(0).toUpperCase() || "?";
-                  return firstLetter;
-                })()}
+                <Translate
+                  text={(() => {
+                    const firstLetter =
+                      carDetails?.user?.username?.charAt(0).toUpperCase() ||
+                      "?";
+                    return firstLetter;
+                  })()}
+                />
               </div>
               <div className="space-y-2">
                 <Link to={`/dashboard?uid=${user?._id}`}>
@@ -262,7 +288,7 @@ const CarDetails = () => {
                 rel="noopener noreferrer"
                 className="w-full bg-[#25D366] text-white py-4 px-8 font-semibold rounded-md flex items-center justify-center gap-2 cursor-pointer"
               >
-                <FaWhatsapp /> Chat on WhatsApp
+                <FaWhatsapp /> <Translate text={"Chat on WhatsApp"} />
               </a>
             </div>
 
@@ -283,7 +309,9 @@ const CarDetails = () => {
             {/* error  */}
             <div className="flex justify-center items-center my-8 gap-2 text-xl text-[#B80200] cursor-pointer">
               <MdErrorOutline />
-              <h2>Report abuse</h2>
+              <h2>
+                <Translate text={"Report abuse"} />
+              </h2>
             </div>
 
             <FeaturedCard />

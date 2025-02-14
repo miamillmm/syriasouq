@@ -1,4 +1,5 @@
 import React from "react";
+import Translate from "../utils/Translate";
 
 const FeaturesSection = ({ selectedFeatures, setSelectedFeatures }) => {
   const features = [
@@ -40,7 +41,7 @@ const FeaturesSection = ({ selectedFeatures, setSelectedFeatures }) => {
     <div className="p-6 ">
       <div className="flex items-center w-full mb-5 pl-5">
         <h2 className="text-2xl font-bold text-[#314252] whitespace-nowrap">
-          Features
+          <Translate text={"Features"} />
         </h2>
         <div className="flex-1 border-t border-gray-300 border-dashed mx-2"></div>
         <button className="text-gray-400 hover:text-gray-600">▼</button>
@@ -88,7 +89,7 @@ const FeaturesSection = ({ selectedFeatures, setSelectedFeatures }) => {
                   : "text-[#314352]"
               }`}
             >
-              {feature}
+              <Translate text={feature} />
             </span>
           </label>
         ))}

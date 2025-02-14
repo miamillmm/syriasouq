@@ -3,6 +3,7 @@ import { IoLocationSharp } from "react-icons/io5";
 import LanguageSwitcher from "../utils/LanguageSwitcher";
 import { LuMapPin } from "react-icons/lu";
 import { CiAt } from "react-icons/ci";
+import Translate from "../utils/Translate";
 
 const Footer = () => {
   return (
@@ -12,9 +13,11 @@ const Footer = () => {
           <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 px-6 text-center md:text-left">
             {/* Company Section */}
             <div className="space-y-1">
-              <h3 className="font-bold text-2xl">company</h3>
+              <h3 className="font-bold text-2xl">
+                <Translate text={"company"} />
+              </h3>
               <p className="text-gray-300 text-sm flex justify-center md:justify-start items-center gap-2">
-                <LuMapPin /> Damascus, Syria
+                <LuMapPin /> <Translate text={"Damascus, Syria"} />
               </p>
               <p className="text-gray-300 text-sm flex justify-center md:justify-start items-center gap-2">
                 <CiAt /> syriasouq.shop@outlook.com
@@ -23,14 +26,16 @@ const Footer = () => {
 
             {/* Useful Links */}
             <div>
-              <h3 className="font-bold mb-3">useful links</h3>
+              <h3 className="font-bold mb-3">
+                <Translate text={"useful links"} />
+              </h3>
               <ul className="space-y-1">
                 <li>
                   <a
                     href="/about"
                     className="text-red-500 hover:underline font-bold"
                   >
-                    About us
+                    <Translate text={"About us"} />
                   </a>
                 </li>
                 <li>
@@ -38,7 +43,7 @@ const Footer = () => {
                     href="/term-and-use"
                     className="text-red-500 hover:underline font-bold"
                   >
-                    Terms of Use
+                    <Translate text={"Terms of Use"} />
                   </a>
                 </li>
                 <li>
@@ -46,7 +51,7 @@ const Footer = () => {
                     href="/privacy-policy"
                     className="text-red-500 hover:underline font-bold"
                   >
-                    Privacy Policy
+                    <Translate text={"Privacy Policy"} />
                   </a>
                 </li>
               </ul>
@@ -54,14 +59,16 @@ const Footer = () => {
 
             {/* Get Social */}
             <div>
-              <h3 className="font-bold mb-3">get social</h3>
+              <h3 className="font-bold mb-3">
+                <Translate text={"get social"} />
+              </h3>
               <ul className="space-y-1">
                 <li>
                   <a
                     href="#"
                     className="text-red-500 hover:underline font-bold"
                   >
-                    facebook
+                    <Translate text={"facebook"} />
                   </a>
                 </li>
                 <li>
@@ -69,7 +76,7 @@ const Footer = () => {
                     href="#"
                     className="text-red-500 hover:underline font-light"
                   >
-                    twitter
+                    <Translate text={"twitter"} />
                   </a>
                 </li>
                 <li>
@@ -77,7 +84,7 @@ const Footer = () => {
                     href="#"
                     className="text-red-500 hover:underline font-light"
                   >
-                    instagram
+                    <Translate text={"instagram"} />
                   </a>
                 </li>
               </ul>
@@ -85,20 +92,24 @@ const Footer = () => {
 
             {/* Support */}
             <div>
-              <h3 className="font-bold mb-3">support</h3>
+              <h3 className="font-bold mb-3">
+                <Translate text={"support"} />
+              </h3>
               <a
                 href="/contact"
                 className="text-red-500 hover:underline font-light"
               >
-                contact us
+                <Translate text={"contact us"} />
               </a>
             </div>
 
             {/* Languages */}
             <div>
-              <h3 className="font-bold mb-3">languages</h3>
+              <h3 className="font-bold mb-3">
+                <Translate text={"languages"} />
+              </h3>
               <a href="#" className="text-red-500 hover:underline font-light">
-                arabic (arabic language)
+                <Translate text={"arabic (arabic language)"} />
               </a>
             </div>
           </div>
@@ -106,7 +117,8 @@ const Footer = () => {
         <footer className="footer sm:footer-horizontal footer-center text-gray-300 bg-[#272727fa] p-4">
           <aside>
             <p>
-              &copy; {new Date().getFullYear()} SyriaSouq - All rights reserved.
+              &copy; {new Date().getFullYear()}{" "}
+              <Translate text={"SyriaSouq - All rights reserved."} />
             </p>
           </aside>
         </footer>

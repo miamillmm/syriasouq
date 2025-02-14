@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
 import avatar from "../assets/images/avatar/photo.png";
 import logo from "../assets/images/logo/logo.png";
+import Translate from "../utils/Translate";
 
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -62,7 +63,7 @@ const Navbar = () => {
 
         <Link to={"/addlisting"} className="block md:hidden">
           <button className="bg-[#B80200] text-[#314352] px-2 py-1 rounded-md  cursor-pointer text-xs">
-            Add Listing <span>+</span>
+            <Translate text={"Add Listing"} /> <span>+</span>
           </button>
         </Link>
 
@@ -88,7 +89,7 @@ const Navbar = () => {
                   <span className="absolute left-[-20px] opacity-0 group-hover:opacity-100 group-hover:translate-x-2.5 transition-all duration-500 ease-in-out">
                     •
                   </span>
-                  Home
+                  <Translate text={"Home"} />
                 </NavLink>
               </li>
               <li className="relative group">
@@ -97,7 +98,7 @@ const Navbar = () => {
                     <span className="absolute left-[-20px] opacity-0 group-hover:opacity-100 group-hover:translate-x-2.5 transition-all duration-500 ease-in-out">
                       •
                     </span>
-                    Page
+                    <Translate text={"Page"} />
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -122,7 +123,7 @@ const Navbar = () => {
                         to="/about"
                         className="hover:text-[#B80200] duration-500 text-[18px] font-[500]"
                       >
-                        About Us
+                        <Translate text={"About Us"} />
                       </NavLink>
                     </li>
                     <li>
@@ -130,7 +131,7 @@ const Navbar = () => {
                         to="/contact"
                         className="hover:text-[#B80200] duration-500 text-[18px] font-[500]"
                       >
-                        Contact
+                        <Translate text={"Contact"} />
                       </NavLink>
                     </li>
                     <li>
@@ -139,14 +140,14 @@ const Navbar = () => {
                           to="/dashboaard"
                           className="hover:text-[#B80200] duration-500 text-[18px] font-[500]"
                         >
-                          Listing
+                          <Translate text={"Listing"} />
                         </NavLink>
                       ) : (
                         <NavLink
                           to="/login-and-register"
                           className="hover:text-[#B80200] duration-500 text-[18px] font-[500]"
                         >
-                          Login/Register
+                          <Translate text={"Login/Register"} />
                         </NavLink>
                       )}
                     </li>
@@ -160,7 +161,7 @@ const Navbar = () => {
             {/* Currency Dropdown */}
             <div className="dropdown dropdown-hover">
               <button className="hover:text-[#B80200] duration-500 text-[18px] font-[500] cursor-pointer flex items-center">
-                SYP
+                <Translate text={"SYP"} />
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -181,10 +182,14 @@ const Navbar = () => {
                 className="dropdown-content menu text-black hover:text-[#B80200] text-[18px] font-[500] bg-base-100 rounded-box z-10 w-32 mt-10 p-2 shadow-sm"
               >
                 <li>
-                  <NavLink to="/about">USD</NavLink>
+                  <NavLink to="/about">
+                    <Translate text={"USD"} />
+                  </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/contact">SYP</NavLink>
+                  <NavLink to="/contact">
+                    <Translate text={"SYP"} />
+                  </NavLink>
                 </li>
               </ul>
             </div>
@@ -196,11 +201,13 @@ const Navbar = () => {
                   <Link to={"/dashboard"}>
                     <div className="w-10 rounded-full h-10 bg-teal-400 !flex items-center justify-center font-black text-lg">
                       {/* <img src={avatar} alt="avatar" /> */}
-                      {(() => {
-                        const firstLetter =
-                          user?.username?.charAt(0).toUpperCase() || "?";
-                        return firstLetter;
-                      })()}
+                      <Translate
+                        text={(() => {
+                          const firstLetter =
+                            user?.username?.charAt(0).toUpperCase() || "?";
+                          return firstLetter;
+                        })()}
+                      />
                     </div>
                   </Link>
                 </div>
@@ -213,7 +220,7 @@ const Navbar = () => {
                 onClick={handleLogout}
                 className="cursor-pointer text-[#B80200]"
               >
-                Logout
+                <Translate text={"Logout"} />
               </button>
             )}
             {!user && (
@@ -222,14 +229,14 @@ const Navbar = () => {
                   to="/login-and-register"
                   className="hover:text-[#B80200] text-[18px] font-[500] duration-500"
                 >
-                  Login
+                  <Translate text={"Login"} />
                 </Link>
                 <span className="border-r border-gray-300 h-6"></span>
                 <Link
                   to="/login-and-register"
                   className="hover:text-[#B80200] text-[18px] font-[500] duration-500"
                 >
-                  Register
+                  <Translate text={"Register"} />
                 </Link>
               </>
             )}
@@ -237,7 +244,7 @@ const Navbar = () => {
             {/* Add Listing Button */}
             <NavLink to="/addlisting">
               <button className="bg-[#B80200] px-4 py-2 rounded-md  cursor-pointer text-white">
-                Add Listing <span>+</span>
+                <Translate text={"Add Listing"} /> <span>+</span>
               </button>
             </NavLink>
             {/* <button className="bg-red-500 text-[#314352] text-[18px] font-light px-4 py-2 rounded-md cursor-pointer">
@@ -279,19 +286,21 @@ const Navbar = () => {
             <ul className="space-y-4">
               <li>
                 <NavLink to="/" className="block hover:text-[#B80200]">
-                  Home
+                  <Translate text={"Home"} />
                 </NavLink>
               </li>
               <li>
                 <div className="dropdown">
-                  <button className="hover:text-[#B80200]">Page</button>
+                  <button className="hover:text-[#B80200]">
+                    <Translate text={"Page"} />
+                  </button>
                   <ul className="ml-4 mt-2 space-y-2">
                     <li>
                       <NavLink
                         to="/about"
                         className="block hover:text-[#B80200]"
                       >
-                        About Us
+                        <Translate text={"About Us"} />
                       </NavLink>
                     </li>
                     <li>
@@ -299,7 +308,7 @@ const Navbar = () => {
                         to="/contact"
                         className="block hover:text-[#B80200]"
                       >
-                        Contact
+                        <Translate text={"Contact"} />
                       </NavLink>
                     </li>
                     <li>
@@ -307,7 +316,7 @@ const Navbar = () => {
                         to="/login-and-register"
                         className="block hover:text-[#B80200]"
                       >
-                        Login/Register
+                        <Translate text={"Login/Register"} />
                       </NavLink>
                     </li>
                   </ul>
@@ -316,7 +325,7 @@ const Navbar = () => {
               <li>
                 <NavLink to="/addlisting">
                   <button className="bg-[#B80200] px-4 py-2 text-white rounded-md hover:bg-[#B80200] cursor-pointer">
-                    Add Listing
+                    <Translate text={"Add Listing"} />
                   </button>
                 </NavLink>
               </li>

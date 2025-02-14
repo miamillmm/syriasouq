@@ -4,6 +4,7 @@ import { AiOutlineDashboard } from "react-icons/ai";
 import { CiCalendar, CiHeart, CiLocationOn, CiShare2 } from "react-icons/ci";
 import { TiArrowRight } from "react-icons/ti";
 import { Link } from "react-router";
+import Translate from "../utils/Translate";
 
 const Featured = () => {
   const [cars, setCars] = useState([]);
@@ -103,19 +104,19 @@ const Featured = () => {
       <div className="header flex flex-col md:flex-row justify-between flex-wrap items-center mb-12">
         <div className="space-y-4 text-center md:text-left">
           <button className="text-[12px] sm:text-[14px] font-[400] text-gray-500 bg-gray-100 py-2 px-4 rounded cursor-pointer">
-            Handy picked
+            <Translate text={"Handy picked"} />
           </button>
           <h2 className="text-[28px] sm:text-[36px] font-bold text-[#314352]">
-            Featured listings
+            <Translate text={"Featured listings"} />
           </h2>
         </div>
         <div className="flex gap-4 mt-6 md:mt-0">
           <button className="text-[14px] sm:text-[16px] font-[400] text-white bg-[#4b4b4bfa] py-3 sm:py-4 px-6 sm:px-8 rounded cursor-pointer">
-            All
+            <Translate text={"All"} />
           </button>
           <Link to={"/search"}>
             <button className="bg-[#B80200] text-white text-[16px] sm:text-[18px] font-[400] justify-between py-3 sm:py-4 px-8 sm:px-12 rounded-md flex items-center gap-2 cursor-pointer">
-              View All
+              <Translate text={"View All"} />
               <span>
                 <TiArrowRight />
               </span>
@@ -163,37 +164,37 @@ const Featured = () => {
                   <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
                     <div className="flex items-center justify-between gap-2">
                       <h2 className="text-3xl font-bold">
-                        ${data?.priceUSD ? data?.priceUSD : "N/A"}
+                        ${data?.priceUSD ? data?.priceUSD : "آخر"}
                       </h2>
                       <span className="block px-2 py-1 rounded bg-[#B80200] text-white text-xs">
-                        PREMIUM
+                        <Translate text={"PREMIUM"} />
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
                       <h2 className="text-lg">
-                        {data?.make ? data?.make : "N/A"}
+                        {data?.make ? data?.make : "آخر"}
                       </h2>
                       <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
                       <h2 className="text-lg">
-                        {data?.model ? data?.model : "N/A"}
+                        {data?.model ? data?.model : "آخر"}
                       </h2>
                     </div>
                     <div className="flex items-center gap-3">
                       <div className="flex items-center gap-1 text-xl">
                         <CiCalendar />
-                        <span>{data?.year ? data?.year : "N/A"}</span>
+                        <span>{data?.year ? data?.year : "آخر"}</span>
                       </div>
                       <div className="flex items-center gap-1 text-xl">
                         <AiOutlineDashboard />
                         <span>
-                          {data?.kilometer ? data?.kilometer : "N/A"} km
+                          {data?.kilometer ? data?.kilometer : "آخر"} km
                         </span>
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
                       <div className="flex items-center gap-1 text-xl">
                         <CiLocationOn />
-                        <span>{data?.location ? data?.location : "N/A"}</span>
+                        <span>{data?.location ? data?.location : "آخر"}</span>
                       </div>
                     </div>
                     <div className="flex items-center gap-3 mt-2 md:mt-4">
@@ -201,7 +202,7 @@ const Featured = () => {
                         to={`/listing/${data?._id}`}
                         className="block bg-[#B80200] text-white text-lg py-1 px-4 rounded"
                       >
-                        View Details
+                        <Translate text={"View Details"} />
                       </Link>
                     </div>
                   </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import { AiOutlineClose, AiOutlineCloudUpload } from "react-icons/ai";
+import Translate from "../utils/Translate";
 
 const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
   // Handle file upload
@@ -40,7 +41,7 @@ const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
     <div>
       <div className="flex items-center w-full mb-5 pl-5">
         <h2 className="text-2xl font-bold text-[#314252] whitespace-nowrap">
-          Galary *
+          <Translate text={"Galary"} /> *
         </h2>
         <div className="flex-1 border-t border-gray-300 border-dashed mx-2"></div>
         <button className="text-gray-400 hover:text-gray-600">▼</button>
@@ -59,8 +60,10 @@ const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
           >
             <AiOutlineCloudUpload className="text-4xl text-gray-400" />
             <p className="text-gray-600">
-              <span className="text-[#B80200]">Choose images</span> or drag it
-              here
+              <span className="text-[#B80200]">
+                <Translate text={"Choose images"} />
+              </span>{" "}
+              <Translate text={"or drag it here"} />
             </p>
             <input
               id="file-input"
@@ -111,7 +114,7 @@ const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
                   }}
                 >
                   <AiOutlineCloudUpload className="mr-1" />
-                  Add More Images
+                  <Translate text={"Add More Images"} />
                 </button>
                 <input
                   id="file-input"

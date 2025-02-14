@@ -5,7 +5,7 @@ import axios from "axios";
 const translationCache = {}; // Cache translations
 
 export const useTranslate = (text) => {
-  const { i18n } = useTranslation(); // Get selected language
+  const { t, i18n } = useTranslation(); // Get selected language & translation function
   const [translatedText, setTranslatedText] = useState(text);
 
   useEffect(() => {
@@ -15,13 +15,20 @@ export const useTranslate = (text) => {
       return;
     }
 
+    // 🔹 First, check manual translations from locales
+    const manualTranslation = t(text, { defaultValue: text });
+    if (manualTranslation !== text) {
+      setTranslatedText(manualTranslation);
+      return;
+    }
+
     const cacheKey = `${text}-${targetLang}`;
     if (translationCache[cacheKey]) {
       setTranslatedText(translationCache[cacheKey]); // Use cached translation
       return;
     }
 
-    // Google Translate API URL (Unofficial Free API)
+    // 🔥 Fallback: Use Google Translate API for automatic translation
     const GOOGLE_TRANSLATE_URL = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLang}&dt=t&q=${encodeURIComponent(
       text
     )}`;

@@ -7,6 +7,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import Translate from "../utils/Translate";
 
 const cars = [
   {
@@ -106,11 +107,11 @@ export default function MoreFromUser({ title, button, uid }) {
     <div className="w-full py-10 relative">
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
         <h2 className="sm:text-3xl text-2xl text-[#314252] font-bold">
-          {title}
+          <Translate text={title} />
         </h2>
         <div className="flex items-center gap-2 mt-4 sm:mt-0">
           <button className="bg-[#B80200] px-4 py-2 rounded-md text-white cursor-pointer">
-            {button}
+            <Translate text={button} />
           </button>
           <button
             onClick={() => swiperRef.current?.slidePrev()}

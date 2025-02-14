@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router";
+import Translate from "../utils/Translate";
 
 const Breadcrumb = ({ carname }) => {
   return (
@@ -7,18 +8,20 @@ const Breadcrumb = ({ carname }) => {
       <ol className="flex items-center space-x-2">
         <li>
           <Link to="/" className="text-gray-800 hover:text-red-500">
-            Home
+            <Translate text="Home" />
           </Link>
         </li>
         <li className="text-red-400">›</li>
         <li>
           <Link to="/listing" className="text-gray-800 hover:text-red-500">
             {" "}
-            Search Results
+            <Translate text={"Search Results"} />
           </Link>
         </li>
         <li className="text-red-400">›</li>
-        <li className="text-gray-900 font-semibold">{carname}</li>
+        <li className="text-gray-900 font-semibold">
+          <Translate text={carname} />
+        </li>
       </ol>
     </nav>
   );

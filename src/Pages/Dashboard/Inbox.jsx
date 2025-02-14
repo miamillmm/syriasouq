@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { FiSend } from "react-icons/fi";
 import { io } from "socket.io-client";
+import Translate from "../../utils/Translate";
 
 // const socket = io(import.meta.env.VITE_API_URL);
 const socket = io("http://localhost:5001");
@@ -227,7 +228,7 @@ const Inbox = () => {
       {/* Sidebar */}
       <div className="w-1/3 bg-white shadow-lg rounded-lg p-4 overflow-y-auto">
         <h2 className="text-xl font-semibold mb-4 text-gray-800">
-          Messages 💬
+          <Translate text={"Messages 💬"} />
         </h2>
 
         {/* Search Bar */}
@@ -243,7 +244,9 @@ const Inbox = () => {
         </div> */}
 
         {/* List of Conversations */}
-        <h3 className="text-lg font-semibold text-gray-800">Recent Chats</h3>
+        <h3 className="text-lg font-semibold text-gray-800">
+          <Translate text={"Recent Chats"} />
+        </h3>
         {conversations.map((chat) => (
           <div
             key={chat.id}
@@ -341,7 +344,11 @@ const Inbox = () => {
                   </div>
                 </>
               ))}
-              {isTyping && <p className="text-gray-500">User is typing...</p>}
+              {isTyping && (
+                <p className="text-gray-500">
+                  <Translate text={"User is typing..."} />
+                </p>
+              )}
             </div>
 
             {/* Chat Input */}

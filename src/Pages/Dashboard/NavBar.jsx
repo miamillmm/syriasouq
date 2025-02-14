@@ -1,4 +1,5 @@
 import { Link, useLocation } from "react-router";
+import Translate from "../../utils/Translate";
 
 const Navbar = () => {
   const location = useLocation();
@@ -21,7 +22,7 @@ const Navbar = () => {
                     : "hover:border-b-2 hover:border-[#B80200]"
                 }`}
               >
-                {labels[index]}
+                <Translate text={labels[index]} />
               </Link>
             );
           }

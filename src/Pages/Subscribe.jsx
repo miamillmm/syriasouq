@@ -3,6 +3,7 @@ import { IoIosAt } from "react-icons/io";
 import { TiArrowRight } from "react-icons/ti";
 // import bgImg from "../assets/bg-image/car_bg.jpg";
 import bgImg from "../assets/bg-image/car_bg-1.jpeg";
+import Translate from "../utils/Translate";
 
 const Subscribe = () => {
   return (
@@ -24,21 +25,23 @@ const Subscribe = () => {
       <div className="z-10 w-full">
         <div className="md:w-2/3 mx-auto text-center mb-8 md:mb-14 space-y-5 md:space-y-7">
           <button className="text-sm md:text-[14px] font-[400] text-white bg-[#374b5c] py-2 px-3 md:px-4 rounded cursor-pointer">
-            Subscribe
+            <Translate text={"Subscribe"} />
           </button>
           <div className="text-white">
             <h2 className="text-xl md:text-7xl font-[700] mb-3 md:mb-4 tracking-[-0.05em]">
-              Sign up to receive
+              <Translate text={"Sign up to receive"} />
               <span className="text-[#B80200] block md:inline">
-                <br className="hidden md:block" /> the latest
+                <br className="hidden md:block" />{" "}
+                <Translate text={"the latest"} />
               </span>{" "}
-              news
+              <Translate text={"news"} />
             </h2>
           </div>
           <div className="text-white">
             <p className="text-base md:text-[16px] font-[400] mb-4 leading-6 md:leading-7">
-              All you need to know about
-              <br className="hidden md:block" /> everything that matters
+              <Translate text={"All you need to know about"} />
+              <br className="hidden md:block" />{" "}
+              <Translate text={"everything that matters"} />
             </p>
           </div>
           <div className="w-full md:w-3/4 h-auto bg-[#374b5c] mx-auto rounded-lg md:rounded-tl-lg md:rounded-bl-lg md:rounded-tr-full md:rounded-br-full flex flex-col md:flex-row justify-between gap-4 md:gap-5 p-3">
