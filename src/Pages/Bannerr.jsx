@@ -9,6 +9,9 @@ import { useTranslation } from "react-i18next";
 const BannerSection = () => {
   const navigate = useNavigate();
 
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language; // Gets current language
+
   const [searchMake, setSerachMake] = useState(null);
   const [make, setMake] = useState(null);
   const [searchModel, setSerachModel] = useState(null);
@@ -23,17 +26,24 @@ const BannerSection = () => {
     }
   };
 
-  const modelOptions = make
-    ? makes
-        .find((m) => m.value === make.value)
-        ?.models.map((model) => ({
-          value: model,
-          label: model,
-        })) || []
-    : [];
-
-  const { i18n } = useTranslation();
-  const currentLanguage = i18n.language; // Gets current language
+  const modelOptions =
+    currentLanguage === "ar"
+      ? make
+        ? arabicMakes
+            .find((m) => m.value === make.value)
+            ?.models.map((model) => ({
+              value: model,
+              label: model,
+            })) || []
+        : []
+      : make
+      ? makes
+          .find((m) => m.value === make.value)
+          ?.models.map((model) => ({
+            value: model,
+            label: model,
+          })) || []
+      : [];
 
   return (
     <div
@@ -117,7 +127,7 @@ const BannerSection = () => {
                 }}
               >
                 <option value="" disabled selected>
-                  <Translate text={"-- Make --"} />
+                  {currentLanguage === "ar" ? "-- النوع --" : "-- Make --"}
                 </option>
                 {currentLanguage === "ar"
                   ? arabicMakes.map((make) => (
@@ -137,7 +147,7 @@ const BannerSection = () => {
                 onChange={(e) => setSerachModel(e.target.value)}
               >
                 <option value="" disabled selected>
-                  <Translate text={"-- Model --"} />
+                  {currentLanguage === "ar" ? "-- الموديل --" : "-- Model --"}
                 </option>
                 {modelOptions.map((model) => (
                   <>

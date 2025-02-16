@@ -4,8 +4,12 @@ import { TiArrowRight } from "react-icons/ti";
 // import bgImg from "../assets/bg-image/car_bg.jpg";
 import bgImg from "../assets/bg-image/car_bg-1.jpeg";
 import Translate from "../utils/Translate";
+import { useTranslation } from "react-i18next";
 
 const Subscribe = () => {
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language; // Gets current language
+
   return (
     <div
       className="relative px-4 md:px-26 py-16 flex justify-center h-screen"
@@ -29,12 +33,18 @@ const Subscribe = () => {
           </button>
           <div className="text-white">
             <h2 className="text-xl md:text-7xl font-[700] mb-3 md:mb-4 tracking-[-0.05em]">
-              <Translate text={"Sign up to receive"} />
-              <span className="text-[#B80200] block md:inline">
-                <br className="hidden md:block" />{" "}
-                <Translate text={"the latest"} />
-              </span>{" "}
-              <Translate text={"news"} />
+              <Translate text={""} />
+              {currentLanguage === "ar" ? (
+                <>إشترك لتلقي آخر الأخبار</>
+              ) : (
+                <>
+                  Sign up to receive{" "}
+                  <span className="text-[#B80200] block md:inline">
+                    <br className="hidden md:block" /> the latest{" "}
+                  </span>
+                  news
+                </>
+              )}
             </h2>
           </div>
           <div className="text-white">

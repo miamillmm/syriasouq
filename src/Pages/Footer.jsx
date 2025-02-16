@@ -4,8 +4,12 @@ import LanguageSwitcher from "../utils/LanguageSwitcher";
 import { LuMapPin } from "react-icons/lu";
 import { CiAt } from "react-icons/ci";
 import Translate from "../utils/Translate";
+import { useTranslation } from "react-i18next";
 
 const Footer = () => {
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language; // Gets current language
+
   return (
     <>
       <div>
@@ -68,7 +72,7 @@ const Footer = () => {
                     href="#"
                     className="text-red-500 hover:underline font-bold"
                   >
-                    <Translate text={"facebook"} />
+                    {currentLanguage === "ar" ? "فيسبوك" : "facebook"}
                   </a>
                 </li>
                 <li>
@@ -76,7 +80,7 @@ const Footer = () => {
                     href="#"
                     className="text-red-500 hover:underline font-light"
                   >
-                    <Translate text={"twitter"} />
+                    {currentLanguage === "ar" ? "تويتر" : "twitter"}
                   </a>
                 </li>
                 <li>
@@ -84,7 +88,7 @@ const Footer = () => {
                     href="#"
                     className="text-red-500 hover:underline font-light"
                   >
-                    <Translate text={"instagram"} />
+                    {currentLanguage === "ar" ? "انستاغرام" : "instagram"}
                   </a>
                 </li>
               </ul>

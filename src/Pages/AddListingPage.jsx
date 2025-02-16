@@ -340,7 +340,7 @@ const AddListingPage = () => {
             <label className="w-full">
               <div className="mb-2 px-3">
                 <h3 className="font-semibold text-[#B80200]">
-                  <Translate text={"Engine Size (CC)"} />{" "}
+                  {currentLanguage === "ar" ? "سعة المحرك" : "Engine Size (CC)"}
                   <span className="text-xs">
                     <Translate text={"(Optional)"} />
                   </span>
@@ -350,7 +350,9 @@ const AddListingPage = () => {
                 options={allenginesize}
                 value={engineSize}
                 onChange={setEngineSize}
-                placeholder={<Translate text={"Engine Size (CC)"} />}
+                placeholder={
+                  currentLanguage === "ar" ? "سعة المحرك" : "Engine Size (CC)"
+                }
                 isSearchable
                 className="cursor-pointer"
                 styles={{
@@ -392,7 +394,7 @@ const AddListingPage = () => {
             <label className="w-full">
               <div className="mb-2 px-3">
                 <h3 className="font-semibold text-[#B80200]">
-                  <Translate text={"Transmission"} />{" "}
+                  {currentLanguage === "ar" ? "ناقل الحركة" : "Transmission"}
                   <span className="text-xs">
                     <Translate text={"(Optional)"} />
                   </span>{" "}
@@ -402,7 +404,9 @@ const AddListingPage = () => {
                 options={allTransmission}
                 value={transmission}
                 onChange={setTransmission}
-                placeholder={<Translate text={"Transmission"} />}
+                placeholder={
+                  currentLanguage === "ar" ? "ناقل الحركة" : "Transmission"
+                }
                 isSearchable
                 className="cursor-pointer"
                 styles={{
@@ -446,7 +450,9 @@ const AddListingPage = () => {
             <label className="w-full">
               <div className="mb-2 px-3">
                 <h3 className="font-semibold text-[#B80200]">
-                  <Translate text={"Exterior Color"} />{" "}
+                  {currentLanguage === "ar"
+                    ? "اللون الخارجي"
+                    : "Exterior Color"}
                   <span className="text-xs">
                     <Translate text={"(Optional)"} />
                   </span>
@@ -456,7 +462,9 @@ const AddListingPage = () => {
                 options={allExteriorColor}
                 value={exteriorColor}
                 onChange={setExteriorColor}
-                placeholder={<Translate text={"Exterior Color"} />}
+                placeholder={
+                  currentLanguage === "ar" ? "اللون الخارجي" : "Exterior Color"
+                }
                 isSearchable
                 className="cursor-pointer"
                 styles={{
@@ -472,7 +480,9 @@ const AddListingPage = () => {
             <label className="w-full">
               <div className="mb-2 px-3">
                 <h3 className="font-semibold text-[#B80200]">
-                  <Translate text={"Interior Color"} />{" "}
+                  {currentLanguage === "ar"
+                    ? "اللون الداخلي"
+                    : "Interior Color"}
                   <span className="text-xs">
                     <Translate text={"(Optional)"} />
                   </span>
@@ -482,7 +492,9 @@ const AddListingPage = () => {
                 options={allInteriorColor}
                 value={interiorColor}
                 onChange={setInteriorColor}
-                placeholder={<Translate text={"Interior Color"} />}
+                placeholder={
+                  currentLanguage === "ar" ? "اللون الداخلي" : "Interior Color"
+                }
                 isSearchable
                 className="cursor-pointer"
                 styles={{
