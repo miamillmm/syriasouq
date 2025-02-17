@@ -5,6 +5,7 @@ import img from "../assets/bg-image/banner-img-1.png";
 import Translate from "../utils/Translate";
 import { arabicMakes, makes } from "../utils/utils";
 import { useTranslation } from "react-i18next";
+import Select from "react-select";
 
 const BannerSection = () => {
   const navigate = useNavigate();
@@ -44,6 +45,19 @@ const BannerSection = () => {
             label: model,
           })) || []
       : [];
+
+  const handleChange = (selectedOption) => {
+    setMake(selectedOption);
+    setSerachMake(selectedOption ? selectedOption.value : "");
+    console.log(selectedOption ? selectedOption.value : "");
+    setSerachModel(null); // Reset model when make changes
+  };
+
+  const options = currentLanguage === "ar" ? arabicMakes : makes;
+
+  const handleModelChange = (selectedOption) => {
+    setSerachModel(selectedOption ? selectedOption.value : "");
+  };
 
   return (
     <div
@@ -113,7 +127,7 @@ const BannerSection = () => {
           </h2>
           <form className="space-y-4 sm:space-y-6" onSubmit={handleSerach}>
             <div className="space-y-4">
-              <select
+              {/* <select
                 name="make"
                 className="w-full rounded-lg border-gray-300 hover:border-[#B80200] px-4 py-3 sm:py-4 text-white !bg-[#323232fa]"
                 onChange={(e) => {
@@ -140,8 +154,49 @@ const BannerSection = () => {
                         {make.label}
                       </option>
                     ))}
-              </select>
-              <select
+              </select> */}
+              <Select
+                options={options}
+                getOptionLabel={(e) => e.label}
+                getOptionValue={(e) => e.value}
+                onChange={handleChange}
+                placeholder={
+                  currentLanguage === "ar" ? "-- النوع --" : "-- Make --"
+                }
+                className="w-full"
+                styles={{
+                  control: (base) => ({
+                    ...base,
+                    backgroundColor: "#323232fa",
+                    borderColor: "#B80200",
+                    color: "white",
+                    padding: "5px",
+                  }),
+                  singleValue: (base) => ({
+                    ...base,
+                    color: "white",
+                  }),
+                  menu: (base) => ({
+                    ...base,
+                    backgroundColor: "#323232fa",
+                  }),
+                  option: (base, { isFocused }) => ({
+                    ...base,
+                    backgroundColor: isFocused ? "#B80200" : "#323232fa",
+                    color: "white",
+                  }),
+                  input: (base) => ({
+                    ...base,
+                    color: "white", // Make text inside input field white
+                  }),
+                  placeholder: (base) => ({
+                    ...base,
+                    color: "#bbb", // Light gray for placeholder text
+                  }),
+                }}
+                isSearchable
+              />
+              {/* <select
                 name="model"
                 className="w-full rounded-lg border-gray-300 hover:border-[#B80200] px-4 py-3 sm:py-4 text-white !bg-[#323232fa]"
                 onChange={(e) => setSerachModel(e.target.value)}
@@ -154,7 +209,48 @@ const BannerSection = () => {
                     <option value={model.value}>{model.label}</option>
                   </>
                 ))}
-              </select>
+              </select> */}
+              <Select
+                options={modelOptions}
+                getOptionLabel={(e) => e.label}
+                getOptionValue={(e) => e.value}
+                onChange={handleModelChange}
+                placeholder={
+                  currentLanguage === "ar" ? "-- الموديل --" : "-- Model --"
+                }
+                className="w-full"
+                styles={{
+                  control: (base) => ({
+                    ...base,
+                    backgroundColor: "#323232fa",
+                    borderColor: "#B80200",
+                    color: "white",
+                    padding: "5px",
+                  }),
+                  singleValue: (base) => ({
+                    ...base,
+                    color: "white",
+                  }),
+                  menu: (base) => ({
+                    ...base,
+                    backgroundColor: "#323232fa",
+                  }),
+                  option: (base, { isFocused }) => ({
+                    ...base,
+                    backgroundColor: isFocused ? "#B80200" : "#323232fa",
+                    color: "white",
+                  }),
+                  input: (base) => ({
+                    ...base,
+                    color: "white", // Ensures typed text is white
+                  }),
+                  placeholder: (base) => ({
+                    ...base,
+                    color: "#bbb", // Light gray for placeholder text
+                  }),
+                }}
+                isSearchable
+              />
             </div>
 
             <button
