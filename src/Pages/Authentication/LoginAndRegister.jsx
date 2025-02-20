@@ -1,8 +1,10 @@
 import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import cover from "../../assets/service/cover.jpg";
+import Translate from "../../utils/Translate";
+import { useTranslation } from "react-i18next";
 
 const LoginAndRegister = () => {
   const [activeTab, setActiveTab] = useState("login");
@@ -93,6 +95,9 @@ const LoginAndRegister = () => {
     }
   };
 
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language; // Gets current language
+
   return (
     <div
       className="relative flex justify-center items-center min-h-screen bg-cover bg-center"
@@ -109,7 +114,7 @@ const LoginAndRegister = () => {
                 : "text-gray-500 cursor-pointer"
             }
           >
-            Login
+            <Translate text={"Login"} />
           </button>
           <button
             onClick={() => setActiveTab("register")}
@@ -119,14 +124,18 @@ const LoginAndRegister = () => {
                 : "text-gray-500 cursor-pointer"
             }
           >
-            Register
+            <Translate text={"Register"} />
           </button>
         </div>
         {activeTab === "login" ? (
           <form onSubmit={handleLoginSubmit(handleLogin)} className="space-y-4">
             <input
               {...loginRegister("email", { required: "Email is required" })}
-              placeholder="Email or Username"
+              placeholder={
+                currentLanguage == "ar"
+                  ? "البريد الإلكتروني أو اسم المستخدم"
+                  : "Email or Username"
+              }
               className="w-full p-3 border rounded-lg"
             />
             {loginErrors.email && (
@@ -144,7 +153,7 @@ const LoginAndRegister = () => {
                 },
               })}
               type="password"
-              placeholder="Password"
+              placeholder={currentLanguage == "ar" ? "كلمة المرور" : "Password"}
               className="w-full p-3 border rounded-lg"
             />
             {loginErrors.password && (
@@ -157,13 +166,13 @@ const LoginAndRegister = () => {
               onClick={() => setIsModalOpen(true)}
               className="text-red-400 text-sm cursor-pointer"
             >
-              Forgot Password?
+              <Translate text={"Forgot Password?"} />
             </button>
             <button
               type="submit"
               className="w-full bg-red-500 py-3 rounded-lg cursor-pointer"
             >
-              Login
+              <Translate text={"Login"} />
             </button>
           </form>
         ) : (
@@ -175,7 +184,9 @@ const LoginAndRegister = () => {
               {...registerRegister("username", {
                 required: "Username is required",
               })}
-              placeholder="Username"
+              placeholder={
+                currentLanguage === "ar" ? "اسم المستخدم" : "Username"
+              }
               className="w-full p-3 border rounded-lg"
             />
             {registerErrors.username && (
@@ -192,7 +203,9 @@ const LoginAndRegister = () => {
                 },
               })}
               type="email"
-              placeholder="E-mail"
+              placeholder={
+                currentLanguage === "ar" ? "بريد إلكتروني" : "E-mail"
+              }
               className="w-full p-3 border rounded-lg"
             />
             {registerErrors.email && (
@@ -208,7 +221,7 @@ const LoginAndRegister = () => {
                   message: "Only numeric values allowed",
                 },
               })}
-              placeholder="Phone"
+              placeholder={currentLanguage === "ar" ? "هاتف" : "Phone"}
               className="w-full p-3 border rounded-lg"
             />
             {registerErrors.phone && (
@@ -226,7 +239,7 @@ const LoginAndRegister = () => {
                 },
               })}
               type="password"
-              placeholder="Password"
+              placeholder={currentLanguage == "ar" ? "كلمة المرور" : "Password"}
               className="w-full p-3 border rounded-lg"
             />
             {registerErrors.password && (
@@ -238,7 +251,7 @@ const LoginAndRegister = () => {
               type="submit"
               className="w-full bg-red-500 py-3 rounded-lg cursor-pointer"
             >
-              Register
+              <Translate text={"Register"} />
             </button>
           </form>
         )}
@@ -246,7 +259,9 @@ const LoginAndRegister = () => {
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 pointer-events-auto">
           <div className="bg-white p-6 rounded-lg w-[90%] sm:w-96 z-50">
-            <h2 className="text-lg font-bold mb-4">Reset Password</h2>
+            <h2 className="text-lg font-bold mb-4">
+              <Translate text={"Reset Password"} />
+            </h2>
             <form onSubmit={handleForgotPasswordSubmit(handleForgotPassword)}>
               <input
                 {...forgotPasswordRegister("email", {
@@ -266,14 +281,14 @@ const LoginAndRegister = () => {
                   type="submit"
                   className="bg-red-400 text-white px-4 py-2 rounded cursor-pointer"
                 >
-                  Send
+                  <Translate text={"Send"} />
                 </button>
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
                   className="bg-gray-300 px-4 py-2 rounded cursor-pointer"
                 >
-                  Cancel
+                  <Translate text={"Cancel"} />
                 </button>
               </div>
             </form>

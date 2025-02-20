@@ -29,7 +29,7 @@ const Subscribe = () => {
       <div className="z-10 w-full">
         <div className="md:w-2/3 mx-auto text-center mb-8 md:mb-14 space-y-5 md:space-y-7">
           <button className="text-sm md:text-[14px] font-[400] text-white bg-[#374b5c] py-2 px-3 md:px-4 rounded cursor-pointer">
-            <Translate text={"Subscribe"} />
+            {currentLanguage === "ar" ? "إشترك" : "Subscribe"}
           </button>
           <div className="text-white">
             <h2 className="text-xl md:text-7xl font-[700] mb-3 md:mb-4 tracking-[-0.05em]">
@@ -63,7 +63,7 @@ const Subscribe = () => {
                 <input
                   className="border-none w-full text-white bg-transparent focus:outline-none"
                   type="email"
-                  placeholder="Email"
+                  placeholder={currentLanguage === "ar" ? "ايميل" : "Email"}
                   name=""
                   id=""
                 />

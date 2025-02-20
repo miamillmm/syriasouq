@@ -1,6 +1,7 @@
 // import React from "react";
 // import { IoIosGitCompare } from "react-icons/io";
 // import flag from "../assets/flag/syriaflag.jpg";
+import { useTranslation } from "react-i18next";
 import flag from "../assets/flag/syriaflag-1.jpeg";
 import img1 from "../assets/icon/service_1.png";
 import img2 from "../assets/icon/service_2.png";
@@ -9,6 +10,9 @@ import img4 from "../assets/icon/service_4.png";
 import Translate from "../utils/Translate";
 
 const BestCar = () => {
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language; // Gets current language
+
   return (
     <div
       className="relative px-6 md:px-26 py-16 mb-16 flex justify-center h-auto"
@@ -33,15 +37,15 @@ const BestCar = () => {
           </button> */}
           <div className="text-white">
             <h1 className="text-2xl md:text-5xl lg:text-7xl font-[700] mb-4 tracking-[-0.05em]">
-              <Translate text={"Everything"} />{" "}
-              <span className="text-[#B80200]">
-                <Translate text={"you need"} />
-              </span>
-              <br />
-              <Translate text={"in"} />{" "}
-              <span className="text-[#B80200]">
-                <Translate text={"SyriaSouq"} />
-              </span>
+              {currentLanguage === "ar" ? (
+                <>كل شئ تحتاجه موجود في سيريا سوق</>
+              ) : (
+                <>
+                  Everything <span className="text-[#B80200]">you need</span>
+                  <br />
+                  in <span className="text-[#B80200]">SyriaSouq</span>
+                </>
+              )}
             </h1>
           </div>
         </div>
@@ -51,7 +55,9 @@ const BestCar = () => {
               <img src={img1} alt="image-1" className="w-8 h-8" />
             </div>
             <h2 className="text-lg md:text-[24px] font-[700] leading-none text-[#F3F4F6]">
-              <Translate text={"Huge cars inventory"} />
+              {currentLanguage === "ar"
+                ? "اعالنات سيارات غير محدودة"
+                : "Huge cars inventory"}
             </h2>
             <p className="text-sm md:text-base text-[#9AA4AD] leading-none">
               <Translate text={"There are hundreds of options"} />
@@ -78,7 +84,7 @@ const BestCar = () => {
             <p className="text-sm md:text-base text-[#9AA4AD] leading-none">
               <Translate
                 text={
-                  "To post an advertisement each account is checked through safety & security"
+                  "To post an advertisement each account and ad is checked through safety & security"
                 }
               />
             </p>
@@ -88,12 +94,14 @@ const BestCar = () => {
               <img src={img4} alt="image-4" className="w-8 h-8" />
             </div>
             <h2 className="text-lg md:text-[24px] font-[700] leading-none text-[#F3F4F6]">
-              <Translate text={"Transactions Seller to Client"} />
+              {currentLanguage === "ar"
+                ? "التواصل مع البائع بشكل مباشر"
+                : "Transactions Seller to Client"}
             </h2>
             <p className="text-sm md:text-base text-[#9AA4AD] leading-none">
               <Translate
                 text={
-                  "Easy transactions and communication between client & seller"
+                  "SyriaSouq.com acts solely as an advertising platform and has no responsibility for transactions; buyers and sellers are encouraged to communicate effectivley before purchase"
                 }
               />
             </p>

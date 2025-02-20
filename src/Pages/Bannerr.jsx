@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 // import img from "../assets/bg-image/banner-img.jpg";
 import img from "../assets/bg-image/banner-img-1.png";
 import Translate from "../utils/Translate";
-import { arabicMakes, makes } from "../utils/utils";
+import { arabicMakes as arMake, makes as enMakes } from "../utils/utils";
 import { useTranslation } from "react-i18next";
 import Select from "react-select";
 
@@ -16,6 +16,13 @@ const BannerSection = () => {
   const [searchMake, setSerachMake] = useState(null);
   const [make, setMake] = useState(null);
   const [searchModel, setSerachModel] = useState(null);
+
+  const makes = [
+    { label: "All", value: "All", models: ["All"] },
+    ...enMakes,
+    { label: "Other", value: "Other", models: ["Other"] },
+  ];
+  const arabicMakes = [...arMake, {}];
 
   const handleSerach = (e) => {
     e.preventDefault();
@@ -82,15 +89,14 @@ const BannerSection = () => {
         {/* Left Side */}
         <div className="text-white text-center md:text-left">
           <h1 className="text-2xl sm:text-4xl md:text-7xl font-bold mb-4 tracking-[-0.04em]">
-            <Translate text="The #1 Website" />{" "}
-            <span className="text-[#B80200]">
-              <Translate text={"buy"} />
-            </span>{" "}
-            &{" "}
-            <span className="text-[#B80200]">
-              <Translate text={"sell"} />
-            </span>{" "}
-            <Translate text={"cars in Syria"} />
+            {currentLanguage === "ar" ? (
+              <>الموقع رقم 1 لشراء و بيع السيارات في سوريا</>
+            ) : (
+              <>
+                The #1 Website <span className="text-[#B80200]">buy</span> &{" "}
+                <span className="text-[#B80200]">sell</span> cars in Syria
+              </>
+            )}
           </h1>
           <p className="text-base sm:text-lg md:text-2xl font-light">
             <Translate text={"Our goal is to meet your needs"} />{" "}
@@ -255,9 +261,9 @@ const BannerSection = () => {
 
             <button
               type="submit"
-              className="w-full bg-[#B80200] hover:bg-[#B80200] py-3 sm:py-4 rounded-lg text-white text-lg cursor-pointer"
+              className="w-full bg-white hover:bg-slate-200 py-3 sm:py-4 rounded-lg text-[#B80200] text-lg cursor-pointer"
             >
-              <Translate text={"Search"} />
+              {currentLanguage === "ar" ? "بحث" : "Search"}
             </button>
           </form>
         </div>

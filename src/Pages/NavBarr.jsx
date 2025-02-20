@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router";
+import { NavLink } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 import avatar from "../assets/images/avatar/photo.png";
-import logo from "../assets/images/logo/logo.png";
+// import logo from "../assets/images/logo/logo.png";
+import logo from "../assets/images/logo/logo-new.jpeg";
 import Translate from "../utils/Translate";
+import { useTranslation } from "react-i18next";
 
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -22,6 +25,9 @@ const Navbar = () => {
     localStorage.removeItem("SyriaSouq-auth");
     navigate("/");
   };
+
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language; // Gets current language
 
   return (
     <nav className="bg-[#323232fa] w-screen text-white py-4 px-4 md:px-28 fixed z-20">
@@ -62,16 +68,31 @@ const Navbar = () => {
         </NavLink>
 
         <Link to={"/addlisting"} className="block md:hidden">
-          <button className="bg-[#B80200] text-[#314352] px-2 py-1 rounded-md  cursor-pointer text-xs">
+          <button className="bg-white text-[#B80200] px-2 py-1 rounded-md  cursor-pointer text-xs">
             <Translate text={"Add Listing"} /> <span>+</span>
           </button>
         </Link>
 
         {/* Right: Avatar (Mobile) */}
-        <div className="avatar md:hidden">
+        {/* <div className="avatar md:hidden">
           <div className="w-12 rounded-full">
             <img src={avatar} alt="avatar" />
           </div>
+        </div> */}
+
+        <div className="avatar md:hidden">
+          <Link to={"/dashboard"}>
+            <div className="w-10 rounded-full h-10 bg-teal-400 !flex items-center justify-center font-black text-lg">
+              {/* <img src={avatar} alt="avatar" /> */}
+              <Translate
+                text={(() => {
+                  const firstLetter =
+                    user?.username?.charAt(0).toUpperCase() || "?";
+                  return firstLetter;
+                })()}
+              />
+            </div>
+          </Link>
         </div>
 
         {/* Desktop Navigation */}
@@ -243,7 +264,7 @@ const Navbar = () => {
 
             {/* Add Listing Button */}
             <NavLink to="/addlisting">
-              <button className="bg-[#B80200] px-4 py-2 rounded-md  cursor-pointer text-white">
+              <button className="bg-white px-4 py-2 rounded-md  cursor-pointer text-[#B80200]">
                 <Translate text={"Add Listing"} /> <span>+</span>
               </button>
             </NavLink>
@@ -285,8 +306,12 @@ const Navbar = () => {
             </button>
             <ul className="space-y-4">
               <li>
-                <NavLink to="/" className="block hover:text-[#B80200]">
-                  <Translate text={"Home"} />
+                <NavLink
+                  to="/"
+                  onClick={() => setIsSidebarOpen(false)}
+                  className="block hover:text-[#B80200]"
+                >
+                  {currentLanguage === "ar" ? "الصفحة الرئيسية" : "Home"}
                 </NavLink>
               </li>
               <li>
@@ -298,6 +323,7 @@ const Navbar = () => {
                     <li>
                       <NavLink
                         to="/about"
+                        onClick={() => setIsSidebarOpen(false)}
                         className="block hover:text-[#B80200]"
                       >
                         <Translate text={"About Us"} />
@@ -306,14 +332,16 @@ const Navbar = () => {
                     <li>
                       <NavLink
                         to="/contact"
+                        onClick={() => setIsSidebarOpen(false)}
                         className="block hover:text-[#B80200]"
                       >
-                        <Translate text={"Contact"} />
+                        {currentLanguage === "ar" ? "تواصل معن" : "Contact"}
                       </NavLink>
                     </li>
                     <li>
                       <NavLink
                         to="/login-and-register"
+                        onClick={() => setIsSidebarOpen(false)}
                         className="block hover:text-[#B80200]"
                       >
                         <Translate text={"Login/Register"} />
@@ -323,8 +351,11 @@ const Navbar = () => {
                 </div>
               </li>
               <li>
-                <NavLink to="/addlisting">
-                  <button className="bg-[#B80200] px-4 py-2 text-white rounded-md hover:bg-[#B80200] cursor-pointer">
+                <NavLink
+                  to="/addlisting"
+                  onClick={() => setIsSidebarOpen(false)}
+                >
+                  <button className="bg-white px-4 py-2 text-[#B80200] rounded-md hover:bg-slate-200 cursor-pointer">
                     <Translate text={"Add Listing"} />
                   </button>
                 </NavLink>

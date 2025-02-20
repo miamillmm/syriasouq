@@ -5,6 +5,7 @@ import { CiCalendar, CiHeart, CiLocationOn, CiShare2 } from "react-icons/ci";
 import { TiArrowRight } from "react-icons/ti";
 import { Link } from "react-router";
 import Translate from "../utils/Translate";
+import { useTranslation } from "react-i18next";
 
 const Featured = () => {
   const [cars, setCars] = useState([]);
@@ -100,22 +101,25 @@ const Featured = () => {
       });
   };
 
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language; // Gets current language
+
   return (
     <div className="container mx-auto px-4 sm:px-8 md:px-16 w-screen py-10 md:py-20">
       {/* header */}
       <div className="header flex flex-col md:flex-row justify-between flex-wrap items-center mb-12">
         <div className="space-y-4 text-center md:text-left">
           <button className="text-[12px] sm:text-[14px] font-[400] text-gray-500 bg-gray-100 py-2 px-4 rounded cursor-pointer">
-            <Translate text={"Handy picked"} />
+            {currentLanguage === "ar" ? "مختارات الجلك" : "Handy picked"}
           </button>
           <h2 className="text-[28px] sm:text-[36px] font-bold text-[#314352]">
             <Translate text={"Featured listings"} />
           </h2>
         </div>
         <div className="flex gap-4 mt-6 md:mt-0">
-          <button className="text-[14px] sm:text-[16px] font-[400] text-white bg-[#4b4b4bfa] py-3 sm:py-4 px-6 sm:px-8 rounded cursor-pointer">
+          {/* <button className="text-[14px] sm:text-[16px] font-[400] text-white bg-[#4b4b4bfa] py-3 sm:py-4 px-6 sm:px-8 rounded cursor-pointer">
             <Translate text={"All"} />
-          </button>
+          </button> */}
           <Link to={"/search"}>
             <button className="bg-[#B80200] text-white text-[16px] sm:text-[18px] font-[400] justify-between py-3 sm:py-4 px-8 sm:px-12 rounded-md flex items-center gap-2 cursor-pointer">
               <Translate text={"View All"} />

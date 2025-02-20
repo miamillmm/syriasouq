@@ -18,13 +18,13 @@ const Footer = () => {
             {/* Company Section */}
             <div className="space-y-1">
               <h3 className="font-bold text-2xl">
-                <Translate text={"company"} />
+                {currentLanguage === "ar" ? "سيريا سوق" : "SYRIASOUQ"}
               </h3>
               <p className="text-gray-300 text-sm flex justify-center md:justify-start items-center gap-2">
                 <LuMapPin /> <Translate text={"Damascus, Syria"} />
               </p>
               <p className="text-gray-300 text-sm flex justify-center md:justify-start items-center gap-2">
-                <CiAt /> syriasouq.shop@outlook.com
+                <CiAt /> syriasouq@outlook.com
               </p>
             </div>
 
@@ -69,7 +69,7 @@ const Footer = () => {
               <ul className="space-y-1">
                 <li>
                   <a
-                    href="#"
+                    href="https://www.facebook.com/share/1HKg5LFhzB/?mibextid=wwXIfr"
                     className="text-red-500 hover:underline font-bold"
                   >
                     {currentLanguage === "ar" ? "فيسبوك" : "facebook"}
@@ -77,18 +77,18 @@ const Footer = () => {
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="https://www.instagram.com/mysyriasouq?igsh=bHFnNWo2aGszcHF4&utm_source=qr"
                     className="text-red-500 hover:underline font-light"
                   >
-                    {currentLanguage === "ar" ? "تويتر" : "twitter"}
+                    {currentLanguage === "ar" ? "انستاغرام" : "instagram"}
                   </a>
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="mailto:syriasouq@outlook.com"
                     className="text-red-500 hover:underline font-light"
                   >
-                    {currentLanguage === "ar" ? "انستاغرام" : "instagram"}
+                    {currentLanguage === "ar" ? "بريد إلكتروني" : "Email"}
                   </a>
                 </li>
               </ul>
@@ -97,13 +97,13 @@ const Footer = () => {
             {/* Support */}
             <div>
               <h3 className="font-bold mb-3">
-                <Translate text={"support"} />
+                {currentLanguage === "ar" ? "الدعم" : "support"}
               </h3>
               <a
                 href="/contact"
                 className="text-red-500 hover:underline font-light"
               >
-                <Translate text={"contact us"} />
+                {currentLanguage === "ar" ? "تواصل معنا" : "contact us"}
               </a>
             </div>
 
