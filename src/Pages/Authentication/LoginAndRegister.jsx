@@ -47,7 +47,7 @@ const LoginAndRegister = () => {
         const data = response.data;
         localStorage.setItem("SyriaSouq-auth", JSON.stringify(data));
         resetLogin();
-        navigate("/dashboard");
+        navigate("/dashboard", { replace: true });
       } else {
         alert(response?.data?.message);
       }
@@ -70,7 +70,7 @@ const LoginAndRegister = () => {
         const data = response.data;
         localStorage.setItem("SyriaSouq-auth", JSON.stringify(data));
         resetRegister();
-        navigate("/dashboard");
+        navigate("/dashboard", { replace: true });
       } else {
         alert(response?.data?.message);
       }

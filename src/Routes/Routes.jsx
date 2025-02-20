@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter } from "react-router-dom";
 import Main from "../Layout/Main";
 import About from "../Pages/About";
 import Contact from "../Pages/Contact";
@@ -8,7 +8,7 @@ import CarDetails from "../Pages/CarDetails";
 import AddListingPage from "../Pages/AddListingPage";
 import Dashboard from "../Pages/Dashboard";
 import MessagesPage from "../Pages/Dashboard/MessagesPage";
-import SerachPage from "../Pages/SerachPage";
+import SearchPage from "../Pages/SearchPage";
 import PrivacyPolicy from "../Pages/PrivacyPolicy";
 import TermsPage from "../Pages/TermAndUse";
 
@@ -43,7 +43,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/search",
-        element: <SerachPage />,
+        element: <SearchPage />,
       },
       {
         path: "/dashboard",

@@ -63,7 +63,7 @@ const CarDetails = () => {
       );
 
       if (response.data) {
-        return navigate("/messages");
+        return navigate("/messages", { replace: true });
       }
 
       // conversation = response.data;

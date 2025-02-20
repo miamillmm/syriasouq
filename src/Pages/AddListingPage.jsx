@@ -128,7 +128,7 @@ const AddListingPage = () => {
       return setUser(storedUser);
     }
     alert("Please loggin beofre add listing");
-    return navigate("/login-and-register");
+    return navigate("/login-and-register", { replace: true });
   }, [navigate]);
 
   // Handle form submission
@@ -173,7 +173,7 @@ const AddListingPage = () => {
 
       if (response.ok) {
         alert("Listing added successfully! This will expire after 35 days");
-        navigate("/dashboard");
+        navigate("/dashboard", { replace: true });
       } else {
         alert(`Error: ${result.message}`);
       }

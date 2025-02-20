@@ -23,7 +23,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("SyriaSouq-auth");
-    navigate("/");
+    navigate("/", { replace: true });
   };
 
   const { i18n } = useTranslation();
