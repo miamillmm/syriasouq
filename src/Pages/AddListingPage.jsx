@@ -173,14 +173,16 @@ const AddListingPage = () => {
       const result = await response.json();
 
       if (response.ok) {
-        alert("Listing added successfully! This will expire after 35 days");
+        toast.success(
+          "Listing added successfully! This will expire after 35 days"
+        );
         navigate("/dashboard", { replace: true });
       } else {
-        alert(`Error: ${result.message}`);
+        toast.error(`Error: ${result.message}`);
       }
     } catch (error) {
       console.error("Error submitting listing:", error);
-      alert("Failed to submit listing.");
+      toast.error("Failed to submit listing.");
     }
   };
 
