@@ -129,7 +129,7 @@ const AddListingPage = () => {
       return setUser(storedUser);
     }
     toast.warn("Please loggin beofre add listing");
-    return navigate("/login-and-register", { replace: true });
+    navigate("/login-and-register", { replace: true });
   }, [navigate]);
 
   // Handle form submission
