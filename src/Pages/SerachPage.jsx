@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { CiHeart } from "react-icons/ci";
-import { FaList, FaTh } from "react-icons/fa";
+import { FaList, FaTh, FaTimes } from "react-icons/fa";
 import { Link } from "react-router";
 import Breadcrumb from "./Breadcumb";
 
@@ -23,6 +23,8 @@ const SearchPage = () => {
     exteriorColor: "",
     interiorColor: "",
   });
+
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
   useEffect(() => {
     axios
@@ -150,9 +152,15 @@ const SearchPage = () => {
       </h2>
 
       <div className="grid grid-cols-8 gap-10">
-        <div className="col-span-2 shadow rounded">
+        <div className="xl:col-span-2 col-span-8 shadow rounded">
+          <button
+            className="xl:hidden block py-2 px-8 rounded shadow bg-red-500 text-white cursor-pointer"
+            onClick={() => setIsMobileFilterOpen(true)}
+          >
+            Filter
+          </button>
           {/* filter side bar  */}
-          <div className="col-span-2 shadow rounded p-4">
+          <div className="xl:col-span-2 col-span-8 shadow rounded p-4 xl:block hidden">
             <h3 className="font-bold text-xl mb-4">Filters</h3>
             {/* Make */}
             <div className="mb-4">
@@ -349,14 +357,242 @@ const SearchPage = () => {
               </select>
             </div>
           </div>
+
+          {isMobileFilterOpen && (
+            <>
+              <div className="fixed top-0 left-0 right-0 bottom-0 bg-slate-700/50 z-[999999] p-5">
+                <button>
+                  <FaTimes
+                    className="text-4xl text-white"
+                    onClick={() => setIsMobileFilterOpen(false)}
+                  />
+                </button>
+                <div className="xl:col-span-2 col-span-8 shadow rounded p-4 bg-slate-50 h-full overflow-scroll mb-4">
+                  <h3 className="font-bold text-xl mb-4">Filters</h3>
+                  {/* Make */}
+                  <div className="mb-4">
+                    <label className="block text-gray-700 mb-2">Make</label>
+                    <input
+                      type="text"
+                      name="make"
+                      value={filters.make[0] || ""}
+                      onChange={handleFilterChange}
+                      className="w-full border p-2 rounded"
+                      placeholder="Search make"
+                    />
+                    {["BMW", "Chevrolet", "Ferrari", "Ford", "Jaguar"].map(
+                      (make) => (
+                        <div key={make}>
+                          <input
+                            type="checkbox"
+                            name="make"
+                            value={make}
+                            checked={filters.make.includes(make)}
+                            onChange={handleFilterChange}
+                          />
+                          <label className="ml-2">{make}</label>
+                        </div>
+                      )
+                    )}
+                  </div>
+
+                  {/* Year */}
+                  <div className="mb-4">
+                    <label className="block text-gray-700 mb-2">Year</label>
+                    <div className="flex gap-2">
+                      <input
+                        type="number"
+                        name="minYear"
+                        value={filters.minYear}
+                        onChange={handleFilterChange}
+                        className="w-1/2 border p-2 rounded"
+                        placeholder="Min Year"
+                      />
+                      <input
+                        type="number"
+                        name="maxYear"
+                        value={filters.maxYear}
+                        onChange={handleFilterChange}
+                        className="w-1/2 border p-2 rounded"
+                        placeholder="Max Year"
+                      />
+                    </div>
+                  </div>
+                  {/* Price */}
+                  <div className="mb-4">
+                    <label className="block text-gray-700 mb-2">Price</label>
+                    <div className="flex gap-2">
+                      <input
+                        type="number"
+                        name="minPrice"
+                        value={filters.minPrice}
+                        onChange={handleFilterChange}
+                        className="w-1/2 border p-2 rounded"
+                        placeholder="Min Price"
+                      />
+                      <input
+                        type="number"
+                        name="maxPrice"
+                        value={filters.maxPrice}
+                        onChange={handleFilterChange}
+                        className="w-1/2 border p-2 rounded"
+                        placeholder="Max Price"
+                      />
+                    </div>
+                  </div>
+                  {/* Kilometer */}
+                  <div className="mb-4">
+                    <label className="block text-gray-700 mb-2">
+                      Kilometer
+                    </label>
+                    <select
+                      name="kilometer"
+                      value={filters.kilometer}
+                      onChange={handleFilterChange}
+                      className="w-full border p-2 rounded"
+                      style={{ backgroundColor: "#fff" }}
+                    >
+                      <option value="">Select Kilometer</option>
+                      <option value="0-10000">0-10,000</option>
+                      <option value="10001-50000">10,001-50,000</option>
+                      <option value="50001-100000">50,001-100,000</option>
+                    </select>
+                  </div>
+                  {/* Location */}
+                  <div className="mb-4">
+                    <label className="block text-gray-700 mb-2">Location</label>
+                    <input
+                      type="text"
+                      name="location"
+                      value={filters.location}
+                      onChange={handleFilterChange}
+                      className="w-full border p-2 rounded"
+                      placeholder="Search location"
+                    />
+                    {[
+                      "Damascus",
+                      "Aleppo",
+                      "Daraa",
+                      "Deir ez-Zor",
+                      "Hama",
+                      "Homs",
+                    ].map((loc) => (
+                      <div key={loc}>
+                        <input
+                          type="checkbox"
+                          name="location"
+                          value={loc}
+                          onChange={handleFilterChange}
+                        />
+                        <label className="ml-2">{loc}</label>
+                      </div>
+                    ))}
+                  </div>
+                  {/* Engine Size */}
+                  <div className="mb-4">
+                    <label className="block text-gray-700 mb-2">
+                      Engine Size (CC)
+                    </label>
+                    {["0-499 cc", "1000-1499 cc", "3000-3499 cc"].map(
+                      (size) => (
+                        <div key={size}>
+                          <input
+                            type="checkbox"
+                            name="engineSize"
+                            value={size}
+                            onChange={handleFilterChange}
+                          />
+                          <label className="ml-2">{size}</label>
+                        </div>
+                      )
+                    )}
+                  </div>
+                  {/* Transmission */}
+                  <div className="mb-4">
+                    <label className="block text-gray-700 mb-2">
+                      Transmission
+                    </label>
+                    {["Automatic", "Manual"].map((trans) => (
+                      <div key={trans}>
+                        <input
+                          type="radio"
+                          name="transmission"
+                          value={trans}
+                          onChange={handleFilterChange}
+                        />
+                        <label className="ml-2">{trans}</label>
+                      </div>
+                    ))}
+                  </div>
+                  {/* Fuel Type */}
+                  <div className="mb-4">
+                    <label className="block text-gray-700 mb-2">
+                      Fuel Type
+                    </label>
+                    {["Petrol", "Diesel", "Electric", "Gasoline"].map(
+                      (fuel) => (
+                        <div key={fuel}>
+                          <input
+                            type="checkbox"
+                            name="fuelType"
+                            value={fuel}
+                            onChange={handleFilterChange}
+                          />
+                          <label className="ml-2">{fuel}</label>
+                        </div>
+                      )
+                    )}
+                  </div>
+                  {/* Exterior Color */}
+                  <div className="mb-4">
+                    <label className="block text-gray-700 mb-2">
+                      Exterior Color
+                    </label>
+                    <select
+                      name="exteriorColor"
+                      value={filters.exteriorColor}
+                      onChange={handleFilterChange}
+                      className="w-full border p-2 rounded"
+                      style={{ backgroundColor: "#fff" }}
+                    >
+                      <option value="">Select Color</option>
+                      <option value="Black">Black</option>
+                      <option value="White">White</option>
+                      <option value="Blue">Blue</option>
+                    </select>
+                  </div>
+                  {/* Interior Color */}
+                  <div className="mb-4">
+                    <label className="block text-gray-700 mb-2">
+                      Interior Color
+                    </label>
+                    <select
+                      name="interiorColor"
+                      value={filters.interiorColor}
+                      onChange={handleFilterChange}
+                      className="w-full border p-2 rounded"
+                      style={{ backgroundColor: "#fff" }}
+                    >
+                      <option value="">Select Color</option>
+                      <option value="Black">Black</option>
+                      <option value="Gray">Gray</option>
+                      <option value="Beige">Beige</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
         </div>
         <div className="col-span-6">
-          <div className="flex justify-between items-center mb-4 p-2 rounded bg-transparent">
-            <h2 className="text-[24px] font-semibold mr-4">
+          <div className="flex justify-between xl:items-center mb-4 p-2 rounded bg-transparent xl:flex-row flex-col">
+            <h2 className="xl:text-[24px] text-[18px] font-semibold mr-4">
               {filteredData?.length} Results{" "}
-              <span className="text-red-500 text-[15px]">Classified Ads</span>
+              <span className="text-red-500 xl:text-[15px] text-[12px]">
+                Classified Ads
+              </span>
             </h2>
-            <div className="flex items-center gap-8">
+            <div className="flex xl:items-center gap-8 xl:flex-row flex-col">
               {/* <select
                  className="border border-gray-200 p-3 pr-10 rounded-lg bg-white appearance-none h-16 w-full shadow-md text-gray-700 font-medium cursor-pointer"
                 style={{ backgroundColor: "#ffff" }}
@@ -379,9 +615,9 @@ const SearchPage = () => {
                 <label className="text-gray-700 font-semibold">Sort by:</label>
 
                 {/* Dropdown with arrow */}
-                <div className="relative w-64">
+                <div className="relative xl:w-64 w-40">
                   <select
-                    className="border border-gray-200 p-3 pr-10 rounded-lg bg-white appearance-none h-16 w-full shadow-md text-gray-700 font-medium cursor-pointer"
+                    className="border border-gray-200 xl:p-3 p-1 pr-10 rounded-lg bg-white appearance-none xl:h-16 h-10 w-full shadow-md text-gray-700 font-medium cursor-pointer"
                     style={{ backgroundColor: "#ffff" }}
                     value={sortOption}
                     onChange={(e) => {
@@ -414,30 +650,32 @@ const SearchPage = () => {
                 </div>
               </div>
 
-              <button
-                onClick={() => setView("grid")}
-                className={`p-2 w-20 h-16 flex items-center justify-center rounded cursor-pointer border hover:text-red-500 hover:border-red-500 duration-300 ${
-                  view === "grid"
-                    ? "border-red-500 bg-red-500 duration-100"
-                    : "border-gray-200"
-                }`}
-              >
-                <FaTh className="w-1/2 h-1/2" />
-              </button>
-              <button
-                onClick={() => setView("list")}
-                className={`p-2 w-20 h-16 flex items-center justify-center rounded cursor-pointer border hover:text-red-500 hover:border-red-500 duration-300 ${
-                  view === "list"
-                    ? "border-red-500 bg-red-500 duration-100"
-                    : "border-gray-200"
-                }`}
-              >
-                <FaList className="w-1/2 h-1/2" />
-              </button>
+              <div className="flex items-center gap-5">
+                <button
+                  onClick={() => setView("grid")}
+                  className={`p-2 xl:w-20 w-12 xl:h-16 h-10 flex items-center justify-center rounded cursor-pointer border hover:text-red-500 hover:border-red-500 duration-300 ${
+                    view === "grid"
+                      ? "border-red-500 bg-red-500 duration-100"
+                      : "border-gray-200"
+                  }`}
+                >
+                  <FaTh className="w-1/2 h-1/2" />
+                </button>
+                <button
+                  onClick={() => setView("list")}
+                  className={`p-2 xl:w-20 w-12 xl:h-16 h-10 flex items-center justify-center rounded cursor-pointer border hover:text-red-500 hover:border-red-500 duration-300 ${
+                    view === "list"
+                      ? "border-red-500 bg-red-500 duration-100"
+                      : "border-gray-200"
+                  }`}
+                >
+                  <FaList className="w-1/2 h-1/2" />
+                </button>
+              </div>
             </div>
           </div>
           <div
-            className={`grid ${
+            className={`grid mb-10 ${
               view === "grid"
                 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
                 : ""
