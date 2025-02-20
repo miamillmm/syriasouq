@@ -88,7 +88,7 @@ const CarDetails = () => {
         <div className="w-full md:w-2/3">
           {carDetails?.images?.[0] && (
             <img
-              src={`http://localhost:5001/uploads/cars/${carDetails?.images[0]}`}
+              src={`https://api.madconsolution.xyz/uploads/cars/${carDetails?.images[0]}`}
               alt="Main Preview"
               className="w-full h-[300px] md:h-[500px] object-cover rounded-lg shadow-lg"
             />
@@ -119,7 +119,7 @@ const CarDetails = () => {
             {carDetails?.images?.map((img, index) => (
               <SwiperSlide key={index} className="h-[140px] md:h-[240px]">
                 <img
-                  src={`http://localhost:5001/uploads/cars/${img}`}
+                  src={`https://api.madconsolution.xyz/uploads/cars/${img}`}
                   alt={`Thumbnail ${index}`}
                   className="w-full h-full object-cover cursor-pointer rounded-lg hover:opacity-80"
                   onClick={() => setMainImage(img)}

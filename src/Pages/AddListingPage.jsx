@@ -9,6 +9,7 @@ import { arabicMakes } from "../utils/utils";
 import ImageUpload from "./ImageUpload";
 import Translate from "../utils/Translate";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 const carMakes = [
   { value: "Abarth", label: "Abarth" },
@@ -127,7 +128,7 @@ const AddListingPage = () => {
     if (storedUser) {
       return setUser(storedUser);
     }
-    alert("Please loggin beofre add listing");
+    toast.warn("Please loggin beofre add listing");
     return navigate("/login-and-register", { replace: true });
   }, [navigate]);
 

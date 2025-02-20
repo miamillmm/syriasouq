@@ -5,7 +5,7 @@ import { io } from "socket.io-client";
 import Translate from "../../utils/Translate";
 
 // const socket = io(import.meta.env.VITE_API_URL);
-const socket = io("http://localhost:5001");
+const socket = io("https://api.madconsolution.xyz");
 
 const Inbox = () => {
   const [user, setUser] = useState(null);
