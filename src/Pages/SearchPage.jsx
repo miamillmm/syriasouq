@@ -1,9 +1,12 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { CiHeart } from "react-icons/ci";
 import { FaList, FaTh, FaTimes } from "react-icons/fa";
 import { Link } from "react-router";
 import Breadcrumb from "./Breadcumb";
+import { arabicMakes, makes } from "../utils/utils";
+import { useTranslation } from "react-i18next";
+import Translate from "../utils/Translate";
 
 const SearchPage = () => {
   const [datas, setDatas] = useState([]);
@@ -145,6 +148,80 @@ const SearchPage = () => {
     );
   });
 
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language; // Gets current language
+
+  const carMakes = currentLanguage === "ar" ? arabicMakes : makes;
+
+  const alllocation = [
+    { value: "Al-Hasakah", label: "Al-Hasakah" },
+    { value: "Aleppo", label: "Aleppo" },
+    { value: "Damascus", label: "Damascus" },
+    { value: "Daraa", label: "Daraa" },
+    { value: "Deir ez-Zor", label: "Deir ez-Zor" },
+    { value: "Hama", label: "Hama" },
+    { value: "Homs", label: "Homs" },
+    { value: "Idlib", label: "Idlib" },
+    { value: "Latakia", label: "Latakia" },
+    { value: "Qamishli", label: "Qamishli" },
+    { value: "Raqqa", label: "Raqqa" },
+    { value: "Rif Dimashq", label: "Rif Dimashq" },
+    { value: "Suweida", label: "Suweida" },
+    { value: "Tartus", label: "Tartus" },
+  ];
+
+  const allenginesize = [
+    { value: "0-499 cc", label: "0-499 cc" },
+    { value: "1000-1499 cc", label: "1000-1499 cc" },
+    { value: "1500-1999 cc", label: "1500-1999 cc" },
+    { value: "2000-2499 cc", label: "2000-2499 cc" },
+    { value: "2500-2999 cc", label: "2500-2999 cc" },
+    { value: "3000-3499 cc", label: "3000-3499 cc" },
+    { value: "3500-3999 cc", label: "3500-3999 cc" },
+    { value: "4000+ cc", label: "4000+ cc" },
+    { value: "500-999 cc", label: "500-999 cc" },
+    { value: "Other", label: "Other" },
+    { value: "Unknown", label: "Unknown" },
+  ];
+
+  const allTransmission = [
+    { value: "Automatic", label: "Automatic" },
+    { value: "Manual", label: "Manual" },
+  ];
+
+  const allFuelType = [
+    { value: "Diesel", label: "Diesel" },
+    { value: "Electric", label: "Electric" },
+    { value: "Hybrid", label: "Hybrid" },
+    { value: "Petrol", label: "Petrol" },
+  ];
+
+  const allExteriorColor = [
+    { value: "BLACK", label: "BLACK" },
+    { value: "Blue", label: "Blue" },
+    { value: "Brown", label: "Brown" },
+    { value: "Gold", label: "Gold" },
+    { value: "Green", label: "Green" },
+    { value: "red", label: "red" },
+    { value: "Pink", label: "Pink" },
+    { value: "Purple", label: "Purple" },
+    { value: "Red", label: "Red" },
+    { value: "Silver", label: "Silver" },
+    { value: "White", label: "White" },
+    { value: "red", label: "red" },
+    { value: "other", label: "other" },
+  ];
+
+  const allInteriorColor = [
+    { value: "Beige", label: "Beige" },
+    { value: "Black", label: "Black" },
+    { value: "Blue", label: "Blue" },
+    { value: "Brown", label: "Brown" },
+    { value: "Red", label: "Red" },
+    { value: "White", label: "White" },
+    { value: "Other", label: "Other" },
+  ];
+
   return (
     <div className="pt-24 px-5 md:px-16 lg:px-28">
       <h2 className="mb-8 mt-7">
@@ -157,39 +234,47 @@ const SearchPage = () => {
             className="xl:hidden block py-2 px-8 rounded shadow bg-red-500 text-white cursor-pointer"
             onClick={() => setIsMobileFilterOpen(true)}
           >
-            Filter
+            <Translate text={"Filter"} />
           </button>
           {/* filter side bar  */}
           <div className="xl:col-span-2 col-span-8 shadow rounded p-4 xl:block hidden">
-            <h3 className="font-bold text-xl mb-4">Filters</h3>
+            <h3 className="font-bold text-xl mb-4">
+              <Translate text={"Filters"} />
+            </h3>
             {/* Make */}
             <div className="mb-4">
-              <label className="block text-gray-700 mb-2">Make</label>
+              <label className="block text-gray-700 mb-2">
+                <Translate text={"Make"} />
+              </label>
               <input
                 type="text"
                 name="make"
                 value={filters.make[0] || ""}
                 onChange={handleFilterChange}
                 className="w-full border p-2 rounded"
-                placeholder="Search make"
+                placeholder={
+                  currentLanguage === "ar" ? "البحث عن الماركة" : "Search make"
+                }
               />
-              {["BMW", "Chevrolet", "Ferrari", "Ford", "Jaguar"].map((make) => (
-                <div key={make}>
+              {carMakes.map((make) => (
+                <div key={make.label}>
                   <input
                     type="checkbox"
                     name="make"
-                    value={make}
+                    value={make.label}
                     checked={filters.make.includes(make)}
                     onChange={handleFilterChange}
                   />
-                  <label className="ml-2">{make}</label>
+                  <label className="ml-2">{make.label}</label>
                 </div>
               ))}
             </div>
 
             {/* Year */}
             <div className="mb-4">
-              <label className="block text-gray-700 mb-2">Year</label>
+              <label className="block text-gray-700 mb-2">
+                <Translate text={"Year"} />
+              </label>
               <div className="flex gap-2">
                 <input
                   type="number"
@@ -197,7 +282,9 @@ const SearchPage = () => {
                   value={filters.minYear}
                   onChange={handleFilterChange}
                   className="w-1/2 border p-2 rounded"
-                  placeholder="Min Year"
+                  placeholder={
+                    currentLanguage === "ar" ? "الحد الأدنى للسنة" : "Min Year"
+                  }
                 />
                 <input
                   type="number"
@@ -205,13 +292,17 @@ const SearchPage = () => {
                   value={filters.maxYear}
                   onChange={handleFilterChange}
                   className="w-1/2 border p-2 rounded"
-                  placeholder="Max Year"
+                  placeholder={
+                    currentLanguage === "ar" ? "الحد الأقصى للسنة" : "Max Year"
+                  }
                 />
               </div>
             </div>
             {/* Price */}
             <div className="mb-4">
-              <label className="block text-gray-700 mb-2">Price</label>
+              <label className="block text-gray-700 mb-2">
+                <Translate text={"Price"} />
+              </label>
               <div className="flex gap-2">
                 <input
                   type="number"
@@ -219,7 +310,9 @@ const SearchPage = () => {
                   value={filters.minPrice}
                   onChange={handleFilterChange}
                   className="w-1/2 border p-2 rounded"
-                  placeholder="Min Price"
+                  placeholder={
+                    currentLanguage === "ar" ? "الحد الأدنى للسعر" : "Min Price"
+                  }
                 />
                 <input
                   type="number"
@@ -227,13 +320,17 @@ const SearchPage = () => {
                   value={filters.maxPrice}
                   onChange={handleFilterChange}
                   className="w-1/2 border p-2 rounded"
-                  placeholder="Max Price"
+                  placeholder={
+                    currentLanguage === "ar" ? "السعر الأقصى" : "Max Price"
+                  }
                 />
               </div>
             </div>
             {/* Kilometer */}
             <div className="mb-4">
-              <label className="block text-gray-700 mb-2">Kilometer</label>
+              <label className="block text-gray-700 mb-2">
+                <Translate text={"Kilometer"} />
+              </label>
               <select
                 name="kilometer"
                 value={filters.kilometer}
@@ -249,7 +346,9 @@ const SearchPage = () => {
             </div>
             {/* Location */}
             <div className="mb-4">
-              <label className="block text-gray-700 mb-2">Location</label>
+              <label className="block text-gray-700 mb-2">
+                <Translate text={"Location"} />
+              </label>
               <input
                 type="text"
                 name="location"
@@ -258,75 +357,82 @@ const SearchPage = () => {
                 className="w-full border p-2 rounded"
                 placeholder="Search location"
               />
-              {[
-                "Damascus",
-                "Aleppo",
-                "Daraa",
-                "Deir ez-Zor",
-                "Hama",
-                "Homs",
-              ].map((loc) => (
-                <div key={loc}>
+              {alllocation.map((loc) => (
+                <div key={loc.label}>
                   <input
                     type="checkbox"
                     name="location"
-                    value={loc}
+                    value={loc.value}
                     onChange={handleFilterChange}
                   />
-                  <label className="ml-2">{loc}</label>
+                  <label className="ml-2">
+                    <Translate text={loc.label} />
+                  </label>
                 </div>
               ))}
             </div>
             {/* Engine Size */}
             <div className="mb-4">
               <label className="block text-gray-700 mb-2">
-                Engine Size (CC)
+                <Translate text={"Engine Size (CC)"} />
               </label>
-              {["0-499 cc", "1000-1499 cc", "3000-3499 cc"].map((size) => (
-                <div key={size}>
+              {allenginesize.map((size) => (
+                <div key={size.label}>
                   <input
                     type="checkbox"
                     name="engineSize"
-                    value={size}
+                    value={size.value}
                     onChange={handleFilterChange}
                   />
-                  <label className="ml-2">{size}</label>
+                  <label className="ml-2">
+                    <Translate text={size.label} />
+                  </label>
                 </div>
               ))}
             </div>
             {/* Transmission */}
             <div className="mb-4">
-              <label className="block text-gray-700 mb-2">Transmission</label>
-              {["Automatic", "Manual"].map((trans) => (
-                <div key={trans}>
+              <label className="block text-gray-700 mb-2">
+                <Translate text={"Transmission"} />
+              </label>
+              {allTransmission.map((trans) => (
+                <div key={trans.label}>
                   <input
                     type="radio"
                     name="transmission"
-                    value={trans}
+                    value={trans.value}
                     onChange={handleFilterChange}
                   />
-                  <label className="ml-2">{trans}</label>
+                  <label className="ml-2">
+                    <Translate text={trans.label} />
+                  </label>
                 </div>
               ))}
             </div>
             {/* Fuel Type */}
             <div className="mb-4">
-              <label className="block text-gray-700 mb-2">Fuel Type</label>
-              {["Petrol", "Diesel", "Electric", "Gasoline"].map((fuel) => (
-                <div key={fuel}>
+              <label className="block text-gray-700 mb-2">
+                <Translate text={"Fuel Type"} />
+              </label>
+              {allFuelType.map((fuel) => (
+                <div key={fuel.label}>
                   <input
                     type="checkbox"
                     name="fuelType"
-                    value={fuel}
+                    value={fuel.value}
                     onChange={handleFilterChange}
                   />
-                  <label className="ml-2">{fuel}</label>
+                  <label className="ml-2">
+                    <Translate text={fuel.label} />
+                  </label>
                 </div>
               ))}
             </div>
             {/* Exterior Color */}
             <div className="mb-4">
-              <label className="block text-gray-700 mb-2">Exterior Color</label>
+              <label className="block text-gray-700 mb-2">
+                <Translate text={"Exterior Color"} />
+              </label>
               <select
                 name="exteriorColor"
                 value={filters.exteriorColor}
@@ -334,15 +440,20 @@ const SearchPage = () => {
                 className="w-full border p-2 rounded"
                 style={{ backgroundColor: "#fff" }}
               >
-                <option value="">Select Color</option>
-                <option value="Black">Black</option>
-                <option value="White">White</option>
-                <option value="Blue">Blue</option>
+                {allExteriorColor.map((color) => (
+                  <>
+                    <option key={color.label} value={color.value}>
+                      <Translate text={color.label} />
+                    </option>
+                  </>
+                ))}
               </select>
             </div>
             {/* Interior Color */}
             <div className="mb-4">
-              <label className="block text-gray-700 mb-2">Interior Color</label>
+              <label className="block text-gray-700 mb-2">
+                <Translate text={"Interior Color"} />
+              </label>
               <select
                 name="interiorColor"
                 value={filters.interiorColor}
@@ -350,10 +461,13 @@ const SearchPage = () => {
                 className="w-full border p-2 rounded"
                 style={{ backgroundColor: "#fff" }}
               >
-                <option value="">Select Color</option>
-                <option value="Black">Black</option>
-                <option value="Gray">Gray</option>
-                <option value="Beige">Beige</option>
+                {allInteriorColor.map((color) => (
+                  <>
+                    <option key={color.label} value={color.value}>
+                      <Translate text={color.label} />
+                    </option>
+                  </>
+                ))}
               </select>
             </div>
           </div>
@@ -368,37 +482,45 @@ const SearchPage = () => {
                   />
                 </button>
                 <div className="xl:col-span-2 col-span-8 shadow rounded p-4 bg-slate-50 h-full overflow-scroll mb-4">
-                  <h3 className="font-bold text-xl mb-4">Filters</h3>
+                  <h3 className="font-bold text-xl mb-4">
+                    <Translate text={"Filters"} />
+                  </h3>
                   {/* Make */}
                   <div className="mb-4">
-                    <label className="block text-gray-700 mb-2">Make</label>
+                    <label className="block text-gray-700 mb-2">
+                      <Translate text={"Make"} />
+                    </label>
                     <input
                       type="text"
                       name="make"
                       value={filters.make[0] || ""}
                       onChange={handleFilterChange}
                       className="w-full border p-2 rounded"
-                      placeholder="Search make"
+                      placeholder={
+                        currentLanguage === "ar"
+                          ? "البحث عن الماركة"
+                          : "Search make"
+                      }
                     />
-                    {["BMW", "Chevrolet", "Ferrari", "Ford", "Jaguar"].map(
-                      (make) => (
-                        <div key={make}>
-                          <input
-                            type="checkbox"
-                            name="make"
-                            value={make}
-                            checked={filters.make.includes(make)}
-                            onChange={handleFilterChange}
-                          />
-                          <label className="ml-2">{make}</label>
-                        </div>
-                      )
-                    )}
+                    {carMakes.map((make) => (
+                      <div key={make.label}>
+                        <input
+                          type="checkbox"
+                          name="make"
+                          value={make.label}
+                          checked={filters.make.includes(make)}
+                          onChange={handleFilterChange}
+                        />
+                        <label className="ml-2">{make.label}</label>
+                      </div>
+                    ))}
                   </div>
 
                   {/* Year */}
                   <div className="mb-4">
-                    <label className="block text-gray-700 mb-2">Year</label>
+                    <label className="block text-gray-700 mb-2">
+                      <Translate text={"Year"} />
+                    </label>
                     <div className="flex gap-2">
                       <input
                         type="number"
@@ -406,7 +528,11 @@ const SearchPage = () => {
                         value={filters.minYear}
                         onChange={handleFilterChange}
                         className="w-1/2 border p-2 rounded"
-                        placeholder="Min Year"
+                        placeholder={
+                          currentLanguage === "ar"
+                            ? "الحد الأدنى للسنة"
+                            : "Min Year"
+                        }
                       />
                       <input
                         type="number"
@@ -414,13 +540,19 @@ const SearchPage = () => {
                         value={filters.maxYear}
                         onChange={handleFilterChange}
                         className="w-1/2 border p-2 rounded"
-                        placeholder="Max Year"
+                        placeholder={
+                          currentLanguage === "ar"
+                            ? "الحد الأقصى للسنة"
+                            : "Max Year"
+                        }
                       />
                     </div>
                   </div>
                   {/* Price */}
                   <div className="mb-4">
-                    <label className="block text-gray-700 mb-2">Price</label>
+                    <label className="block text-gray-700 mb-2">
+                      <Translate text={"Price"} />
+                    </label>
                     <div className="flex gap-2">
                       <input
                         type="number"
@@ -428,7 +560,11 @@ const SearchPage = () => {
                         value={filters.minPrice}
                         onChange={handleFilterChange}
                         className="w-1/2 border p-2 rounded"
-                        placeholder="Min Price"
+                        placeholder={
+                          currentLanguage === "ar"
+                            ? "الحد الأدنى للسعر"
+                            : "Min Price"
+                        }
                       />
                       <input
                         type="number"
@@ -436,14 +572,18 @@ const SearchPage = () => {
                         value={filters.maxPrice}
                         onChange={handleFilterChange}
                         className="w-1/2 border p-2 rounded"
-                        placeholder="Max Price"
+                        placeholder={
+                          currentLanguage === "ar"
+                            ? "السعر الأقصى"
+                            : "Max Price"
+                        }
                       />
                     </div>
                   </div>
                   {/* Kilometer */}
                   <div className="mb-4">
                     <label className="block text-gray-700 mb-2">
-                      Kilometer
+                      <Translate text={"Kilometer"} />
                     </label>
                     <select
                       name="kilometer"
@@ -460,7 +600,9 @@ const SearchPage = () => {
                   </div>
                   {/* Location */}
                   <div className="mb-4">
-                    <label className="block text-gray-700 mb-2">Location</label>
+                    <label className="block text-gray-700 mb-2">
+                      <Translate text={"Location"} />
+                    </label>
                     <input
                       type="text"
                       name="location"
@@ -469,84 +611,81 @@ const SearchPage = () => {
                       className="w-full border p-2 rounded"
                       placeholder="Search location"
                     />
-                    {[
-                      "Damascus",
-                      "Aleppo",
-                      "Daraa",
-                      "Deir ez-Zor",
-                      "Hama",
-                      "Homs",
-                    ].map((loc) => (
-                      <div key={loc}>
+                    {alllocation.map((loc) => (
+                      <div key={loc.label}>
                         <input
                           type="checkbox"
                           name="location"
-                          value={loc}
+                          value={loc.value}
                           onChange={handleFilterChange}
                         />
-                        <label className="ml-2">{loc}</label>
+                        <label className="ml-2">
+                          <Translate text={loc.label} />
+                        </label>
                       </div>
                     ))}
                   </div>
                   {/* Engine Size */}
                   <div className="mb-4">
                     <label className="block text-gray-700 mb-2">
-                      Engine Size (CC)
+                      <Translate text={"Engine Size (CC)"} />
                     </label>
-                    {["0-499 cc", "1000-1499 cc", "3000-3499 cc"].map(
-                      (size) => (
-                        <div key={size}>
-                          <input
-                            type="checkbox"
-                            name="engineSize"
-                            value={size}
-                            onChange={handleFilterChange}
-                          />
-                          <label className="ml-2">{size}</label>
-                        </div>
-                      )
-                    )}
+                    {allenginesize.map((size) => (
+                      <div key={size.label}>
+                        <input
+                          type="checkbox"
+                          name="engineSize"
+                          value={size.value}
+                          onChange={handleFilterChange}
+                        />
+                        <label className="ml-2">
+                          <Translate text={size.label} />
+                        </label>
+                      </div>
+                    ))}
                   </div>
                   {/* Transmission */}
                   <div className="mb-4">
                     <label className="block text-gray-700 mb-2">
-                      Transmission
+                      <Translate text={"Transmission"} />
                     </label>
-                    {["Automatic", "Manual"].map((trans) => (
-                      <div key={trans}>
+                    {allTransmission.map((trans) => (
+                      <div key={trans.label}>
                         <input
                           type="radio"
                           name="transmission"
-                          value={trans}
+                          value={trans.value}
                           onChange={handleFilterChange}
                         />
-                        <label className="ml-2">{trans}</label>
+                        <label className="ml-2">
+                          <Translate text={trans.label} />
+                        </label>
                       </div>
                     ))}
                   </div>
                   {/* Fuel Type */}
                   <div className="mb-4">
                     <label className="block text-gray-700 mb-2">
-                      Fuel Type
+                      <Translate text={"Fuel Type"} />
                     </label>
-                    {["Petrol", "Diesel", "Electric", "Gasoline"].map(
-                      (fuel) => (
-                        <div key={fuel}>
-                          <input
-                            type="checkbox"
-                            name="fuelType"
-                            value={fuel}
-                            onChange={handleFilterChange}
-                          />
-                          <label className="ml-2">{fuel}</label>
-                        </div>
-                      )
-                    )}
+                    {allFuelType.map((fuel) => (
+                      <div key={fuel.label}>
+                        <input
+                          type="checkbox"
+                          name="fuelType"
+                          value={fuel.value}
+                          onChange={handleFilterChange}
+                        />
+                        <label className="ml-2">
+                          <Translate text={fuel.label} />
+                        </label>
+                      </div>
+                    ))}
                   </div>
                   {/* Exterior Color */}
                   <div className="mb-4">
                     <label className="block text-gray-700 mb-2">
-                      Exterior Color
+                      <Translate text={"Exterior Color"} />
                     </label>
                     <select
                       name="exteriorColor"
@@ -555,16 +694,19 @@ const SearchPage = () => {
                       className="w-full border p-2 rounded"
                       style={{ backgroundColor: "#fff" }}
                     >
-                      <option value="">Select Color</option>
-                      <option value="Black">Black</option>
-                      <option value="White">White</option>
-                      <option value="Blue">Blue</option>
+                      {allExteriorColor.map((color) => (
+                        <>
+                          <option key={color.label} value={color.value}>
+                            <Translate text={color.label} />
+                          </option>
+                        </>
+                      ))}
                     </select>
                   </div>
                   {/* Interior Color */}
                   <div className="mb-4">
                     <label className="block text-gray-700 mb-2">
-                      Interior Color
+                      <Translate text={"Interior Color"} />
                     </label>
                     <select
                       name="interiorColor"
@@ -573,10 +715,13 @@ const SearchPage = () => {
                       className="w-full border p-2 rounded"
                       style={{ backgroundColor: "#fff" }}
                     >
-                      <option value="">Select Color</option>
-                      <option value="Black">Black</option>
-                      <option value="Gray">Gray</option>
-                      <option value="Beige">Beige</option>
+                      {allInteriorColor.map((color) => (
+                        <>
+                          <option key={color.label} value={color.value}>
+                            <Translate text={color.label} />
+                          </option>
+                        </>
+                      ))}
                     </select>
                   </div>
                 </div>
@@ -587,9 +732,9 @@ const SearchPage = () => {
         <div className="col-span-6">
           <div className="flex justify-between xl:items-center mb-4 p-2 rounded bg-transparent xl:flex-row flex-col">
             <h2 className="xl:text-[24px] text-[18px] font-semibold mr-4">
-              {filteredData?.length} Results{" "}
+              {filteredData?.length} <Translate text={"Results"} />{" "}
               <span className="text-red-500 xl:text-[15px] text-[12px]">
-                Classified Ads
+                <Translate text={"Classified Ads"} />
               </span>
             </h2>
             <div className="flex xl:items-center gap-8 xl:flex-row flex-col">
@@ -612,7 +757,9 @@ const SearchPage = () => {
 
               <div className="flex items-center space-x-2">
                 {/* Left side label */}
-                <label className="text-gray-700 font-semibold">Sort by:</label>
+                <label className="text-gray-700 font-semibold">
+                  <Translate text={"Sort by:"} />
+                </label>
 
                 {/* Dropdown with arrow */}
                 <div className="relative xl:w-64 w-40">
@@ -625,11 +772,21 @@ const SearchPage = () => {
                       sortData(e.target.value);
                     }}
                   >
-                    <option>Most Relevant</option>
-                    <option>Newest</option>
-                    <option>Oldest</option>
-                    <option>Highest Price</option>
-                    <option>Lowest Price</option>
+                    <option>
+                      <Translate text={"Most Relevant"} />
+                    </option>
+                    <option>
+                      <Translate text={"Newest"} />
+                    </option>
+                    <option>
+                      <Translate text={"Oldest"} />
+                    </option>
+                    <option>
+                      <Translate text={"Highest Price"} />
+                    </option>
+                    <option>
+                      <Translate text={"Lowest Price"} />
+                    </option>
                   </select>
 
                   {/* Dropdown Arrow (Right Side) */}
@@ -693,7 +850,7 @@ const SearchPage = () => {
 
                     {index < 2 && (
                       <div className="absolute top-5 left-5 bg-red-500 text-white text-sm font-bold px-2 py-1 rounded-tr-lg rounded-bl-lg z-10 pointer-events-none">
-                        Featured
+                        <Translate text={"Featured"} />
                       </div>
                     )}
 
@@ -732,11 +889,11 @@ const SearchPage = () => {
                                 <CiHeart className="w-1/2 h-1/2" />
                               </div>
                             </div>
-                            <div className="flex justify-center items-center cursor-pointer">
+                            {/* <div className="flex justify-center items-center cursor-pointer">
                               <p className="text-gray-400 text-[12px] sm:text-[14px]">
                                 {data.views} Views
                               </p>
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                       </div>

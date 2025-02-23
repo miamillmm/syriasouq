@@ -110,7 +110,7 @@ const Featured = () => {
       <div className="header flex flex-col md:flex-row justify-between flex-wrap items-center mb-12">
         <div className="space-y-4 text-center md:text-left">
           <button className="text-[12px] sm:text-[14px] font-[400] text-gray-500 bg-gray-100 py-2 px-4 rounded cursor-pointer">
-            {currentLanguage === "ar" ? "مختارات الجلك" : "Handy picked"}
+            {currentLanguage === "ar" ? "مختارات ألجلك" : "Handy picked"}
           </button>
           <h2 className="text-[28px] sm:text-[36px] font-bold text-[#314352]">
             <Translate text={"Featured listings"} />
@@ -173,7 +173,7 @@ const Featured = () => {
                         ${data?.priceUSD ? data?.priceUSD : "آخر"}
                       </h2>
                       <span className="block px-2 py-1 rounded bg-[#B80200] text-white text-xs">
-                        <Translate text={"PREMIUM"} />
+                        {currentLanguage === "ar" ? "مميز" : "PREMIUM"}
                       </span>
                     </div>
                     <div className="flex items-center gap-2">

@@ -261,7 +261,7 @@ const BannerSection = () => {
 
             <button
               type="submit"
-              className="w-full bg-white hover:bg-slate-200 py-3 sm:py-4 rounded-lg text-[#B80200] text-lg cursor-pointer"
+              className="w-full bg-white hover:bg-slate-200 py-3 sm:py-4 rounded-lg text-[#B80200] text-lg cursor-pointer font-bold"
             >
               {currentLanguage === "ar" ? "بحث" : "Search"}
             </button>

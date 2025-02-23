@@ -3,9 +3,11 @@ import { NavLink } from "react-router";
 import { Link, useNavigate } from "react-router-dom";
 import avatar from "../assets/images/avatar/photo.png";
 // import logo from "../assets/images/logo/logo.png";
-import logo from "../assets/images/logo/logo-new.jpeg";
+// import logo from "../assets/images/logo/logo-new.jpeg";
+import logo from "../assets/images/logo/logo-new-transparent-bg.png";
 import Translate from "../utils/Translate";
 import { useTranslation } from "react-i18next";
+import { FaRegUserCircle } from "react-icons/fa";
 
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -82,15 +84,16 @@ const Navbar = () => {
 
         <div className="avatar md:hidden">
           <Link to={"/dashboard"}>
-            <div className="w-10 rounded-full h-10 bg-teal-400 !flex items-center justify-center font-black text-lg">
+            <div className="w-10 rounded-full h-10 bg-white !flex items-center justify-center font-black text-lg">
               {/* <img src={avatar} alt="avatar" /> */}
-              <Translate
+              {/* <Translate
                 text={(() => {
                   const firstLetter =
                     user?.username?.charAt(0).toUpperCase() || "?";
                   return firstLetter;
                 })()}
-              />
+              /> */}
+              <FaRegUserCircle className="text-[#B80200] w-full h-full" />
             </div>
           </Link>
         </div>
@@ -220,15 +223,16 @@ const Navbar = () => {
               <>
                 <div className="avatar">
                   <Link to={"/dashboard"}>
-                    <div className="w-10 rounded-full h-10 bg-teal-400 !flex items-center justify-center font-black text-lg">
+                    <div className="w-10 rounded-full h-10 bg-white !flex items-center justify-center font-black text-lg">
                       {/* <img src={avatar} alt="avatar" /> */}
-                      <Translate
+                      {/* <Translate
                         text={(() => {
                           const firstLetter =
                             user?.username?.charAt(0).toUpperCase() || "?";
                           return firstLetter;
                         })()}
-                      />
+                      /> */}
+                      <FaRegUserCircle className="text-[#B80200] w-full h-full" />
                     </div>
                   </Link>
                 </div>
@@ -264,7 +268,7 @@ const Navbar = () => {
 
             {/* Add Listing Button */}
             <NavLink to="/addlisting">
-              <button className="bg-white px-4 py-2 rounded-md  cursor-pointer text-[#B80200]">
+              <button className="bg-white px-4 py-2 rounded-md  cursor-pointer text-[#B80200] font-bold">
                 <Translate text={"Add Listing"} /> <span>+</span>
               </button>
             </NavLink>
@@ -335,7 +339,7 @@ const Navbar = () => {
                         onClick={() => setIsSidebarOpen(false)}
                         className="block hover:text-[#B80200]"
                       >
-                        {currentLanguage === "ar" ? "تواصل معن" : "Contact"}
+                        {currentLanguage === "ar" ? "تواصل معنا" : "Contact"}
                       </NavLink>
                     </li>
                     <li>
@@ -355,7 +359,7 @@ const Navbar = () => {
                   to="/addlisting"
                   onClick={() => setIsSidebarOpen(false)}
                 >
-                  <button className="bg-white px-4 py-2 text-[#B80200] rounded-md hover:bg-slate-200 cursor-pointer">
+                  <button className="bg-white px-4 py-2 text-[#B80200] rounded-md hover:bg-slate-200 cursor-pointer font-bold">
                     <Translate text={"Add Listing"} />
                   </button>
                 </NavLink>

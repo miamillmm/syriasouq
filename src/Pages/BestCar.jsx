@@ -71,7 +71,9 @@ const BestCar = () => {
               <Translate text={"A Trusted Syrian Website"} />
             </h2>
             <p className="text-sm md:text-base text-[#9AA4AD] leading-none">
-              <Translate text={"Syrian owned website for the people"} />
+              {currentLanguage === "ar"
+                ? "موقع موثوق لخدمة الجميع"
+                : "Syrian owned website for the people"}
             </p>
           </div>
           <div className="w-full h-auto bg-[#323232fa] py-8 px-6 text-center space-y-3 rounded">
@@ -99,11 +101,9 @@ const BestCar = () => {
                 : "Transactions Seller to Client"}
             </h2>
             <p className="text-sm md:text-base text-[#9AA4AD] leading-none">
-              <Translate
-                text={
-                  "SyriaSouq.com acts solely as an advertising platform and has no responsibility for transactions; buyers and sellers are encouraged to communicate effectivley before purchase"
-                }
-              />
+              {currentLanguage === "ar"
+                ? `موقع سيريا سوق هو منصة إعالنية فقط، وال يتحمل أي مسؤولية عن أي معامالت تتم عبره. نوصي المشترين والبائعين بالتواصل بوضوح والتحقق من التفاصيل قبل إتمام أي عملية شراء`
+                : `SyriaSouq.com acts solely as an advertising platform and has no responsibility for transactions; buyers and sellers are encouraged to communicate effectivley before purchase`}
             </p>
           </div>
         </div>

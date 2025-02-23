@@ -17,12 +17,14 @@ import Breadcrumb from "./Breadcumb";
 import FeaturedCard from "./FeaturedCard";
 import MoreFromUser from "./MoreFromUser";
 import Translate from "../utils/Translate";
+import { useTranslation } from "react-i18next";
 
 const CarDetails = () => {
   const { id } = useParams();
   const [carDetails, setCarDetails] = useState({});
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+  const [showMore, setShowMore] = useState(false);
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("SyriaSouq-auth"));
@@ -76,6 +78,9 @@ const CarDetails = () => {
       console.error("Error starting new chat", error);
     }
   };
+
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language; // Gets current language
 
   return (
     <div className="pt-24 px-5 md:px-16 lg:px-28">
@@ -151,23 +156,20 @@ const CarDetails = () => {
             {/* Car Information */}
             <div className="p-6">
               <h2 className="text-2xl pb-4 text-[#314352] font-semibold">
-                <Translate text={"Information:"} />
+                {currentLanguage === "ar"
+                  ? "نظرة عامة عن السيارة"
+                  : "Information:"}
               </h2>
               <div className="grid grid-cols-2 gap-y-2 text-[#314352]">
                 <p className="font-semibold">
-                  <Translate text={"Make:"} />
+                  {currentLanguage === "ar" ? "النوع" : "Make:"}
                 </p>
                 <p>{carDetails?.make}</p>
 
                 <p className="font-semibold">
-                  <Translate text={"Model:"} />
+                  {currentLanguage === "ar" ? "الموديل" : "Model:"}
                 </p>
                 <p>{carDetails?.model}</p>
-
-                <p className="font-semibold">
-                  <Translate text={"Price:"} />
-                </p>
-                <p>${carDetails?.priceUSD}</p>
 
                 <p className="font-semibold">
                   <Translate text={"Kilometer:"} />
@@ -175,6 +177,80 @@ const CarDetails = () => {
                 <p>
                   {carDetails?.kilometer} <Translate text={"km"} />
                 </p>
+
+                <p className="font-semibold">
+                  {currentLanguage === "ar" ? "السعر" : "Price:"}
+                </p>
+                <p>${carDetails?.priceUSD}</p>
+
+                {showMore ? (
+                  <>
+                    <button
+                      onClick={() => setShowMore(false)}
+                      className="cursor-pointer text-[#B80200]"
+                    >
+                      Show Less
+                    </button>
+                    <p></p>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => setShowMore(true)}
+                      className="cursor-pointer text-[#B80200]"
+                    >
+                      Show More
+                    </button>
+                    <p></p>
+                  </>
+                )}
+
+                {showMore && (
+                  <>
+                    <p className="font-semibold">
+                      {currentLanguage === "ar"
+                        ? "اللون الداخلي"
+                        : "Interior Color:"}
+                    </p>
+                    <p>
+                      {carDetails?.interiorColor
+                        ? carDetails?.interiorColor
+                        : "N/A"}
+                    </p>
+
+                    <p className="font-semibold">
+                      {currentLanguage === "ar"
+                        ? "اللون الخارجي"
+                        : "Exterior Color:"}
+                    </p>
+                    <p>
+                      {carDetails?.exteriorColor
+                        ? carDetails?.exteriorColor
+                        : "N/A"}
+                    </p>
+
+                    <p className="font-semibold">
+                      {currentLanguage === "ar" ? "حجم المحرك" : "Engine Size:"}
+                    </p>
+                    <p>
+                      {carDetails?.engineSize ? carDetails?.engineSize : "N/A"}
+                    </p>
+
+                    <p className="font-semibold">
+                      {currentLanguage === "ar" ? "نوع الوقود" : "Fuel Type:"}
+                    </p>
+                    <p>{carDetails?.fuelType ? carDetails?.fuelType : "N/A"}</p>
+
+                    <p className="font-semibold">
+                      {currentLanguage === "ar" ? "الانتقال" : "Transmission:"}
+                    </p>
+                    <p>
+                      {carDetails?.transmission
+                        ? carDetails?.transmission
+                        : "N/A"}
+                    </p>
+                  </>
+                )}
               </div>
             </div>
 
@@ -310,7 +386,9 @@ const CarDetails = () => {
             <div className="flex justify-center items-center my-8 gap-2 text-xl text-[#B80200] cursor-pointer">
               <MdErrorOutline />
               <h2>
-                <Translate text={"Report abuse"} />
+                {currentLanguage === "ar"
+                  ? "اإلبالغ عن انتهاك"
+                  : "Report abuse"}
               </h2>
             </div>
 

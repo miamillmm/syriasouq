@@ -49,9 +49,9 @@ const Subscribe = () => {
           </div>
           <div className="text-white">
             <p className="text-base md:text-[16px] font-[400] mb-4 leading-6 md:leading-7">
-              <Translate text={"All you need to know about"} />
-              <br className="hidden md:block" />{" "}
-              <Translate text={"everything that matters"} />
+              {currentLanguage === "ar"
+                ? "!اشترك األن لتصلك أحدث المعلومات حول كل ما يهمك"
+                : "All you need to know about everything that matters"}
             </p>
           </div>
           <div className="w-full md:w-3/4 h-auto bg-[#374b5c] mx-auto rounded-lg md:rounded-tl-lg md:rounded-bl-lg md:rounded-tr-full md:rounded-br-full flex flex-col md:flex-row justify-between gap-4 md:gap-5 p-3">

@@ -80,7 +80,7 @@ const About = () => {
           </h2>
           <p className="text-gray-500">
             <Translate
-              text={`Created by a Syrian to form a sales community that is safe, reliable and easy for everyone to use to their benefit. Enjoy!`}
+              text={`Created to form a sales community that is safe, reliable and easy for everyone to use to their benefit`}
             />
           </p>
 
@@ -178,7 +178,7 @@ const About = () => {
           {/* Horizontal Dashed Line */}
           <div className="absolute inset-0 flex items-center justify-between w-full">
             <div className="w-full flex items-center">
-              <div className="w-2/3 mx-auto h-px border-dashed border-t-2 border-red-500"></div>
+              <div className="w-2/3 mx-auto h-px border-dashed border-t-2 border-[#B80200]"></div>
             </div>
           </div>
 
@@ -211,7 +211,7 @@ const About = () => {
                     height="27"
                     rx="13.5"
                     fill="#FDFDFE"
-                    stroke="#F17851"
+                    stroke="#B80200"
                     strokeWidth="3"
                   />
                 </svg>
@@ -219,7 +219,7 @@ const About = () => {
 
               {/* Step Title */}
               <h3 className="text-2xl tracking-[-0.04em] font-bold text-[#314352]">
-                <Translate text={"Search"} />
+                {currentLanguage === "ar" ? "البحث" : "Search"}
               </h3>
 
               {/* Step Description */}
@@ -241,7 +241,7 @@ const About = () => {
               >
                 <path
                   d="M1.11914 23.7492C17.1613 9.08347 19.7173 17.7527 2.72758 1.96159"
-                  stroke="#F17851"
+                  stroke="#B80200"
                   strokeWidth="3"
                 />
               </svg>
@@ -270,7 +270,7 @@ const About = () => {
                     height="27"
                     rx="13.5"
                     fill="#FDFDFE"
-                    stroke="#F17851"
+                    stroke="#B80200"
                     strokeWidth="3"
                   />
                 </svg>
@@ -278,7 +278,7 @@ const About = () => {
 
               {/* Step Title */}
               <h3 className="text-2xl tracking-[-0.04em] font-bold text-[#314352]">
-                <Translate text={`Find`} />
+                {currentLanguage === "ar" ? "اكتشف" : "Find"}
               </h3>
 
               {/* Step Description */}
@@ -300,7 +300,7 @@ const About = () => {
               >
                 <path
                   d="M1.11914 23.7492C17.1613 9.08347 19.7173 17.7527 2.72758 1.96159"
-                  stroke="#F17851"
+                  stroke="#B80200"
                   strokeWidth="3"
                 />
               </svg>
@@ -333,14 +333,14 @@ const About = () => {
                     height="27"
                     rx="13.5"
                     fill="#FDFDFE"
-                    stroke="#F17851"
+                    stroke="#B80200"
                     strokeWidth="3"
                   />
                 </svg>
               </div>
               {/* Step Title */}
               <h3 className="text-2xl tracking-[-0.04em] font-bold text-[#314352]">
-                <Translate text={"Connect"} />
+                {currentLanguage === "ar" ? "تواصل" : "Connect"}
               </h3>
 
               {/* Step Description */}

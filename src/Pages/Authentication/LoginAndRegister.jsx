@@ -114,7 +114,7 @@ const LoginAndRegister = () => {
                 : "text-gray-500 cursor-pointer"
             }
           >
-            <Translate text={"Login"} />
+            {currentLanguage === "ar" ? "الدخول" : "Login"}
           </button>
           <button
             onClick={() => setActiveTab("register")}
@@ -124,7 +124,7 @@ const LoginAndRegister = () => {
                 : "text-gray-500 cursor-pointer"
             }
           >
-            <Translate text={"Register"} />
+            {currentLanguage === "ar" ? "التسجيل" : "Register"}
           </button>
         </div>
         {activeTab === "login" ? (

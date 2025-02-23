@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import { CiHeart } from "react-icons/ci";
+import { CiCalendar, CiHeart, CiLocationOn, CiShare2 } from "react-icons/ci";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { Link } from "react-router";
 import "swiper/css";
@@ -8,6 +8,8 @@ import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Translate from "../utils/Translate";
+import { useTranslation } from "react-i18next";
+import { AiOutlineDashboard } from "react-icons/ai";
 
 const cars = [
   {
@@ -103,6 +105,72 @@ export default function MoreFromUser({ title, button, uid }) {
     getCars();
   }, [uid]);
 
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language; // Gets current language
+
+  const [wishlist, setWishlist] = useState([]);
+  const user = JSON.parse(localStorage.getItem("SyriaSouq-auth")); // Assume user is stored in localStorage
+
+  const handleWishlist = async (car) => {
+    if (!user) return alert("Please log in before managing your wishlist");
+
+    // Find the wishlist item for this car
+    const wishlistItem = wishlist.find((item) => item.car === car._id);
+
+    if (wishlistItem) {
+      // If the car is in the wishlist, remove it
+      try {
+        await axios.delete(
+          `${import.meta.env.VITE_API_URL}/wishlist/${wishlistItem._id}`, // Assuming wishlist items have unique IDs
+          {
+            headers: { authorization: `Bearer ${user.jwt}` },
+          }
+        );
+
+        alert("Car Removed from Wishlist");
+
+        // Update the wishlist state by filtering out the removed item
+        setWishlist(wishlist.filter((item) => item._id !== wishlistItem._id));
+      } catch (error) {
+        console.log("Error removing from wishlist:", error);
+      }
+    } else {
+      // If the car is not in the wishlist, add it
+      try {
+        const res = await axios.post(
+          `${import.meta.env.VITE_API_URL}/wishlist`,
+          {
+            userId: user._id,
+            carId: car._id,
+          },
+          {
+            headers: { authorization: `Bearer ${user.jwt}` },
+          }
+        );
+
+        alert("Car Added to Wishlist");
+
+        // Update wishlist state
+        setWishlist([...wishlist, res.data.data]);
+      } catch (error) {
+        console.log("Error adding to wishlist:", error);
+      }
+    }
+  };
+
+  const handleShare = (car) => {
+    const shareLink = `${window.location.origin}/listing/${car._id}`; // Adjust based on your app's routing
+
+    navigator.clipboard
+      .writeText(shareLink)
+      .then(() => {
+        alert("Link copied to clipboard!");
+      })
+      .catch((err) => {
+        console.error("Failed to copy link:", err);
+      });
+  };
+
   return (
     <div className="w-full py-10 relative">
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
@@ -110,9 +178,9 @@ export default function MoreFromUser({ title, button, uid }) {
           <Translate text={title} />
         </h2>
         <div className="flex items-center gap-2 mt-4 sm:mt-0">
-          <button className="bg-[#B80200] px-4 py-2 rounded-md text-white cursor-pointer">
+          {/* <button className="bg-[#B80200] px-4 py-2 rounded-md text-white cursor-pointer">
             <Translate text={button} />
-          </button>
+          </button> */}
           <button
             onClick={() => swiperRef.current?.slidePrev()}
             className="bg-[#B80200] text-white p-2 rounded cursor-pointer"
@@ -132,9 +200,9 @@ export default function MoreFromUser({ title, button, uid }) {
         spaceBetween={20}
         slidesPerView={1}
         breakpoints={{
-          640: { slidesPerView: 2 },
-          768: { slidesPerView: 3 },
-          1024: { slidesPerView: 4 },
+          640: { slidesPerView: 1 },
+          768: { slidesPerView: 1 },
+          1024: { slidesPerView: 2 },
         }}
         onSwiper={(swiper) => (swiperRef.current = swiper)}
         className="overflow-hidden"
@@ -142,7 +210,7 @@ export default function MoreFromUser({ title, button, uid }) {
         {listings.length > 0 ? (
           listings.map((car) => (
             <SwiperSlide key={car.id}>
-              <Link to={`/listing/${car._id}`}>
+              {/* <Link to={`/listing/${car._id}`}>
                 <div className="shadow-sm shadow-indigo-100 rounded">
                   <div className="overflow-hidden rounded-t-md">
                     <img
@@ -159,12 +227,12 @@ export default function MoreFromUser({ title, button, uid }) {
                     <div className="mt-6 text-xs border-t-2 border-gray-100 py-3">
                       <div className="flex justify-between px-4 py-2">
                         <div className="flex gap-2 items-center">
-                          {/* <div className="hover:text-red-500 hover:border-red-500 duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
+                          <div className="hover:text-red-500 hover:border-red-500 duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
                             <IoEyeOutline className="w-1/2 h-1/2" />
                           </div>
                           <div className="hover:text-red-500 hover:border-red-500 duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
                             <IoIosGitCompare className="w-1/2 h-1/2" />
-                          </div> */}
+                          </div>
                           <div className="hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
                             <CiHeart className="w-1/2 h-1/2" />
                           </div>
@@ -178,7 +246,79 @@ export default function MoreFromUser({ title, button, uid }) {
                     </div>
                   </div>
                 </div>
-              </Link>
+              </Link> */}
+              <div className="flex md:flex-row flex-col-reverse gap-4 bg-slate-100 p-3 rounded">
+                <div className="relative w-full max-w-[350px]">
+                  <Link to={`/listing/${car?._id}`} key={car?._id}>
+                    <div className="overflow-hidden rounded-md">
+                      <img
+                        alt=""
+                        src={`https://api.madconsolution.xyz/uploads/cars/${car?.images[0]}`}
+                        className="h-40 sm:h-56 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
+                      />
+                    </div>
+                  </Link>
+                  <div className="absolute top-2 right-2 flex items-center gap-2">
+                    <div
+                      onClick={() => handleWishlist(data)}
+                      className={`hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-white cursor-pointer text-white ${
+                        wishlist?.some((item) => item.car === car._id)
+                          ? "bg-[#B80200] border-[#B80200]"
+                          : ""
+                      }`}
+                    >
+                      <CiHeart className="w-1/2 h-1/2" />
+                    </div>
+                    <div
+                      onClick={() => handleShare(car)}
+                      className={`hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-white cursor-pointer text-white`}
+                    >
+                      <CiShare2 className="w-1/2 h-1/2" />
+                    </div>
+                  </div>
+                </div>
+                <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
+                  <div className="flex items-center justify-between gap-2">
+                    <h2 className="text-3xl font-bold">
+                      ${car?.priceUSD ? car?.priceUSD : "آخر"}
+                    </h2>
+                    <span className="block px-2 py-1 rounded bg-[#B80200] text-white text-xs">
+                      {currentLanguage === "ar" ? "مميز" : "PREMIUM"}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-lg">{car?.make ? car?.make : "آخر"}</h2>
+                    <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
+                    <h2 className="text-lg">
+                      {car?.model ? car?.model : "آخر"}
+                    </h2>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-1 text-xl">
+                      <CiCalendar />
+                      <span>{car?.year ? car?.year : "آخر"}</span>
+                    </div>
+                    <div className="flex items-center gap-1 text-xl">
+                      <AiOutlineDashboard />
+                      <span>{car?.kilometer ? car?.kilometer : "آخر"} km</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-1 text-xl">
+                      <CiLocationOn />
+                      <span>{car?.location ? car?.location : "آخر"}</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 mt-2 md:mt-4">
+                    <Link
+                      to={`/listing/${car?._id}`}
+                      className="block bg-[#B80200] text-white text-lg py-1 px-4 rounded"
+                    >
+                      <Translate text={"View Details"} />
+                    </Link>
+                  </div>
+                </div>
+              </div>
             </SwiperSlide>
           ))
         ) : (

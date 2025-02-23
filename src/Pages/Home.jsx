@@ -2,7 +2,7 @@ import Bannerr from "./Bannerr";
 import Featured from "./Featured";
 import BestCar from "./BestCar";
 import Subscribe from "./Subscribe";
-import Button from "./Button";
+// import Button from "./Button";
 
 const Home = () => {
   return (
@@ -11,7 +11,7 @@ const Home = () => {
       <Featured />
       <BestCar />
       <Subscribe />
-      <Button />
+      {/* <Button /> */}
     </div>
   );
 };
