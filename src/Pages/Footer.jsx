@@ -5,6 +5,7 @@ import { LuMapPin } from "react-icons/lu";
 import { CiAt } from "react-icons/ci";
 import Translate from "../utils/Translate";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router";
 
 const Footer = () => {
   const { i18n } = useTranslation();
@@ -35,28 +36,28 @@ const Footer = () => {
               </h3>
               <ul className="space-y-1">
                 <li>
-                  <a
-                    href="/about"
+                  <Link
+                    to="/about"
                     className="text-red-500 hover:underline font-bold"
                   >
                     <Translate text={"About us"} />
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="/term-and-use"
+                  <Link
+                    to="/term-and-use"
                     className="text-red-500 hover:underline font-bold"
                   >
                     <Translate text={"Terms of Use"} />
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="/privacy-policy"
+                  <Link
+                    to="/privacy-policy"
                     className="text-red-500 hover:underline font-bold"
                   >
                     <Translate text={"Privacy Policy"} />
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -68,28 +69,28 @@ const Footer = () => {
               </h3>
               <ul className="space-y-1">
                 <li>
-                  <a
-                    href="https://www.facebook.com/share/1HKg5LFhzB/?mibextid=wwXIfr"
+                  <Link
+                    to="https://www.facebook.com/share/1HKg5LFhzB/?mibextid=wwXIfr"
                     className="text-red-500 hover:underline font-bold"
                   >
                     {currentLanguage === "ar" ? "فيسبوك" : "facebook"}
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="https://www.instagram.com/mysyriasouq?igsh=bHFnNWo2aGszcHF4&utm_source=qr"
+                  <Link
+                    to="https://www.instagram.com/mysyriasouq?igsh=bHFnNWo2aGszcHF4&utm_source=qr"
                     className="text-red-500 hover:underline font-light"
                   >
                     {currentLanguage === "ar" ? "انستاغرام" : "instagram"}
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="mailto:syriasouq@outlook.com"
+                  <Link
+                    to="mailto:syriasouq@outlook.com"
                     className="text-red-500 hover:underline font-light"
                   >
                     {currentLanguage === "ar" ? "بريد إلكتروني" : "Email"}
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -99,12 +100,12 @@ const Footer = () => {
               <h3 className="font-bold mb-3">
                 {currentLanguage === "ar" ? "الدعم" : "support"}
               </h3>
-              <a
-                href="/contact"
+              <Link
+                to="/contact"
                 className="text-red-500 hover:underline font-light"
               >
                 {currentLanguage === "ar" ? "تواصل معنا" : "contact us"}
-              </a>
+              </Link>
             </div>
 
             {/* Languages */}
@@ -112,9 +113,9 @@ const Footer = () => {
               <h3 className="font-bold mb-3">
                 <Translate text={"languages"} />
               </h3>
-              <a href="#" className="text-red-500 hover:underline font-light">
+              <Link to="#" className="text-red-500 hover:underline font-light">
                 <Translate text={"arabic (arabic language)"} />
-              </a>
+              </Link>
             </div>
           </div>
         </footer>
