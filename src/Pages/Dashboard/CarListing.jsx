@@ -33,53 +33,56 @@ const CarListing = () => {
       } catch (error) {
         console.error("Error fetching cars:", error);
         // Demo data (for now)
-        setCars([
-          {
-            id: 1,
-            name: "Tesla Model S",
-            brand: "Tesla",
-            model: "Model S",
-            year: 2023,
-            price: "$85,000",
-            mileage: "15,000 miles",
-            fuel: "Electric",
-            location: "Los Angeles, CA",
-            image:
-              "https://cdn.pixabay.com/photo/2019/12/17/04/54/tesla-4705739_1280.jpg",
-          },
-          {
-            id: 2,
-            name: "BMW M3",
-            brand: "BMW",
-            model: "M3",
-            year: 2022,
-            price: "$72,000",
-            mileage: "10,500 miles",
-            fuel: "Gasoline",
-            location: "New York, NY",
-            image:
-              "https://cdn.pixabay.com/photo/2016/09/02/22/34/bmw-1646326_1280.jpg",
-          },
-          {
-            id: 3,
-            name: "Audi R8",
-            brand: "Audi",
-            model: "R8",
-            year: 2021,
-            price: "$160,000",
-            mileage: "8,000 miles",
-            fuel: "Gasoline",
-            location: "Miami, FL",
-            image:
-              "https://cdn.pixabay.com/photo/2016/11/29/08/49/audi-1866623_1280.jpg",
-          },
-        ]);
+        // setCars([
+        //   {
+        //     id: 1,
+        //     name: "Tesla Model S",
+        //     brand: "Tesla",
+        //     model: "Model S",
+        //     year: 2023,
+        //     price: "$85,000",
+        //     mileage: "15,000 miles",
+        //     fuel: "Electric",
+        //     location: "Los Angeles, CA",
+        //     images: [
+        //       "https://cdn.pixabay.com/photo/2019/12/17/04/54/tesla-4705739_1280.jpg",
+        //     ],
+        //   },
+        //   {
+        //     id: 2,
+        //     name: "BMW M3",
+        //     brand: "BMW",
+        //     model: "M3",
+        //     year: 2022,
+        //     price: "$72,000",
+        //     mileage: "10,500 miles",
+        //     fuel: "Gasoline",
+        //     location: "New York, NY",
+        //     images: [
+        //       "https://cdn.pixabay.com/photo/2016/09/02/22/34/bmw-1646326_1280.jpg",
+        //     ],
+        //   },
+        //   {
+        //     id: 3,
+        //     name: "Audi R8",
+        //     brand: "Audi",
+        //     model: "R8",
+        //     year: 2021,
+        //     price: "$160,000",
+        //     mileage: "8,000 miles",
+        //     fuel: "Gasoline",
+        //     location: "Miami, FL",
+        //     images: [
+        //       "https://cdn.pixabay.com/photo/2016/11/29/08/49/audi-1866623_1280.jpg",
+        //     ],
+        //   },
+        // ]);
       }
       setLoading(false);
     };
 
     fetchCars();
-  }, []);
+  }, [uid, user._id]);
 
   return (
     <div className="container mx-auto px-6 py-10">
@@ -91,7 +94,7 @@ const CarListing = () => {
         <div className="text-center text-gray-600 text-xl animate-pulse">
           <Translate text={"Loading cars... ⏳"} />
         </div>
-      ) : cars.length === 0 ? (
+      ) : cars?.length === 0 ? (
         <div className="text-center text-gray-600 text-lg">
           <Translate text={"No cars available right now. 😔"} />
         </div>
@@ -104,7 +107,7 @@ const CarListing = () => {
             >
               <div className="relative">
                 <img
-                  src={`https://api.madconsolution.xyz/uploads/cars/${car.images[0]}`}
+                  src={`https://api.madconsolution.xyz/uploads/cars/${car?.images[0]}`}
                   alt={car.make}
                   className="w-full h-60 object-cover rounded-t-xl"
                   onError={(e) =>
@@ -121,7 +124,7 @@ const CarListing = () => {
                   {car.make}
                 </h3>
                 <p className="text-gray-500 text-sm">
-                  {car.brand} • {car.model} • {car.year}
+                  {car?.brand} • {car?.model} • {car?.year}
                 </p>
                 <p className="text-gray-700 font-medium">
                   <Translate text={"Mileage:"} /> {car.kilometer}

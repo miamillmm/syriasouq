@@ -65,6 +65,8 @@ const LoginAndRegister = () => {
         data
       );
 
+      console.log(data);
+
       if (!response?.data?.message) {
         console.log("Register Response:", response.data);
         const data = response.data;
