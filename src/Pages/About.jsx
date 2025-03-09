@@ -10,6 +10,7 @@ import service3 from "../assets/service/service3.png";
 import Subscribe from "./Subscribe";
 import { useTranslation } from "react-i18next";
 import Translate from "../utils/Translate";
+import { Link } from "react-router-dom";
 
 const About = () => {
   const { i18n } = useTranslation();
@@ -84,15 +85,17 @@ const About = () => {
             />
           </p>
 
-          <button
-            type="submit"
-            className="w-full sm:w-2/3 bg-[#374B5C] py-3 sm:py-4 rounded-lg text-red-500 text-lg cursor-pointer flex justify-between items-center px-6 sm:px-12 mt-6 sm:mt-10"
-          >
-            <Translate text={"Explore Listings"} />{" "}
-            <span>
-              <TiArrowRight className="text-3xl text-red-500" />
-            </span>
-          </button>
+          <Link to="/search">
+            <button
+              type="submit"
+              className="w-full sm:w-2/3 bg-[#374B5C] py-3 sm:py-4 rounded-lg text-red-500 text-lg cursor-pointer flex justify-between items-center px-6 sm:px-12 mt-6 sm:mt-10"
+            >
+              <Translate text={"Explore Listings"} />{" "}
+              <span>
+                <TiArrowRight className="text-3xl text-red-500" />
+              </span>
+            </button>
+          </Link>
         </div>
       </section>
 

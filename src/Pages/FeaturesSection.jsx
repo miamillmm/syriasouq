@@ -46,7 +46,7 @@ const FeaturesSection = ({ selectedFeatures, setSelectedFeatures }) => {
         <div className="flex-1 border-t border-gray-300 border-dashed mx-2"></div>
         <button className="text-gray-400 hover:text-gray-600">▼</button>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {features.map((feature) => (
           <label
             key={feature}

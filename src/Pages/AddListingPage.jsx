@@ -113,14 +113,36 @@ const AddListingPage = () => {
   const [selectedFeatures, setSelectedFeatures] = useState([]);
   const [uploadedImages, setUploadedImages] = useState([]);
 
-  const modelOptions = make
-    ? makes
-        .find((m) => m.value === make.value)
-        ?.models.map((model) => ({
-          value: model,
-          label: model,
-        })) || []
-    : [];
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language; // Gets current language
+
+  // const modelOptions = make
+  //   ? makes
+  //       .find((m) => m.value === make.value)
+  //       ?.models.map((model) => ({
+  //         value: model,
+  //         label: model,
+  //       })) || []
+  //   : [];
+
+  const modelOptions =
+    currentLanguage === "ar"
+      ? make
+        ? arabicMakes
+            .find((m) => m.value === make.value)
+            ?.models.map((model) => ({
+              value: model,
+              label: model,
+            })) || []
+        : []
+      : make
+      ? makes
+          .find((m) => m.value === make.value)
+          ?.models.map((model) => ({
+            value: model,
+            label: model,
+          })) || []
+      : [];
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("SyriaSouq-auth"));
@@ -190,9 +212,6 @@ const AddListingPage = () => {
   //   setDescription(value);
   // };
 
-  const { i18n } = useTranslation();
-  const currentLanguage = i18n.language; // Gets current language
-
   return (
     <div className="pt-25">
       {/* login or register first */}
@@ -220,7 +239,7 @@ const AddListingPage = () => {
       </div>
 
       {/* form start here  */}
-      <div className="px-28 bg-gray-100 shadow p-6 ">
+      <div className="lg:px-28 px-7 bg-gray-100 shadow p-6 ">
         <div className="flex items-center w-full mb-5 pl-5">
           <h2 className="text-2xl font-bold text-[#314252] whitespace-nowrap">
             <Translate text={"General info"} />
@@ -229,7 +248,7 @@ const AddListingPage = () => {
           <button className="text-gray-400 hover:text-gray-600">▼</button>
         </div>
         <form onSubmit={handleSubmit}>
-          <div className="flex justify-between items-center gap-10 mt-8">
+          <div className="flex justify-between items-center lg:flex-row flex-col gap-10 mt-8">
             <label className="w-full">
               <div className="mb-2 px-3">
                 <h3 className="font-semibold">
@@ -241,6 +260,7 @@ const AddListingPage = () => {
                 options={currentLanguage === "ar" ? arabicMakes : makes} // Conditional array selection
                 value={make}
                 onChange={setMake}
+                required
                 placeholder={<Translate text={"Select Make"} />}
                 isSearchable
                 className="cursor-pointer"
@@ -293,7 +313,7 @@ const AddListingPage = () => {
               />
             </label>
           </div>
-          <div className="flex justify-between items-center gap-10 mt-8">
+          <div className="flex justify-between items-center lg:flex-row flex-col gap-10 mt-8">
             <label className="w-full">
               <div className="mb-2 px-3">
                 <h3 className="font-semibold">
@@ -340,13 +360,13 @@ const AddListingPage = () => {
               />
             </label>
           </div>
-          <div className="flex justify-between items-center gap-10 mt-8">
+          <div className="flex justify-between items-center lg:flex-row flex-col gap-10 mt-8">
             <label className="w-full">
               <div className="mb-2 px-3">
-                <h3 className="font-semibold text-[#B80200]">
+                <h3 className="font-semibold ">
                   {currentLanguage === "ar" ? "سعة المحرك" : "Engine Size (CC)"}
                   <span className="text-xs">
-                    <Translate text={"(Optional)"} />
+                    {/* <Translate text={"(Optional)"} /> */}
                   </span>
                 </h3>
               </div>
@@ -354,6 +374,7 @@ const AddListingPage = () => {
                 options={allenginesize}
                 value={engineSize}
                 onChange={setEngineSize}
+                required
                 placeholder={
                   currentLanguage === "ar" ? "سعة المحرك" : "Engine Size (CC)"
                 }
@@ -371,10 +392,10 @@ const AddListingPage = () => {
             </label>
             <label className="w-full">
               <div className="mb-2 px-3">
-                <h3 className="font-semibold text-[#B80200]">
+                <h3 className="font-semibold ">
                   Location{" "}
                   <span className="text-xs">
-                    <Translate text={"(Optional)"} />
+                    {/* <Translate text={"(Optional)"} /> */}
                   </span>
                 </h3>
               </div>
@@ -382,6 +403,7 @@ const AddListingPage = () => {
                 options={alllocation}
                 value={location}
                 onChange={setLocation}
+                required
                 placeholder={<Translate text={"Location"} />}
                 isSearchable
                 className="cursor-pointer"
@@ -397,10 +419,10 @@ const AddListingPage = () => {
             </label>
             <label className="w-full">
               <div className="mb-2 px-3">
-                <h3 className="font-semibold text-[#B80200]">
+                <h3 className="font-semibold ">
                   {currentLanguage === "ar" ? "ناقل الحركة" : "Transmission"}
                   <span className="text-xs">
-                    <Translate text={"(Optional)"} />
+                    {/* <Translate text={"(Optional)"} /> */}
                   </span>{" "}
                 </h3>
               </div>
@@ -408,6 +430,7 @@ const AddListingPage = () => {
                 options={allTransmission}
                 value={transmission}
                 onChange={setTransmission}
+                required
                 placeholder={
                   currentLanguage === "ar" ? "ناقل الحركة" : "Transmission"
                 }
@@ -424,13 +447,13 @@ const AddListingPage = () => {
               />
             </label>
           </div>
-          <div className="flex justify-between items-center gap-10 mt-8">
+          <div className="flex justify-between items-center lg:flex-row flex-col gap-10 mt-8">
             <label className="w-full">
               <div className="mb-2 px-3">
-                <h3 className="font-semibold text-[#B80200]">
+                <h3 className="font-semibold ">
                   <Translate text={"Fuel Type"} />{" "}
                   <span className="text-xs">
-                    <Translate text={"(Optional)"} />
+                    {/* <Translate text={"(Optional)"} /> */}
                   </span>
                 </h3>
               </div>
@@ -438,6 +461,7 @@ const AddListingPage = () => {
                 options={allFuelType}
                 value={fuelType}
                 onChange={setFuelType}
+                required
                 placeholder={<Translate text={"Fuel Type"} />}
                 isSearchable
                 className="cursor-pointer"
@@ -453,12 +477,12 @@ const AddListingPage = () => {
             </label>
             <label className="w-full">
               <div className="mb-2 px-3">
-                <h3 className="font-semibold text-[#B80200]">
+                <h3 className="font-semibold ">
                   {currentLanguage === "ar"
                     ? "اللون الخارجي"
                     : "Exterior Color"}
                   <span className="text-xs">
-                    <Translate text={"(Optional)"} />
+                    {/* <Translate text={"(Optional)"} /> */}
                   </span>
                 </h3>
               </div>
@@ -466,6 +490,7 @@ const AddListingPage = () => {
                 options={allExteriorColor}
                 value={exteriorColor}
                 onChange={setExteriorColor}
+                required
                 placeholder={
                   currentLanguage === "ar" ? "اللون الخارجي" : "Exterior Color"
                 }
@@ -483,12 +508,12 @@ const AddListingPage = () => {
             </label>
             <label className="w-full">
               <div className="mb-2 px-3">
-                <h3 className="font-semibold text-[#B80200]">
+                <h3 className="font-semibold ">
                   {currentLanguage === "ar"
                     ? "اللون الداخلي"
                     : "Interior Color"}
                   <span className="text-xs">
-                    <Translate text={"(Optional)"} />
+                    {/* <Translate text={"(Optional)"} /> */}
                   </span>
                 </h3>
               </div>
@@ -496,6 +521,7 @@ const AddListingPage = () => {
                 options={allInteriorColor}
                 value={interiorColor}
                 onChange={setInteriorColor}
+                required
                 placeholder={
                   currentLanguage === "ar" ? "اللون الداخلي" : "Interior Color"
                 }
@@ -528,6 +554,7 @@ const AddListingPage = () => {
               onChange={(e) => setDescription(e.target.value)}
               className="w-full bg-white outline-none rounded-lg p-2"
               rows={8}
+              required
             ></textarea>
           </div>
           <div className="mt-10">

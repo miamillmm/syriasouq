@@ -1,12 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { CiHeart } from "react-icons/ci";
+import { CiCalendar, CiHeart, CiLocationOn, CiShare2 } from "react-icons/ci";
 import { FaList, FaTh, FaTimes } from "react-icons/fa";
 import { Link } from "react-router";
 import Breadcrumb from "./Breadcumb";
 import { arabicMakes, makes } from "../utils/utils";
 import { useTranslation } from "react-i18next";
 import Translate from "../utils/Translate";
+import { AiOutlineDashboard } from "react-icons/ai";
 
 const SearchPage = () => {
   const [datas, setDatas] = useState([]);
@@ -256,18 +257,32 @@ const SearchPage = () => {
                   currentLanguage === "ar" ? "البحث عن الماركة" : "Search make"
                 }
               />
-              {carMakes.map((make) => (
-                <div key={make.label}>
-                  <input
+              <div>
+                {/* <input
                     type="checkbox"
                     name="make"
                     value={make.label}
                     checked={filters.make.includes(make)}
                     onChange={handleFilterChange}
                   />
-                  <label className="ml-2">{make.label}</label>
-                </div>
-              ))}
+                  <label className="ml-2">{make.label}</label> */}
+                <select
+                  name="make"
+                  id=""
+                  onChange={handleFilterChange}
+                  className="w-full py-2 !bg-white px-2 rounded"
+                >
+                  {carMakes.map((make) => (
+                    <option
+                      key={make.label}
+                      value={make.value}
+                      className="ml-2"
+                    >
+                      {make.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
 
             {/* Year */}
@@ -357,38 +372,60 @@ const SearchPage = () => {
                 className="w-full border p-2 rounded"
                 placeholder="Search location"
               />
-              {alllocation.map((loc) => (
-                <div key={loc.label}>
+              <div>
+                {/* <div>
                   <input
-                    type="checkbox"
-                    name="location"
-                    value={loc.value}
-                    onChange={handleFilterChange}
+                      type="checkbox"
+                      name="location"
+                      value={loc.value}
+                      onChange={handleFilterChange}
                   />
-                  <label className="ml-2">
+                    <label className="ml-2">
                     <Translate text={loc.label} />
                   </label>
-                </div>
-              ))}
+                </div> */}
+                <select
+                  name="location"
+                  id=""
+                  className="!bg-white py-2 px-2 rounded w-full"
+                  onChange={handleFilterChange}
+                >
+                  {alllocation.map((loc) => (
+                    <option key={loc.label}>{loc.label}</option>
+                  ))}
+                </select>
+              </div>
             </div>
             {/* Engine Size */}
             <div className="mb-4">
               <label className="block text-gray-700 mb-2">
                 <Translate text={"Engine Size (CC)"} />
               </label>
-              {allenginesize.map((size) => (
-                <div key={size.label}>
-                  <input
-                    type="checkbox"
-                    name="engineSize"
-                    value={size.value}
-                    onChange={handleFilterChange}
-                  />
-                  <label className="ml-2">
-                    <Translate text={size.label} />
-                  </label>
-                </div>
-              ))}
+              <div>
+                <select
+                  name="engineSize"
+                  id=""
+                  className="w-full py-2 px-2 rounded !bg-white"
+                  onChange={handleFilterChange}
+                >
+                  {/* <div key={size.label}>
+                    <input
+                      type="checkbox"
+                      name="engineSize"
+                      value={size.value}
+                      onChange={handleFilterChange}
+                    />
+                    <label className="ml-2">
+                      <Translate text={size.label} />
+                    </label>
+                  </div> */}
+                  {allenginesize.map((size) => (
+                    <option key={size.label} value={size.value}>
+                      {size.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
             {/* Transmission */}
             <div className="mb-4">
@@ -502,18 +539,32 @@ const SearchPage = () => {
                           : "Search make"
                       }
                     />
-                    {carMakes.map((make) => (
-                      <div key={make.label}>
-                        <input
-                          type="checkbox"
-                          name="make"
-                          value={make.label}
-                          checked={filters.make.includes(make)}
-                          onChange={handleFilterChange}
-                        />
-                        <label className="ml-2">{make.label}</label>
-                      </div>
-                    ))}
+                    <div>
+                      {/* <input
+                    type="checkbox"
+                    name="make"
+                    value={make.label}
+                    checked={filters.make.includes(make)}
+                    onChange={handleFilterChange}
+                  />
+                  <label className="ml-2">{make.label}</label> */}
+                      <select
+                        name="make"
+                        id=""
+                        onChange={handleFilterChange}
+                        className="w-full py-2 !bg-white px-2 rounded"
+                      >
+                        {carMakes.map((make) => (
+                          <option
+                            key={make.label}
+                            value={make.value}
+                            className="ml-2"
+                          >
+                            {make.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
 
                   {/* Year */}
@@ -611,38 +662,60 @@ const SearchPage = () => {
                       className="w-full border p-2 rounded"
                       placeholder="Search location"
                     />
-                    {alllocation.map((loc) => (
-                      <div key={loc.label}>
-                        <input
-                          type="checkbox"
-                          name="location"
-                          value={loc.value}
-                          onChange={handleFilterChange}
-                        />
-                        <label className="ml-2">
-                          <Translate text={loc.label} />
-                        </label>
-                      </div>
-                    ))}
+                    <div>
+                      {/* <div>
+                  <input
+                      type="checkbox"
+                      name="location"
+                      value={loc.value}
+                      onChange={handleFilterChange}
+                  />
+                    <label className="ml-2">
+                    <Translate text={loc.label} />
+                  </label>
+                </div> */}
+                      <select
+                        name="location"
+                        id=""
+                        className="!bg-white py-2 px-2 rounded w-full"
+                        onChange={handleFilterChange}
+                      >
+                        {alllocation.map((loc) => (
+                          <option key={loc.label}>{loc.label}</option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
                   {/* Engine Size */}
                   <div className="mb-4">
                     <label className="block text-gray-700 mb-2">
                       <Translate text={"Engine Size (CC)"} />
                     </label>
-                    {allenginesize.map((size) => (
-                      <div key={size.label}>
-                        <input
-                          type="checkbox"
-                          name="engineSize"
-                          value={size.value}
-                          onChange={handleFilterChange}
-                        />
-                        <label className="ml-2">
-                          <Translate text={size.label} />
-                        </label>
-                      </div>
-                    ))}
+                    <div>
+                      <select
+                        name="engineSize"
+                        id=""
+                        className="w-full py-2 px-2 rounded !bg-white"
+                        onChange={handleFilterChange}
+                      >
+                        {/* <div key={size.label}>
+                    <input
+                      type="checkbox"
+                      name="engineSize"
+                      value={size.value}
+                      onChange={handleFilterChange}
+                    />
+                    <label className="ml-2">
+                      <Translate text={size.label} />
+                    </label>
+                  </div> */}
+                        {allenginesize.map((size) => (
+                          <option key={size.label} value={size.value}>
+                            {size.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
                   {/* Transmission */}
                   <div className="mb-4">
@@ -848,11 +921,11 @@ const SearchPage = () => {
                   >
                     {/* Add "Featured" badge */}
 
-                    {index < 2 && (
+                    {/* {index < 2 && (
                       <div className="absolute top-5 left-5 bg-red-500 text-white text-sm font-bold px-2 py-1 rounded-tr-lg rounded-bl-lg z-10 pointer-events-none">
                         <Translate text={"Featured"} />
                       </div>
-                    )}
+                    )} */}
 
                     {view === "grid" ? (
                       <div>
@@ -867,76 +940,111 @@ const SearchPage = () => {
 
                         {/* Name, price, and buttons */}
                         <div className="px-4 py-3">
-                          <h2 className="text-[#314352] font-semibold text-lg">
-                            {data.make}
-                          </h2>
-                          <p className="text-[#314352] text-lg">
+                          <p className="text-[#314352] text-xl">
                             ${data.priceUSD}
                           </p>
-                        </div>
-
-                        {/* Buttons and view counter */}
-                        <div className="mt-6 text-xs border-t-2 border-gray-100 py-3">
-                          <div className="flex justify-between px-4 py-2">
-                            <div className="flex gap-2 items-center">
-                              {/* <div className="hover:text-red-500 hover:border-red-500 duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
-                                <IoEyeOutline className="w-1/2 h-1/2" />
-                              </div>
-                              <div className="hover:text-red-500 hover:border-red-500 duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
-                                <IoIosGitCompare className="w-1/2 h-1/2" />
-                              </div> */}
-                              <div className="hover:text-red-500 hover:border-red-500 duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
-                                <CiHeart className="w-1/2 h-1/2" />
-                              </div>
-                            </div>
-                            {/* <div className="flex justify-center items-center cursor-pointer">
-                              <p className="text-gray-400 text-[12px] sm:text-[14px]">
-                                {data.views} Views
-                              </p>
-                            </div> */}
+                          <div className="flex items-center gap-3">
+                            <h2 className="text-[#314352] font-semibold text-lg">
+                              {data.make}
+                            </h2>
+                            <span>.</span>
+                            <h2 className="text-[#314352] font-semibold text-lg">
+                              {data.model}
+                            </h2>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <h2 className="text-[#314352] font-semibold text-lg">
+                              {data.year}
+                            </h2>
+                            <span>.</span>
+                            <h2 className="text-[#314352] font-semibold text-lg">
+                              {data.kilometer} km
+                            </h2>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <h2 className="text-[#314352] font-semibold text-lg">
+                              {data.location}
+                            </h2>
                           </div>
                         </div>
                       </div>
                     ) : (
-                      <div className="flex gap-4 items-center relative">
-                        {/* Image on the left */}
-                        <div className="w-56 h-56 sm:w-72 sm:h-72 overflow-hidden rounded-md">
-                          <img
-                            alt=""
-                            src={`https://api.madconsolution.xyz/uploads/cars/${data.images[0]}`}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-
-                        {/* Text information on the right */}
-                        <div className="flex flex-col justify-between w-full">
-                          <h2 className="text-[#314352] font-semibold text-lg">
-                            {data.make}
-                          </h2>
-                          <p className="text-[#314352] text-lg">
-                            ${data.priceUSD}
-                          </p>
-                          <p className="text-sm text-gray-500">
-                            {data.year} | {data.kilometer} km
-                          </p>
-                          <p className="text-sm text-gray-500">
-                            {data.location}
-                          </p>
-                        </div>
-
-                        {/* Icons in the bottom-right corner in list view */}
-                        <div className="absolute bottom-2 right-2 flex gap-2">
-                          {/* <div className="hover:text-red-500 hover:border-red-500 duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
-                            <IoEyeOutline className="w-1/2 h-1/2" />
+                      <>
+                        <div className="flex md:flex-row flex-col-reverse gap-4 bg-slate-100 p-3 rounded">
+                          <div className="relative w-full max-w-[350px]">
+                            <Link to={`/listing/${data._id}`} key={data._id}>
+                              <div className="overflow-hidden rounded-md">
+                                <img
+                                  alt=""
+                                  src={`https://api.madconsolution.xyz/uploads/cars/${data.images[0]}`}
+                                  className="h-40 sm:h-56 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
+                                />
+                              </div>
+                            </Link>
+                            <div className="absolute top-2 right-2 flex items-center gap-2">
+                              <div
+                                // onClick={() => handleWishlist(data)}
+                                className={`hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-white cursor-pointer text-white `}
+                              >
+                                <CiHeart className="w-1/2 h-1/2" />
+                              </div>
+                              <div
+                                // onClick={() => handleShare(data)}
+                                className={`hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-white cursor-pointer text-white`}
+                              >
+                                <CiShare2 className="w-1/2 h-1/2" />
+                              </div>
+                            </div>
                           </div>
-                          <div className="hover:text-red-500 hover:border-red-500 duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
-                            <IoIosGitCompare className="w-1/2 h-1/2" />
-                          </div> */}
-                          <div className="hover:text-red-500 hover:border-red-500 duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-400">
-                            <CiHeart className="w-1/2 h-1/2" />
+                          <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
+                            <div className="flex items-center justify-between gap-2">
+                              <h2 className="text-3xl font-bold">
+                                ${data?.priceUSD ? data?.priceUSD : "آخر"}
+                              </h2>
+                              {/* <span className="block px-2 py-1 rounded bg-[#B80200] text-white text-xs">
+                                {currentLanguage === "ar" ? "مميز" : "PREMIUM"}
+                              </span> */}
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <h2 className="text-lg">
+                                {data?.make ? data?.make : "آخر"}
+                              </h2>
+                              <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
+                              <h2 className="text-lg">
+                                {data?.model ? data?.model : "آخر"}
+                              </h2>
+                            </div>
+                            <div className="flex items-center gap-3">
+                              <div className="flex items-center gap-1 text-xl">
+                                <CiCalendar />
+                                <span>{data?.year ? data?.year : "آخر"}</span>
+                              </div>
+                              <div className="flex items-center gap-1 text-xl">
+                                <AiOutlineDashboard />
+                                <span>
+                                  {data?.kilometer ? data?.kilometer : "آخر"} km
+                                </span>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-3">
+                              <div className="flex items-center gap-1 text-xl">
+                                <CiLocationOn />
+                                <span>
+                                  {data?.location ? data?.location : "آخر"}
+                                </span>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-3 mt-2 md:mt-4">
+                              <Link
+                                to={`/listing/${data?._id}`}
+                                className="block bg-[#B80200] text-white text-lg py-1 px-4 rounded"
+                              >
+                                <Translate text={"View Details"} />
+                              </Link>
+                            </div>
                           </div>
                         </div>
-                      </div>
+                      </>
                     )}
                   </div>
                 </Link>

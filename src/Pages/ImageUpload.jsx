@@ -77,9 +77,9 @@ const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
           </div>
         ) : (
           // Image Preview Interface
-          <div className="flex items-center justify-between">
+          <div className="flex items-center lg:flex-row flex-col justify-between">
             {/* Left - Image Preview */}
-            <div className="flex space-x-2 w-3/4 overflow-x-auto">
+            <div className="flex lg:flex-row flex-col space-x-2 w-3/4 overflow-x-auto">
               {uploadedImages.map((image, index) => (
                 <div
                   key={image.id}

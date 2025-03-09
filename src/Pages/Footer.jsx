@@ -7,6 +7,9 @@ import Translate from "../utils/Translate";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 
+import FooterLogoEn from "../assets/images/logo/footer-logo-en-transparent.png";
+import FooterLogoAr from "../assets/images/logo/footer-logo-ar-transparent.png";
+
 const Footer = () => {
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language; // Gets current language
@@ -19,7 +22,23 @@ const Footer = () => {
             {/* Company Section */}
             <div className="space-y-1">
               <h3 className="font-bold text-2xl">
-                {currentLanguage === "ar" ? "سيريا سوق" : "SYRIASOUQ"}
+                {currentLanguage === "ar" ? (
+                  <>
+                    <img
+                      src={FooterLogoAr}
+                      alt=""
+                      className="max-w-52 w-full"
+                    />
+                  </>
+                ) : (
+                  <>
+                    <img
+                      src={FooterLogoEn}
+                      alt=""
+                      className="max-w-52 w-full"
+                    />
+                  </>
+                )}
               </h3>
               <p className="text-gray-300 text-sm flex justify-center md:justify-start items-center gap-2">
                 <LuMapPin /> <Translate text={"Damascus, Syria"} />

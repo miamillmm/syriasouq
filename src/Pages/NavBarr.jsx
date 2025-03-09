@@ -64,13 +64,51 @@ const Navbar = () => {
           </svg>
         </button>
 
+        <div className="relative group flex items-center justify-between gap-10 md:hidden">
+          {/* Currency Dropdown */}
+          <div className="dropdown dropdown-hover">
+            <button className="hover:text-[#B80200] duration-500 text-[18px] font-[500] cursor-pointer flex items-center">
+              <Translate text={"SYP"} />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+                className="w-4 h-4 ml-1 transition-all duration-300 group-hover:opacity-0"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+            <ul
+              tabIndex={0}
+              className="dropdown-content menu text-black hover:text-[#B80200] text-[18px] font-[500] bg-base-100 rounded-box z-10 w-32 mt-10 p-2 shadow-sm"
+            >
+              <li>
+                <NavLink to="#">
+                  <Translate text={"USD"} />
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="#">
+                  <Translate text={"SYP"} />
+                </NavLink>
+              </li>
+            </ul>
+          </div>
+        </div>
+
         {/* Middle: Logo */}
         <NavLink className="w-14 md:hidden" to="/">
           <img src={logo} className="w-14" alt="Logos" />
         </NavLink>
 
         <Link to={"/addlisting"} className="block md:hidden">
-          <button className="bg-white text-[#B80200] px-2 py-1 rounded-md  cursor-pointer text-xs">
+          <button className="bg-white text-[#B80200] px-4 py-2 rounded-md  cursor-pointer text-xs">
             <Translate text={"Add Listing"} /> <span>+</span>
           </button>
         </Link>
@@ -83,7 +121,7 @@ const Navbar = () => {
         </div> */}
 
         <div className="avatar md:hidden">
-          <Link to={"/dashboard"}>
+          <Link to={user ? "/dashboard" : "/login-and-register"}>
             <div className="w-10 rounded-full h-10 bg-white !flex items-center justify-center font-black text-lg">
               {/* <img src={avatar} alt="avatar" /> */}
               {/* <Translate
@@ -206,12 +244,12 @@ const Navbar = () => {
                 className="dropdown-content menu text-black hover:text-[#B80200] text-[18px] font-[500] bg-base-100 rounded-box z-10 w-32 mt-10 p-2 shadow-sm"
               >
                 <li>
-                  <NavLink to="/about">
+                  <NavLink to="#">
                     <Translate text={"USD"} />
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/contact">
+                  <NavLink to="#">
                     <Translate text={"SYP"} />
                   </NavLink>
                 </li>
@@ -320,9 +358,9 @@ const Navbar = () => {
               </li>
               <li>
                 <div className="dropdown">
-                  <button className="hover:text-[#B80200]">
+                  {/* <button className="hover:text-[#B80200]">
                     <Translate text={"Page"} />
-                  </button>
+                  </button> */}
                   <ul className="ml-4 mt-2 space-y-2">
                     <li>
                       <NavLink
@@ -342,15 +380,17 @@ const Navbar = () => {
                         {currentLanguage === "ar" ? "تواصل معنا" : "Contact"}
                       </NavLink>
                     </li>
-                    <li>
-                      <NavLink
-                        to="/login-and-register"
-                        onClick={() => setIsSidebarOpen(false)}
-                        className="block hover:text-[#B80200]"
-                      >
-                        <Translate text={"Login/Register"} />
-                      </NavLink>
-                    </li>
+                    {!user && (
+                      <li>
+                        <NavLink
+                          to="/login-and-register"
+                          onClick={() => setIsSidebarOpen(false)}
+                          className="block hover:text-[#B80200]"
+                        >
+                          <Translate text={"Login/Register"} />
+                        </NavLink>
+                      </li>
+                    )}
                   </ul>
                 </div>
               </li>
