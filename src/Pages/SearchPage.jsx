@@ -155,7 +155,7 @@ const SearchPage = () => {
   const carMakes = currentLanguage === "ar" ? arabicMakes : makes;
 
   const alllocation = [
-    { value: "Al-Hasakah", label: "Al-Hasakah" },
+    { value: "Al", label: "Al" },
     { value: "Aleppo", label: "Aleppo" },
     { value: "Damascus", label: "Damascus" },
     { value: "Daraa", label: "Daraa" },
@@ -164,9 +164,9 @@ const SearchPage = () => {
     { value: "Homs", label: "Homs" },
     { value: "Idlib", label: "Idlib" },
     { value: "Latakia", label: "Latakia" },
-    { value: "Qamishli", label: "Qamishli" },
+    // { value: "Qamishli", label: "Qamishli" },
     { value: "Raqqa", label: "Raqqa" },
-    { value: "Rif Dimashq", label: "Rif Dimashq" },
+    // { value: "Rif Dimashq", label: "Rif Dimashq" },
     { value: "Suweida", label: "Suweida" },
     { value: "Tartus", label: "Tartus" },
   ];
@@ -278,7 +278,7 @@ const SearchPage = () => {
                       value={make.value}
                       className="ml-2"
                     >
-                      {make.label}
+                      <Translate text={make.label} />
                     </option>
                   ))}
                 </select>
@@ -353,10 +353,24 @@ const SearchPage = () => {
                 className="w-full border p-2 rounded"
                 style={{ backgroundColor: "#fff" }}
               >
-                <option value="">Select Kilometer</option>
-                <option value="0-10000">0-10,000</option>
-                <option value="10001-50000">10,001-50,000</option>
-                <option value="50001-100000">50,001-100,000</option>
+                <option value="">
+                  <Translate text={"Select Kilometer"} />
+                </option>
+                <option value="0-50,000">
+                  <Translate text={"0-50,000"} />
+                </option>
+                <option value="50,000-100,000">
+                  <Translate text={"50,000-100,000"} />
+                </option>
+                <option value="100,000-150,000">
+                  <Translate text={"100,000-150,000"} />
+                </option>
+                <option value="150,000-200,000">
+                  <Translate text={"150,000-200,000"} />
+                </option>
+                <option value="+200,000">
+                  <Translate text={"+200,000"} />
+                </option>
               </select>
             </div>
             {/* Location */}
@@ -391,7 +405,9 @@ const SearchPage = () => {
                   onChange={handleFilterChange}
                 >
                   {alllocation.map((loc) => (
-                    <option key={loc.label}>{loc.label}</option>
+                    <option key={loc.label}>
+                      <Translate text={loc.label} />
+                    </option>
                   ))}
                 </select>
               </div>
@@ -421,7 +437,7 @@ const SearchPage = () => {
                   </div> */}
                   {allenginesize.map((size) => (
                     <option key={size.label} value={size.value}>
-                      {size.label}
+                      <Translate text={size.label} />
                     </option>
                   ))}
                 </select>
@@ -523,6 +539,7 @@ const SearchPage = () => {
                     <Translate text={"Filters"} />
                   </h3>
                   {/* Make */}
+                  {/* Make */}
                   <div className="mb-4">
                     <label className="block text-gray-700 mb-2">
                       <Translate text={"Make"} />
@@ -560,7 +577,7 @@ const SearchPage = () => {
                             value={make.value}
                             className="ml-2"
                           >
-                            {make.label}
+                            <Translate text={make.label} />
                           </option>
                         ))}
                       </select>
@@ -643,10 +660,24 @@ const SearchPage = () => {
                       className="w-full border p-2 rounded"
                       style={{ backgroundColor: "#fff" }}
                     >
-                      <option value="">Select Kilometer</option>
-                      <option value="0-10000">0-10,000</option>
-                      <option value="10001-50000">10,001-50,000</option>
-                      <option value="50001-100000">50,001-100,000</option>
+                      <option value="">
+                        <Translate text={"Select Kilometer"} />
+                      </option>
+                      <option value="0-50,000">
+                        <Translate text={"0-50,000"} />
+                      </option>
+                      <option value="50,000-100,000">
+                        <Translate text={"50,000-100,000"} />
+                      </option>
+                      <option value="100,000-150,000">
+                        <Translate text={"100,000-150,000"} />
+                      </option>
+                      <option value="150,000-200,000">
+                        <Translate text={"150,000-200,000"} />
+                      </option>
+                      <option value="+200,000">
+                        <Translate text={"+200,000"} />
+                      </option>
                     </select>
                   </div>
                   {/* Location */}
@@ -681,7 +712,9 @@ const SearchPage = () => {
                         onChange={handleFilterChange}
                       >
                         {alllocation.map((loc) => (
-                          <option key={loc.label}>{loc.label}</option>
+                          <option key={loc.label}>
+                            <Translate text={loc.label} />
+                          </option>
                         ))}
                       </select>
                     </div>
@@ -711,7 +744,7 @@ const SearchPage = () => {
                   </div> */}
                         {allenginesize.map((size) => (
                           <option key={size.label} value={size.value}>
-                            {size.label}
+                            <Translate text={size.label} />
                           </option>
                         ))}
                       </select>
@@ -915,7 +948,7 @@ const SearchPage = () => {
               filteredData?.map((data, index) => (
                 <Link to={`/listing/${data._id}`} key={data.id}>
                   <div
-                    className={`relative shadow-sm rounded ${
+                    className={`relative shadow-sm rounded h-full ${
                       index < 2 ? "border-red-500 border-2 bg-[#FFEEE2]" : ""
                     }`} // Apply border to first two cards
                   >

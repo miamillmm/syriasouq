@@ -172,9 +172,9 @@ const Featured = () => {
                       <h2 className="text-3xl font-bold">
                         ${data?.priceUSD ? data?.priceUSD : "آخر"}
                       </h2>
-                      <span className="block px-2 py-1 rounded bg-[#B80200] text-white text-xs">
+                      {/* <span className="block px-2 py-1 rounded bg-[#B80200] text-white text-xs">
                         {currentLanguage === "ar" ? "مميز" : "PREMIUM"}
-                      </span>
+                      </span> */}
                     </div>
                     <div className="flex items-center gap-2">
                       <h2 className="text-lg">

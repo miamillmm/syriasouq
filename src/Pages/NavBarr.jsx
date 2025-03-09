@@ -28,6 +28,12 @@ const Navbar = () => {
     navigate("/", { replace: true });
   };
 
+  const handleLogoutOnMobile = () => {
+    localStorage.removeItem("SyriaSouq-auth");
+    navigate("/", { replace: true });
+    window.location.href = "/";
+  };
+
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language; // Gets current language
 
@@ -66,7 +72,7 @@ const Navbar = () => {
 
         <div className="relative group flex items-center justify-between gap-10 md:hidden">
           {/* Currency Dropdown */}
-          <div className="dropdown dropdown-hover">
+          {/* <div className="dropdown dropdown-hover">
             <button className="hover:text-[#B80200] duration-500 text-[18px] font-[500] cursor-pointer flex items-center">
               <Translate text={"SYP"} />
               <svg
@@ -99,7 +105,7 @@ const Navbar = () => {
                 </NavLink>
               </li>
             </ul>
-          </div>
+          </div> */}
         </div>
 
         {/* Middle: Logo */}
@@ -221,7 +227,7 @@ const Navbar = () => {
 
           <div className="relative group flex items-center justify-between gap-10">
             {/* Currency Dropdown */}
-            <div className="dropdown dropdown-hover">
+            {/* <div className="dropdown dropdown-hover">
               <button className="hover:text-[#B80200] duration-500 text-[18px] font-[500] cursor-pointer flex items-center">
                 <Translate text={"SYP"} />
                 <svg
@@ -254,7 +260,7 @@ const Navbar = () => {
                   </NavLink>
                 </li>
               </ul>
-            </div>
+            </div> */}
 
             {/* Avatar */}
             {user && (
@@ -380,7 +386,19 @@ const Navbar = () => {
                         {currentLanguage === "ar" ? "تواصل معنا" : "Contact"}
                       </NavLink>
                     </li>
-                    {!user && (
+                    {user ? (
+                      <>
+                        <li
+                          onClick={() => {
+                            handleLogoutOnMobile();
+                            setIsSidebarOpen(false);
+                          }}
+                          className="block text-[#B80200]"
+                        >
+                          <Translate text={"Logout"} />
+                        </li>
+                      </>
+                    ) : (
                       <li>
                         <NavLink
                           to="/login-and-register"
