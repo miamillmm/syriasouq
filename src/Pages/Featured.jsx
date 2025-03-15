@@ -143,7 +143,7 @@ const Featured = () => {
                       <div className="overflow-hidden rounded-md">
                         <img
                           alt=""
-                          src={`https://api.madconsolution.xyz/uploads/cars/${data.images[0]}`}
+                          src={`http://api.syriasouq.com//uploads/cars/${data.images[0]}`}
                           className="h-40 sm:h-56 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
                         />
                       </div>

@@ -107,7 +107,7 @@ const CarListing = () => {
             >
               <div className="relative">
                 <img
-                  src={`https://api.madconsolution.xyz/uploads/cars/${car?.images[0]}`}
+                  src={`http://api.syriasouq.com//uploads/cars/${car?.images[0]}`}
                   alt={car.make}
                   className="w-full h-60 object-cover rounded-t-xl"
                   onError={(e) =>
