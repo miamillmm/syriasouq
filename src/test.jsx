@@ -98,7 +98,7 @@ const Test = () => {
         <div className="overflow-hidden rounded-t-md">
           <img
             alt=""
-            src={`http://api.syriasouq.com//uploads/cars/${data.images[0]}`}
+            src={`http://api.syriasouq.com/uploads/cars/${data.images[0]}`}
             className="h-40 sm:h-56 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
           />
         </div>

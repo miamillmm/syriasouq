@@ -215,7 +215,7 @@ export default function MoreFromUser({ title, button, uid }) {
                   <div className="overflow-hidden rounded-t-md">
                     <img
                       alt=""
-                      src={`http://api.syriasouq.com//uploads/cars/${car.images[0]}`}
+                      src={`http://api.syriasouq.com/uploads/cars/${car.images[0]}`}
                       className="!h-40 sm:!h-56 w-full object-fit bg-center transition-transform duration-500 hover:scale-105 ease-in-out"
                     />
                   </div>
@@ -253,7 +253,7 @@ export default function MoreFromUser({ title, button, uid }) {
                     <div className="overflow-hidden rounded-md">
                       <img
                         alt=""
-                        src={`http://api.syriasouq.com//uploads/cars/${car?.images[0]}`}
+                        src={`http://api.syriasouq.com/uploads/cars/${car?.images[0]}`}
                         className="h-40 sm:h-56 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
                       />
                     </div>
