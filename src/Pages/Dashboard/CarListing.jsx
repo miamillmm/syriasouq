@@ -115,11 +115,23 @@ const CarListing = () => {
                       "https://via.placeholder.com/400x300?text=No+Image")
                   }
                 />
-                <span className="absolute top-2 right-2 bg-[#B80200] text-white text-sm px-3 py-1 rounded-full">
-                  {car.priceUSD}
+
+                <span
+                  className={`absolute top-2 right-2 text-white text-sm px-3 py-1 rounded ${
+                    car.status === "pending"
+                      ? "bg-orange-500"
+                      : car.status === "active"
+                      ? "bg-green-500"
+                      : "bg-[#B80200]"
+                  }`}
+                >
+                  {car.status}
                 </span>
               </div>
               <div className="p-6">
+                <h3 className="text-2xl font-semibold text-gray-900">
+                  ${car.priceUSD} USD
+                </h3>
                 <h3 className="text-2xl font-semibold text-gray-900">
                   {car.make}
                 </h3>
