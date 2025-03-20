@@ -21,7 +21,7 @@ const SearchPage = () => {
     maxPrice: "",
     kilometer: "",
     location: "",
-    engineSize: [],
+    engineSize: "",
     transmission: "",
     fuelType: [],
     exteriorColor: "",
@@ -43,6 +43,10 @@ const SearchPage = () => {
       })
       .catch((error) => console.log("Error fetching data:", error));
   }, []);
+
+  useEffect(() => {
+    console.log(filters);
+  }, [filters]);
 
   const sortData = (option) => {
     const sortedData = [...datas];
@@ -102,22 +106,25 @@ const SearchPage = () => {
 
     const matchesKilometer =
       !kilometer ||
-      (kilometer === "0-10000" &&
+      (kilometer === "0-50000" &&
         data.kilometer >= 0 &&
-        data.kilometer <= 10000) ||
-      (kilometer === "10001-50000" &&
-        data.kilometer >= 10001 &&
         data.kilometer <= 50000) ||
       (kilometer === "50001-100000" &&
         data.kilometer >= 50001 &&
-        data.kilometer <= 100000);
+        data.kilometer <= 100000) ||
+      (kilometer === "100001-150000" &&
+        data.kilometer >= 100001 &&
+        data.kilometer <= 150000) ||
+      (kilometer === "150001-200000" &&
+        data.kilometer >= 150001 &&
+        data.kilometer <= 200000) ||
+      (kilometer === "+200000" && data.kilometer >= 200001);
 
     const matchesEngineSize =
-      engineSize.length === 0 ||
-      engineSize.some((size) => {
-        const [min, max] = size.split("-").map((n) => parseInt(n, 10));
-        return data.engine_size_cc >= min && data.engine_size_cc <= max;
-      });
+      !engineSize ||
+      engineSize === "Other" ||
+      engineSize === "Unknown" ||
+      data.engineSize === engineSize;
 
     return (
       (make.length > 0
@@ -356,19 +363,19 @@ const SearchPage = () => {
                 <option value="">
                   <Translate text={"Select Kilometer"} />
                 </option>
-                <option value="0-50,000">
+                <option value="0-50000">
                   <Translate text={"0-50,000"} />
                 </option>
-                <option value="50,000-100,000">
-                  <Translate text={"50,000-100,000"} />
+                <option value="50001-100000">
+                  <Translate text={"50,001-100,000"} />
                 </option>
-                <option value="100,000-150,000">
-                  <Translate text={"100,000-150,000"} />
+                <option value="100001-150000">
+                  <Translate text={"100,001-150,000"} />
                 </option>
-                <option value="150,000-200,000">
-                  <Translate text={"150,000-200,000"} />
+                <option value="150001-200000">
+                  <Translate text={"150,001-200,000"} />
                 </option>
-                <option value="+200,000">
+                <option value="+200000">
                   <Translate text={"+200,000"} />
                 </option>
               </select>
@@ -387,23 +394,15 @@ const SearchPage = () => {
                 placeholder="Search location"
               />
               <div>
-                {/* <div>
-                  <input
-                      type="checkbox"
-                      name="location"
-                      value={loc.value}
-                      onChange={handleFilterChange}
-                  />
-                    <label className="ml-2">
-                    <Translate text={loc.label} />
-                  </label>
-                </div> */}
                 <select
                   name="location"
                   id=""
                   className="!bg-white py-2 px-2 rounded w-full"
                   onChange={handleFilterChange}
                 >
+                  <option hidden>
+                    <Translate text={"Select Location"} />
+                  </option>
                   {alllocation.map((loc) => (
                     <option key={loc.label}>
                       <Translate text={loc.label} />
@@ -435,6 +434,9 @@ const SearchPage = () => {
                       <Translate text={size.label} />
                     </label>
                   </div> */}
+                  <option hidden>
+                    <Translate text={"Select Engine Size"} />
+                  </option>
                   {allenginesize.map((size) => (
                     <option key={size.label} value={size.value}>
                       <Translate text={size.label} />
@@ -663,19 +665,19 @@ const SearchPage = () => {
                       <option value="">
                         <Translate text={"Select Kilometer"} />
                       </option>
-                      <option value="0-50,000">
+                      <option value="0-50000">
                         <Translate text={"0-50,000"} />
                       </option>
-                      <option value="50,000-100,000">
-                        <Translate text={"50,000-100,000"} />
+                      <option value="50001-100000">
+                        <Translate text={"50,001-100,000"} />
                       </option>
-                      <option value="100,000-150,000">
-                        <Translate text={"100,000-150,000"} />
+                      <option value="100001-150000">
+                        <Translate text={"100,001-150,000"} />
                       </option>
-                      <option value="150,000-200,000">
-                        <Translate text={"150,000-200,000"} />
+                      <option value="150001-200000">
+                        <Translate text={"150,001-200,000"} />
                       </option>
-                      <option value="+200,000">
+                      <option value="+200000">
                         <Translate text={"+200,000"} />
                       </option>
                     </select>
@@ -694,23 +696,15 @@ const SearchPage = () => {
                       placeholder="Search location"
                     />
                     <div>
-                      {/* <div>
-                  <input
-                      type="checkbox"
-                      name="location"
-                      value={loc.value}
-                      onChange={handleFilterChange}
-                  />
-                    <label className="ml-2">
-                    <Translate text={loc.label} />
-                  </label>
-                </div> */}
                       <select
                         name="location"
                         id=""
                         className="!bg-white py-2 px-2 rounded w-full"
                         onChange={handleFilterChange}
                       >
+                        <option hidden>
+                          <Translate text={"Select Location"} />
+                        </option>
                         {alllocation.map((loc) => (
                           <option key={loc.label}>
                             <Translate text={loc.label} />
@@ -742,6 +736,9 @@ const SearchPage = () => {
                       <Translate text={size.label} />
                     </label>
                   </div> */}
+                        <option hidden>
+                          <Translate text={"Select Engine Size"} />
+                        </option>
                         {allenginesize.map((size) => (
                           <option key={size.label} value={size.value}>
                             <Translate text={size.label} />

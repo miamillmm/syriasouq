@@ -27,10 +27,10 @@ const BannerSection = () => {
   const handleSerach = (e) => {
     e.preventDefault();
 
-    if (searchMake && searchModel) {
+    if (searchMake) {
       navigate(`/search?make=${searchMake}&model=${searchModel}`);
     } else {
-      alert("Please choose make and model");
+      alert("Please choose make");
     }
   };
 
