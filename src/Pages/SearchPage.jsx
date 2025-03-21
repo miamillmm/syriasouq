@@ -1,15 +1,85 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { CiCalendar, CiHeart, CiLocationOn, CiShare2 } from "react-icons/ci";
-import { FaList, FaTh, FaTimes } from "react-icons/fa";
+import {
+  CiCalendar,
+  CiHeart,
+  CiLocationOn,
+  CiShare2,
+  CiWallet,
+} from "react-icons/ci";
+import { FaList, FaMapMarkerAlt, FaTh, FaTimes } from "react-icons/fa";
 import { Link } from "react-router";
 import Breadcrumb from "./Breadcumb";
 import { arabicMakes, makes } from "../utils/utils";
 import { useTranslation } from "react-i18next";
 import Translate from "../utils/Translate";
-import { AiOutlineDashboard } from "react-icons/ai";
+import { AiFillDashboard, AiOutlineDashboard } from "react-icons/ai";
 
 const SearchPage = () => {
+  const alllocation = [
+    { value: "Al", label: "Al" },
+    { value: "Aleppo", label: "Aleppo" },
+    { value: "Damascus", label: "Damascus" },
+    { value: "Daraa", label: "Daraa" },
+    { value: "Deir ez-Zor", label: "Deir ez-Zor" },
+    { value: "Hama", label: "Hama" },
+    { value: "Homs", label: "Homs" },
+    { value: "Idlib", label: "Idlib" },
+    { value: "Latakia", label: "Latakia" },
+    // { value: "Qamishli", label: "Qamishli" },
+    { value: "Raqqa", label: "Raqqa" },
+    // { value: "Rif Dimashq", label: "Rif Dimashq" },
+    { value: "Suweida", label: "Suweida" },
+    { value: "Tartus", label: "Tartus" },
+  ];
+  const allenginesize = [
+    { value: "0-499 cc", label: "0-499 cc" },
+    { value: "1000-1499 cc", label: "1000-1499 cc" },
+    { value: "1500-1999 cc", label: "1500-1999 cc" },
+    { value: "2000-2499 cc", label: "2000-2499 cc" },
+    { value: "2500-2999 cc", label: "2500-2999 cc" },
+    { value: "3000-3499 cc", label: "3000-3499 cc" },
+    { value: "3500-3999 cc", label: "3500-3999 cc" },
+    { value: "4000+ cc", label: "4000+ cc" },
+    { value: "500-999 cc", label: "500-999 cc" },
+    { value: "Other", label: "Other" },
+    { value: "Unknown", label: "Unknown" },
+  ];
+  const allTransmission = [
+    { value: "Automatic", label: "Automatic" },
+    { value: "Manual", label: "Manual" },
+  ];
+  const allFuelType = [
+    { value: "Diesel", label: "Diesel" },
+    { value: "Electric", label: "Electric" },
+    { value: "Hybrid", label: "Hybrid" },
+    { value: "Petrol", label: "Petrol" },
+  ];
+  const allExteriorColor = [
+    { value: "BLACK", label: "BLACK" },
+    { value: "Blue", label: "Blue" },
+    { value: "Brown", label: "Brown" },
+    { value: "Gold", label: "Gold" },
+    { value: "Green", label: "Green" },
+    { value: "red", label: "red" },
+    { value: "Pink", label: "Pink" },
+    { value: "Purple", label: "Purple" },
+    { value: "Red", label: "Red" },
+    { value: "Silver", label: "Silver" },
+    { value: "White", label: "White" },
+    { value: "red", label: "red" },
+    { value: "other", label: "other" },
+  ];
+  const allInteriorColor = [
+    { value: "Beige", label: "Beige" },
+    { value: "Black", label: "Black" },
+    { value: "Blue", label: "Blue" },
+    { value: "Brown", label: "Brown" },
+    { value: "Red", label: "Red" },
+    { value: "White", label: "White" },
+    { value: "Other", label: "Other" },
+  ];
+
   const [datas, setDatas] = useState([]);
   const [view, setView] = useState("grid");
   const [sortOption, setSortOption] = useState("Most Relevant");
@@ -32,7 +102,7 @@ const SearchPage = () => {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_API_URL}/cars`)
+      .get(`${import.meta.env.VITE_API_URL}/cars?status=available`)
       .then((res) => {
         // const sanitizedData = res.data.map((item) => ({
         //   ...item,
@@ -49,22 +119,36 @@ const SearchPage = () => {
   }, [filters]);
 
   const sortData = (option) => {
-    const sortedData = [...datas];
+    let sortedData = [...datas];
 
     switch (option) {
       case "Newest":
-        sortedData.sort((a, b) => b.year - a.year);
+        sortedData.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
         break;
       case "Oldest":
-        sortedData.sort((a, b) => a.year - b.year);
+        sortedData.sort(
+          (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+        );
         break;
       case "Highest Price":
-        sortedData.sort((a, b) => b.price_usd - a.price_usd);
+        sortedData.sort((a, b) => b.priceUSD - a.priceUSD);
         break;
       case "Lowest Price":
-        sortedData.sort((a, b) => a.price_usd - b.price_usd);
+        sortedData.sort((a, b) => a.priceUSD - b.priceUSD);
+        break;
+      case "Most Relevant":
+        // Example: Sort by recent cars first, then by highest price
+        sortedData.sort((a, b) => {
+          const dateDiff = new Date(b.createdAt) - new Date(a.createdAt);
+          if (dateDiff !== 0) return dateDiff;
+          return b.priceUSD - a.priceUSD;
+        });
         break;
       default:
+        // No sorting — keep original order
+        sortedData = [...datas];
         break;
     }
 
@@ -74,13 +158,15 @@ const SearchPage = () => {
   const handleFilterChange = (e) => {
     const { name, value, type, checked } = e.target;
 
-    if (type === "checkbox" && name === "make") {
-      setFilters((prev) => ({
-        ...prev,
-        make: checked
-          ? [...prev.make, value]
-          : prev.make.filter((item) => item !== value),
-      }));
+    if (type === "checkbox") {
+      if (name === "fuelType" || name === "make") {
+        setFilters((prev) => ({
+          ...prev,
+          [name]: checked
+            ? [...prev[name], value]
+            : prev[name].filter((item) => item !== value),
+        }));
+      }
     } else if (name === "make") {
       setFilters((prev) => ({ ...prev, make: [value] }));
     } else {
@@ -136,8 +222,8 @@ const SearchPage = () => {
         : true) &&
       (minYear ? data.year >= parseInt(minYear, 10) : true) &&
       (maxYear ? data.year <= parseInt(maxYear, 10) : true) &&
-      (minPrice ? data.price_usd >= parseFloat(minPrice) : true) &&
-      (maxPrice ? data.price_usd <= parseFloat(maxPrice) : true) &&
+      (minPrice ? data.priceUSD >= parseFloat(minPrice) : true) &&
+      (maxPrice ? data.priceUSD <= parseFloat(maxPrice) : true) &&
       matchesKilometer &&
       (location
         ? String(data.location || "")
@@ -146,13 +232,15 @@ const SearchPage = () => {
         : true) &&
       matchesEngineSize &&
       (transmission ? data.transmission === transmission : true) &&
-      (fuelType.length > 0 ? fuelType.includes(data.fuel_type) : true) &&
-      (exteriorColor
-        ? data.exterior_color.toLowerCase() === exteriorColor.toLowerCase()
-        : true) &&
-      (interiorColor
-        ? data.interior_color.toLowerCase() === interiorColor.toLowerCase()
-        : true)
+      (fuelType.length > 0 ? fuelType.includes(data.fuelType) : true) &&
+      (!exteriorColor ||
+        data.exteriorColor.toLowerCase() === exteriorColor.toLowerCase() ||
+        (exteriorColor.toLowerCase() === "other" &&
+          !allExteriorColor.includes(data.exteriorColor.toLowerCase()))) &&
+      (!interiorColor ||
+        data.interiorColor.toLowerCase() === interiorColor.toLowerCase() ||
+        (interiorColor.toLowerCase() === "other" &&
+          !allInteriorColor.includes(data.interiorColor.toLowerCase())))
     );
   });
 
@@ -160,75 +248,6 @@ const SearchPage = () => {
   const currentLanguage = i18n.language; // Gets current language
 
   const carMakes = currentLanguage === "ar" ? arabicMakes : makes;
-
-  const alllocation = [
-    { value: "Al", label: "Al" },
-    { value: "Aleppo", label: "Aleppo" },
-    { value: "Damascus", label: "Damascus" },
-    { value: "Daraa", label: "Daraa" },
-    { value: "Deir ez-Zor", label: "Deir ez-Zor" },
-    { value: "Hama", label: "Hama" },
-    { value: "Homs", label: "Homs" },
-    { value: "Idlib", label: "Idlib" },
-    { value: "Latakia", label: "Latakia" },
-    // { value: "Qamishli", label: "Qamishli" },
-    { value: "Raqqa", label: "Raqqa" },
-    // { value: "Rif Dimashq", label: "Rif Dimashq" },
-    { value: "Suweida", label: "Suweida" },
-    { value: "Tartus", label: "Tartus" },
-  ];
-
-  const allenginesize = [
-    { value: "0-499 cc", label: "0-499 cc" },
-    { value: "1000-1499 cc", label: "1000-1499 cc" },
-    { value: "1500-1999 cc", label: "1500-1999 cc" },
-    { value: "2000-2499 cc", label: "2000-2499 cc" },
-    { value: "2500-2999 cc", label: "2500-2999 cc" },
-    { value: "3000-3499 cc", label: "3000-3499 cc" },
-    { value: "3500-3999 cc", label: "3500-3999 cc" },
-    { value: "4000+ cc", label: "4000+ cc" },
-    { value: "500-999 cc", label: "500-999 cc" },
-    { value: "Other", label: "Other" },
-    { value: "Unknown", label: "Unknown" },
-  ];
-
-  const allTransmission = [
-    { value: "Automatic", label: "Automatic" },
-    { value: "Manual", label: "Manual" },
-  ];
-
-  const allFuelType = [
-    { value: "Diesel", label: "Diesel" },
-    { value: "Electric", label: "Electric" },
-    { value: "Hybrid", label: "Hybrid" },
-    { value: "Petrol", label: "Petrol" },
-  ];
-
-  const allExteriorColor = [
-    { value: "BLACK", label: "BLACK" },
-    { value: "Blue", label: "Blue" },
-    { value: "Brown", label: "Brown" },
-    { value: "Gold", label: "Gold" },
-    { value: "Green", label: "Green" },
-    { value: "red", label: "red" },
-    { value: "Pink", label: "Pink" },
-    { value: "Purple", label: "Purple" },
-    { value: "Red", label: "Red" },
-    { value: "Silver", label: "Silver" },
-    { value: "White", label: "White" },
-    { value: "red", label: "red" },
-    { value: "other", label: "other" },
-  ];
-
-  const allInteriorColor = [
-    { value: "Beige", label: "Beige" },
-    { value: "Black", label: "Black" },
-    { value: "Blue", label: "Blue" },
-    { value: "Brown", label: "Brown" },
-    { value: "Red", label: "Red" },
-    { value: "White", label: "White" },
-    { value: "Other", label: "Other" },
-  ];
 
   return (
     <div className="pt-24 px-5 md:px-16 lg:px-28">
@@ -495,6 +514,9 @@ const SearchPage = () => {
                 className="w-full border p-2 rounded"
                 style={{ backgroundColor: "#fff" }}
               >
+                <option hidden selected>
+                  <Translate text={"Select Exteriror Color"} />
+                </option>
                 {allExteriorColor.map((color) => (
                   <>
                     <option key={color.label} value={color.value}>
@@ -516,6 +538,9 @@ const SearchPage = () => {
                 className="w-full border p-2 rounded"
                 style={{ backgroundColor: "#fff" }}
               >
+                <option hidden selected>
+                  <Translate text={"Select Interior Color"} />
+                </option>
                 {allInteriorColor.map((color) => (
                   <>
                     <option key={color.label} value={color.value}>
@@ -540,7 +565,6 @@ const SearchPage = () => {
                   <h3 className="font-bold text-xl mb-4">
                     <Translate text={"Filters"} />
                   </h3>
-                  {/* Make */}
                   {/* Make */}
                   <div className="mb-4">
                     <label className="block text-gray-700 mb-2">
@@ -725,17 +749,6 @@ const SearchPage = () => {
                         className="w-full py-2 px-2 rounded !bg-white"
                         onChange={handleFilterChange}
                       >
-                        {/* <div key={size.label}>
-                    <input
-                      type="checkbox"
-                      name="engineSize"
-                      value={size.value}
-                      onChange={handleFilterChange}
-                    />
-                    <label className="ml-2">
-                      <Translate text={size.label} />
-                    </label>
-                  </div> */}
                         <option hidden>
                           <Translate text={"Select Engine Size"} />
                         </option>
@@ -797,6 +810,9 @@ const SearchPage = () => {
                       className="w-full border p-2 rounded"
                       style={{ backgroundColor: "#fff" }}
                     >
+                      <option hidden selected>
+                        <Translate text={"Select Exteriror Color"} />
+                      </option>
                       {allExteriorColor.map((color) => (
                         <>
                           <option key={color.label} value={color.value}>
@@ -818,6 +834,9 @@ const SearchPage = () => {
                       className="w-full border p-2 rounded"
                       style={{ backgroundColor: "#fff" }}
                     >
+                      <option hidden selected>
+                        <Translate text={"Select Interior Color"} />
+                      </option>
                       {allInteriorColor.map((color) => (
                         <>
                           <option key={color.label} value={color.value}>
@@ -832,7 +851,7 @@ const SearchPage = () => {
             </>
           )}
         </div>
-        <div className="col-span-6">
+        <div className="xl:col-span-6 col-span-8">
           <div className="flex justify-between xl:items-center mb-4 p-2 rounded bg-transparent xl:flex-row flex-col">
             <h2 className="xl:text-[24px] text-[18px] font-semibold mr-4">
               {filteredData?.length} <Translate text={"Results"} />{" "}
@@ -875,19 +894,19 @@ const SearchPage = () => {
                       sortData(e.target.value);
                     }}
                   >
-                    <option>
+                    <option value={"Most Relevant"}>
                       <Translate text={"Most Relevant"} />
                     </option>
-                    <option>
+                    <option value={"Newest"}>
                       <Translate text={"Newest"} />
                     </option>
-                    <option>
+                    <option value={"Oldest"}>
                       <Translate text={"Oldest"} />
                     </option>
-                    <option>
+                    <option value={"Highest Price"}>
                       <Translate text={"Highest Price"} />
                     </option>
-                    <option>
+                    <option value={"Lowest Price"}>
                       <Translate text={"Lowest Price"} />
                     </option>
                   </select>
@@ -937,7 +956,7 @@ const SearchPage = () => {
           <div
             className={`grid mb-10 ${
               view === "grid"
-                ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+                ? "grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4"
                 : ""
             }`}
           >
@@ -946,7 +965,7 @@ const SearchPage = () => {
                 <Link to={`/listing/${data._id}`} key={data.id}>
                   <div
                     className={`relative shadow-sm rounded h-full ${
-                      index < 2 ? "border-red-500 border-2 bg-[#FFEEE2]" : ""
+                      index < 0 ? "border-red-500 border-2 bg-[#FFEEE2]" : ""
                     }`} // Apply border to first two cards
                   >
                     {/* Add "Featured" badge */}
@@ -970,30 +989,34 @@ const SearchPage = () => {
 
                         {/* Name, price, and buttons */}
                         <div className="px-4 py-3">
-                          <p className="text-[#314352] text-xl">
-                            ${data.priceUSD}
+                          <p className="text-[#314352] text-xl flex items-center gap-2">
+                            <CiWallet /> ${data.priceUSD}
                           </p>
-                          <div className="flex items-center gap-3">
+                          <div className="flex sm:flex-row flex-col items-center sm:gap-3 gap-1">
                             <h2 className="text-[#314352] font-semibold text-lg">
-                              {data.make}
+                              <Translate text={data.make} />
                             </h2>
-                            <span>.</span>
+                            <span className="sm:block hidden">.</span>
                             <h2 className="text-[#314352] font-semibold text-lg">
-                              {data.model}
-                            </h2>
-                          </div>
-                          <div className="flex items-center gap-3">
-                            <h2 className="text-[#314352] font-semibold text-lg">
-                              {data.year}
-                            </h2>
-                            <span>.</span>
-                            <h2 className="text-[#314352] font-semibold text-lg">
-                              {data.kilometer} km
+                              <Translate text={data.model} />
                             </h2>
                           </div>
-                          <div className="flex items-center gap-3">
-                            <h2 className="text-[#314352] font-semibold text-lg">
-                              {data.location}
+                          <div className="flex sm:flex-row flex-col items-center sm:gap-3 gap-1">
+                            <h2 className="text-[#314352] font-semibold text-lg flex items-center gap-1">
+                              <CiCalendar />
+                              <Translate text={data.year} />
+                            </h2>
+                            <span className="sm:block hidden">.</span>
+                            <h2 className="text-[#314352] font-semibold text-lg flex items-center gap-1">
+                              <AiFillDashboard />
+                              <Translate text={data.kilometer} />{" "}
+                              <Translate text={"km"} />
+                            </h2>
+                          </div>
+                          <div className="flex sm:flex-row flex-col items-center sm:gap-3 gap-1">
+                            <h2 className="text-[#314352] font-semibold text-lg flex items-center gap-1">
+                              <FaMapMarkerAlt />
+                              <Translate text={data.location} />
                             </h2>
                           </div>
                         </div>
@@ -1029,7 +1052,10 @@ const SearchPage = () => {
                           <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
                             <div className="flex items-center justify-between gap-2">
                               <h2 className="text-3xl font-bold">
-                                ${data?.priceUSD ? data?.priceUSD : "آخر"}
+                                $
+                                <Translate
+                                  text={data?.priceUSD ? data?.priceUSD : "آخر"}
+                                />
                               </h2>
                               {/* <span className="block px-2 py-1 rounded bg-[#B80200] text-white text-xs">
                                 {currentLanguage === "ar" ? "مميز" : "PREMIUM"}
@@ -1037,22 +1063,35 @@ const SearchPage = () => {
                             </div>
                             <div className="flex items-center gap-2">
                               <h2 className="text-lg">
-                                {data?.make ? data?.make : "آخر"}
+                                <Translate
+                                  text={data?.make ? data?.make : "آخر"}
+                                />
                               </h2>
                               <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
                               <h2 className="text-lg">
-                                {data?.model ? data?.model : "آخر"}
+                                <Translate
+                                  text={data?.model ? data?.model : "آخر"}
+                                />
                               </h2>
                             </div>
                             <div className="flex items-center gap-3">
                               <div className="flex items-center gap-1 text-xl">
                                 <CiCalendar />
-                                <span>{data?.year ? data?.year : "آخر"}</span>
+                                <span>
+                                  <Translate
+                                    text={data?.year ? data?.year : "آخر"}
+                                  />
+                                </span>
                               </div>
                               <div className="flex items-center gap-1 text-xl">
                                 <AiOutlineDashboard />
                                 <span>
-                                  {data?.kilometer ? data?.kilometer : "آخر"} km
+                                  <Translate
+                                    text={
+                                      data?.kilometer ? data?.kilometer : "آخر"
+                                    }
+                                  />{" "}
+                                  <Translate text={"km"} />
                                 </span>
                               </div>
                             </div>
@@ -1060,7 +1099,11 @@ const SearchPage = () => {
                               <div className="flex items-center gap-1 text-xl">
                                 <CiLocationOn />
                                 <span>
-                                  {data?.location ? data?.location : "آخر"}
+                                  <Translate
+                                    text={
+                                      data?.location ? data?.location : "آخر"
+                                    }
+                                  />
                                 </span>
                               </div>
                             </div>

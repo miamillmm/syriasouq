@@ -22,7 +22,11 @@ const BannerSection = () => {
     ...enMakes,
     { label: "Other", value: "Other", models: ["Other"] },
   ];
-  const arabicMakes = [...arMake, {}];
+  const arabicMakes = [
+    { label: "الجميع", value: "الجميع", models: ["الجميع"] },
+    ...arMake,
+    {},
+  ];
 
   const handleSerach = (e) => {
     e.preventDefault();
