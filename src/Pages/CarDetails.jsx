@@ -287,7 +287,7 @@ const CarDetails = () => {
                           <img
                             src={`http://api.syriasouq.com/uploads/cars/${car.images[0]}`}
                             alt=""
-                            className="w-full rounded-xl"
+                            className="w-full rounded-xl h-44"
                           />
                         </div>
                         <div className="flex items-center gap-1">

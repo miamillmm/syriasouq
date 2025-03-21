@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router";
+import { NavLink } from "react-router-dom";
 import { Link, useNavigate } from "react-router-dom";
 import avatar from "../assets/images/avatar/photo.png";
 // import logo from "../assets/images/logo/logo.png";
@@ -205,7 +205,7 @@ const Navbar = () => {
                     <li>
                       {user ? (
                         <NavLink
-                          to="/dashboaard"
+                          to="/dashboard"
                           className="hover:text-[#B80200] duration-500 text-[18px] font-[500]"
                         >
                           <Translate text={"Listing"} />

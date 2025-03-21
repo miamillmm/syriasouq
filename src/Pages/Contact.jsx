@@ -1,7 +1,7 @@
 import React from "react";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { TiArrowRight } from "react-icons/ti";
-import { NavLink } from "react-router";
+import { NavLink } from "react-router-dom";
 import cover from "../assets/bg-image/cover-2.jpg";
 import { useTranslation } from "react-i18next";
 import Translate from "../utils/Translate";

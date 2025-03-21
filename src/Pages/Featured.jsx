@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { CiCalendar, CiHeart, CiLocationOn, CiShare2 } from "react-icons/ci";
 import { TiArrowRight } from "react-icons/ti";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import Translate from "../utils/Translate";
 import { useTranslation } from "react-i18next";
 

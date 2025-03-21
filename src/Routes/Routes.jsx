@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Main from "../Layout/Main";
 import About from "../Pages/About";
 import Contact from "../Pages/Contact";
@@ -12,57 +12,26 @@ import SearchPage from "../Pages/SearchPage";
 import PrivacyPolicy from "../Pages/PrivacyPolicy";
 import TermsPage from "../Pages/TermAndUse";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Main />,
-    children: [
-      {
-        index: true,
-        element: <Home />,
-      },
-      {
-        path: "/about",
-        element: <About />,
-      },
-      {
-        path: "/contact",
-        element: <Contact />,
-      },
-      {
-        path: "/login-and-register",
-        element: <LoginAndRegister />,
-      },
-      {
-        path: "/listing/:id",
-        element: <CarDetails />,
-      },
-      {
-        path: "/addlisting",
-        element: <AddListingPage />,
-      },
-      {
-        path: "/search",
-        element: <SearchPage />,
-      },
-      {
-        path: "/dashboard",
-        element: <Dashboard />,
-      },
-      {
-        path: "/messages",
-        element: <MessagesPage />,
-      },
-      {
-        path: "/privacy-policy",
-        element: <PrivacyPolicy />,
-      },
-      {
-        path: "/term-and-use",
-        element: <TermsPage />,
-      },
-    ],
-  },
-]);
+const Router = () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Main />}>
+          <Route index element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/login-and-register" element={<LoginAndRegister />} />
+          <Route path="/listing/:id" element={<CarDetails />} />
+          <Route path="/addlisting" element={<AddListingPage />} />
+          <Route path="/search" element={<SearchPage />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/messages" element={<MessagesPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/term-and-use" element={<TermsPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+};
 
-export default router;
+export default Router;

@@ -5,7 +5,7 @@ import { LuMapPin } from "react-icons/lu";
 import { CiAt } from "react-icons/ci";
 import Translate from "../utils/Translate";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 import FooterLogoEn from "../assets/images/logo/footer-logo-en-transparent.png";
 import FooterLogoAr from "../assets/images/logo/footer-logo-ar-transparent.png";
@@ -21,13 +21,13 @@ const Footer = () => {
           <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 px-6 text-center md:text-left">
             {/* Company Section */}
             <div className="space-y-1">
-              <h3 className="font-bold text-2xl">
+              <h3 className="font-bold text-2xl text-center">
                 {currentLanguage === "ar" ? (
                   <>
                     <img
                       src={FooterLogoAr}
                       alt=""
-                      className="max-w-52 w-full"
+                      className="max-w-52 w-full md:mx-0 mx-auto"
                     />
                   </>
                 ) : (
@@ -35,7 +35,7 @@ const Footer = () => {
                     <img
                       src={FooterLogoEn}
                       alt=""
-                      className="max-w-52 w-full"
+                      className="max-w-52 w-full md:mx-0 mx-auto"
                     />
                   </>
                 )}

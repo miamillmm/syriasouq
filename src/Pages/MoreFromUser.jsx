@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { CiCalendar, CiHeart, CiLocationOn, CiShare2 } from "react-icons/ci";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
@@ -254,7 +254,7 @@ export default function MoreFromUser({ title, button, uid }) {
                       <img
                         alt=""
                         src={`http://api.syriasouq.com/uploads/cars/${car?.images[0]}`}
-                        className="h-40 sm:h-56 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
+                        className="!h-48 sm:h-56 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
                       />
                     </div>
                   </Link>

@@ -1,7 +1,7 @@
 import React from "react";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { TiArrowRight } from "react-icons/ti";
-import { NavLink } from "react-router";
+import { NavLink } from "react-router-dom";
 import cover from "../assets/bg-image/cover-1.jpg";
 import hand from "../assets/bg-image/hand.jpg";
 import service1 from "../assets/service/service1.png";
