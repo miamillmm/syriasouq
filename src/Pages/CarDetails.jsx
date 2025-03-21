@@ -25,6 +25,7 @@ const CarDetails = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const [showMore, setShowMore] = useState(false);
+  const [relatedCars, setRelatedCars] = useState([]);
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("SyriaSouq-auth"));
@@ -81,6 +82,18 @@ const CarDetails = () => {
 
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language; // Gets current language
+
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_API_URL}/cars`)
+      .then((res) => {
+        console.log(res);
+        setRelatedCars(res.data.data);
+      })
+      .catch((error) => {
+        console.log("error fetching data:", error);
+      });
+  }, [carDetails]);
 
   return (
     <div className="pt-24 px-5 md:px-16 lg:px-28">
@@ -265,40 +278,39 @@ const CarDetails = () => {
               <span className="border-t pt-5 border-gray-400 font-bold text-gray-400 mb-2 inline-block">
                 <Translate text={"Related"} />
               </span>
-              <div className="flex justify-between items-center w-full">
-                <div className="w-1/3">
-                  <h3 className="text-[#B80200] relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-red-500 after:transition-all after:duration-500 after:ease-in-out hover:after:w-full">
-                    <Translate text={"Maserati GranCabrio"} />
-                  </h3>
-                  <h4 className="text-gray-400">
-                    <Translate text={"19/06/2022"} />
-                  </h4>
-                  <h4 className="text-gray-400">
-                    <Translate text={"Similar post"} />
-                  </h4>
-                </div>
-                <div className="w-1/3 text-left">
-                  <h3 className="text-[#B80200] relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-red-500 after:transition-all after:duration-500 after:ease-in-out hover:after:w-full">
-                    <Translate text={"Ferrari F8 Tributo"} />
-                  </h3>
-                  <h4 className="text-gray-400">
-                    <Translate text={"17/06/2022"} />
-                  </h4>
-                  <h4 className="text-gray-400">
-                    <Translate text={"Similar post"} />
-                  </h4>
-                </div>
-                <div className="w-1/3 ">
-                  <h3 className="text-[#B80200] relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-red-500 after:transition-all after:duration-500 after:ease-in-out hover:after:w-full">
-                    <Translate text={"Lamborghini Aventador S"} />
-                  </h3>
-                  <h4 className="text-gray-400">
-                    <Translate text={"18/06/2022"} />
-                  </h4>
-                  <h4 className="text-gray-400">
-                    <Translate text={"Similar post"} />
-                  </h4>
-                </div>
+              <div className="flex justify-between items-center md:flex-row flex-col gap-4 w-full">
+                {relatedCars.length > 0 ? (
+                  relatedCars?.slice(0, 3).map((car) => (
+                    <>
+                      <div className="w-1/3">
+                        <div className="w-full">
+                          <img
+                            src={`http://api.syriasouq.com/uploads/cars/${car.images[0]}`}
+                            alt=""
+                            className="w-full rounded-xl"
+                          />
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <h4 className="text-gray-400">
+                            <Translate text={car.make} />
+                          </h4>
+                          <h4 className="text-gray-400">-</h4>
+                          <h4 className="text-gray-400">
+                            <Translate text={car.model} />
+                          </h4>
+                        </div>
+                        <h3 className="text-[#B80200] relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-red-500 after:transition-all after:duration-500 after:ease-in-out hover:after:w-full">
+                          <Translate text={car.location} />
+                        </h3>
+                        <h4 className="text-black">
+                          USD $<Translate text={car.priceUSD} />
+                        </h4>
+                      </div>
+                    </>
+                  ))
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
           </div>
@@ -392,7 +404,7 @@ const CarDetails = () => {
               </h2>
             </div>
 
-            <FeaturedCard />
+            {/* <FeaturedCard /> */}
           </div>
         </div>
         <MoreFromUser
