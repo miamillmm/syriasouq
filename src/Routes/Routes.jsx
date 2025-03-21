@@ -11,6 +11,7 @@ import MessagesPage from "../Pages/Dashboard/MessagesPage";
 import SearchPage from "../Pages/SearchPage";
 import PrivacyPolicy from "../Pages/PrivacyPolicy";
 import TermsPage from "../Pages/TermAndUse";
+import PasswordChangePage from "../Pages/Authentication/PasswordChangePage";
 
 const Router = () => {
   return (
@@ -21,6 +22,10 @@ const Router = () => {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login-and-register" element={<LoginAndRegister />} />
+          <Route
+            path="/change-password/:token"
+            element={<PasswordChangePage />}
+          />
           <Route path="/listing/:id" element={<CarDetails />} />
           <Route path="/addlisting" element={<AddListingPage />} />
           <Route path="/search" element={<SearchPage />} />
