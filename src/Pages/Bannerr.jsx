@@ -23,7 +23,7 @@ const BannerSection = () => {
     { label: "Other", value: "Other", models: ["Other"] },
   ];
   const arabicMakes = [
-    { label: "الجميع", value: "الجميع", models: ["الجميع"] },
+    { label: "الكل", value: "الكل", models: ["الكل"] },
     ...arMake,
     {},
   ];

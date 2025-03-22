@@ -8,7 +8,7 @@ import {
   CiWallet,
 } from "react-icons/ci";
 import { FaList, FaMapMarkerAlt, FaTh, FaTimes } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Breadcrumb from "./Breadcumb";
 import { arabicMakes, makes } from "../utils/utils";
 import { useTranslation } from "react-i18next";
@@ -80,6 +80,8 @@ const SearchPage = () => {
     { value: "Other", label: "Other" },
   ];
 
+  const [searchParams] = useSearchParams();
+  const make = searchParams.get("make");
   const [datas, setDatas] = useState([]);
   const [view, setView] = useState("grid");
   const [sortOption, setSortOption] = useState("Most Relevant");
@@ -98,6 +100,13 @@ const SearchPage = () => {
     interiorColor: "",
   });
 
+  useEffect(() => {
+    setFilters((prev) => ({
+      ...prev,
+      make: [make !== "All" && make !== "Other" ? make : ""],
+    }));
+  }, [make]);
+
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
   useEffect(() => {
@@ -113,10 +122,6 @@ const SearchPage = () => {
       })
       .catch((error) => console.log("Error fetching data:", error));
   }, []);
-
-  useEffect(() => {
-    console.log(filters);
-  }, [filters]);
 
   const sortData = (option) => {
     let sortedData = [...datas];
@@ -247,7 +252,17 @@ const SearchPage = () => {
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language; // Gets current language
 
-  const carMakes = currentLanguage === "ar" ? arabicMakes : makes;
+  const carMakes =
+    currentLanguage === "ar"
+      ? [{ label: "الكل", value: "", models: [""] }, ...arabicMakes]
+      : [
+          {
+            label: "All",
+            value: "",
+            models: [""],
+          },
+          ...makes,
+        ];
 
   return (
     <div className="pt-24 px-5 md:px-16 lg:px-28">
