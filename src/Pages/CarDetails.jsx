@@ -162,7 +162,7 @@ const CarDetails = () => {
                 {carDetails?.make}
               </h1>
               <p className="text-3xl font-semibold text-[#314352] mt-2">
-                ${carDetails?.priceUSD}
+                USD {carDetails?.priceUSD}
               </p>
             </div>
 
@@ -194,7 +194,7 @@ const CarDetails = () => {
                 <p className="font-semibold">
                   {currentLanguage === "ar" ? "السعر" : "Price:"}
                 </p>
-                <p>${carDetails?.priceUSD}</p>
+                <p>USD {carDetails?.priceUSD}</p>
 
                 {showMore ? (
                   <>
@@ -303,7 +303,7 @@ const CarDetails = () => {
                           <Translate text={car.location} />
                         </h3>
                         <h4 className="text-black">
-                          USD $<Translate text={car.priceUSD} />
+                          USD <Translate text={car.priceUSD} />
                         </h4>
                       </div>
                     </>

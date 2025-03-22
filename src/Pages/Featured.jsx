@@ -170,27 +170,27 @@ const Featured = () => {
                   <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
                     <div className="flex items-center justify-between gap-2">
                       <h2 className="text-3xl font-bold">
-                        ${data?.priceUSD ? data?.priceUSD : "آخر"}
+                        USD {data?.priceUSD ? data?.priceUSD : "آخر"}
                       </h2>
                       {/* <span className="block px-2 py-1 rounded bg-[#B80200] text-white text-xs">
                         {currentLanguage === "ar" ? "مميز" : "PREMIUM"}
                       </span> */}
                     </div>
                     <div className="flex items-center gap-2">
-                      <h2 className="text-lg">
+                      <h2 className="text-sm">
                         {data?.make ? data?.make : "آخر"}
                       </h2>
                       <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
-                      <h2 className="text-lg">
+                      <h2 className="text-sm">
                         {data?.model ? data?.model : "آخر"}
                       </h2>
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="flex items-center gap-1 text-xl">
+                      <div className="flex items-center gap-1 text-sm">
                         <CiCalendar />
                         <span>{data?.year ? data?.year : "آخر"}</span>
                       </div>
-                      <div className="flex items-center gap-1 text-xl">
+                      <div className="flex items-center gap-1 text-sm">
                         <AiOutlineDashboard />
                         <span>
                           {data?.kilometer ? data?.kilometer : "آخر"} km
@@ -198,10 +198,13 @@ const Featured = () => {
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="flex items-center gap-1 text-xl">
+                      <div className="flex items-center gap-1 text-sm">
                         <CiLocationOn />
                         <span>{data?.location ? data?.location : "آخر"}</span>
                       </div>
+                    </div>
+                    <div className="flex items-center justify-end gap-3 mt-2 md:mt-4 text-sm">
+                      <Translate text={"Listed By:"} /> {data.user.username}
                     </div>
                     <div className="flex items-center gap-3 mt-2 md:mt-4">
                       <Link

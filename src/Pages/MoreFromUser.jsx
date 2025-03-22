@@ -280,31 +280,31 @@ export default function MoreFromUser({ title, button, uid }) {
                 <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
                   <div className="flex items-center justify-between gap-2">
                     <h2 className="text-3xl font-bold">
-                      ${car?.priceUSD ? car?.priceUSD : "آخر"}
+                      USD {car?.priceUSD ? car?.priceUSD : "آخر"}
                     </h2>
-                    <span className="block px-2 py-1 rounded bg-[#B80200] text-white text-xs">
+                    {/* <span className="block px-2 py-1 rounded bg-[#B80200] text-white text-xs">
                       {currentLanguage === "ar" ? "مميز" : "PREMIUM"}
-                    </span>
+                    </span> */}
                   </div>
-                  <div className="flex items-center gap-2">
-                    <h2 className="text-lg">{car?.make ? car?.make : "آخر"}</h2>
+                  <div className="flex items-center gap-2 md:mt-3">
+                    <h2 className="text-sm">{car?.make ? car?.make : "آخر"}</h2>
                     <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
-                    <h2 className="text-lg">
+                    <h2 className="text-sm">
                       {car?.model ? car?.model : "آخر"}
                     </h2>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="flex items-center gap-1 text-xl">
+                    <div className="flex items-center gap-1 text-sm">
                       <CiCalendar />
                       <span>{car?.year ? car?.year : "آخر"}</span>
                     </div>
-                    <div className="flex items-center gap-1 text-xl">
+                    <div className="flex items-center gap-1 text-sm">
                       <AiOutlineDashboard />
                       <span>{car?.kilometer ? car?.kilometer : "آخر"} km</span>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="flex items-center gap-1 text-xl">
+                    <div className="flex items-center gap-1 text-sm">
                       <CiLocationOn />
                       <span>{car?.location ? car?.location : "آخر"}</span>
                     </div>
@@ -316,6 +316,9 @@ export default function MoreFromUser({ title, button, uid }) {
                     >
                       <Translate text={"View Details"} />
                     </Link>
+                  </div>
+                  <div className="text-sm flex justify-end items-center">
+                    <Translate text={"Listed By:"} /> {car.user.username}
                   </div>
                 </div>
               </div>

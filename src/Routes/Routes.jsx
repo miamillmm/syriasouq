@@ -12,6 +12,7 @@ import SearchPage from "../Pages/SearchPage";
 import PrivacyPolicy from "../Pages/PrivacyPolicy";
 import TermsPage from "../Pages/TermAndUse";
 import PasswordChangePage from "../Pages/Authentication/PasswordChangePage";
+import ChangePassword from "../Pages/Authentication/ChangePassword";
 
 const Router = () => {
   return (
@@ -26,6 +27,7 @@ const Router = () => {
             path="/change-password/:token"
             element={<PasswordChangePage />}
           />
+          <Route path="/change-password" element={<ChangePassword />} />
           <Route path="/listing/:id" element={<CarDetails />} />
           <Route path="/addlisting" element={<AddListingPage />} />
           <Route path="/search" element={<SearchPage />} />

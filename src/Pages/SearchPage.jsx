@@ -1005,33 +1005,39 @@ const SearchPage = () => {
                         {/* Name, price, and buttons */}
                         <div className="px-4 py-3">
                           <p className="text-[#314352] text-xl flex items-center gap-2">
-                            <CiWallet /> ${data.priceUSD}
+                            <CiWallet /> USD {data.priceUSD}
                           </p>
                           <div className="flex sm:flex-row flex-col items-center sm:gap-3 gap-1">
-                            <h2 className="text-[#314352] font-semibold text-lg">
+                            <h2 className="text-[#314352] text-sm">
                               <Translate text={data.make} />
                             </h2>
                             <span className="sm:block hidden">.</span>
-                            <h2 className="text-[#314352] font-semibold text-lg">
+                            <h2 className="text-[#314352] text-sm">
                               <Translate text={data.model} />
                             </h2>
                           </div>
                           <div className="flex sm:flex-row flex-col items-center sm:gap-3 gap-1">
-                            <h2 className="text-[#314352] font-semibold text-lg flex items-center gap-1">
+                            <h2 className="text-[#314352] text-sm flex items-center gap-1">
                               <CiCalendar />
                               <Translate text={data.year} />
                             </h2>
                             <span className="sm:block hidden">.</span>
-                            <h2 className="text-[#314352] font-semibold text-lg flex items-center gap-1">
+                            <h2 className="text-[#314352] text-sm flex items-center gap-1">
                               <AiFillDashboard />
                               <Translate text={data.kilometer} />{" "}
                               <Translate text={"km"} />
                             </h2>
                           </div>
                           <div className="flex sm:flex-row flex-col items-center sm:gap-3 gap-1">
-                            <h2 className="text-[#314352] font-semibold text-lg flex items-center gap-1">
+                            <h2 className="text-[#314352] text-sm flex items-center gap-1">
                               <FaMapMarkerAlt />
                               <Translate text={data.location} />
+                            </h2>
+                          </div>
+                          <div className="flex items-center justify-end sm:gap-3 gap-1">
+                            <h2 className="text-[#314352] text-sm flex items-center gap-1">
+                              <Translate text={"Listed By:"} />{" "}
+                              {data.user.username}
                             </h2>
                           </div>
                         </div>
@@ -1067,7 +1073,7 @@ const SearchPage = () => {
                           <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
                             <div className="flex items-center justify-between gap-2">
                               <h2 className="text-3xl font-bold">
-                                $
+                                USD{" "}
                                 <Translate
                                   text={data?.priceUSD ? data?.priceUSD : "آخر"}
                                 />
@@ -1076,21 +1082,21 @@ const SearchPage = () => {
                                 {currentLanguage === "ar" ? "مميز" : "PREMIUM"}
                               </span> */}
                             </div>
-                            <div className="flex items-center gap-2">
-                              <h2 className="text-lg">
+                            <div className="flex items-center gap-2 md:mt-3">
+                              <h2 className="text-sm">
                                 <Translate
                                   text={data?.make ? data?.make : "آخر"}
                                 />
                               </h2>
                               <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
-                              <h2 className="text-lg">
+                              <h2 className="text-sm">
                                 <Translate
                                   text={data?.model ? data?.model : "آخر"}
                                 />
                               </h2>
                             </div>
                             <div className="flex items-center gap-3">
-                              <div className="flex items-center gap-1 text-xl">
+                              <div className="flex items-center gap-1 text-sm">
                                 <CiCalendar />
                                 <span>
                                   <Translate
@@ -1098,7 +1104,7 @@ const SearchPage = () => {
                                   />
                                 </span>
                               </div>
-                              <div className="flex items-center gap-1 text-xl">
+                              <div className="flex items-center gap-1 text-sm">
                                 <AiOutlineDashboard />
                                 <span>
                                   <Translate
@@ -1111,7 +1117,7 @@ const SearchPage = () => {
                               </div>
                             </div>
                             <div className="flex items-center gap-3">
-                              <div className="flex items-center gap-1 text-xl">
+                              <div className="flex items-center gap-1 text-sm">
                                 <CiLocationOn />
                                 <span>
                                   <Translate
@@ -1122,6 +1128,7 @@ const SearchPage = () => {
                                 </span>
                               </div>
                             </div>
+
                             <div className="flex items-center gap-3 mt-2 md:mt-4">
                               <Link
                                 to={`/listing/${data?._id}`}
@@ -1129,6 +1136,10 @@ const SearchPage = () => {
                               >
                                 <Translate text={"View Details"} />
                               </Link>
+                            </div>
+                            <div className="flex items-center justify-end gap-3 text-sm">
+                              <Translate text={"Listed By:"} />{" "}
+                              {data.user.username}
                             </div>
                           </div>
                         </div>

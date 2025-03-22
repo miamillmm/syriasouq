@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import cover from "../../assets/service/cover.jpg";
 import Translate from "../../utils/Translate";
 import { useTranslation } from "react-i18next";
@@ -163,13 +163,19 @@ const LoginAndRegister = () => {
                 {loginErrors.password.message}
               </p>
             )}
-            <button
+            {/* <button
               type="button"
               onClick={() => setIsModalOpen(true)}
               className="text-red-400 text-sm cursor-pointer"
             >
               <Translate text={"Forgot Password?"} />
-            </button>
+            </button> */}
+            <Link
+              to={"/change-password"}
+              className="text-red-400 text-sm cursor-pointer block"
+            >
+              <Translate text={"Forgot Password?"} />
+            </Link>
             <button
               type="submit"
               className="w-full bg-red-500 py-3 rounded-lg cursor-pointer"
