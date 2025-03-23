@@ -70,9 +70,9 @@ const Navbar = () => {
           </svg>
         </button>
 
-        <div className="relative group flex items-center justify-between gap-10 md:hidden">
-          {/* Currency Dropdown */}
-          {/* <div className="dropdown dropdown-hover">
+        {/* <div className="relative group flex items-center justify-between gap-10 md:hidden"> */}
+        {/* Currency Dropdown */}
+        {/* <div className="dropdown dropdown-hover">
             <button className="hover:text-[#B80200] duration-500 text-[18px] font-[500] cursor-pointer flex items-center">
               <Translate text={"SYP"} />
               <svg
@@ -106,15 +106,15 @@ const Navbar = () => {
               </li>
             </ul>
           </div> */}
-        </div>
+        {/* </div> */}
 
         {/* Middle: Logo */}
-        <NavLink className="w-14 md:hidden" to="/">
+        <NavLink className="w-14 md:hidden mr-auto" to="/">
           <img src={logo} className="w-14" alt="Logos" />
         </NavLink>
 
         <Link to={"/addlisting"} className="block md:hidden">
-          <button className="bg-white text-[#B80200] px-4 py-2 rounded-md  cursor-pointer text-xs">
+          <button className="bg-white text-[#B80200] px-4 py-2 rounded-md  cursor-pointer text-xs mr-4">
             <Translate text={"Add Listing"} /> <span>+</span>
           </button>
         </Link>

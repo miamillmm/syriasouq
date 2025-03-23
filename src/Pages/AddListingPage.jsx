@@ -100,7 +100,7 @@ const AddListingPage = () => {
   const [make, setMake] = useState(null);
   const [model, setModel] = useState(null);
   const [priceUSD, setPriceUSD] = useState("");
-  const [priceSYP, setPriceSYP] = useState("");
+  const [priceSYP, setPriceSYP] = useState(1);
   const [year, setYear] = useState("");
   const [kilometer, setKilometer] = useState("");
   const [engineSize, setEngineSize] = useState(null);
@@ -306,7 +306,7 @@ const AddListingPage = () => {
               <input
                 type="number"
                 placeholder="$"
-                className="w-full py-4 border-gray-300 rounded px-6 text-end"
+                className="w-full py-4 border-gray-300 rounded px-6 text-left"
                 value={priceUSD}
                 onChange={(e) => setPriceUSD(e.target.value)}
                 required
@@ -314,21 +314,6 @@ const AddListingPage = () => {
             </label>
           </div>
           <div className="flex justify-between items-center lg:flex-row flex-col gap-10 mt-8">
-            <label className="w-full">
-              <div className="mb-2 px-3">
-                <h3 className="font-semibold">
-                  <Translate text={"Price (SYP)"} />
-                </h3>
-              </div>
-              <input
-                type="number"
-                placeholder="SYP"
-                className="w-full py-4 border-gray-300 rounded px-6 text-end"
-                value={priceSYP}
-                onChange={(e) => setPriceSYP(e.target.value)}
-                required
-              />
-            </label>
             <label className="w-full">
               <div className="mb-2 px-3">
                 <h3 className="font-semibold">
@@ -353,12 +338,28 @@ const AddListingPage = () => {
               <input
                 type="number"
                 placeholder="km"
-                className="w-full py-4 border-gray-300 rounded px-6 text-end"
+                className="w-full py-4 border-gray-300 rounded px-6 text-left"
                 value={kilometer}
                 onChange={(e) => setKilometer(e.target.value)}
                 required
               />
             </label>
+            <label className="w-full hidden">
+              <div className="mb-2 px-3">
+                <h3 className="font-semibold">
+                  <Translate text={"Price (SYP)"} />
+                </h3>
+              </div>
+              <input
+                type="number"
+                placeholder="SYP"
+                className="w-full py-4 border-gray-300 rounded px-6 text-end"
+                value={priceSYP}
+                onChange={(e) => setPriceSYP(e.target.value)}
+                required
+              />
+            </label>
+            <label htmlFor="" className="w-full"></label>
           </div>
           <div className="flex justify-between items-center lg:flex-row flex-col gap-10 mt-8">
             <label className="w-full">

@@ -113,14 +113,14 @@ const Featured = () => {
             {currentLanguage === "ar" ? "مختارات ألجلك" : "Handy picked"}
           </button>
           <h2 className="text-[28px] sm:text-[36px] font-bold text-[#314352]">
-            <Translate text={"Featured listings"} />
+            <Translate text={"Recent listings"} />
           </h2>
         </div>
         <div className="flex gap-4 mt-6 md:mt-0">
           {/* <button className="text-[14px] sm:text-[16px] font-[400] text-white bg-[#4b4b4bfa] py-3 sm:py-4 px-6 sm:px-8 rounded cursor-pointer">
             <Translate text={"All"} />
           </button> */}
-          <Link to={"/search"}>
+          <Link to={"/search?make=All"}>
             <button className="bg-[#B80200] text-white text-[16px] sm:text-[18px] font-[400] justify-between py-3 sm:py-4 px-8 sm:px-12 rounded-md flex items-center gap-2 cursor-pointer">
               <Translate text={"View All"} />
               <span>
@@ -159,38 +159,39 @@ const Featured = () => {
                       >
                         <CiHeart className="w-1/2 h-1/2" />
                       </div>
-                      <div
+                      {/* <div
                         onClick={() => handleShare(data)}
                         className={`hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-white cursor-pointer text-white`}
                       >
                         <CiShare2 className="w-1/2 h-1/2" />
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                   <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
                     <div className="flex items-center justify-between gap-2">
                       <h2 className="text-3xl font-bold">
-                        USD {data?.priceUSD ? data?.priceUSD : "آخر"}
+                        <span className="text-lg">USD</span>{" "}
+                        {data?.priceUSD ? data?.priceUSD : "آخر"}
                       </h2>
                       {/* <span className="block px-2 py-1 rounded bg-[#B80200] text-white text-xs">
                         {currentLanguage === "ar" ? "مميز" : "PREMIUM"}
                       </span> */}
                     </div>
                     <div className="flex items-center gap-2">
-                      <h2 className="text-sm">
+                      <h2 className="text-md">
                         {data?.make ? data?.make : "آخر"}
                       </h2>
                       <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
-                      <h2 className="text-sm">
+                      <h2 className="text-md">
                         {data?.model ? data?.model : "آخر"}
                       </h2>
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="flex items-center gap-1 text-sm">
+                      <div className="flex items-center gap-1 text-md">
                         <CiCalendar />
                         <span>{data?.year ? data?.year : "آخر"}</span>
                       </div>
-                      <div className="flex items-center gap-1 text-sm">
+                      <div className="flex items-center gap-1 text-md">
                         <AiOutlineDashboard />
                         <span>
                           {data?.kilometer ? data?.kilometer : "آخر"} km
@@ -198,14 +199,14 @@ const Featured = () => {
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="flex items-center gap-1 text-sm">
+                      <div className="flex items-center gap-1 text-md">
                         <CiLocationOn />
                         <span>{data?.location ? data?.location : "آخر"}</span>
                       </div>
                     </div>
-                    <div className="flex items-center justify-end gap-3 mt-2 md:mt-4 text-sm">
+                    {/* <div className="flex items-center justify-end gap-3 mt-2 md:mt-4 text-sm">
                       <Translate text={"Listed By:"} /> {data.user.username}
-                    </div>
+                    </div> */}
                     <div className="flex items-center gap-3 mt-2 md:mt-4">
                       <Link
                         to={`/listing/${data?._id}`}

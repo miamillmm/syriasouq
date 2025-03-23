@@ -419,14 +419,14 @@ const SearchPage = () => {
               <label className="block text-gray-700 mb-2">
                 <Translate text={"Location"} />
               </label>
-              <input
+              {/* <input
                 type="text"
                 name="location"
                 value={filters.location}
                 onChange={handleFilterChange}
                 className="w-full border p-2 rounded"
                 placeholder="Search location"
-              />
+              /> */}
               <div>
                 <select
                   name="location"
@@ -726,14 +726,14 @@ const SearchPage = () => {
                     <label className="block text-gray-700 mb-2">
                       <Translate text={"Location"} />
                     </label>
-                    <input
+                    {/* <input
                       type="text"
                       name="location"
                       value={filters.location}
                       onChange={handleFilterChange}
                       className="w-full border p-2 rounded"
                       placeholder="Search location"
-                    />
+                    /> */}
                     <div>
                       <select
                         name="location"
@@ -992,56 +992,107 @@ const SearchPage = () => {
                     )} */}
 
                     {view === "grid" ? (
-                      <div>
-                        {/* Image in grid view */}
-                        <div className="overflow-hidden rounded-t-md">
-                          <img
-                            alt=""
-                            src={`http://api.syriasouq.com/uploads/cars/${data.images[0]}`}
-                            className="h-40 sm:h-56 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
-                          />
+                      <>
+                        {/* <div>
+                          <div className="overflow-hidden rounded-t-md">
+                            <img
+                              alt=""
+                              src={`http://api.syriasouq.com/uploads/cars/${data.images[0]}`}
+                              className="h-40 sm:h-56 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
+                            />
+                          </div>
+                          <div className="px-4 py-3">
+                            <p className="text-[#314352] text-xl flex items-center gap-2">
+                              <CiWallet /> USD {data.priceUSD}
+                            </p>
+                            <div className="flex sm:flex-row flex-col items-center sm:gap-3 gap-1">
+                              <h2 className="text-[#314352] text-sm">
+                                <Translate text={data.make} />
+                              </h2>
+                              <span className="sm:block hidden">.</span>
+                              <h2 className="text-[#314352] text-sm">
+                                <Translate text={data.model} />
+                              </h2>
+                            </div>
+                            <div className="flex sm:flex-row flex-col items-center sm:gap-3 gap-1">
+                              <h2 className="text-[#314352] text-sm flex items-center gap-1">
+                                <CiCalendar />
+                                <Translate text={data.year} />
+                              </h2>
+                              <span className="sm:block hidden">.</span>
+                              <h2 className="text-[#314352] text-sm flex items-center gap-1">
+                                <AiFillDashboard />
+                                <Translate text={data.kilometer} />{" "}
+                                <Translate text={"km"} />
+                              </h2>
+                            </div>
+                            <div className="flex sm:flex-row flex-col items-center sm:gap-3 gap-1">
+                              <h2 className="text-[#314352] text-sm flex items-center gap-1">
+                                <FaMapMarkerAlt />
+                                <Translate text={data.location} />
+                              </h2>
+                            </div>
+                          </div>
+                        </div> */}
+                        <div className="flex flex-col-reverse gap-4 bg-slate-100 p-3 rounded">
+                          <div className="relative w-full max-w-[350px]">
+                            <Link to={`/listing/${data._id}`} key={data._id}>
+                              <div className="overflow-hidden rounded-md">
+                                <img
+                                  alt=""
+                                  src={`http://api.syriasouq.com/uploads/cars/${data.images[0]}`}
+                                  className="h-40 sm:h-56 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
+                                />
+                              </div>
+                            </Link>
+                          </div>
+                          <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
+                            <div className="flex items-center justify-between gap-2">
+                              <h2 className="text-3xl font-bold">
+                                <span className="text-lg">USD</span>{" "}
+                                {data?.priceUSD ? data?.priceUSD : "آخر"}
+                              </h2>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <h2 className="text-md">
+                                {data?.make ? data?.make : "آخر"}
+                              </h2>
+                              <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
+                              <h2 className="text-md">
+                                {data?.model ? data?.model : "آخر"}
+                              </h2>
+                            </div>
+                            <div className="flex items-center gap-3">
+                              <div className="flex items-center gap-1 text-md">
+                                <CiCalendar />
+                                <span>{data?.year ? data?.year : "آخر"}</span>
+                              </div>
+                              <div className="flex items-center gap-1 text-md">
+                                <AiOutlineDashboard />
+                                <span>
+                                  {data?.kilometer ? data?.kilometer : "آخر"} km
+                                </span>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-3">
+                              <div className="flex items-center gap-1 text-md">
+                                <CiLocationOn />
+                                <span>
+                                  {data?.location ? data?.location : "آخر"}
+                                </span>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-3 mt-2 md:mt-4">
+                              <Link
+                                to={`/listing/${data?._id}`}
+                                className="block bg-[#B80200] text-white text-lg py-1 px-4 rounded"
+                              >
+                                <Translate text={"View Details"} />
+                              </Link>
+                            </div>
+                          </div>
                         </div>
-
-                        {/* Name, price, and buttons */}
-                        <div className="px-4 py-3">
-                          <p className="text-[#314352] text-xl flex items-center gap-2">
-                            <CiWallet /> USD {data.priceUSD}
-                          </p>
-                          <div className="flex sm:flex-row flex-col items-center sm:gap-3 gap-1">
-                            <h2 className="text-[#314352] text-sm">
-                              <Translate text={data.make} />
-                            </h2>
-                            <span className="sm:block hidden">.</span>
-                            <h2 className="text-[#314352] text-sm">
-                              <Translate text={data.model} />
-                            </h2>
-                          </div>
-                          <div className="flex sm:flex-row flex-col items-center sm:gap-3 gap-1">
-                            <h2 className="text-[#314352] text-sm flex items-center gap-1">
-                              <CiCalendar />
-                              <Translate text={data.year} />
-                            </h2>
-                            <span className="sm:block hidden">.</span>
-                            <h2 className="text-[#314352] text-sm flex items-center gap-1">
-                              <AiFillDashboard />
-                              <Translate text={data.kilometer} />{" "}
-                              <Translate text={"km"} />
-                            </h2>
-                          </div>
-                          <div className="flex sm:flex-row flex-col items-center sm:gap-3 gap-1">
-                            <h2 className="text-[#314352] text-sm flex items-center gap-1">
-                              <FaMapMarkerAlt />
-                              <Translate text={data.location} />
-                            </h2>
-                          </div>
-                          <div className="flex items-center justify-end sm:gap-3 gap-1">
-                            <h2 className="text-[#314352] text-sm flex items-center gap-1">
-                              <Translate text={"Listed By:"} />{" "}
-                              {data.user.username}
-                            </h2>
-                          </div>
-                        </div>
-                      </div>
+                      </>
                     ) : (
                       <>
                         <div className="flex md:flex-row flex-col-reverse gap-4 bg-slate-100 p-3 rounded">
@@ -1073,7 +1124,7 @@ const SearchPage = () => {
                           <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
                             <div className="flex items-center justify-between gap-2">
                               <h2 className="text-3xl font-bold">
-                                USD{" "}
+                                <span className="text-lg">USD</span>{" "}
                                 <Translate
                                   text={data?.priceUSD ? data?.priceUSD : "آخر"}
                                 />
@@ -1137,10 +1188,10 @@ const SearchPage = () => {
                                 <Translate text={"View Details"} />
                               </Link>
                             </div>
-                            <div className="flex items-center justify-end gap-3 text-sm">
+                            {/* <div className="flex items-center justify-end gap-3 text-sm">
                               <Translate text={"Listed By:"} />{" "}
                               {data.user.username}
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                       </>

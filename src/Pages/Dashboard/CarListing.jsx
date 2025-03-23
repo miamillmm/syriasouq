@@ -128,21 +128,39 @@ const CarListing = () => {
                   {car.status}
                 </span>
               </div>
+
               <div className="p-6">
+                {/* Price */}
                 <h3 className="text-2xl font-semibold text-gray-900">
-                  ${car.priceUSD} USD
+                  ${car.priceUSD} <span className="text-lg">USD</span>
                 </h3>
-                <h3 className="text-2xl font-semibold text-gray-900">
-                  {car.make}
+
+                {/* Make & Model */}
+                <h3 className="text-lg  text-gray-900">
+                  {car.make} . {car?.model}
                 </h3>
-                <p className="text-gray-500 text-sm">
-                  {car?.brand} • {car?.model} • {car?.year}
-                </p>
-                <p className="text-gray-700 font-medium">
-                  <Translate text={"Mileage:"} /> {car.kilometer}
-                </p>
-                {/* <p className="text-gray-500">⛽ {car.fuelType}</p>
-                <p className="text-gray-600 mt-1">📍 {car.location}</p> */}
+
+                {/* Year */}
+                <p className="text-gray-500 text-sm">📅 {car?.year}</p>
+
+                {/* Mileage */}
+                {/* <p className="text-gray-700 font-medium">
+                  🛣️ <Translate text={"Mileage:"} /> {car.kilometer} km
+                </p> */}
+
+                {/* Fuel Type */}
+                {/* <p className="text-gray-500">⛽ {car.fuelType}</p> */}
+
+                {/* Transmission */}
+                <p className="text-gray-500">⚙️ {car.transmission}</p>
+
+                {/* Engine Size */}
+                <p className="text-gray-500">🔧 {car.engineSize} L</p>
+
+                {/* Location */}
+                <p className="text-gray-600 mt-1">📍 {car.location}</p>
+
+                {/* View Details Button */}
                 <Link to={`/listing/${car?._id}`}>
                   <button className="mt-5 w-full bg-[#B80200] text-white font-bold px-4 py-3 rounded-lg hover:bg-[#B80200] transition text-lg cursor-pointer">
                     <Translate text={"View Details"} />

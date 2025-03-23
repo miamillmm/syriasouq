@@ -153,7 +153,7 @@ const CarDetails = () => {
         {/* Grid Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Left Side (3/4) - Car Details */}
-          <div className="lg:col-span-8 min-h-screen">
+          <div className="lg:col-span-8 ">
             <div className="space-y-5 bg-white shadow rounded-lg p-6">
               <p className="text-gray-500 text-sm flex items-center gap-2">
                 <span>🕒</span> <Translate text={carDetails?.year} />
@@ -275,7 +275,7 @@ const CarDetails = () => {
               <p className="text-[#314352] mt-2 mb-5">
                 {carDetails?.description}
               </p>
-              <span className="border-t pt-5 border-gray-400 font-bold text-gray-400 mb-2 inline-block">
+              {/* <span className="border-t pt-5 border-gray-400 font-bold text-gray-400 mb-2 inline-block">
                 <Translate text={"Related"} />
               </span>
               <div className="flex justify-between items-center md:flex-row flex-col gap-4 w-full">
@@ -311,7 +311,7 @@ const CarDetails = () => {
                 ) : (
                   <></>
                 )}
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -407,11 +407,11 @@ const CarDetails = () => {
             {/* <FeaturedCard /> */}
           </div>
         </div>
-        <MoreFromUser
+        {/* <MoreFromUser
           title={"More from this user"}
           button={"Display All From SyriaSouq"}
           uid={user?._id}
-        />
+        /> */}
         <MoreFromUser
           title={"You may also like..."}
           button={"Start a new search"}

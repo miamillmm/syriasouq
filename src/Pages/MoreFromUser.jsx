@@ -280,7 +280,8 @@ export default function MoreFromUser({ title, button, uid }) {
                 <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
                   <div className="flex items-center justify-between gap-2">
                     <h2 className="text-3xl font-bold">
-                      USD {car?.priceUSD ? car?.priceUSD : "آخر"}
+                      <span className="text-lg">USD</span>{" "}
+                      {car?.priceUSD ? car?.priceUSD : "آخر"}
                     </h2>
                     {/* <span className="block px-2 py-1 rounded bg-[#B80200] text-white text-xs">
                       {currentLanguage === "ar" ? "مميز" : "PREMIUM"}
@@ -317,9 +318,9 @@ export default function MoreFromUser({ title, button, uid }) {
                       <Translate text={"View Details"} />
                     </Link>
                   </div>
-                  <div className="text-sm flex justify-end items-center">
+                  {/* <div className="text-sm flex justify-end items-center">
                     <Translate text={"Listed By:"} /> {car.user.username}
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </SwiperSlide>
