@@ -19,6 +19,8 @@ import MoreFromUser from "./MoreFromUser";
 import Translate from "../utils/Translate";
 import { useTranslation } from "react-i18next";
 import { TiMessages } from "react-icons/ti";
+import { CiCalendar, CiLocationOn } from "react-icons/ci";
+import { AiOutlineDashboard } from "react-icons/ai";
 
 const CarDetails = () => {
   const { id } = useParams();
@@ -156,15 +158,69 @@ const CarDetails = () => {
           {/* Left Side (3/4) - Car Details */}
           <div className="lg:col-span-8 ">
             <div className="space-y-5 bg-white shadow rounded-lg p-6">
-              <p className="text-gray-500 text-sm flex items-center gap-2">
-                <span>🕒</span> <Translate text={carDetails?.year} />
-              </p>
-              <h1 className="text-2xl text-[#314352] font-bold mt-2">
-                {carDetails?.make}
-              </h1>
-              <p className="text-3xl font-semibold text-[#314352] mt-2">
-                ${carDetails?.priceUSD}
-              </p>
+              <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
+                <div className="flex items-center justify-between gap-2">
+                  <h2 className="text-2xl font-bold">
+                    <span className="text-2xl">$ </span>
+                    {carDetails?.priceUSD ? carDetails?.priceUSD : "آخر"}
+                  </h2>
+                  {/* <span className="block px-2 py-1 rounded bg-[#B80200] text-white text-xs">
+                        {currentLanguage === "ar" ? "مميز" : "PREMIUM"}
+                      </span> */}
+                </div>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-md">
+                    {carDetails?.make ? (
+                      <Translate text={carDetails?.make} />
+                    ) : (
+                      "آخر"
+                    )}
+                  </h2>
+                  <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
+                  <h2 className="text-md">
+                    {carDetails?.model ? (
+                      <Translate text={carDetails?.model} />
+                    ) : (
+                      "آخر"
+                    )}
+                  </h2>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1 text-md">
+                    <CiCalendar />
+                    <span>
+                      {carDetails?.year ? (
+                        <Translate text={carDetails?.year} />
+                      ) : (
+                        "آخر"
+                      )}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1 text-md">
+                    <AiOutlineDashboard />
+                    <span>
+                      {carDetails?.kilometer ? (
+                        <Translate text={carDetails?.kilometer} />
+                      ) : (
+                        "آخر"
+                      )}{" "}
+                      km
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1 text-md">
+                    <CiLocationOn />
+                    <span>
+                      {carDetails?.location ? (
+                        <Translate text={carDetails?.location} />
+                      ) : (
+                        "آخر"
+                      )}
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Car Information */}
@@ -195,7 +251,7 @@ const CarDetails = () => {
                 <p className="font-semibold">
                   {currentLanguage === "ar" ? "السعر" : "Price:"}
                 </p>
-                <p>USD {carDetails?.priceUSD}</p>
+                <p>$ {carDetails?.priceUSD}</p>
 
                 {showMore ? (
                   <>
@@ -263,6 +319,16 @@ const CarDetails = () => {
                         ? carDetails?.transmission
                         : "N/A"}
                     </p>
+
+                    <p className="text-lg font-semibold mt-5">Features:</p>
+                    <p></p>
+
+                    {carDetails?.features.map((fe) => (
+                      <>
+                        <p key={fe}>{fe}</p>
+                        <p></p>
+                      </>
+                    ))}
                   </>
                 )}
               </div>
@@ -396,14 +462,14 @@ const CarDetails = () => {
               </div> */}
             </div>
             {/* error  */}
-            <div className="flex justify-center items-center my-8 gap-2 text-xl text-[#B80200] cursor-pointer">
+            {/* <div className="flex justify-center items-center my-8 gap-2 text-xl text-[#B80200] cursor-pointer">
               <MdErrorOutline />
               <h2>
                 {currentLanguage === "ar"
                   ? "اإلبالغ عن انتهاك"
                   : "Report abuse"}
               </h2>
-            </div>
+            </div> */}
 
             {/* <FeaturedCard /> */}
           </div>

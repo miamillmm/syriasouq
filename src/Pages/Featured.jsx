@@ -169,8 +169,8 @@ const Featured = () => {
                   </div>
                   <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
                     <div className="flex items-center justify-between gap-2">
-                      <h2 className="text-3xl font-bold">
-                        <span className="text-lg">$</span>
+                      <h2 className="text-2xl font-bold">
+                        <span className="text-2xl">$ </span>
                         {data?.priceUSD ? data?.priceUSD : "آخر"}
                       </h2>
                       {/* <span className="block px-2 py-1 rounded bg-[#B80200] text-white text-xs">
@@ -179,29 +179,42 @@ const Featured = () => {
                     </div>
                     <div className="flex items-center gap-2">
                       <h2 className="text-md">
-                        {data?.make ? data?.make : "آخر"}
+                        {data?.make ? <Translate text={data?.make} /> : "آخر"}
                       </h2>
                       <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
                       <h2 className="text-md">
-                        {data?.model ? data?.model : "آخر"}
+                        {data?.model ? <Translate text={data?.model} /> : "آخر"}
                       </h2>
                     </div>
                     <div className="flex items-center gap-3">
                       <div className="flex items-center gap-1 text-md">
                         <CiCalendar />
-                        <span>{data?.year ? data?.year : "آخر"}</span>
+                        <span>
+                          {data?.year ? <Translate text={data?.year} /> : "آخر"}
+                        </span>
                       </div>
                       <div className="flex items-center gap-1 text-md">
                         <AiOutlineDashboard />
                         <span>
-                          {data?.kilometer ? data?.kilometer : "آخر"} km
+                          {data?.kilometer ? (
+                            <Translate text={data?.kilometer} />
+                          ) : (
+                            "آخر"
+                          )}{" "}
+                          km
                         </span>
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
                       <div className="flex items-center gap-1 text-md">
                         <CiLocationOn />
-                        <span>{data?.location ? data?.location : "آخر"}</span>
+                        <span>
+                          {data?.location ? (
+                            <Translate text={data?.location} />
+                          ) : (
+                            "آخر"
+                          )}
+                        </span>
                       </div>
                     </div>
                     {/* <div className="flex items-center justify-end gap-3 mt-2 md:mt-4 text-sm">

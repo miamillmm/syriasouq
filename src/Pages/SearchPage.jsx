@@ -306,7 +306,7 @@ const SearchPage = () => {
               <label className="block text-gray-700 mb-2">
                 <Translate text={"Make"} />
               </label>
-              <input
+              {/* <input
                 type="text"
                 name="make"
                 value={filters.make[0] || ""}
@@ -315,7 +315,7 @@ const SearchPage = () => {
                 placeholder={
                   currentLanguage === "ar" ? "البحث عن الماركة" : "Search make"
                 }
-              />
+              /> */}
               <div>
                 {/* <input
                     type="checkbox"
@@ -630,7 +630,7 @@ const SearchPage = () => {
                     <label className="block text-gray-700 mb-2">
                       <Translate text={"Make"} />
                     </label>
-                    <input
+                    {/* <input
                       type="text"
                       name="make"
                       value={filters.make[0] || ""}
@@ -641,7 +641,7 @@ const SearchPage = () => {
                           ? "البحث عن الماركة"
                           : "Search make"
                       }
-                    />
+                    /> */}
                     <div>
                       {/* <input
                     type="checkbox"
@@ -1071,8 +1071,8 @@ const SearchPage = () => {
                           </div>
                           <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
                             <div className="flex items-center justify-between gap-2">
-                              <h2 className="text-3xl font-bold">
-                                <span className="text-lg">$</span>
+                              <h2 className="text-xl font-bold">
+                                <span className="text-lg">$ </span>
                                 {data?.priceUSD ? data?.priceUSD : "آخر"}
                               </h2>
                             </div>
@@ -1146,8 +1146,8 @@ const SearchPage = () => {
                           </div>
                           <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
                             <div className="flex items-center justify-between gap-2">
-                              <h2 className="text-3xl font-bold">
-                                <span className="text-lg">$</span>
+                              <h2 className="text-xl font-bold">
+                                <span className="text-lg">$ </span>
                                 <Translate
                                   text={data?.priceUSD ? data?.priceUSD : "آخر"}
                                 />
@@ -1224,7 +1224,7 @@ const SearchPage = () => {
               ))
             ) : (
               <h2 className="text-3xl text-red-600 text-center">
-                No Results Found
+                <Translate text={"No Results Found"} />
               </h2>
             )}
           </div>

@@ -231,7 +231,7 @@ const Inbox = () => {
     <div className="flex h-[65vh] bg-gray-100">
       {/* Sidebar */}
       <div className="w-1/3 bg-white shadow-lg rounded-lg p-4 overflow-y-auto">
-        <h2 className="text-xl font-semibold mb-4 text-gray-800">
+        <h2 className="md:text-xl text-sm font-semibold mb-4 text-gray-800">
           <Translate text={"Messages 💬"} />
         </h2>
 
@@ -248,14 +248,14 @@ const Inbox = () => {
         </div> */}
 
         {/* List of Conversations */}
-        <h3 className="text-lg font-semibold text-gray-800">
+        <h3 className="md:text-lg text-sm font-semibold text-gray-800">
           <Translate text={"Recent Chats"} />
         </h3>
         {conversations.map((chat) => (
           <div
             key={chat.id}
             onClick={() => setSelectedChat(chat)}
-            className={`flex items-center gap-4 p-3 rounded-lg cursor-pointer hover:bg-gray-100 transition ${
+            className={`flex items-center gap-4 md:p-3 p-2 rounded-lg cursor-pointer hover:bg-gray-100 transition mb-2 ${
               selectedChat?.id === chat.id ? "bg-red-100" : ""
             }`}
           >
@@ -264,7 +264,7 @@ const Inbox = () => {
               className="w-12 h-12 rounded-full"
               alt="avatar"
             /> */}
-            <div className="w-12 h-12 rounded-full bg-red-300 text-center flex items-center justify-center font-bold text-xl">
+            <div className="md:w-12 w-7 md:h-12 h-7 rounded-full bg-red-300 text-center hidden md:flex items-center justify-center font-bold text-xl">
               {(() => {
                 const participant = chat?.participants?.find(
                   (u) => u._id !== user._id
@@ -275,10 +275,10 @@ const Inbox = () => {
               })()}
             </div>
             <div className="flex-1">
-              <h3 className="text-lg font-medium text-gray-900">
+              <h3 className="md:text-lg text-xs font-medium text-gray-900">
                 {chat.participants.find((u) => u._id !== user._id)?.username}
               </h3>
-              <p className="text-sm text-gray-500">
+              <p className="md:text-sm text-xs text-gray-500">
                 {chat.lastMessage || "No messages yet"}
               </p>
             </div>

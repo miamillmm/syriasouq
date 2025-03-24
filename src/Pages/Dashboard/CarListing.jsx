@@ -2,6 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Translate from "../../utils/Translate";
+import { AiOutlineDashboard } from "react-icons/ai";
+import { CiCalendar, CiLocationOn, CiSettings } from "react-icons/ci";
 
 const getUidFromUrl = () => {
   const queryParams = new URLSearchParams(window.location.search);
@@ -111,9 +113,9 @@ const CarListing = () => {
 
   return (
     <div className="container mx-auto px-6 py-10">
-      <h2 className="text-4xl font-extrabold text-gray-900 text-center mb-10">
+      {/* <h2 className="text-4xl font-extrabold text-gray-900 text-center mb-10">
         <Translate text={"🚗 Explore Our Premium Car Collection"} />
-      </h2>
+      </h2> */}
 
       {loading ? (
         <div className="text-center text-gray-600 text-xl animate-pulse">
@@ -166,7 +168,9 @@ const CarListing = () => {
                 </h3>
 
                 {/* Year */}
-                <p className="text-gray-500 text-sm">📅 {car?.year}</p>
+                <p className="text-gray-500 text-sm flex items-center gap-1">
+                  <CiCalendar /> {car?.year}
+                </p>
 
                 {/* Mileage */}
                 {/* <p className="text-gray-700 font-medium">
@@ -177,13 +181,19 @@ const CarListing = () => {
                 {/* <p className="text-gray-500">⛽ {car.fuelType}</p> */}
 
                 {/* Transmission */}
-                <p className="text-gray-500">⚙️ {car.transmission}</p>
+                <p className="text-gray-500 flex items-center gap-1">
+                  <CiSettings /> {car.transmission}
+                </p>
 
                 {/* Engine Size */}
-                <p className="text-gray-500">🔧 {car.engineSize} L</p>
+                <p className="text-gray-500 flex items-center gap-1">
+                  <AiOutlineDashboard /> {car.engineSize} L
+                </p>
 
                 {/* Location */}
-                <p className="text-gray-600 mt-1">📍 {car.location}</p>
+                <p className="text-gray-600 mt-1 flex items-center gap-1">
+                  <CiLocationOn /> {car.location}
+                </p>
 
                 {/* View Details Button */}
                 <Link to={`/listing/${car?._id}`}>

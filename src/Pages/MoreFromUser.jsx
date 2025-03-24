@@ -269,18 +269,18 @@ export default function MoreFromUser({ title, button, uid }) {
                     >
                       <CiHeart className="w-1/2 h-1/2" />
                     </div>
-                    <div
+                    {/* <div
                       onClick={() => handleShare(car)}
                       className={`hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-white cursor-pointer text-white`}
                     >
                       <CiShare2 className="w-1/2 h-1/2" />
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
                   <div className="flex items-center justify-between gap-2">
-                    <h2 className="text-3xl font-bold">
-                      <span className="text-lg">$</span>
+                    <h2 className="text-xl font-bold">
+                      <span className="text-xl">$ </span>
                       {car?.priceUSD ? car?.priceUSD : "آخر"}
                     </h2>
                     {/* <span className="block px-2 py-1 rounded bg-[#B80200] text-white text-xs">
