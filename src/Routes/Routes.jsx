@@ -13,6 +13,7 @@ import PrivacyPolicy from "../Pages/PrivacyPolicy";
 import TermsPage from "../Pages/TermAndUse";
 import PasswordChangePage from "../Pages/Authentication/PasswordChangePage";
 import ChangePassword from "../Pages/Authentication/ChangePassword";
+import Favorites from "../Pages/Dashboard/Favorites";
 
 const Router = () => {
   return (
@@ -33,6 +34,7 @@ const Router = () => {
           <Route path="/search" element={<SearchPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/messages" element={<MessagesPage />} />
+          <Route path="/favorites" element={<Favorites />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/term-and-use" element={<TermsPage />} />
         </Route>

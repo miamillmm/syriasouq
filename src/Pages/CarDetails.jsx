@@ -18,6 +18,7 @@ import FeaturedCard from "./FeaturedCard";
 import MoreFromUser from "./MoreFromUser";
 import Translate from "../utils/Translate";
 import { useTranslation } from "react-i18next";
+import { TiMessages } from "react-icons/ti";
 
 const CarDetails = () => {
   const { id } = useParams();
@@ -162,7 +163,7 @@ const CarDetails = () => {
                 {carDetails?.make}
               </h1>
               <p className="text-3xl font-semibold text-[#314352] mt-2">
-                USD {carDetails?.priceUSD}
+                ${carDetails?.priceUSD}
               </p>
             </div>
 
@@ -352,12 +353,12 @@ const CarDetails = () => {
 
             {/* Action Buttons */}
             <div className="mt-12 flex flex-col  gap-5 justify-between">
-              {/* <button
+              <button
                 onClick={() => startNewChat(carDetails?.user)}
-                className="w-full bg-red-500 text-[#314352] py-4 px-8 font-semibold rounded-md flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full bg-red-500 text-white py-4 px-8 font-semibold rounded-md flex items-center justify-center gap-2 cursor-pointer"
               >
                 <TiMessages /> Chat
-              </button> */}
+              </button>
               {/* <a
                 href={`mailto:${carDetails?.user?.email}`}
                 className="w-full bg-red-500 text-[#314352] py-4 px-8 font-semibold rounded-md flex items-center justify-center gap-2 cursor-pointer"

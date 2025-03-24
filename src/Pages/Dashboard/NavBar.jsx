@@ -53,9 +53,9 @@ const Navbar = () => {
       </div>
 
       <div className="flex items-center gap-6">
-        {["/addlisting", "/dashboard", "/messages", "/settings"].map(
+        {["/addlisting", "/dashboard", "/messages", "/favorites"].map(
           (path, index) => {
-            const labels = ["Add New", "My Listing", "Messages"];
+            const labels = ["Add New", "My Listing", "Messages", "Favorites"];
             const isActive = location.pathname === path;
 
             return (

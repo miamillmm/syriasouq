@@ -85,7 +85,7 @@ const About = () => {
             />
           </p>
 
-          <Link to="/search">
+          <Link to="/search?make=All">
             <button
               type="submit"
               className="w-full sm:w-2/3 bg-[#374B5C] py-3 sm:py-4 rounded-lg text-red-500 text-lg cursor-pointer flex justify-between items-center px-6 sm:px-12 mt-6 sm:mt-10"

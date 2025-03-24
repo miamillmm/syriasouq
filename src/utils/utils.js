@@ -1544,14 +1544,14 @@ export const arabicMakes = [
   {
     label: "ألفا روميو",
     value: "ألفا روميو",
-    enValue: "Abarth",
+    enValue: "Alfa Romeo",
     models: [
       "الكل",
       "145/146/147",
       "159/156",
       "166",
-      " سي4",
-      " سي8",
+      "سي4",
+      "سي8",
       "بريرا",
       "GIULIETTA",
       "GTV/GT",
@@ -1564,9 +1564,9 @@ export const arabicMakes = [
     ],
   },
   {
-    label: " أستون مارتن ",
-    value: " أستون مارتن ",
-    enValue: "Abarth",
+    label: "أستون مارتن",
+    value: "أستون مارتن",
+    enValue: "Aston Martin",
     models: [
       "الكل",
       "Cygnet",
@@ -1590,9 +1590,9 @@ export const arabicMakes = [
     ],
   },
   {
-    label: "أودي ",
-    value: "أودي ",
-    enValue: "Abarth",
+    label: "أودي",
+    value: "أودي",
+    enValue: "Audi",
     models: [
       "الكل",
       "A1",
@@ -1623,13 +1623,13 @@ export const arabicMakes = [
   {
     label: "Avatr",
     value: "Avatr",
-    enValue: "Abarth",
+    enValue: "Avatr",
     models: ["الكل", "Model 11", "Model 12", "Model 13", "Model 14", "آخرى"],
   },
   {
     label: "BAIC",
     value: "BAIC",
-    enValue: "Abarth",
+    enValue: "BAIC",
     models: [
       "الكل",
       "A60",
@@ -1661,26 +1661,26 @@ export const arabicMakes = [
     ],
   },
   {
-    label: "بنتلى ",
-    value: "بنتلى ",
-    enValue: "Abarth",
+    label: "بنتلى",
+    value: "بنتلى",
+    enValue: "Bentley",
     models: [
       "الكل",
-      " أرنـاج",
+      "أرنـاج",
       "أزور",
       "بنتايغا",
       "بروك لاندز",
       "كونتينينتال",
-      "كونتينينتال جي تي  ",
+      "كونتينينتال جي تي",
       "فلاينغ سبير",
       "مالسان",
       "آخرى",
     ],
   },
   {
-    label: "بيستون ",
-    value: "بيستون ",
-    enValue: "Abarth",
+    label: "بيستون",
+    value: "بيستون",
+    enValue: "Bestune",
     models: [
       "الكل",
       "B70",
@@ -1698,9 +1698,9 @@ export const arabicMakes = [
     ],
   },
   {
-    label: "بي ام دبليو ",
-    value: "بي ام دبليو ",
-    enValue: "Abarth",
+    label: "بي ام دبليو",
+    value: "بي ام دبليو",
+    enValue: "BMW",
     models: [
       "الكل",
       "1 الفئة",
@@ -1728,9 +1728,9 @@ export const arabicMakes = [
     ],
   },
   {
-    label: "بوغاتي ",
-    value: "بوغاتي ",
-    enValue: "Abarth",
+    label: "بوغاتي",
+    value: "بوغاتي",
+    enValue: "Bugatti",
     models: [
       "الكل",
       "بُلَيْد",
@@ -1738,11 +1738,11 @@ export const arabicMakes = [
       "شيرون",
       "ديفو",
       "110 إي بي",
-      " لا فينال",
+      "لا فينال",
       "لا فواتور نوار",
-      " 251 تايب ",
-      " 35تايب  ",
-      " 57 تايب ",
+      "251 تايب",
+      "35تايب",
+      "57 تايب",
       "فيرون",
       "آخرى",
     ],
@@ -1750,7 +1750,7 @@ export const arabicMakes = [
   {
     label: "BYD",
     value: "BYD",
-    enValue: "Abarth",
+    enValue: "BYD",
     models: [
       "الكل",
       "ATTO 3",
@@ -1781,7 +1781,7 @@ export const arabicMakes = [
   {
     label: "كاديلاك",
     value: "كاديلاك",
-    enValue: "Abarth",
+    enValue: "Cadillac",
     models: [
       "الكل",
       "ATS",
@@ -1805,9 +1805,9 @@ export const arabicMakes = [
     ],
   },
   {
-    label: "شانجان ",
+    label: "شانجان",
     value: "شانجان",
-    enValue: "Abarth",
+    enValue: "Changan",
     models: [
       "الكل",
       "Alsvin",
@@ -1831,9 +1831,9 @@ export const arabicMakes = [
     ],
   },
   {
-    label: "شيري ",
+    label: "شيري",
     value: "شيري",
-    enValue: "Abarth",
+    enValue: "Chery",
     models: [
       "الكل",
       "A11",
@@ -1861,7 +1861,7 @@ export const arabicMakes = [
   {
     label: "شيفروليه",
     value: "شيفروليه",
-    enValue: "Abarth",
+    enValue: "Chevrolet",
     models: [
       "الكل",
       "افالانش",
@@ -1908,7 +1908,7 @@ export const arabicMakes = [
   {
     label: "كرايسلر",
     value: "كرايسلر",
-    enValue: "Abarth",
+    enValue: "Chrysler",
     models: [
       "الكل",
       "200 / 200C EV",
@@ -1933,7 +1933,7 @@ export const arabicMakes = [
   {
     label: "سيتروين",
     value: "سيتروين",
-    enValue: "Abarth",
+    enValue: "Citroën",
     models: [
       "الكل",
       "AX",
@@ -1958,13 +1958,13 @@ export const arabicMakes = [
   {
     label: "CMC",
     value: "CMC",
-    enValue: "Abarth",
+    enValue: "CMC",
     models: ["الكل", "Veryca", "27", "آخرى"],
   },
   {
     label: "دودج",
     value: "دودج",
-    enValue: "Abarth",
+    enValue: "Dodge",
     models: [
       "الكل",
       "أفينجر",
@@ -1989,31 +1989,31 @@ export const arabicMakes = [
   {
     label: "دونغفنغ",
     value: "دونغفنغ",
-    enValue: "Abarth",
+    enValue: "Dongfeng",
     models: [
       "الكل",
       "A9",
       "AX3",
       "AX5",
       "AX7",
-      "دنجو ",
+      "دنجو",
       "F12",
       "F5",
-      "فنجون ",
-      "جويير ",
+      "فنجون",
+      "جويير",
       "K10",
       "M5",
-      "ريتش ",
-      "سوكون ",
+      "ريتش",
+      "سوكون",
       "V3",
       "ووريور",
       "آخرى",
     ],
   },
   {
-    label: "إكسيد ",
+    label: "إكسيد",
     value: "إكسيد",
-    enValue: "Abarth",
+    enValue: "Exeed",
     models: [
       "الكل",
       "EOL",
@@ -2030,7 +2030,7 @@ export const arabicMakes = [
   {
     label: "فينغون",
     value: "فينغون",
-    enValue: "Abarth",
+    enValue: "Fengon",
     models: [
       "الكل",
       "360",
@@ -2050,7 +2050,7 @@ export const arabicMakes = [
   {
     label: "فيراري",
     value: "فيراري",
-    enValue: "Abarth",
+    enValue: "Ferrari",
     models: [
       "الكل",
       "348",
@@ -2060,7 +2060,7 @@ export const arabicMakes = [
       "812 سوبر فاست",
       "كاليفورنيا",
       "كاليفورنيا تي",
-      "دايتونا  SP3",
+      "دايتونا SP3",
       "دينو",
       "إف 12 برلينيتا",
       "F12 TDF",
@@ -2069,8 +2069,8 @@ export const arabicMakes = [
       "جي تي سي 4 لوسو",
       "لافيراري",
       "لافيراري أبيرتا",
-      "مونزا  SP1",
-      "مونزا  SP2",
+      "مونزا SP1",
+      "مونزا SP2",
       "P80/C",
       "بورتوفينو إم",
       "روما",
@@ -2085,7 +2085,7 @@ export const arabicMakes = [
   {
     label: "فيات",
     value: "فيات",
-    enValue: "Abarth",
+    enValue: "Fiat",
     models: [
       "الكل",
       "500",
@@ -2093,9 +2093,9 @@ export const arabicMakes = [
       "500X",
       "124",
       "دوكاتو",
-      "باندا ",
-      "سكودو ",
-      "تالينتو ",
+      "باندا",
+      "سكودو",
+      "تالينتو",
       "تيبو",
       "آخرى",
     ],
@@ -2103,7 +2103,7 @@ export const arabicMakes = [
   {
     label: "فورد",
     value: "فورد",
-    enValue: "Abarth",
+    enValue: "Ford",
     models: [
       "الكل",
       "برونكو",
@@ -2131,7 +2131,7 @@ export const arabicMakes = [
   {
     label: "فورثينغ",
     value: "فورثينغ",
-    enValue: "Abarth",
+    enValue: "Forthing",
     models: [
       "الكل",
       "E300",
@@ -2148,13 +2148,13 @@ export const arabicMakes = [
   {
     label: "فوتون",
     value: "فوتون",
-    enValue: "Abarth",
+    enValue: "Foton",
     models: ["الكل", "SUP", "Tunland", "View", "آخرى", "توريز"],
   },
   {
     label: "جي أي سي",
     value: "جي أي سي",
-    enValue: "Abarth",
+    enValue: "GAC",
     models: [
       "الكل",
       "أيون LX",
@@ -2168,14 +2168,14 @@ export const arabicMakes = [
       "GS3",
       "GS4",
       "GS8",
-      "هافال  F5",
-      "هافال  F7",
-      "هافال  H6",
-      "هافال  H9",
-      "ترمبشي  GA6",
-      "ترمبشي  GA8",
-      "ترمبشي  GS5",
-      "ترمبشي  M6",
+      "هافال F5",
+      "هافال F7",
+      "هافال H6",
+      "هافال H9",
+      "ترمبشي GA6",
+      "ترمبشي GA8",
+      "ترمبشي GS5",
+      "ترمبشي M6",
       "ZHONGYI",
       "آخرى",
     ],
@@ -2183,7 +2183,7 @@ export const arabicMakes = [
   {
     label: "جيلي",
     value: "جيلي",
-    enValue: "Abarth",
+    enValue: "Geely",
     models: [
       "الكل",
       "Emgrand",
@@ -2204,7 +2204,7 @@ export const arabicMakes = [
   {
     label: "جيسنيسيس",
     value: "جيسنيسيس",
-    enValue: "Abarth",
+    enValue: "Genesis",
     models: [
       "الكل",
       "كوبيه",
@@ -2220,7 +2220,7 @@ export const arabicMakes = [
   {
     label: "جي إم سي",
     value: "جي إم سي",
-    enValue: "Abarth",
+    enValue: "GMC",
     models: [
       "الكل",
       "أكاديا",
@@ -2240,7 +2240,7 @@ export const arabicMakes = [
   {
     label: "جريت وول",
     value: "جريت وول",
-    enValue: "Abarth",
+    enValue: "Great Wall",
     models: [
       "الكل",
       "King Kong",
@@ -2258,25 +2258,25 @@ export const arabicMakes = [
   {
     label: "هافال",
     value: "هافال",
-    enValue: "Abarth",
+    enValue: "Haval",
     models: ["الكل", "Dargo", "H2", "H6", "H8", "H9", "Jolion", "آخرى"],
   },
   {
     label: "هينو",
     value: "هينو",
-    enValue: "Abarth",
+    enValue: "Hino",
     models: ["All"],
   },
   {
     label: "HiPhi",
     value: "HiPhi",
-    enValue: "Abarth",
+    enValue: "HiPhi",
     models: ["All", "X", "Z", "Other"],
   },
   {
     label: "هوندا",
     value: "هوندا",
-    enValue: "Abarth",
+    enValue: "Honda",
     models: [
       "الكل",
       "أكورد",
@@ -2303,7 +2303,7 @@ export const arabicMakes = [
   {
     label: "Hongqi",
     value: "Hongqi",
-    enValue: "Abarth",
+    enValue: "Hongqi",
     models: [
       "الكل",
       "W-HS9",
@@ -2321,7 +2321,7 @@ export const arabicMakes = [
   {
     label: "هيونداي",
     value: "هيونداي",
-    enValue: "Abarth",
+    enValue: "Hyundai",
     models: [
       "أكسنت",
       "اتوس",
@@ -2337,7 +2337,7 @@ export const arabicMakes = [
       "جالوبر",
       "جينيسيس",
       "غيتز",
-      " سانتا فيه",
+      "سانتا فيه",
       "سوناتا",
       "توكسون",
       "فولستر",
@@ -2348,7 +2348,7 @@ export const arabicMakes = [
       "مايتي",
       "كونا",
       "ايونيك",
-      "10جراند أي ",
+      "10جراند أي",
       "H1",
       "H100",
       "i10",
@@ -2364,13 +2364,13 @@ export const arabicMakes = [
   {
     label: "INEOS",
     value: "INEOS",
-    enValue: "Abarth",
+    enValue: "INEOS",
     models: ["الكل"],
   },
   {
     label: "إنفينيتي",
     value: "إنفينيتي",
-    enValue: "Abarth",
+    enValue: "Infiniti",
     models: [
       "الكل",
       "Q50",
@@ -2388,27 +2388,27 @@ export const arabicMakes = [
   {
     label: "Isuzu",
     value: "Isuzu",
-    enValue: "Abarth",
+    enValue: "Isuzu",
     models: [
       "الكل",
       "اميغو",
-      "أسندر ",
+      "أسندر",
       "D-Max",
-      "F-سلسلة ",
+      "F-سلسلة",
       "Impulse",
       "MU-X",
       "N-سلسلة",
       "NPR",
-      " i-سلسلة ",
-      "روديو ",
-      "تروبر ",
+      "i-سلسلة",
+      "روديو",
+      "تروبر",
       "آخرى",
     ],
   },
   {
-    label: "جاك ",
+    label: "جاك",
     value: "جاك",
-    enValue: "Abarth",
+    enValue: "JAC",
     models: [
       "الكل",
       "HK6730",
@@ -2431,7 +2431,7 @@ export const arabicMakes = [
   {
     label: "جاكوار",
     value: "جاكوار",
-    enValue: "Abarth",
+    enValue: "Jaguar",
     models: [
       "الكل",
       "E-Pace",
@@ -2454,14 +2454,14 @@ export const arabicMakes = [
   {
     label: "جيب",
     value: "جيب",
-    enValue: "Abarth",
+    enValue: "Jeep",
     models: [
       "الكل",
       "شيروكي",
       "كوماندر",
       "كومباس",
       "غلادياتور",
-      " جراند شيروكي ",
+      "جراند شيروكي",
       "غراند واغونيير",
       "باتريوت",
       "ليبرتي",
@@ -2473,13 +2473,13 @@ export const arabicMakes = [
   {
     label: "جيتور",
     value: "جيتور",
-    enValue: "Abarth",
+    enValue: "Jietu",
     models: ["الكل", "T1", "T2", "X50", "X70", "X90", "X95", "آخرى"],
   },
   {
     label: "JMC",
     value: "JMC",
-    enValue: "Abarth",
+    enValue: "JMC",
     models: [
       "الكل",
       "باودا",
@@ -2498,13 +2498,13 @@ export const arabicMakes = [
   {
     label: "Kaiya",
     value: "Kaiya",
-    enValue: "Abarth",
+    enValue: "Kaiya",
     models: ["E5", "EQ1", "K1", "K2", "K3", "K6", "K7", "S3", "S5", "S7", "S9"],
   },
   {
     label: "كيا",
     value: "كيا",
-    enValue: "Abarth",
+    enValue: "Kia",
     models: [
       "الكل",
       "بونجو",
@@ -2542,7 +2542,7 @@ export const arabicMakes = [
   {
     label: "كوينيجسيج",
     value: "كوينيجسيج",
-    enValue: "Abarth",
+    enValue: "Koenigsegg",
     models: [
       "الكل",
       "أغيرا",
@@ -2563,7 +2563,7 @@ export const arabicMakes = [
   {
     label: "لامبورغيني",
     value: "لامبورغيني",
-    enValue: "Abarth",
+    enValue: "Lamborghini",
     models: [
       "الكل",
       "Asterion",
@@ -2583,12 +2583,12 @@ export const arabicMakes = [
   {
     label: "لاند روفر / رانج روفر",
     value: "لاند روفر / رانج روفر",
-    enValue: "Abarth",
+    enValue: "Land Rover",
     models: [
       "الكل",
-      " رانج روفر فوج",
-      " رانج روفر إيفوك",
-      " رانج روفر سبورت",
+      "رانج روفر فوج",
+      "رانج روفر إيفوك",
+      "رانج روفر سبورت",
       "رانج روفر فيلار",
       "ديفندر",
       "ديسكفري",
@@ -2603,14 +2603,14 @@ export const arabicMakes = [
   {
     label: "لكزس",
     value: "لكزس",
-    enValue: "Abarth",
+    enValue: "Lexus",
     models: [
       "الكل",
       "CT فئة",
-      "ESفئة ",
-      "GSفئة ",
-      "GX فئة ",
-      "ISفئة ",
+      "ESفئة",
+      "GSفئة",
+      "GX فئة",
+      "ISفئة",
       "LC 500",
       "LFA",
       "LS",
@@ -2627,7 +2627,7 @@ export const arabicMakes = [
   {
     label: "لوتس",
     value: "لوتس",
-    enValue: "Abarth",
+    enValue: "Lotus",
     models: [
       "الكل",
       "Elan",
@@ -2644,13 +2644,13 @@ export const arabicMakes = [
   {
     label: "لوسيد",
     value: "لوسيد",
-    enValue: "Abarth",
+    enValue: "Lucid",
     models: ["الكل"],
   },
   {
     label: "ماهيندرا",
     value: "ماهيندرا",
-    enValue: "Abarth",
+    enValue: "Mahindra",
     models: [
       "الكل",
       "ألتوراس G4",
@@ -2673,7 +2673,7 @@ export const arabicMakes = [
   {
     label: "مازيراتي",
     value: "مازيراتي",
-    enValue: "Abarth",
+    enValue: "Maserati",
     models: [
       "الكل",
       "ألفييري",
@@ -2687,9 +2687,9 @@ export const arabicMakes = [
     ],
   },
   {
-    label: "مازدا ",
+    label: "مازدا",
     value: "مازدا",
-    enValue: "Abarth",
+    enValue: "Mazda",
     models: [
       "الكل",
       "2",
@@ -2713,7 +2713,7 @@ export const arabicMakes = [
   {
     label: "ماكلارين",
     value: "ماكلارين",
-    enValue: "Abarth",
+    enValue: "McLaren",
     models: [
       "الكل",
       "540C",
@@ -2743,19 +2743,19 @@ export const arabicMakes = [
   {
     label: "مرسيدس بنز",
     value: "مرسيدس بنز",
-    enValue: "Abarth",
+    enValue: "Mercedes-Benz",
     models: [
       "الكل",
-      "A-فــئة ",
-      "B-فــئة ",
-      "C-فــئة ",
-      "E-فــئة ",
-      "G-فــئة ",
-      "M-فــئة ",
-      "R-فــئة ",
-      "S-فــئة ",
-      "V-فــئة ",
-      "X-فــئة ",
+      "A-فــئة",
+      "B-فــئة",
+      "C-فــئة",
+      "E-فــئة",
+      "G-فــئة",
+      "M-فــئة",
+      "R-فــئة",
+      "S-فــئة",
+      "V-فــئة",
+      "X-فــئة",
       "CL-فئة",
       "CLA",
       "CLC",
@@ -2792,23 +2792,23 @@ export const arabicMakes = [
   {
     label: "ميتسوبيشي",
     value: "ميتسوبيشي",
-    enValue: "Abarth",
+    enValue: "Mitsubishi",
     models: [
       "الكل",
       "ASX",
-      "اتراج ",
-      "كولت ",
+      "اتراج",
+      "كولت",
       "اكلبس",
       "اكلبس كروز",
-      "جالانت ",
+      "جالانت",
       "i-MiEV",
-      "لانسر ",
-      "مونتيرو ",
-      "ميراج ",
-      "أوتلاندر ",
-      "باجيرو ",
-      "اكسباندر ",
-      "ابفوليوشن ",
+      "لانسر",
+      "مونتيرو",
+      "ميراج",
+      "أوتلاندر",
+      "باجيرو",
+      "اكسباندر",
+      "ابفوليوشن",
       "3000GT",
       "Canter",
       "فورتس",
@@ -2820,7 +2820,7 @@ export const arabicMakes = [
   {
     label: "Mini",
     value: "Mini",
-    enValue: "Abarth",
+    enValue: "Mini",
     models: [
       "الكل",
       "كلوبمان",
@@ -2837,7 +2837,7 @@ export const arabicMakes = [
   {
     label: "نيسان",
     value: "نيسان",
-    enValue: "Abarth",
+    enValue: "Nissan",
     models: [
       "الكل",
       "ألتيما",
@@ -2875,7 +2875,7 @@ export const arabicMakes = [
   {
     label: "بيجو",
     value: "بيجو",
-    enValue: "Abarth",
+    enValue: "Peugeot",
     models: [
       "الكل",
       "108",
@@ -2903,7 +2903,7 @@ export const arabicMakes = [
   {
     label: "بورشه",
     value: "بورشه",
-    enValue: "Abarth",
+    enValue: "Porsche",
     models: [
       "الكل",
       "911",
@@ -2922,7 +2922,7 @@ export const arabicMakes = [
   {
     label: "رام",
     value: "رام",
-    enValue: "Abarth",
+    enValue: "Ram",
     models: [
       "All",
       "1500",
@@ -2934,9 +2934,9 @@ export const arabicMakes = [
     ],
   },
   {
-    label: "رينو ",
-    value: "رينو ",
-    enValue: "Abarth",
+    label: "رينو",
+    value: "رينو",
+    enValue: "Renault",
     models: [
       "الكل",
       "الجميع",
@@ -2967,7 +2967,7 @@ export const arabicMakes = [
   {
     label: "رولز رويس",
     value: "رولز رويس",
-    enValue: "Abarth",
+    enValue: "Rolls Royce",
     models: [
       "الكل",
       "كولينان",
@@ -2988,7 +2988,7 @@ export const arabicMakes = [
   {
     label: "سكودا",
     value: "سكودا",
-    enValue: "Abarth",
+    enValue: "Skoda",
     models: [
       "الكل",
       "فابيا",
@@ -3008,13 +3008,13 @@ export const arabicMakes = [
   {
     label: "تسلا",
     value: "تسلا",
-    enValue: "Abarth",
+    enValue: "Tesla",
     models: ["All", "Model S", "Model 3", "Model X", "Model Y", "Other"],
   },
   {
     label: "تويوتا",
     value: "تويوتا",
-    enValue: "Abarth",
+    enValue: "Toyota",
     models: [
       "الكل",
       "4رانر",
@@ -3079,7 +3079,7 @@ export const arabicMakes = [
   {
     label: "فولكس فاجن",
     value: "فولكس فاجن",
-    enValue: "Abarth",
+    enValue: "Volkswagen",
     models: [
       "الكل",
       "Arteon",
@@ -3119,7 +3119,7 @@ export const arabicMakes = [
   {
     label: "فولفو",
     value: "فولفو",
-    enValue: "Abarth",
+    enValue: "Volvo",
     models: [
       "الكل",
       "C-Class",
@@ -3139,13 +3139,13 @@ export const arabicMakes = [
   {
     label: "Xiaomi",
     value: "Xiaomi",
-    enValue: "Abarth",
+    enValue: "Xiaomi",
     models: ["الكل"],
   },
   {
     label: "Zeekr",
     value: "Zeekr",
-    enValue: "Abarth",
+    enValue: "Zeekr",
     models: ["الكل", "001", "007", "009", "X", "آخرى"],
   },
 ];

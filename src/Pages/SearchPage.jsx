@@ -252,9 +252,27 @@ const SearchPage = () => {
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language; // Gets current language
 
+  // const carMakes =
+  //   currentLanguage === "ar"
+  //     ? [{ label: "الكل", value: "", models: [""] }, ...arabicMakes]
+  //     : [
+  //         {
+  //           label: "All",
+  //           value: "",
+  //           models: [""],
+  //         },
+  //         ...makes,
+  //       ];
+
   const carMakes =
     currentLanguage === "ar"
-      ? [{ label: "الكل", value: "", models: [""] }, ...arabicMakes]
+      ? [
+          { label: "الكل", value: "", models: [""] },
+          ...arabicMakes.map((make) => ({
+            ...make,
+            value: make.enValue,
+          })),
+        ]
       : [
           {
             label: "All",
@@ -438,7 +456,7 @@ const SearchPage = () => {
                     <Translate text={"Select Location"} />
                   </option>
                   {alllocation.map((loc) => (
-                    <option key={loc.label}>
+                    <option key={loc.label} value={loc.value}>
                       <Translate text={loc.label} />
                     </option>
                   ))}
@@ -564,6 +582,33 @@ const SearchPage = () => {
                   </>
                 ))}
               </select>
+            </div>
+            {/* Button */}
+            <div className="mb-4 flex flex-col gap-2">
+              <button className="text-white bg-[#fb2c36] w-full py-2 rounded cursor-pointer">
+                Apply Filters
+              </button>
+              <button
+                className="text-black bg-gray-200 w-full py-2 rounded cursor-pointer"
+                onClick={() =>
+                  setFilters({
+                    make: [],
+                    minYear: "",
+                    maxYear: "",
+                    minPrice: "",
+                    maxPrice: "",
+                    kilometer: "",
+                    location: "",
+                    engineSize: "",
+                    transmission: "",
+                    fuelType: [],
+                    exteriorColor: "",
+                    interiorColor: "",
+                  })
+                }
+              >
+                Reset Filters
+              </button>
             </div>
           </div>
 
@@ -726,14 +771,6 @@ const SearchPage = () => {
                     <label className="block text-gray-700 mb-2">
                       <Translate text={"Location"} />
                     </label>
-                    {/* <input
-                      type="text"
-                      name="location"
-                      value={filters.location}
-                      onChange={handleFilterChange}
-                      className="w-full border p-2 rounded"
-                      placeholder="Search location"
-                    /> */}
                     <div>
                       <select
                         name="location"
@@ -745,7 +782,7 @@ const SearchPage = () => {
                           <Translate text={"Select Location"} />
                         </option>
                         {alllocation.map((loc) => (
-                          <option key={loc.label}>
+                          <option key={loc.label} value={loc.value}>
                             <Translate text={loc.label} />
                           </option>
                         ))}
@@ -861,6 +898,33 @@ const SearchPage = () => {
                       ))}
                     </select>
                   </div>
+                  {/* Button */}
+                  <div className="mb-4 flex flex-col gap-2">
+                    <button className="text-white bg-[#fb2c36] w-full py-2 rounded cursor-pointer">
+                      Apply Filters
+                    </button>
+                    <button
+                      className="text-black bg-gray-200 w-full py-2 rounded cursor-pointer"
+                      onClick={() =>
+                        setFilters({
+                          make: [],
+                          minYear: "",
+                          maxYear: "",
+                          minPrice: "",
+                          maxPrice: "",
+                          kilometer: "",
+                          location: "",
+                          engineSize: "",
+                          transmission: "",
+                          fuelType: [],
+                          exteriorColor: "",
+                          interiorColor: "",
+                        })
+                      }
+                    >
+                      Reset Filters
+                    </button>
+                  </div>
                 </div>
               </div>
             </>
@@ -972,7 +1036,7 @@ const SearchPage = () => {
             className={`grid mb-10 ${
               view === "grid"
                 ? "grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4"
-                : ""
+                : "gap-6"
             }`}
           >
             {filteredData?.length > 0 ? (
@@ -993,47 +1057,6 @@ const SearchPage = () => {
 
                     {view === "grid" ? (
                       <>
-                        {/* <div>
-                          <div className="overflow-hidden rounded-t-md">
-                            <img
-                              alt=""
-                              src={`http://api.syriasouq.com/uploads/cars/${data.images[0]}`}
-                              className="h-40 sm:h-56 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
-                            />
-                          </div>
-                          <div className="px-4 py-3">
-                            <p className="text-[#314352] text-xl flex items-center gap-2">
-                              <CiWallet /> USD {data.priceUSD}
-                            </p>
-                            <div className="flex sm:flex-row flex-col items-center sm:gap-3 gap-1">
-                              <h2 className="text-[#314352] text-sm">
-                                <Translate text={data.make} />
-                              </h2>
-                              <span className="sm:block hidden">.</span>
-                              <h2 className="text-[#314352] text-sm">
-                                <Translate text={data.model} />
-                              </h2>
-                            </div>
-                            <div className="flex sm:flex-row flex-col items-center sm:gap-3 gap-1">
-                              <h2 className="text-[#314352] text-sm flex items-center gap-1">
-                                <CiCalendar />
-                                <Translate text={data.year} />
-                              </h2>
-                              <span className="sm:block hidden">.</span>
-                              <h2 className="text-[#314352] text-sm flex items-center gap-1">
-                                <AiFillDashboard />
-                                <Translate text={data.kilometer} />{" "}
-                                <Translate text={"km"} />
-                              </h2>
-                            </div>
-                            <div className="flex sm:flex-row flex-col items-center sm:gap-3 gap-1">
-                              <h2 className="text-[#314352] text-sm flex items-center gap-1">
-                                <FaMapMarkerAlt />
-                                <Translate text={data.location} />
-                              </h2>
-                            </div>
-                          </div>
-                        </div> */}
                         <div className="flex flex-col-reverse gap-4 bg-slate-100 p-3 rounded">
                           <div className="relative w-full max-w-[350px]">
                             <Link to={`/listing/${data._id}`} key={data._id}>
@@ -1049,11 +1072,11 @@ const SearchPage = () => {
                           <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
                             <div className="flex items-center justify-between gap-2">
                               <h2 className="text-3xl font-bold">
-                                <span className="text-lg">USD</span>{" "}
+                                <span className="text-lg">$</span>
                                 {data?.priceUSD ? data?.priceUSD : "آخر"}
                               </h2>
                             </div>
-                            <div className="flex items-center gap-2">
+                            <div className="flex md:items-center md:flex-row flex-col md:gap-2 gap-0">
                               <h2 className="text-md">
                                 {data?.make ? data?.make : "آخر"}
                               </h2>
@@ -1062,7 +1085,7 @@ const SearchPage = () => {
                                 {data?.model ? data?.model : "آخر"}
                               </h2>
                             </div>
-                            <div className="flex items-center gap-3">
+                            <div className="flex md:items-center md:flex-row flex-col md:gap-3 gap0">
                               <div className="flex items-center gap-1 text-md">
                                 <CiCalendar />
                                 <span>{data?.year ? data?.year : "آخر"}</span>
@@ -1124,7 +1147,7 @@ const SearchPage = () => {
                           <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
                             <div className="flex items-center justify-between gap-2">
                               <h2 className="text-3xl font-bold">
-                                <span className="text-lg">USD</span>{" "}
+                                <span className="text-lg">$</span>
                                 <Translate
                                   text={data?.priceUSD ? data?.priceUSD : "آخر"}
                                 />

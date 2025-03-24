@@ -84,6 +84,31 @@ const CarListing = () => {
     fetchCars();
   }, [uid, user._id]);
 
+  const handleDelete = async (carId) => {
+    if (!window.confirm("Are you sure you want to delete this car?")) return;
+
+    const token = user?.jwt;
+
+    if (!token) {
+      alert("No token found. Please log in.");
+      return;
+    }
+
+    try {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/cars/${carId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setCars(cars.filter((car) => car._id !== carId));
+      alert("Car deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting car:", error);
+      alert(error?.response?.data?.message || "Failed to delete the car.");
+    }
+  };
+
   return (
     <div className="container mx-auto px-6 py-10">
       <h2 className="text-4xl font-extrabold text-gray-900 text-center mb-10">
@@ -132,7 +157,7 @@ const CarListing = () => {
               <div className="p-6">
                 {/* Price */}
                 <h3 className="text-2xl font-semibold text-gray-900">
-                  ${car.priceUSD} <span className="text-lg">USD</span>
+                  ${car.priceUSD}
                 </h3>
 
                 {/* Make & Model */}
@@ -166,6 +191,12 @@ const CarListing = () => {
                     <Translate text={"View Details"} />
                   </button>
                 </Link>
+                <button
+                  onClick={() => handleDelete(car._id)}
+                  className="mt-3 w-full bg-red-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-700 transition text-lg cursor-pointer"
+                >
+                  🗑️ <Translate text={"Delete"} />
+                </button>
               </div>
             </div>
           ))}

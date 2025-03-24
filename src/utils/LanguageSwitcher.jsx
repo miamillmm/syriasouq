@@ -28,9 +28,9 @@ const LanguageSwitcher = () => {
 
   return (
     <>
-      <div className="fixed bottom-4 right-4 w-32 z-50 shadow">
+      <div className="fixed bottom-4 right-2 w-32 z-50 shadow">
         <Link to={"/addlisting"} className="block ">
-          <button className="bg-white text-[#B80200] px-4 py-2 rounded-md  cursor-pointer text-xs">
+          <button className="bg-[#B80200] text-white px-4 py-2 rounded-md  cursor-pointer text-xs">
             <Translate text={"Add Listing"} /> <span>+</span>
           </button>
         </Link>

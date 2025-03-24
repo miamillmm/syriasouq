@@ -109,12 +109,12 @@ const Navbar = () => {
         {/* </div> */}
 
         {/* Middle: Logo */}
-        <NavLink className="w-14 md:hidden mr-auto" to="/">
+        <NavLink className="w-14 md:hidden" to="/">
           <img src={logo} className="w-14" alt="Logos" />
         </NavLink>
 
         <Link to={"/addlisting"} className="block md:hidden">
-          <button className="bg-white text-[#B80200] px-4 py-2 rounded-md  cursor-pointer text-xs mr-4">
+          <button className="bg-[#B80200] text-white px-4 py-2 rounded-md  cursor-pointer text-xs ">
             <Translate text={"Add Listing"} /> <span>+</span>
           </button>
         </Link>
@@ -312,7 +312,7 @@ const Navbar = () => {
 
             {/* Add Listing Button */}
             <NavLink to="/addlisting">
-              <button className="bg-white px-4 py-2 rounded-md  cursor-pointer text-[#B80200] font-bold">
+              <button className="bg-[#B80200] text-white px-4 py-2 rounded-md  cursor-pointer  font-bold">
                 <Translate text={"Add Listing"} /> <span>+</span>
               </button>
             </NavLink>

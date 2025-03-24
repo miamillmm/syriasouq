@@ -32,6 +32,10 @@ const Inbox = () => {
   }, []);
 
   useEffect(() => {
+    console.log(conversations);
+  }, [conversations]);
+
+  useEffect(() => {
     if (selectedChat) {
       socket.emit("joinConversation", selectedChat._id);
     }
@@ -272,7 +276,7 @@ const Inbox = () => {
             </div>
             <div className="flex-1">
               <h3 className="text-lg font-medium text-gray-900">
-                {chat.participants.find((u) => u._id !== user._id).username}
+                {chat.participants.find((u) => u._id !== user._id)?.username}
               </h3>
               <p className="text-sm text-gray-500">
                 {chat.lastMessage || "No messages yet"}
@@ -316,7 +320,7 @@ const Inbox = () => {
               <h3 className="text-xl font-semibold text-gray-900">
                 {
                   selectedChat.participants.find((u) => u._id !== user._id)
-                    .username
+                    ?.username
                 }
                 {console.log("From Inside", selectedChat)}
               </h3>
