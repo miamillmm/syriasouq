@@ -115,7 +115,7 @@ export default function MoreFromUser({ title, button, uid }) {
     if (!user) return alert("Please log in before managing your wishlist");
 
     // Find the wishlist item for this car
-    const wishlistItem = wishlist.find((item) => item.car === car._id);
+    const wishlistItem = wishlist.find((item) => item.car._id === car._id);
 
     if (wishlistItem) {
       // If the car is in the wishlist, remove it

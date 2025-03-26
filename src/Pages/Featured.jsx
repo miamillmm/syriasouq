@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { CiCalendar, CiHeart, CiLocationOn, CiShare2 } from "react-icons/ci";
 import { TiArrowRight } from "react-icons/ti";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Translate from "../utils/Translate";
 import { useTranslation } from "react-i18next";
 
@@ -11,6 +11,7 @@ const Featured = () => {
   const [cars, setCars] = useState([]);
   const [wishlist, setWishlist] = useState([]);
   const user = JSON.parse(localStorage.getItem("SyriaSouq-auth")); // Assume user is stored in localStorage
+  const navigate = useNavigate();
 
   // Fetch all cars and the user's wishlist when component mounts
   useEffect(() => {
@@ -45,7 +46,12 @@ const Featured = () => {
     if (!user) return alert("Please log in before managing your wishlist");
 
     // Find the wishlist item for this car
-    const wishlistItem = wishlist.find((item) => item.car === car._id);
+    const wishlistItem = wishlist.find((item) => item.car._id === car._id);
+
+    // console.log("Wishlist", wishlist);
+    // console.log("Wishlist Items", wishlistItem);
+
+    // return;
 
     if (wishlistItem) {
       // If the car is in the wishlist, remove it
@@ -60,7 +66,11 @@ const Featured = () => {
         alert("Car Removed from Wishlist");
 
         // Update the wishlist state by filtering out the removed item
-        setWishlist(wishlist.filter((item) => item._id !== wishlistItem._id));
+        setWishlist(
+          wishlist.filter((item) => item.car._id !== wishlistItem._id)
+        );
+        // navigate("/");
+        window.location.href = "/";
       } catch (error) {
         console.log("Error removing from wishlist:", error);
       }
@@ -82,6 +92,8 @@ const Featured = () => {
 
         // Update wishlist state
         setWishlist([...wishlist, res.data.data]);
+        // navigate("/");
+        window.location.href = "/";
       } catch (error) {
         console.log("Error adding to wishlist:", error);
       }
@@ -109,9 +121,9 @@ const Featured = () => {
       {/* header */}
       <div className="header flex flex-col md:flex-row justify-between flex-wrap items-center mb-12">
         <div className="space-y-4 text-center md:text-left">
-          <button className="text-[12px] sm:text-[14px] font-[400] text-gray-500 bg-gray-100 py-2 px-4 rounded cursor-pointer">
+          {/* <button className="text-[12px] sm:text-[14px] font-[400] text-gray-500 bg-gray-100 py-2 px-4 rounded cursor-pointer">
             {currentLanguage === "ar" ? "مختارات ألجلك" : "Handy picked"}
-          </button>
+          </button> */}
           <h2 className="text-[28px] sm:text-[36px] font-bold text-[#314352]">
             <Translate text={"Recent listings"} />
           </h2>

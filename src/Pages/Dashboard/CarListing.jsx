@@ -164,12 +164,13 @@ const CarListing = () => {
 
                 {/* Make & Model */}
                 <h3 className="text-lg  text-gray-900">
-                  {car.make} . {car?.model}
+                  <Translate text={car.make} /> .{" "}
+                  <Translate text={car?.model} />
                 </h3>
 
                 {/* Year */}
                 <p className="text-gray-500 text-sm flex items-center gap-1">
-                  <CiCalendar /> {car?.year}
+                  <CiCalendar /> <Translate text={car?.year} />
                 </p>
 
                 {/* Mileage */}
@@ -182,17 +183,17 @@ const CarListing = () => {
 
                 {/* Transmission */}
                 <p className="text-gray-500 flex items-center gap-1">
-                  <CiSettings /> {car.transmission}
+                  <CiSettings /> <Translate text={car.transmission} />
                 </p>
 
                 {/* Engine Size */}
                 <p className="text-gray-500 flex items-center gap-1">
-                  <AiOutlineDashboard /> {car.engineSize} L
+                  <AiOutlineDashboard /> <Translate text={car.engineSize} />
                 </p>
 
                 {/* Location */}
                 <p className="text-gray-600 mt-1 flex items-center gap-1">
-                  <CiLocationOn /> {car.location}
+                  <CiLocationOn /> <Translate text={car.location} />
                 </p>
 
                 {/* View Details Button */}

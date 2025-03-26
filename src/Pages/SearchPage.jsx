@@ -586,7 +586,7 @@ const SearchPage = () => {
             {/* Button */}
             <div className="mb-4 flex flex-col gap-2">
               <button className="text-white bg-[#fb2c36] w-full py-2 rounded cursor-pointer">
-                Apply Filters
+                <Translate text={"Apply Filters"} />
               </button>
               <button
                 className="text-black bg-gray-200 w-full py-2 rounded cursor-pointer"
@@ -607,7 +607,7 @@ const SearchPage = () => {
                   })
                 }
               >
-                Reset Filters
+                <Translate text={"Reset Filters"} />
               </button>
             </div>
           </div>
@@ -900,8 +900,11 @@ const SearchPage = () => {
                   </div>
                   {/* Button */}
                   <div className="mb-4 flex flex-col gap-2">
-                    <button className="text-white bg-[#fb2c36] w-full py-2 rounded cursor-pointer">
-                      Apply Filters
+                    <button
+                      className="text-white bg-[#fb2c36] w-full py-2 rounded cursor-pointer"
+                      onClick={() => setIsMobileFilterOpen(false)}
+                    >
+                      <Translate text={"Apply Filters"} />
                     </button>
                     <button
                       className="text-black bg-gray-200 w-full py-2 rounded cursor-pointer"
@@ -922,7 +925,7 @@ const SearchPage = () => {
                         })
                       }
                     >
-                      Reset Filters
+                      <Translate text={"Reset Filters"} />
                     </button>
                   </div>
                 </div>
@@ -1073,27 +1076,42 @@ const SearchPage = () => {
                             <div className="flex items-center justify-between gap-2">
                               <h2 className="text-xl font-bold">
                                 <span className="text-lg">$ </span>
-                                {data?.priceUSD ? data?.priceUSD : "آخر"}
+                                <Translate
+                                  text={data?.priceUSD ? data?.priceUSD : "آخر"}
+                                />
                               </h2>
                             </div>
                             <div className="flex md:items-center md:flex-row flex-col md:gap-2 gap-0">
                               <h2 className="text-md">
-                                {data?.make ? data?.make : "آخر"}
+                                <Translate
+                                  text={data?.make ? data?.make : "آخر"}
+                                />
                               </h2>
                               <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
                               <h2 className="text-md">
-                                {data?.model ? data?.model : "آخر"}
+                                <Translate
+                                  text={data?.model ? data?.model : "آخر"}
+                                />
                               </h2>
                             </div>
                             <div className="flex md:items-center md:flex-row flex-col md:gap-3 gap0">
                               <div className="flex items-center gap-1 text-md">
                                 <CiCalendar />
-                                <span>{data?.year ? data?.year : "آخر"}</span>
+                                <span>
+                                  <Translate
+                                    text={data?.year ? data?.year : "آخر"}
+                                  />
+                                </span>
                               </div>
                               <div className="flex items-center gap-1 text-md">
                                 <AiOutlineDashboard />
                                 <span>
-                                  {data?.kilometer ? data?.kilometer : "آخر"} km
+                                  <Translate
+                                    text={
+                                      data?.kilometer ? data?.kilometer : "آخر"
+                                    }
+                                  />{" "}
+                                  km
                                 </span>
                               </div>
                             </div>
@@ -1101,7 +1119,11 @@ const SearchPage = () => {
                               <div className="flex items-center gap-1 text-md">
                                 <CiLocationOn />
                                 <span>
-                                  {data?.location ? data?.location : "آخر"}
+                                  <Translate
+                                    text={
+                                      data?.location ? data?.location : "آخر"
+                                    }
+                                  />
                                 </span>
                               </div>
                             </div>
@@ -1130,18 +1152,18 @@ const SearchPage = () => {
                               </div>
                             </Link>
                             <div className="absolute top-2 right-2 flex items-center gap-2">
-                              <div
-                                // onClick={() => handleWishlist(data)}
+                              {/* <div
+                                onClick={() => handleWishlist(data)}
                                 className={`hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-white cursor-pointer text-white `}
                               >
                                 <CiHeart className="w-1/2 h-1/2" />
-                              </div>
-                              <div
-                                // onClick={() => handleShare(data)}
+                              </div> */}
+                              {/* <div
+                                onClick={() => handleShare(data)}
                                 className={`hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-white cursor-pointer text-white`}
                               >
                                 <CiShare2 className="w-1/2 h-1/2" />
-                              </div>
+                              </div> */}
                             </div>
                           </div>
                           <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">

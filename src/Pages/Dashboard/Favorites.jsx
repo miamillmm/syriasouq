@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Translate from "../../utils/Translate";
 import Navbar from "./NavBar";
+import { CiCalendar, CiLocationOn, CiSettings } from "react-icons/ci";
+import { AiOutlineDashboard } from "react-icons/ai";
 
 const getUidFromUrl = () => {
   const queryParams = new URLSearchParams(window.location.search);
@@ -79,12 +81,13 @@ const Favorites = () => {
 
                       {/* Make & Model */}
                       <h3 className="text-lg  text-gray-900">
-                        {car.car.make} . {car?.car.model}
+                        <Translate text={car.car.make} /> .{" "}
+                        <Translate text={car?.car.model} />
                       </h3>
 
                       {/* Year */}
-                      <p className="text-gray-500 text-sm">
-                        📅 {car?.car.year}
+                      <p className="text-gray-500 text-sm flex items-center gap-1">
+                        <CiCalendar /> <Translate text={car?.car.year} />
                       </p>
 
                       {/* Mileage */}
@@ -96,14 +99,19 @@ const Favorites = () => {
                       {/* <p className="text-gray-500">⛽ {car.fuelType}</p> */}
 
                       {/* Transmission */}
-                      <p className="text-gray-500">⚙️ {car.car.transmission}</p>
+                      <p className="text-gray-500 flex items-center gap-1">
+                        <CiSettings /> <Translate text={car.car.transmission} />
+                      </p>
 
                       {/* Engine Size */}
-                      <p className="text-gray-500">🔧 {car.car.engineSize} L</p>
+                      <p className="text-gray-500 flex items-center gap-1">
+                        <AiOutlineDashboard />{" "}
+                        <Translate text={car.car.engineSize} />
+                      </p>
 
                       {/* Location */}
-                      <p className="text-gray-600 mt-1">
-                        📍 {car.car.location}
+                      <p className="text-gray-600 mt-1 flex items-center gap-1">
+                        <CiLocationOn /> <Translate text={car.car.location} />
                       </p>
 
                       {/* View Details Button */}
