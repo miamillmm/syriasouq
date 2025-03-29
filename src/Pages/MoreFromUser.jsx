@@ -111,6 +111,26 @@ export default function MoreFromUser({ title, button, uid }) {
   const [wishlist, setWishlist] = useState([]);
   const user = JSON.parse(localStorage.getItem("SyriaSouq-auth")); // Assume user is stored in localStorage
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (user) {
+          const wishlistRes = await axios.get(
+            `${import.meta.env.VITE_API_URL}/wishlist/uid/${user._id}`, // Assuming API endpoint for fetching wishlist
+            {
+              headers: { authorization: `Bearer ${user.jwt}` },
+            }
+          );
+          setWishlist(wishlistRes.data.data);
+        }
+      } catch (error) {
+        console.log("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [user]);
+
   const handleWishlist = async (car) => {
     if (!user) return alert("Please log in before managing your wishlist");
 
@@ -131,6 +151,7 @@ export default function MoreFromUser({ title, button, uid }) {
 
         // Update the wishlist state by filtering out the removed item
         setWishlist(wishlist.filter((item) => item._id !== wishlistItem._id));
+        window.location.reload();
       } catch (error) {
         console.log("Error removing from wishlist:", error);
       }
@@ -152,6 +173,7 @@ export default function MoreFromUser({ title, button, uid }) {
 
         // Update wishlist state
         setWishlist([...wishlist, res.data.data]);
+        window.location.reload();
       } catch (error) {
         console.log("Error adding to wishlist:", error);
       }
@@ -260,9 +282,9 @@ export default function MoreFromUser({ title, button, uid }) {
                   </Link>
                   <div className="absolute top-2 right-2 flex items-center gap-2">
                     <div
-                      onClick={() => handleWishlist(data)}
+                      onClick={() => handleWishlist(car)}
                       className={`hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-white cursor-pointer text-white ${
-                        wishlist?.some((item) => item.car === car._id)
+                        wishlist?.some((item) => item.car?._id === car._id)
                           ? "bg-[#B80200] border-[#B80200]"
                           : ""
                       }`}

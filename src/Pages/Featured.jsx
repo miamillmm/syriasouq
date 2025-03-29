@@ -39,7 +39,7 @@ const Featured = () => {
     };
 
     fetchData();
-  }, []);
+  }, [user]);
 
   // Function to handle adding cars to the wishlist
   const handleWishlist = async (car) => {
