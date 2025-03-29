@@ -105,45 +105,21 @@ const CarDetails = () => {
         <Breadcrumb carname={id} />
       </h2>
       <div className="flex flex-col md:flex-row gap-4 p-4 max-w-5xl mx-auto">
-        {/* Left Side - Main Image */}
-        <div className="w-full md:w-2/3">
-          {carDetails?.images?.[0] && (
-            <img
-              src={`http://api.syriasouq.com/uploads/cars/${carDetails?.images[0]}`}
-              alt="Main Preview"
-              className="w-full h-[300px] md:h-[500px] object-cover rounded-lg shadow-lg"
-            />
-          )}
-        </div>
-
-        {/* Right Side - Swiper Slider */}
-        <div className="w-full md:w-1/3 flex flex-col gap-2 relative h-[320px] md:h-[500px]">
-          {/* Custom Navigation Buttons */}
-          <button className="swiper-button-prev-custom absolute -top-6 left-1/2 transform -translate-x-1/2 text-white p-2 z-10 cursor-pointer">
-            <IoIosArrowUp className="text-gray-500 w-8 h-8 md:w-16 md:h-16" />
-          </button>
-          <button className="swiper-button-next-custom absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-white p-2 cursor-pointer z-10">
-            <IoIosArrowDown className="text-gray-500 w-8 h-8 md:w-16 md:h-16" />
-          </button>
-
+        <div className="w-full flex flex-col gap-2 relative h-auto">
           <Swiper
-            direction="vertical"
-            slidesPerView={2}
+            direction="horizontal"
+            slidesPerView={1}
             spaceBetween={10}
-            navigation={{
-              nextEl: ".swiper-button-next-custom",
-              prevEl: ".swiper-button-prev-custom",
-            }}
+            navigation={true} // ✅ Uses default Swiper navigation
             modules={[Navigation]}
-            className="h-full"
+            className="h-auto"
           >
             {carDetails?.images?.map((img, index) => (
-              <SwiperSlide key={index} className="h-[140px] md:h-[240px]">
+              <SwiperSlide key={index} className="h-auto">
                 <img
                   src={`http://api.syriasouq.com/uploads/cars/${img}`}
                   alt={`Thumbnail ${index}`}
-                  className="w-full h-full object-cover cursor-pointer rounded-lg hover:opacity-80"
-                  onClick={() => setMainImage(img)}
+                  className="w-full h-auto max-h-[500px] object-contain rounded-lg cursor-pointer hover:opacity-80"
                 />
               </SwiperSlide>
             ))}
@@ -152,12 +128,12 @@ const CarDetails = () => {
       </div>
 
       {/* car details and user details  */}
-      <div className="container mx-auto py-6">
+      <div className="container mx-auto md:py-6 py-2">
         {/* Grid Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Left Side (3/4) - Car Details */}
           <div className="lg:col-span-8 ">
-            <div className="space-y-5 bg-white shadow rounded-lg p-6">
+            <div className="space-y-5 bg-white shadow rounded-lg p-3">
               <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
                 <div className="flex items-center justify-between gap-2">
                   <h2 className="text-2xl font-bold">
@@ -402,11 +378,11 @@ const CarDetails = () => {
                 />
               </div>
               <div className="space-y-2">
-                <Link to={`/dashboard?uid=${user?._id}`}>
-                  <p className="mt-2 font-semibold text-[#B80200] underline italic">
-                    {carDetails?.user?.username}
-                  </p>
-                </Link>
+                {/* <Link to={`/dashboard?uid=${user?._id}`}> */}
+                <p className="mt-2 font-semibold text-[#B80200] underline italic">
+                  {carDetails?.user?.username}
+                </p>
+                {/* </Link> */}
                 {/* <p className="text-sm text-gray-500">● User is offline</p> */}
                 {/* See All Ads Link */}
                 <div>

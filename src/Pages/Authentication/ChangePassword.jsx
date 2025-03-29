@@ -20,6 +20,7 @@ const ChangePassword = () => {
   } = useForm({ defaultValues: { email: "" } });
 
   const handleForgotPassword = async (data) => {
+    data.email = data.email.toLowerCase(); // Convert email to lowercase
     console.log("Forgot Password Data:", data);
     try {
       const response = await axios.post(

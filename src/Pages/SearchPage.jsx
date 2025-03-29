@@ -14,6 +14,9 @@ import { arabicMakes, makes } from "../utils/utils";
 import { useTranslation } from "react-i18next";
 import Translate from "../utils/Translate";
 import { AiFillDashboard, AiOutlineDashboard } from "react-icons/ai";
+import Slider from "rc-slider";
+import "rc-slider/assets/index.css"; // Import styles
+import "./custom-slider.css"; // Custom styles for black & gray theme
 
 const SearchPage = () => {
   const alllocation = [
@@ -83,7 +86,7 @@ const SearchPage = () => {
   const [searchParams] = useSearchParams();
   const make = searchParams.get("make");
   const [datas, setDatas] = useState([]);
-  const [view, setView] = useState("grid");
+  const [view, setView] = useState("list");
   const [sortOption, setSortOption] = useState("Most Relevant");
   const [filters, setFilters] = useState({
     make: [],
@@ -103,7 +106,7 @@ const SearchPage = () => {
   useEffect(() => {
     setFilters((prev) => ({
       ...prev,
-      make: [make !== "All" && make !== "Other" ? make : ""],
+      make: [make !== "All" && make !== "Other" && make !== "الكل" ? make : ""],
     }));
   }, [make]);
 
@@ -195,21 +198,25 @@ const SearchPage = () => {
       interiorColor,
     } = filters;
 
+    // const matchesKilometer =
+    //   !kilometer ||
+    //   (kilometer === "0-50000" &&
+    //     data.kilometer >= 0 &&
+    //     data.kilometer <= 50000) ||
+    //   (kilometer === "50001-100000" &&
+    //     data.kilometer >= 50001 &&
+    //     data.kilometer <= 100000) ||
+    //   (kilometer === "100001-150000" &&
+    //     data.kilometer >= 100001 &&
+    //     data.kilometer <= 150000) ||
+    //   (kilometer === "150001-200000" &&
+    //     data.kilometer >= 150001 &&
+    //     data.kilometer <= 200000) ||
+    //   (kilometer === "+200000" && data.kilometer >= 200001);
+
     const matchesKilometer =
       !kilometer ||
-      (kilometer === "0-50000" &&
-        data.kilometer >= 0 &&
-        data.kilometer <= 50000) ||
-      (kilometer === "50001-100000" &&
-        data.kilometer >= 50001 &&
-        data.kilometer <= 100000) ||
-      (kilometer === "100001-150000" &&
-        data.kilometer >= 100001 &&
-        data.kilometer <= 150000) ||
-      (kilometer === "150001-200000" &&
-        data.kilometer >= 150001 &&
-        data.kilometer <= 200000) ||
-      (kilometer === "+200000" && data.kilometer >= 200001);
+      (data.kilometer >= kilometer[0] && data.kilometer <= kilometer[1]);
 
     const matchesEngineSize =
       !engineSize ||
@@ -282,6 +289,22 @@ const SearchPage = () => {
           ...makes,
         ];
 
+  const kilometerMarks = {
+    0: "0 km",
+    50000: "50k km",
+    100000: "100k km",
+    150000: "150k km",
+    200000: "200k+ km",
+  };
+
+  const kilometerRanges = {
+    "0-50000": [0, 50000],
+    "50001-100000": [50001, 100000],
+    "100001-150000": [100001, 150000],
+    "150001-200000": [150001, 200000],
+    "+200000": [200001, 200000], // Ensure max is still 200000 for UI
+  };
+
   return (
     <div className="pt-24 px-5 md:px-16 lg:px-28">
       <h2 className="mb-8 mt-7">
@@ -330,7 +353,11 @@ const SearchPage = () => {
                   id=""
                   onChange={handleFilterChange}
                   className="w-full py-2 !bg-white px-2 rounded"
+                  value={filters.make}
                 >
+                  <option hidden selected>
+                    <Translate text={"Select Make"} />
+                  </option>
                   {carMakes.map((make) => (
                     <option
                       key={make.label}
@@ -345,7 +372,7 @@ const SearchPage = () => {
             </div>
 
             {/* Year */}
-            <div className="mb-4">
+            {/* <div className="mb-4">
               <label className="block text-gray-700 mb-2">
                 <Translate text={"Year"} />
               </label>
@@ -371,9 +398,35 @@ const SearchPage = () => {
                   }
                 />
               </div>
+            </div> */}
+
+            {/* Year Filter */}
+            <div className="mb-6">
+              <label className="block text-gray-700 font-semibold mb-3">
+                <Translate text={"Year"} />
+              </label>
+              <Slider
+                range
+                min={1920}
+                max={2025}
+                step={1}
+                value={[filters.minYear || 1920, filters.maxYear || 2025]}
+                onChange={(value) =>
+                  setFilters((prev) => ({
+                    ...prev,
+                    minYear: value[0],
+                    maxYear: value[1],
+                  }))
+                }
+              />
+              <div className="flex justify-between mt-2 text-sm text-gray-700">
+                <span>{filters.minYear || 1920}</span>
+                <span>{filters.maxYear || 2025}</span>
+              </div>
             </div>
+
             {/* Price */}
-            <div className="mb-4">
+            {/* <div className="mb-4">
               <label className="block text-gray-700 mb-2">
                 <Translate text={"Price"} />
               </label>
@@ -399,9 +452,35 @@ const SearchPage = () => {
                   }
                 />
               </div>
+            </div> */}
+
+            {/* Price Filter */}
+            <div className="mb-6">
+              <label className="block text-gray-700 font-semibold mb-3">
+                <Translate text={"Price"} /> ($)
+              </label>
+              <Slider
+                range
+                min={0}
+                max={4000000}
+                step={1000}
+                value={[filters.minPrice || 0, filters.maxPrice || 4000000]}
+                onChange={(value) =>
+                  setFilters((prev) => ({
+                    ...prev,
+                    minPrice: value[0],
+                    maxPrice: value[1],
+                  }))
+                }
+              />
+              <div className="flex justify-between mt-2 text-sm text-gray-700">
+                <span>${filters.minPrice || 0}</span>
+                <span>${filters.maxPrice || 4000000}</span>
+              </div>
             </div>
+
             {/* Kilometer */}
-            <div className="mb-4">
+            {/* <div className="mb-4">
               <label className="block text-gray-700 mb-2">
                 <Translate text={"Kilometer"} />
               </label>
@@ -431,7 +510,38 @@ const SearchPage = () => {
                   <Translate text={"+200,000"} />
                 </option>
               </select>
+            </div> */}
+
+            {/* Kilometer Filter (Now a Proper Range Slider) */}
+            {/* Kilometer Filter */}
+            <div className="mb-6">
+              <label className="block text-gray-700 font-semibold mb-3">
+                <Translate text={"Kilometer"} />
+              </label>
+              <Slider
+                range
+                min={0}
+                max={200000}
+                step={5000}
+                marks={{
+                  0: "0 km",
+                  50000: "50k km",
+                  100000: "100k km",
+                  150000: "150k km",
+                  200000: "200k+ km",
+                }}
+                value={filters.kilometer || [0, 200000]} // Default range
+                onChange={(value) => {
+                  setFilters((prev) => ({ ...prev, kilometer: value }));
+                }}
+              />
+              <p className="text-center mt-1 text-sm font-medium text-red-600">
+                {filters.kilometer
+                  ? `${filters.kilometer[0]} - ${filters.kilometer[1]} km`
+                  : "All Kilometers"}
+              </p>
             </div>
+
             {/* Location */}
             <div className="mb-4">
               <label className="block text-gray-700 mb-2">
@@ -452,7 +562,7 @@ const SearchPage = () => {
                   className="!bg-white py-2 px-2 rounded w-full"
                   onChange={handleFilterChange}
                 >
-                  <option hidden>
+                  <option hidden selected>
                     <Translate text={"Select Location"} />
                   </option>
                   {alllocation.map((loc) => (
@@ -474,6 +584,7 @@ const SearchPage = () => {
                   id=""
                   className="w-full py-2 px-2 rounded !bg-white"
                   onChange={handleFilterChange}
+                  value={filters.engineSize}
                 >
                   {/* <div key={size.label}>
                     <input
@@ -486,7 +597,7 @@ const SearchPage = () => {
                       <Translate text={size.label} />
                     </label>
                   </div> */}
-                  <option hidden>
+                  <option hidden selected>
                     <Translate text={"Select Engine Size"} />
                   </option>
                   {allenginesize.map((size) => (
@@ -507,10 +618,15 @@ const SearchPage = () => {
                   <input
                     type="radio"
                     name="transmission"
+                    id={trans.label}
                     value={trans.value}
                     onChange={handleFilterChange}
+                    checked={
+                      trans.value === filters.transmission &&
+                      filters.transmission !== ""
+                    }
                   />
-                  <label className="ml-2">
+                  <label className="ml-2" htmlFor={trans.label}>
                     <Translate text={trans.label} />
                   </label>
                 </div>
@@ -528,6 +644,7 @@ const SearchPage = () => {
                     name="fuelType"
                     value={fuel.value}
                     onChange={handleFilterChange}
+                    checked={filters.fuelType.includes(fuel.value)}
                   />
                   <label className="ml-2">
                     <Translate text={fuel.label} />
@@ -670,107 +787,99 @@ const SearchPage = () => {
                     </div>
                   </div>
 
-                  {/* Year */}
-                  <div className="mb-4">
-                    <label className="block text-gray-700 mb-2">
+                  {/* Year Filter */}
+                  <div className="mb-6">
+                    <label className="block text-gray-700 font-semibold mb-3">
                       <Translate text={"Year"} />
                     </label>
-                    <div className="flex gap-2">
-                      <input
-                        type="number"
-                        name="minYear"
-                        value={filters.minYear}
-                        onChange={handleFilterChange}
-                        className="w-1/2 border p-2 rounded"
-                        placeholder={
-                          currentLanguage === "ar"
-                            ? "الحد الأدنى للسنة"
-                            : "Min Year"
-                        }
-                      />
-                      <input
-                        type="number"
-                        name="maxYear"
-                        value={filters.maxYear}
-                        onChange={handleFilterChange}
-                        className="w-1/2 border p-2 rounded"
-                        placeholder={
-                          currentLanguage === "ar"
-                            ? "الحد الأقصى للسنة"
-                            : "Max Year"
-                        }
-                      />
+                    <Slider
+                      range
+                      min={1920}
+                      max={2025}
+                      step={1}
+                      value={[filters.minYear || 1920, filters.maxYear || 2025]}
+                      onChange={(value) =>
+                        setFilters((prev) => ({
+                          ...prev,
+                          minYear: value[0],
+                          maxYear: value[1],
+                        }))
+                      }
+                    />
+                    <div className="flex justify-between mt-2 text-sm text-gray-700">
+                      <span>{filters.minYear || 1920}</span>
+                      <span>{filters.maxYear || 2025}</span>
                     </div>
                   </div>
-                  {/* Price */}
-                  <div className="mb-4">
-                    <label className="block text-gray-700 mb-2">
-                      <Translate text={"Price"} />
+                  {/* Price Filter */}
+                  <div className="mb-6">
+                    <label className="block text-gray-700 font-semibold mb-3">
+                      <Translate text={"Price"} /> ($)
                     </label>
-                    <div className="flex gap-2">
-                      <input
-                        type="number"
-                        name="minPrice"
-                        value={filters.minPrice}
-                        onChange={handleFilterChange}
-                        className="w-1/2 border p-2 rounded"
-                        placeholder={
-                          currentLanguage === "ar"
-                            ? "الحد الأدنى للسعر"
-                            : "Min Price"
-                        }
-                      />
-                      <input
-                        type="number"
-                        name="maxPrice"
-                        value={filters.maxPrice}
-                        onChange={handleFilterChange}
-                        className="w-1/2 border p-2 rounded"
-                        placeholder={
-                          currentLanguage === "ar"
-                            ? "السعر الأقصى"
-                            : "Max Price"
-                        }
-                      />
+                    <Slider
+                      range
+                      min={0}
+                      max={4000000}
+                      step={1000}
+                      value={[
+                        filters.minPrice || 0,
+                        filters.maxPrice || 4000000,
+                      ]}
+                      onChange={(value) =>
+                        setFilters((prev) => ({
+                          ...prev,
+                          minPrice: value[0],
+                          maxPrice: value[1],
+                        }))
+                      }
+                    />
+                    <div className="flex justify-between mt-2 text-sm text-gray-700">
+                      <span>${filters.minPrice || 0}</span>
+                      <span>${filters.maxPrice || 4000000}</span>
                     </div>
                   </div>
-                  {/* Kilometer */}
-                  <div className="mb-4">
-                    <label className="block text-gray-700 mb-2">
+                  {/* Kilometer Filter */}
+                  <div className="mb-6">
+                    <label className="block text-gray-700 font-semibold mb-3">
                       <Translate text={"Kilometer"} />
                     </label>
-                    <select
-                      name="kilometer"
-                      value={filters.kilometer}
-                      onChange={handleFilterChange}
-                      className="w-full border p-2 rounded"
-                      style={{ backgroundColor: "#fff" }}
-                    >
-                      <option value="">
-                        <Translate text={"Select Kilometer"} />
-                      </option>
-                      <option value="0-50000">
-                        <Translate text={"0-50,000"} />
-                      </option>
-                      <option value="50001-100000">
-                        <Translate text={"50,001-100,000"} />
-                      </option>
-                      <option value="100001-150000">
-                        <Translate text={"100,001-150,000"} />
-                      </option>
-                      <option value="150001-200000">
-                        <Translate text={"150,001-200,000"} />
-                      </option>
-                      <option value="+200000">
-                        <Translate text={"+200,000"} />
-                      </option>
-                    </select>
+                    <Slider
+                      range
+                      min={0}
+                      max={200000}
+                      step={5000}
+                      marks={{
+                        0: "0 km",
+                        50000: "50k km",
+                        100000: "100k km",
+                        150000: "150k km",
+                        200000: "200k+ km",
+                      }}
+                      value={filters.kilometer || [0, 200000]} // Default range
+                      onChange={(value) => {
+                        setFilters((prev) => ({ ...prev, kilometer: value }));
+                      }}
+                    />
+                    <p className="text-center mt-1 text-sm font-medium text-red-600">
+                      {filters.kilometer
+                        ? `${filters.kilometer[0]} - ${filters.kilometer[1]} km`
+                        : "All Kilometers"}
+                    </p>
                   </div>
+
                   {/* Location */}
                   <div className="mb-4">
                     <label className="block text-gray-700 mb-2">
                       <Translate text={"Location"} />
                     </label>
+                    {/* <input
+                type="text"
+                name="location"
+                value={filters.location}
+                onChange={handleFilterChange}
+                className="w-full border p-2 rounded"
+                placeholder="Search location"
+              /> */}
                     <div>
                       <select
                         name="location"
@@ -778,7 +887,7 @@ const SearchPage = () => {
                         className="!bg-white py-2 px-2 rounded w-full"
                         onChange={handleFilterChange}
                       >
-                        <option hidden>
+                        <option hidden selected>
                           <Translate text={"Select Location"} />
                         </option>
                         {alllocation.map((loc) => (
@@ -800,8 +909,20 @@ const SearchPage = () => {
                         id=""
                         className="w-full py-2 px-2 rounded !bg-white"
                         onChange={handleFilterChange}
+                        value={filters.engineSize}
                       >
-                        <option hidden>
+                        {/* <div key={size.label}>
+                    <input
+                      type="checkbox"
+                      name="engineSize"
+                      value={size.value}
+                      onChange={handleFilterChange}
+                    />
+                    <label className="ml-2">
+                      <Translate text={size.label} />
+                    </label>
+                  </div> */}
+                        <option hidden selected>
                           <Translate text={"Select Engine Size"} />
                         </option>
                         {allenginesize.map((size) => (
@@ -822,10 +943,15 @@ const SearchPage = () => {
                         <input
                           type="radio"
                           name="transmission"
+                          id={trans.label}
                           value={trans.value}
                           onChange={handleFilterChange}
+                          checked={
+                            trans.value === filters.transmission &&
+                            filters.transmission !== ""
+                          }
                         />
-                        <label className="ml-2">
+                        <label className="ml-2" htmlFor={trans.label}>
                           <Translate text={trans.label} />
                         </label>
                       </div>
@@ -843,6 +969,7 @@ const SearchPage = () => {
                           name="fuelType"
                           value={fuel.value}
                           onChange={handleFilterChange}
+                          checked={filters.fuelType.includes(fuel.value)}
                         />
                         <label className="ml-2">
                           <Translate text={fuel.label} />

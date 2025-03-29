@@ -35,6 +35,7 @@ const LoginAndRegister = () => {
   } = useForm({ defaultValues: { email: "" } });
 
   const handleLogin = async (data) => {
+    data.email = data.email.toLowerCase(); // Convert email to lowercase
     console.log("Login Data:", data);
     try {
       const response = await axios.post(
@@ -58,6 +59,7 @@ const LoginAndRegister = () => {
   };
 
   const handleRegister = async (data) => {
+    data.email = data.email.toLowerCase(); // Convert email to lowercase
     console.log("Register Data:", data);
     try {
       const response = await axios.post(
@@ -83,6 +85,7 @@ const LoginAndRegister = () => {
   };
 
   const handleForgotPassword = async (data) => {
+    data.email = data.email.toLowerCase(); // Convert email to lowercase
     console.log("Forgot Password Data:", data);
     try {
       const response = await axios.post(

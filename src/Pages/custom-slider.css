@@ -1,0 +1,21 @@
+.rc-slider-track {
+  background-color: black !important;
+}
+
+.rc-slider-handle {
+  border: solid 2px black !important;
+  background-color: gray !important;
+}
+
+.rc-slider-rail {
+  background-color: lightgray !important;
+}
+
+.rc-slider-mark {
+  margin-top: 20px; /* Pushes the marks slightly lower */
+}
+
+.rc-slider-mark-text {
+  color: black !important;
+  font-size: 12px !important;
+}
