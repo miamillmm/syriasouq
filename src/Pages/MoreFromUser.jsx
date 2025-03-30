@@ -286,7 +286,7 @@ export default function MoreFromUser({ title, button, uid }) {
                     </div>
                   </Link>
                   <div className="absolute top-2 right-2 flex items-center gap-2">
-                    <div
+                    {/* <div
                       onClick={() => handleWishlist(car)}
                       className={`hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-white cursor-pointer text-white ${
                         wishlist?.some((item) => item.car?._id === car._id)
@@ -295,7 +295,7 @@ export default function MoreFromUser({ title, button, uid }) {
                       }`}
                     >
                       <CiHeart className="w-1/2 h-1/2" />
-                    </div>
+                    </div> */}
                     {/* <div
                       onClick={() => handleShare(car)}
                       className={`hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-white cursor-pointer text-white`}
