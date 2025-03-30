@@ -106,8 +106,13 @@ const About = () => {
             <Translate text={"Why choose us?"} />
           </button>
           <h2 className="text-[28px] sm:text-[36px] font-bold text-[#314352] space-y-1 tracking-[-0.04em] sm:mr-10 leading-[1]">
-            <Translate text={"We are the best"} /> <br />
-            <Translate text={"sales platform for you"} />
+            {currentLanguage === "ar" ? (
+              "أفضل وأسهل منصة مبيعات لك"
+            ) : (
+              <>
+                We are the best <br /> sales platform for you
+              </>
+            )}
           </h2>
         </div>
 

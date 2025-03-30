@@ -3152,20 +3152,20 @@ export const arabicMakes = [
 ];
 
 export const alllocation = [
-  { value: "All", label: "All", arValue: "" },
-  { value: "Aleppo", label: "Aleppo", arValue: "" },
-  { value: "Damascus", label: "Damascus" },
-  { value: "Daraa", label: "Daraa" },
-  { value: "Deir ez-Zor", label: "Deir ez-Zor" },
-  { value: "Hama", label: "Hama" },
-  { value: "Homs", label: "Homs" },
-  { value: "Idlib", label: "Idlib" },
-  { value: "Latakia", label: "Latakia" },
-  // { value: "Qamishli", label: "Qamishli" },
-  { value: "Raqqa", label: "Raqqa" },
+  { value: "All", label: "All", arLabel: "الحسكة" },
+  { value: "Aleppo", label: "Aleppo", arLabel: "حلب" },
+  { value: "Damascus", label: "Damascus", arLabel: "دمشق" },
+  { value: "Daraa", label: "Daraa", arLabel: "درعا" },
+  { value: "Deir ez-Zor", label: "Deir ez-Zor", arLabel: "الزور" },
+  { value: "Hama", label: "Hama", arLabel: "حماه" },
+  { value: "Homs", label: "Homs", arLabel: "دير" },
+  { value: "Idlib", label: "Idlib", arLabel: "حمص" },
+  { value: "Latakia", label: "Latakia", arLabel: "إدلب" },
+  { value: "Qamishli", label: "Qamishli", arLabel: "اللاذقية" },
+  { value: "Raqqa", label: "Raqqa", arLabel: "الرقة" },
   // { value: "Rif Dimashq", label: "Rif Dimashq" },
-  { value: "Suweida", label: "Suweida" },
-  { value: "Tartus", label: "Tartus" },
+  { value: "Suweida", label: "Suweida", arLabel: "السويداء" },
+  { value: "Tartus", label: "Tartus", arLabel: "طرطوس" },
 ];
 export const allenginesize = [
   { value: "0-499 cc", label: "0-499 cc" },

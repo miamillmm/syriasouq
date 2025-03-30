@@ -84,11 +84,9 @@ const BestCar = () => {
               <Translate text={"Account protected"} />
             </h2>
             <p className="text-sm md:text-base text-[#9AA4AD] leading-none">
-              <Translate
-                text={
-                  "To post an advertisement each account and ad is checked through safety & security"
-                }
-              />
+              {currentLanguage === "ar"
+                ? "يخضع كل اعالن وحساب للمراجعة قبل النشر لضمان السالمة واالمان"
+                : "To post an advertisement each account and ad is checked through safety & security"}
             </p>
           </div>
           <div className="w-full h-auto bg-[#323232fa] py-8 px-6 text-center space-y-3 rounded">

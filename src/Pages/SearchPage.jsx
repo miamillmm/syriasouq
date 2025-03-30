@@ -17,27 +17,12 @@ import { AiFillDashboard, AiOutlineDashboard } from "react-icons/ai";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css"; // Import styles
 import "./custom-slider.css"; // Custom styles for black & gray theme
+import { alllocation } from "../utils/utils";
 
 const SearchPage = () => {
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language; // Gets current language
 
-  const alllocation = [
-    { value: "Al", label: "Al" },
-    { value: "Aleppo", label: "Aleppo" },
-    { value: "Damascus", label: "Damascus" },
-    { value: "Daraa", label: "Daraa" },
-    { value: "Deir ez-Zor", label: "Deir ez-Zor" },
-    { value: "Hama", label: "Hama" },
-    { value: "Homs", label: "Homs" },
-    { value: "Idlib", label: "Idlib" },
-    { value: "Latakia", label: "Latakia" },
-    // { value: "Qamishli", label: "Qamishli" },
-    { value: "Raqqa", label: "Raqqa" },
-    // { value: "Rif Dimashq", label: "Rif Dimashq" },
-    { value: "Suweida", label: "Suweida" },
-    { value: "Tartus", label: "Tartus" },
-  ];
   const allenginesize = [
     { value: "0-499 cc", label: "0-499 cc" },
     { value: "1000-1499 cc", label: "1000-1499 cc" },
@@ -108,7 +93,7 @@ const SearchPage = () => {
 
   useEffect(() => {
     if (currentLanguage === "ar" && make !== "الكل" && make !== "") {
-      const currentMake = arabicMakes.find((mk) => mk.value === make).enValue;
+      const currentMake = arabicMakes.find((mk) => mk.value === make)?.enValue;
 
       setFilters((prev) => ({
         ...prev,
@@ -458,9 +443,9 @@ const SearchPage = () => {
               <Slider
                 range
                 min={0}
-                max={1000000}
+                max={400000}
                 step={1000}
-                value={[filters.minPrice || 0, filters.maxPrice || 1000000]}
+                value={[filters.minPrice || 0, filters.maxPrice || 400000]}
                 onChange={(value) =>
                   setFilters((prev) => ({
                     ...prev,
@@ -471,7 +456,7 @@ const SearchPage = () => {
               />
               <div className="flex justify-between mt-2 text-sm text-gray-700">
                 <span>${filters.minPrice || 0}</span>
-                <span>${filters.maxPrice || 1000000}</span>
+                <span>${filters.maxPrice || 400000}</span>
               </div>
             </div>
 
@@ -563,7 +548,7 @@ const SearchPage = () => {
                   </option>
                   {alllocation.map((loc) => (
                     <option key={loc.label} value={loc.value}>
-                      <Translate text={loc.label} />
+                      {currentLanguage === "ar" ? loc.arLabel : loc.label}
                     </option>
                   ))}
                 </select>
@@ -815,11 +800,11 @@ const SearchPage = () => {
                     <Slider
                       range
                       min={0}
-                      max={4000000}
+                      max={400000}
                       step={1000}
                       value={[
                         filters.minPrice || 0,
-                        filters.maxPrice || 4000000,
+                        filters.maxPrice || 400000,
                       ]}
                       onChange={(value) =>
                         setFilters((prev) => ({
@@ -831,7 +816,7 @@ const SearchPage = () => {
                     />
                     <div className="flex justify-between mt-2 text-sm text-gray-700">
                       <span>${filters.minPrice || 0}</span>
-                      <span>${filters.maxPrice || 4000000}</span>
+                      <span>${filters.maxPrice || 400000}</span>
                     </div>
                   </div>
                   {/* Kilometer Filter */}
@@ -888,7 +873,7 @@ const SearchPage = () => {
                         </option>
                         {alllocation.map((loc) => (
                           <option key={loc.label} value={loc.value}>
-                            <Translate text={loc.label} />
+                            {currentLanguage === "ar" ? loc.arLabel : loc.label}
                           </option>
                         ))}
                       </select>
@@ -1242,11 +1227,13 @@ const SearchPage = () => {
                               <div className="flex items-center gap-1 text-md">
                                 <CiLocationOn />
                                 <span>
-                                  <Translate
-                                    text={
-                                      data?.location ? data?.location : "آخر"
-                                    }
-                                  />
+                                  {data?.location
+                                    ? currentLanguage === "ar"
+                                      ? alllocation.find(
+                                          (loc) => loc.value == data?.location
+                                        ).arLabel
+                                      : data?.location
+                                    : "آخر"}
                                 </span>
                               </div>
                             </div>
@@ -1303,9 +1290,13 @@ const SearchPage = () => {
                             </div>
                             <div className="flex items-center gap-2 md:mt-3">
                               <h2 className="text-sm">
-                                <Translate
-                                  text={data?.make ? data?.make : "آخر"}
-                                />
+                                {data?.make
+                                  ? currentLanguage === "ar"
+                                    ? carMakes.find(
+                                        (mk) => mk?.value === data.make
+                                      ).arLabel
+                                    : data?.make
+                                  : "آخر"}
                               </h2>
                               <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
                               <h2 className="text-sm">
@@ -1339,11 +1330,13 @@ const SearchPage = () => {
                               <div className="flex items-center gap-1 text-sm">
                                 <CiLocationOn />
                                 <span>
-                                  <Translate
-                                    text={
-                                      data?.location ? data?.location : "آخر"
-                                    }
-                                  />
+                                  {data?.location
+                                    ? currentLanguage === "ar"
+                                      ? alllocation.find(
+                                          (loc) => loc.value == data?.location
+                                        ).arLabel
+                                      : data?.location
+                                    : "آخر"}
                                 </span>
                               </div>
                             </div>

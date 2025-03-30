@@ -62,9 +62,9 @@ const Contact = () => {
         <div className="relative z-10 container mx-auto px-4 sm:px-8 lg:px-18 h-full flex flex-col justify-center">
           <h1 className="text-3xl sm:text-5xl font-bold text-white tracking-[-0.04em] pt-10">
             <span className="text-red-500 text-[38px] sm:text-[58px]">
-              <Translate text={"Contact"} />
+              {currentLanguage === "ar" ? "تواصل" : "Contact"}
             </span>{" "}
-            <Translate text={"us"} />
+            {currentLanguage === "ar" ? "معنا" : "us"}
           </h1>
         </div>
       </div>
