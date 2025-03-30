@@ -101,7 +101,7 @@ export default function MoreFromUser({ title, button, uid }) {
     const getCars = async () => {
       const url = uid
         ? `${import.meta.env.VITE_API_URL}/cars/uid/${uid}`
-        : `${import.meta.env.VITE_API_URL}/cars`;
+        : `${import.meta.env.VITE_API_URL}/cars?status=available`;
       const response = await axios.get(url);
       if (response.data) {
         setListings(response.data.data);
