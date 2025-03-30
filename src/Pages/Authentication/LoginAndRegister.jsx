@@ -1,10 +1,12 @@
 import axios from "axios";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import cover from "../../assets/service/cover.jpg";
 import Translate from "../../utils/Translate";
 import { useTranslation } from "react-i18next";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css"; // Import default styles
 
 const LoginAndRegister = () => {
   const [activeTab, setActiveTab] = useState("login");
@@ -15,13 +17,15 @@ const LoginAndRegister = () => {
     register: loginRegister,
     handleSubmit: handleLoginSubmit,
     reset: resetLogin,
+    control: loginControl,
     formState: { errors: loginErrors },
-  } = useForm({ defaultValues: { email: "", password: "" } });
+  } = useForm({ defaultValues: { phone: "", password: "" } });
 
   const {
     register: registerRegister,
     handleSubmit: handleRegisterSubmit,
     reset: resetRegister,
+    control: registerControl,
     formState: { errors: registerErrors },
   } = useForm({
     defaultValues: { username: "", email: "", phone: "", password: "" },
@@ -38,8 +42,12 @@ const LoginAndRegister = () => {
     data.email = data.email.toLowerCase(); // Convert email to lowercase
     console.log("Login Data:", data);
     try {
+      // const response = await axios.post(
+      //   `${import.meta.env.VITE_API_URL}/auth/login`,
+      //   data
+      // );
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/auth/login`,
+        `http://localhost:5001/api/auth/login`,
         data
       );
 
@@ -62,8 +70,12 @@ const LoginAndRegister = () => {
     data.email = data.email.toLowerCase(); // Convert email to lowercase
     console.log("Register Data:", data);
     try {
+      // const response = await axios.post(
+      //   `${import.meta.env.VITE_API_URL}/auth/register`,
+      //   data
+      // );
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/auth/register`,
+        `http://localhost:5001/api/auth/register`,
         data
       );
 
@@ -135,19 +147,58 @@ const LoginAndRegister = () => {
         {activeTab === "login" ? (
           <form onSubmit={handleLoginSubmit(handleLogin)} className="space-y-4">
             <input
-              {...loginRegister("email", { required: "Email is required" })}
+              {...loginRegister("email")}
               placeholder={
                 currentLanguage == "ar"
                   ? "البريد الإلكتروني أو اسم المستخدم"
                   : "Email or Username"
               }
               className="w-full p-3 border rounded-lg"
+              type="hidden"
             />
             {loginErrors.email && (
               <p className="text-red-500 text-sm">
                 {loginErrors.email.message}
               </p>
             )}
+
+            <Controller
+              name="phone"
+              control={loginControl}
+              rules={{ required: "Phone number is required" }}
+              render={({ field }) => {
+                const handlePhoneChange = (value, countryData) => {
+                  // Ensure country code is always present and only phone number is editable
+                  const countryCode = `+${countryData.dialCode}`;
+                  const phoneNumber = value.replace(countryCode, "").trim(); // Remove country code part
+                  field.onChange(phoneNumber); // Update the phone number field
+                };
+
+                return (
+                  <div className="w-full flex items-center gap-2">
+                    {/* Phone Input */}
+                    <PhoneInput
+                      country={"sy"} // Default to Syria (or any other country)
+                      value={field.value ? `+${field.value}` : ""} // Display country code
+                      onChange={handlePhoneChange} // Update value on change
+                      inputClass="!w-full !p-3 !pl-14 !border !rounded-lg" // Styling for phone input
+                      containerClass="!w-full" // Full width for container
+                      buttonClass="!bg-white !border-r !rounded-l-lg" // Keep flag visible and clickable
+                      dropdownClass="!bg-white !text-black" // Styling for dropdown
+                      disableDropdown={false} // Allow changing country
+                      enableSearch
+                      // onlyCountries={["sy", "us", "gb", "de", "fr"]} // Restrict countries (optional)
+                    />
+                  </div>
+                );
+              }}
+            />
+            {loginErrors.phone && (
+              <p className="text-red-500 text-sm">
+                {loginErrors.phone.message}
+              </p>
+            )}
+
             <input
               {...loginRegister("password", {
                 required: "Password is required",
@@ -206,14 +257,15 @@ const LoginAndRegister = () => {
               </p>
             )}
             <input
+              type="hidden"
               {...registerRegister("email", {
-                required: "Email is required",
+                // required: "Email is required",
                 pattern: {
                   value: /^[^@\s]+@[^@\s]+\.[^@\s]+$/,
                   message: "Invalid email format",
                 },
               })}
-              type="email"
+              // type="email"
               placeholder={
                 currentLanguage === "ar" ? "بريد إلكتروني" : "E-mail"
               }
@@ -224,7 +276,7 @@ const LoginAndRegister = () => {
                 {registerErrors.email.message}
               </p>
             )}
-            <input
+            {/* <input
               {...registerRegister("phone", {
                 required: "Phone number is required",
                 pattern: {
@@ -239,7 +291,45 @@ const LoginAndRegister = () => {
               <p className="text-red-500 text-sm">
                 {registerErrors.phone.message}
               </p>
+            )} */}
+            {/* Phone Number Field with Controller */}
+            <Controller
+              name="phone"
+              control={registerControl}
+              rules={{ required: "Phone number is required" }}
+              render={({ field }) => {
+                const handlePhoneChange = (value, countryData) => {
+                  // Ensure country code is always present and only phone number is editable
+                  const countryCode = `+${countryData.dialCode}`;
+                  const phoneNumber = value.replace(countryCode, "").trim(); // Remove country code part
+                  field.onChange(phoneNumber); // Update the phone number field
+                };
+
+                return (
+                  <div className="w-full flex items-center gap-2">
+                    {/* Phone Input */}
+                    <PhoneInput
+                      country={"sy"} // Default to Syria (or any other country)
+                      value={field.value ? `+${field.value}` : ""} // Display country code
+                      onChange={handlePhoneChange} // Update value on change
+                      inputClass="!w-full !p-3 !pl-14 !border !rounded-lg" // Styling for phone input
+                      containerClass="!w-full" // Full width for container
+                      buttonClass="!bg-white !border-r !rounded-l-lg" // Keep flag visible and clickable
+                      dropdownClass="!bg-white !text-black" // Styling for dropdown
+                      disableDropdown={false} // Allow changing country
+                      enableSearch
+                      // onlyCountries={["sy", "us", "gb", "de", "fr"]} // Restrict countries (optional)
+                    />
+                  </div>
+                );
+              }}
+            />
+            {registerErrors.phone && (
+              <p className="text-red-500 text-sm">
+                {registerErrors.phone.message}
+              </p>
             )}
+
             <input
               {...registerRegister("password", {
                 required: "Password is required",

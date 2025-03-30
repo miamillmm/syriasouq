@@ -1,12 +1,13 @@
 import axios from "axios";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import cover from "../../assets/service/cover.jpg";
 import Translate from "../../utils/Translate";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PhoneInput from "react-phone-input-2";
 
 const ChangePassword = () => {
   const navigate = useNavigate();
@@ -16,11 +17,11 @@ const ChangePassword = () => {
     register: forgotPasswordRegister,
     handleSubmit: handleForgotPasswordSubmit,
     reset: resetForgotPassword,
+    control,
     formState: { errors: forgotPasswordErrors },
   } = useForm({ defaultValues: { email: "" } });
 
   const handleForgotPassword = async (data) => {
-    data.email = data.email.toLowerCase(); // Convert email to lowercase
     console.log("Forgot Password Data:", data);
     try {
       const response = await axios.post(
@@ -68,17 +69,40 @@ const ChangePassword = () => {
             <Translate text={"Reset Password"} />
           </h2>
           <form onSubmit={handleForgotPasswordSubmit(handleForgotPassword)}>
-            <input
-              {...forgotPasswordRegister("email", {
-                required: "Email is required",
-              })}
-              type="email"
-              placeholder="Enter your email"
-              className="w-full p-3 border rounded-lg"
+            <Controller
+              name="phone"
+              control={control}
+              rules={{ required: "Phone number is required" }}
+              render={({ field }) => {
+                const handlePhoneChange = (value, countryData) => {
+                  // Ensure country code is always present and only phone number is editable
+                  const countryCode = `+${countryData.dialCode}`;
+                  const phoneNumber = value.replace(countryCode, "").trim(); // Remove country code part
+                  field.onChange(phoneNumber); // Update the phone number field
+                };
+
+                return (
+                  <div className="w-full flex items-center gap-2">
+                    {/* Phone Input */}
+                    <PhoneInput
+                      country={"sy"} // Default to Syria (or any other country)
+                      value={field.value ? `+${field.value}` : ""} // Display country code
+                      onChange={handlePhoneChange} // Update value on change
+                      inputClass="!w-full !p-3 !pl-14 !border !rounded-lg" // Styling for phone input
+                      containerClass="!w-full" // Full width for container
+                      buttonClass="!bg-white !border-r !rounded-l-lg" // Keep flag visible and clickable
+                      dropdownClass="!bg-white !text-black" // Styling for dropdown
+                      disableDropdown={false} // Allow changing country
+                      enableSearch
+                      // onlyCountries={["sy", "us", "gb", "de", "fr"]} // Restrict countries (optional)
+                    />
+                  </div>
+                );
+              }}
             />
-            {forgotPasswordErrors.email && (
+            {forgotPasswordErrors.phone && (
               <p className="text-red-500 text-sm">
-                {forgotPasswordErrors.email.message}
+                {forgotPasswordErrors.phone.message}
               </p>
             )}
             <div className="flex justify-between mt-4">
