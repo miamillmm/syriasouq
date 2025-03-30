@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 // import img from "../assets/bg-image/banner-img.jpg";
-import img from "../assets/bg-image/banner-img-1.png";
+// import img from "../assets/bg-image/banner-img-1.png";
+import img from "../assets/bg-image/banner-img-2.jpeg";
 import Translate from "../utils/Translate";
 import { arabicMakes as arMake, makes as enMakes } from "../utils/utils";
 import { useTranslation } from "react-i18next";
@@ -84,14 +85,15 @@ const BannerSection = () => {
         className="absolute inset-0"
         style={{
           backgroundColor: "#304455",
-          opacity: 0.85,
+          opacity: 0.0,
         }}
       ></div>
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 sm:px-8 md:px-16 md:py-10 grid grid-cols-1 md:grid-cols-2 gap-4 items-center w-full">
         {/* Left Side */}
-        <div className="text-white text-center md:text-left">
+        <div></div>
+        <div className="text-white text-center md:text-left hidden">
           <h1 className="text-2xl sm:text-4xl md:text-7xl font-bold mb-4 tracking-[-0.04em]">
             {currentLanguage === "ar" ? (
               <>الموقع رقم 1 لشراء و بيع السيارات في سوريا</>
