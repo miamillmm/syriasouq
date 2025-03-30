@@ -19,6 +19,9 @@ import "rc-slider/assets/index.css"; // Import styles
 import "./custom-slider.css"; // Custom styles for black & gray theme
 
 const SearchPage = () => {
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language; // Gets current language
+
   const alllocation = [
     { value: "Al", label: "Al" },
     { value: "Aleppo", label: "Aleppo" },
@@ -104,11 +107,23 @@ const SearchPage = () => {
   });
 
   useEffect(() => {
-    setFilters((prev) => ({
-      ...prev,
-      make: [make !== "All" && make !== "Other" && make !== "الكل" ? make : ""],
-    }));
-  }, [make]);
+    if (currentLanguage === "ar" && make !== "الكل" && make !== "") {
+      const currentMake = arabicMakes.find((mk) => mk.value === make).enValue;
+      console.log("Current Make: ", currentMake);
+
+      setFilters((prev) => ({
+        ...prev,
+        make: [currentMake],
+      }));
+    } else {
+      setFilters((prev) => ({
+        ...prev,
+        make: [
+          make !== "All" && make !== "Other" && make !== "الكل" ? make : "",
+        ],
+      }));
+    }
+  }, [make, currentLanguage]);
 
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
@@ -256,9 +271,6 @@ const SearchPage = () => {
     );
   });
 
-  const { i18n } = useTranslation();
-  const currentLanguage = i18n.language; // Gets current language
-
   // const carMakes =
   //   currentLanguage === "ar"
   //     ? [{ label: "الكل", value: "", models: [""] }, ...arabicMakes]
@@ -288,22 +300,6 @@ const SearchPage = () => {
           },
           ...makes,
         ];
-
-  const kilometerMarks = {
-    0: "0 km",
-    50000: "50k km",
-    100000: "100k km",
-    150000: "150k km",
-    200000: "200k+ km",
-  };
-
-  const kilometerRanges = {
-    "0-50000": [0, 50000],
-    "50001-100000": [50001, 100000],
-    "100001-150000": [100001, 150000],
-    "150001-200000": [150001, 200000],
-    "+200000": [200001, 200000], // Ensure max is still 200000 for UI
-  };
 
   return (
     <div className="pt-24 px-5 md:px-16 lg:px-28">
