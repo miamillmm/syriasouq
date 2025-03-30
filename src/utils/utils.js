@@ -3152,7 +3152,7 @@ export const arabicMakes = [
 ];
 
 export const alllocation = [
-  { value: "All", label: "All", arLabel: "الحسكة" },
+  // { value: "All", label: "All", arLabel: "الحسكة" },
   { value: "Aleppo", label: "Aleppo", arLabel: "حلب" },
   { value: "Damascus", label: "Damascus", arLabel: "دمشق" },
   { value: "Daraa", label: "Daraa", arLabel: "درعا" },
@@ -3214,3 +3214,179 @@ export const allInteriorColor = [
   { value: "White", label: "White" },
   { value: "Other", label: "Other" },
 ];
+
+export const features = [
+  {
+    label: "360-degree camera",
+    value: "360-degree camera",
+    arLabel: "كاميرا ٣٦٠ درجة",
+  },
+  {
+    label: "Adaptive headlights",
+    value: "Adaptive headlights",
+    arLabel: "مصابيح امامية تكيفية",
+  },
+  {
+    label: "Blind-spot warning",
+    value: "Blind-spot warning",
+    arLabel: "‎مراقبة النقطة العمياء",
+  },
+  {
+    label: "Cooled Seats",
+    value: "Cooled Seats",
+    arLabel: "‎مقاعد مبردة",
+  },
+  {
+    label: "Heated seats",
+    value: "Heated seats",
+    arLabel: "مقاعد بتدفئة",
+  },
+  {
+    label: "LED headlights",
+    value: "LED headlights",
+    arLabel: "‎LED مصابيح امامية",
+  },
+  {
+    label: "Performance tyres",
+    value: "Performance tyres",
+    arLabel: "اطارات اداء عالي",
+  },
+  {
+    label: "Sound system",
+    value: "Sound system",
+    arLabel: "نظام صوت",
+  },
+  {
+    label: "ABS",
+    value: "ABS",
+    arLabel: "مكابح مانعة للانغلاق ABS",
+  },
+  {
+    label: "Backup camera",
+    value: "Backup camera",
+    arLabel: "كاميرا الرجوع للخلف",
+  },
+  {
+    label: "Bluetooth",
+    value: "Bluetooth",
+    arLabel: "نظام بلوتوث",
+  },
+  {
+    label: "Extensive tool kit",
+    value: "Extensive tool kit",
+    arLabel: "‎صندوق ادوات الاصلاح",
+  },
+  {
+    label: "Keyless start",
+    value: "Keyless start",
+    arLabel: "تشغيل بدون مفتاح",
+  },
+  {
+    label: "Memory seat",
+    value: "Memory seat",
+    arLabel: "ذاكرة للمقاعد",
+  },
+  {
+    label: "Reversing camera",
+    value: "Reversing camera",
+    arLabel: "‎كاميرة خلفية",
+  },
+  {
+    label: "Traction control",
+    value: "Traction control",
+    arLabel: "مسند الرأس النشط",
+  },
+  {
+    label: "Active head restraints",
+    value: "Active head restraints",
+    arLabel: "مراقبة النقطة العمياء",
+  },
+  {
+    label: "Blind spot alert",
+    value: "Blind spot alert",
+    arLabel: "مساعدة الفرامل",
+  },
+  {
+    label: "Forward-collision warning",
+    value: "Forward-collision warning",
+    arLabel: "‎تحذير الاصطدام الأمامي",
+  },
+  {
+    label: "Leather seats",
+    value: "Leather seats",
+    arLabel: "‎مقاعد جلدية",
+  },
+  {
+    label: "Navigation system",
+    value: "Navigation system",
+    arLabel: "‎نظام الملاحة",
+  },
+  {
+    label: "Side airbags",
+    value: "Side airbags",
+    arLabel: "‎اكياس هواء جانبية",
+  },
+  {
+    label: "USB port",
+    value: "USB port",
+    arLabel: "‎منفذ USB",
+  },
+];
+export const getArabicModel = (carDetails, currentLanguage) => {
+  if (!carDetails?.model || !carDetails?.make) return "آخر"; // Default fallback
+
+  // Find the English make
+  const englishMake = makes.find((mk) => mk.value === carDetails.make);
+  if (!englishMake) return "آخر"; // If make not found
+
+  // Find the index of the model in the English array
+  const modelIndex = englishMake.models.indexOf(carDetails.model);
+  if (modelIndex === -1) return "آخر"; // If model not found
+
+  // Find the Arabic make
+  const arabicMake = arabicMakes.find((mk) => mk.enValue === carDetails.make);
+  if (!arabicMake) return "آخر";
+
+  // Get the Arabic model using the same index
+  const arabicModel = arabicMake.models[modelIndex] || "آخر"; // Default if index out of range
+
+  return currentLanguage === "ar" ? arabicModel : carDetails.model;
+};
+
+export const getLocalizedMake = (carDetails, currentLanguage) => {
+  if (!carDetails?.make) return "آخر"; // Default fallback
+
+  if (currentLanguage === "ar") {
+    // Find the Arabic make using enValue
+    const arabicMake = arabicMakes.find((mk) => mk.enValue === carDetails.make);
+    return arabicMake ? arabicMake.label : "آخر"; // Return Arabic label if found
+  }
+
+  return carDetails.make; // Return English make if language is not Arabic
+};
+
+export const getLocalizedLocation = (location, currentLanguage) => {
+  if (!location) return "آخر"; // Default fallback
+
+  if (currentLanguage === "ar") {
+    // Find the Arabic location using value
+    const arabicLocation = alllocation.find((loc) => loc.value === location);
+    return arabicLocation ? arabicLocation.arLabel : "آخر"; // Return Arabic label if found
+  }
+
+  return location; // Return English location if language is not Arabic
+};
+
+export const getLocalizedFeature = (feature, currentLanguage) => {
+  if (!feature) return "آخر"; // Default fallback
+
+  if (currentLanguage === "ar") {
+    // Find the Arabic feature using value
+    const arabicFeature = features.find((feat) => feat.value === feature);
+    return arabicFeature && arabicFeature.arLabel
+      ? arabicFeature.arLabel
+      : "آخر"; // Return Arabic label if found, else fallback
+  }
+
+  return feature; // Return English feature if language is not Arabic
+};

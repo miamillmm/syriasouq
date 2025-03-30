@@ -6,6 +6,11 @@ import { TiArrowRight } from "react-icons/ti";
 import { Link, useNavigate } from "react-router-dom";
 import Translate from "../utils/Translate";
 import { useTranslation } from "react-i18next";
+import {
+  getArabicModel,
+  getLocalizedLocation,
+  getLocalizedMake,
+} from "../utils/utils";
 
 const Featured = () => {
   const [cars, setCars] = useState([]);
@@ -191,11 +196,15 @@ const Featured = () => {
                     </div>
                     <div className="flex items-center gap-2">
                       <h2 className="text-md">
-                        {data?.make ? <Translate text={data?.make} /> : "آخر"}
+                        {data?.make
+                          ? getLocalizedMake(data, currentLanguage)
+                          : "آخر"}
                       </h2>
                       <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
                       <h2 className="text-md">
-                        {data?.model ? <Translate text={data?.model} /> : "آخر"}
+                        {data?.model
+                          ? getArabicModel(data, currentLanguage)
+                          : "آخر"}
                       </h2>
                     </div>
                     <div className="flex items-center gap-3">
@@ -221,11 +230,12 @@ const Featured = () => {
                       <div className="flex items-center gap-1 text-md">
                         <CiLocationOn />
                         <span>
-                          {data?.location ? (
-                            <Translate text={data?.location} />
-                          ) : (
-                            "آخر"
-                          )}
+                          {data?.location
+                            ? getLocalizedLocation(
+                                data?.location,
+                                currentLanguage
+                              )
+                            : "آخر"}
                         </span>
                       </div>
                     </div>

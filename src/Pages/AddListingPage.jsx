@@ -545,6 +545,7 @@ const AddListingPage = () => {
             <FeaturesSection
               selectedFeatures={selectedFeatures}
               setSelectedFeatures={setSelectedFeatures}
+              currentLanguage={currentLanguage}
             />
           </div>
           <div className="mt-10">

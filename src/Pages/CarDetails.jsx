@@ -21,6 +21,13 @@ import { useTranslation } from "react-i18next";
 import { TiMessages } from "react-icons/ti";
 import { CiCalendar, CiLocationOn } from "react-icons/ci";
 import { AiOutlineDashboard } from "react-icons/ai";
+import {
+  arabicMakes,
+  getArabicModel,
+  getLocalizedFeature,
+  getLocalizedLocation,
+  getLocalizedMake,
+} from "../utils/utils";
 
 const CarDetails = () => {
   const { id } = useParams();
@@ -146,19 +153,15 @@ const CarDetails = () => {
                 </div>
                 <div className="flex items-center gap-2">
                   <h2 className="text-md">
-                    {carDetails?.make ? (
-                      <Translate text={carDetails?.make} />
-                    ) : (
-                      "آخر"
-                    )}
+                    {carDetails?.make
+                      ? getLocalizedMake(carDetails, currentLanguage)
+                      : "آخر"}
                   </h2>
                   <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
                   <h2 className="text-md">
-                    {carDetails?.model ? (
-                      <Translate text={carDetails?.model} />
-                    ) : (
-                      "آخر"
-                    )}
+                    <h2 className="text-md">
+                      {getArabicModel(carDetails, currentLanguage)}
+                    </h2>
                   </h2>
                 </div>
                 <div className="flex items-center gap-3">
@@ -188,11 +191,12 @@ const CarDetails = () => {
                   <div className="flex items-center gap-1 text-md">
                     <CiLocationOn />
                     <span>
-                      {carDetails?.location ? (
-                        <Translate text={carDetails?.location} />
-                      ) : (
-                        "آخر"
-                      )}
+                      {carDetails?.location
+                        ? getLocalizedLocation(
+                            carDetails?.location,
+                            currentLanguage
+                          )
+                        : "آخر"}
                     </span>
                   </div>
                 </div>
@@ -210,12 +214,12 @@ const CarDetails = () => {
                 <p className="font-semibold">
                   {currentLanguage === "ar" ? "النوع" : "Make:"}
                 </p>
-                <p>{carDetails?.make}</p>
+                <p>{getLocalizedMake(carDetails, currentLanguage)}</p>
 
                 <p className="font-semibold">
                   {currentLanguage === "ar" ? "الموديل" : "Model:"}
                 </p>
-                <p>{carDetails?.model}</p>
+                <p>{getArabicModel(carDetails, currentLanguage)}</p>
 
                 <p className="font-semibold">
                   <Translate text={"Kilometer:"} />
@@ -259,9 +263,11 @@ const CarDetails = () => {
                         : "Interior Color:"}
                     </p>
                     <p>
-                      {carDetails?.interiorColor
-                        ? carDetails?.interiorColor
-                        : "N/A"}
+                      {carDetails?.interiorColor ? (
+                        <Translate text={carDetails?.interiorColor} />
+                      ) : (
+                        "N/A"
+                      )}
                     </p>
 
                     <p className="font-semibold">
@@ -270,9 +276,11 @@ const CarDetails = () => {
                         : "Exterior Color:"}
                     </p>
                     <p>
-                      {carDetails?.exteriorColor
-                        ? carDetails?.exteriorColor
-                        : "N/A"}
+                      {carDetails?.exteriorColor ? (
+                        <Translate text={carDetails?.exteriorColor} />
+                      ) : (
+                        "N/A"
+                      )}
                     </p>
 
                     <p className="font-semibold">
@@ -285,15 +293,23 @@ const CarDetails = () => {
                     <p className="font-semibold">
                       {currentLanguage === "ar" ? "نوع الوقود" : "Fuel Type:"}
                     </p>
-                    <p>{carDetails?.fuelType ? carDetails?.fuelType : "N/A"}</p>
+                    <p>
+                      {carDetails?.fuelType ? (
+                        <Translate text={carDetails?.fuelType} />
+                      ) : (
+                        "N/A"
+                      )}
+                    </p>
 
                     <p className="font-semibold">
                       {currentLanguage === "ar" ? "الانتقال" : "Transmission:"}
                     </p>
                     <p>
-                      {carDetails?.transmission
-                        ? carDetails?.transmission
-                        : "N/A"}
+                      {carDetails?.transmission ? (
+                        <Translate text={carDetails?.transmission} />
+                      ) : (
+                        "N/A"
+                      )}
                     </p>
 
                     <p className="text-lg font-semibold mt-5">Features:</p>
@@ -301,7 +317,9 @@ const CarDetails = () => {
 
                     {carDetails?.features.map((fe) => (
                       <>
-                        <p key={fe}>{fe}</p>
+                        <p key={fe}>
+                          {getLocalizedFeature(fe, currentLanguage)}
+                        </p>
                         <p></p>
                       </>
                     ))}

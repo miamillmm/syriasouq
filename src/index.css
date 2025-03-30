@@ -3,8 +3,17 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+html {
+  direction: ltr; /* Default is Left-to-Right */
+}
+
+html[lang="ar"] {
+  direction: rtl;
+  text-align: right;
+}
+
 .active {
-  color: #FB2C36;
+  color: #fb2c36;
 }
 
 body {
@@ -53,4 +62,3 @@ select option {
   height: 100%;
   object-fit: cover;
 }
-

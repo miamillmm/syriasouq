@@ -10,6 +10,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import Translate from "../utils/Translate";
 import { useTranslation } from "react-i18next";
 import { AiOutlineDashboard } from "react-icons/ai";
+import {
+  getArabicModel,
+  getLocalizedLocation,
+  getLocalizedMake,
+} from "../utils/utils";
 
 const cars = [
   {
@@ -310,10 +315,12 @@ export default function MoreFromUser({ title, button, uid }) {
                     </span> */}
                   </div>
                   <div className="flex items-center gap-2 md:mt-3">
-                    <h2 className="text-sm">{car?.make ? car?.make : "آخر"}</h2>
+                    <h2 className="text-sm">
+                      {getLocalizedMake(car, currentLanguage)}
+                    </h2>
                     <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
                     <h2 className="text-sm">
-                      {car?.model ? car?.model : "آخر"}
+                      {getArabicModel(car, currentLanguage)}
                     </h2>
                   </div>
                   <div className="flex items-center gap-3">
@@ -329,7 +336,9 @@ export default function MoreFromUser({ title, button, uid }) {
                   <div className="flex items-center gap-3">
                     <div className="flex items-center gap-1 text-sm">
                       <CiLocationOn />
-                      <span>{car?.location ? car?.location : "آخر"}</span>
+                      <span>
+                        {getLocalizedLocation(car?.location, currentLanguage)}
+                      </span>
                     </div>
                   </div>
                   <div className="flex items-center gap-3 mt-2 md:mt-4">

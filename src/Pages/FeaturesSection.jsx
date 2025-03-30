@@ -1,44 +1,22 @@
 import React from "react";
 import Translate from "../utils/Translate";
+import { features } from "../utils/utils";
 
-const FeaturesSection = ({ selectedFeatures, setSelectedFeatures }) => {
-  const features = [
-    "360-degree camera",
-    "Adaptive headlights",
-    "Blind-spot warning",
-    "Cooled seats",
-    "Heated seats",
-    "LED headlights",
-    "Performance tyres",
-    "Sound system",
-    "ABS",
-    "Backup camera",
-    "Bluetooth",
-    "Extensive tool kit",
-    "Keyless start",
-    "Memory seat",
-    "Reversing camera",
-    "Traction control",
-    "Active head restraints",
-    "Blind spot alert",
-    "Brake assist",
-    "Forward-collision warning",
-    "Leather seats",
-    "Navigation system",
-    "Side airbags",
-    "USB port",
-  ];
-
-  const toggleFeature = (feature) => {
-    if (selectedFeatures.includes(feature)) {
-      setSelectedFeatures(selectedFeatures.filter((f) => f !== feature));
+const FeaturesSection = ({
+  selectedFeatures,
+  setSelectedFeatures,
+  currentLanguage,
+}) => {
+  const toggleFeature = (featureValue) => {
+    if (selectedFeatures.includes(featureValue)) {
+      setSelectedFeatures(selectedFeatures.filter((f) => f !== featureValue));
     } else {
-      setSelectedFeatures([...selectedFeatures, feature]);
+      setSelectedFeatures([...selectedFeatures, featureValue]);
     }
   };
 
   return (
-    <div className="p-6 ">
+    <div className="p-6">
       <div className="flex items-center w-full mb-5 pl-5">
         <h2 className="text-2xl font-bold text-[#314252] whitespace-nowrap">
           <Translate text={"Features"} />
@@ -49,23 +27,23 @@ const FeaturesSection = ({ selectedFeatures, setSelectedFeatures }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {features.map((feature) => (
           <label
-            key={feature}
+            key={feature.value}
             className="flex items-center space-x-2 cursor-pointer"
           >
             <input
               type="checkbox"
-              checked={selectedFeatures.includes(feature)}
-              onChange={() => toggleFeature(feature)}
+              checked={selectedFeatures.includes(feature.value)}
+              onChange={() => toggleFeature(feature.value)}
               className="peer hidden"
             />
             <div
               className={`w-5 h-5 flex items-center justify-center rounded border-2 ${
-                selectedFeatures.includes(feature)
+                selectedFeatures.includes(feature.value)
                   ? "border-red-500 bg-red-500"
                   : "border-[#314352] bg-transparent"
               }`}
             >
-              {selectedFeatures.includes(feature) && (
+              {selectedFeatures.includes(feature.value) && (
                 <svg
                   className="w-4 h-4 text-white"
                   fill="none"
@@ -84,12 +62,14 @@ const FeaturesSection = ({ selectedFeatures, setSelectedFeatures }) => {
             </div>
             <span
               className={`${
-                selectedFeatures.includes(feature)
+                selectedFeatures.includes(feature.value)
                   ? "text-red-500"
                   : "text-[#314352]"
               }`}
             >
-              <Translate text={feature} />
+              {currentLanguage === "ar"
+                ? feature.arLabel || feature.label
+                : feature.label}
             </span>
           </label>
         ))}

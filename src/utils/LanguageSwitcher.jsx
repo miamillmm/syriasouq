@@ -4,17 +4,15 @@ import SyrianFlag from "../assets/flag/syria-flag.png";
 import { Link } from "react-router-dom";
 import Translate from "./Translate";
 
-// Language options with flags & short names
+// Language options
 const languages = [
   { value: "en", label: "🇬🇧 EN" },
   {
     value: "ar",
     label: (
-      <>
-        <div className="flex items-center gap-2">
-          <img src={SyrianFlag} className="w-8" /> AR
-        </div>
-      </>
+      <div className="flex items-center gap-2">
+        <img src={SyrianFlag} className="w-8" alt="Syria Flag" /> AR
+      </div>
     ),
   },
 ];
@@ -23,14 +21,19 @@ const LanguageSwitcher = () => {
   const { i18n } = useTranslation();
 
   const changeLanguage = (selectedOption) => {
-    i18n.changeLanguage(selectedOption.value);
+    const newLang = selectedOption.value;
+    i18n.changeLanguage(newLang);
+
+    // Update HTML attributes dynamically
+    document.documentElement.lang = newLang;
+    document.documentElement.dir = newLang === "ar" ? "rtl" : "ltr";
   };
 
   return (
     <>
       <div className="fixed bottom-4 right-2 w-40 z-50 shadow">
         <Link to={"/addlisting"} className="block ">
-          <button className="bg-[#B80200] text-white px-4 py-2 rounded-md  cursor-pointer text-md">
+          <button className="bg-[#B80200] text-white px-4 py-2 rounded-md cursor-pointer text-md">
             <Translate text={"Add Listing"} /> <span>+</span>
           </button>
         </Link>
@@ -38,10 +41,10 @@ const LanguageSwitcher = () => {
       <div className="fixed bottom-4 left-4 w-40 z-50">
         <Select
           options={languages}
-          defaultValue={languages[0]}
+          defaultValue={languages.find((lang) => lang.value === i18n.language)}
           onChange={changeLanguage}
           className="text-black"
-          menuPlacement="top" // 🔥 This makes the dropdown open upwards!
+          menuPlacement="top"
           styles={{
             control: (base) => ({
               ...base,

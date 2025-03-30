@@ -10,7 +10,13 @@ import {
 import { FaList, FaMapMarkerAlt, FaTh, FaTimes } from "react-icons/fa";
 import { Link, useSearchParams } from "react-router-dom";
 import Breadcrumb from "./Breadcumb";
-import { arabicMakes, makes } from "../utils/utils";
+import {
+  arabicMakes,
+  getArabicModel,
+  getLocalizedLocation,
+  getLocalizedMake,
+  makes,
+} from "../utils/utils";
 import { useTranslation } from "react-i18next";
 import Translate from "../utils/Translate";
 import { AiFillDashboard, AiOutlineDashboard } from "react-icons/ai";
@@ -92,7 +98,12 @@ const SearchPage = () => {
   });
 
   useEffect(() => {
-    if (currentLanguage === "ar" && make !== "الكل" && make !== "") {
+    if (
+      currentLanguage === "ar" &&
+      make !== "الكل" &&
+      make !== "" &&
+      make !== "All"
+    ) {
       const currentMake = arabicMakes.find((mk) => mk.value === make)?.enValue;
 
       setFilters((prev) => ({
@@ -542,6 +553,7 @@ const SearchPage = () => {
                   id=""
                   className="!bg-white py-2 px-2 rounded w-full"
                   onChange={handleFilterChange}
+                  value={filters.location}
                 >
                   <option hidden selected>
                     <Translate text={"Select Location"} />
@@ -867,6 +879,7 @@ const SearchPage = () => {
                         id=""
                         className="!bg-white py-2 px-2 rounded w-full"
                         onChange={handleFilterChange}
+                        value={filters.location}
                       >
                         <option hidden selected>
                           <Translate text={"Select Location"} />
@@ -1191,15 +1204,11 @@ const SearchPage = () => {
                             </div>
                             <div className="flex md:items-center md:flex-row flex-col md:gap-2 gap-0">
                               <h2 className="text-md">
-                                <Translate
-                                  text={data?.make ? data?.make : "آخر"}
-                                />
+                                {getLocalizedMake(data, currentLanguage)}
                               </h2>
                               <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
                               <h2 className="text-md">
-                                <Translate
-                                  text={data?.model ? data?.model : "آخر"}
-                                />
+                                {getArabicModel(data, currentLanguage)}
                               </h2>
                             </div>
                             <div className="flex md:items-center md:flex-row flex-col md:gap-3 gap0">
@@ -1228,11 +1237,10 @@ const SearchPage = () => {
                                 <CiLocationOn />
                                 <span>
                                   {data?.location
-                                    ? currentLanguage === "ar"
-                                      ? alllocation.find(
-                                          (loc) => loc.value == data?.location
-                                        ).arLabel
-                                      : data?.location
+                                    ? getLocalizedLocation(
+                                        data?.location,
+                                        currentLanguage
+                                      )
                                     : "آخر"}
                                 </span>
                               </div>
@@ -1290,19 +1298,11 @@ const SearchPage = () => {
                             </div>
                             <div className="flex items-center gap-2 md:mt-3">
                               <h2 className="text-sm">
-                                {data?.make
-                                  ? currentLanguage === "ar"
-                                    ? carMakes.find(
-                                        (mk) => mk?.value === data.make
-                                      ).arLabel
-                                    : data?.make
-                                  : "آخر"}
+                                {getLocalizedMake(data, currentLanguage)}
                               </h2>
                               <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
                               <h2 className="text-sm">
-                                <Translate
-                                  text={data?.model ? data?.model : "آخر"}
-                                />
+                                {getArabicModel(data, currentLanguage)}
                               </h2>
                             </div>
                             <div className="flex items-center gap-3">
@@ -1331,11 +1331,10 @@ const SearchPage = () => {
                                 <CiLocationOn />
                                 <span>
                                   {data?.location
-                                    ? currentLanguage === "ar"
-                                      ? alllocation.find(
-                                          (loc) => loc.value == data?.location
-                                        ).arLabel
-                                      : data?.location
+                                    ? getLocalizedLocation(
+                                        data?.location,
+                                        currentLanguage
+                                      )
                                     : "آخر"}
                                 </span>
                               </div>
