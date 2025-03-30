@@ -42,12 +42,8 @@ const LoginAndRegister = () => {
     data.email = data.email.toLowerCase(); // Convert email to lowercase
     console.log("Login Data:", data);
     try {
-      // const response = await axios.post(
-      //   `${import.meta.env.VITE_API_URL}/auth/login`,
-      //   data
-      // );
       const response = await axios.post(
-        `http://localhost:5001/api/auth/login`,
+        `${import.meta.env.VITE_API_URL}/auth/login`,
         data
       );
 
@@ -70,12 +66,8 @@ const LoginAndRegister = () => {
     data.email = data.email.toLowerCase(); // Convert email to lowercase
     console.log("Register Data:", data);
     try {
-      // const response = await axios.post(
-      //   `${import.meta.env.VITE_API_URL}/auth/register`,
-      //   data
-      // );
       const response = await axios.post(
-        `http://localhost:5001/api/auth/register`,
+        `${import.meta.env.VITE_API_URL}/auth/register`,
         data
       );
 
