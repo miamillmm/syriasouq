@@ -19,3 +19,11 @@
   color: black !important;
   font-size: 12px !important;
 }
+
+.rc-slider-handle {
+  width: 18px !important; /* Make handle bigger */
+  height: 18px !important; /* Make handle bigger */
+  border: solid 2px black !important;
+  background-color: gray !important;
+  margin-top: -7px !important; /* Adjust to center the handle */
+}

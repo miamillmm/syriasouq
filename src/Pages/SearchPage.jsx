@@ -109,7 +109,6 @@ const SearchPage = () => {
   useEffect(() => {
     if (currentLanguage === "ar" && make !== "الكل" && make !== "") {
       const currentMake = arabicMakes.find((mk) => mk.value === make).enValue;
-      console.log("Current Make: ", currentMake);
 
       setFilters((prev) => ({
         ...prev,
@@ -123,7 +122,7 @@ const SearchPage = () => {
         ],
       }));
     }
-  }, [make, currentLanguage]);
+  }, [make]);
 
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
@@ -359,6 +358,7 @@ const SearchPage = () => {
                       key={make.label}
                       value={make.value}
                       className="ml-2"
+                      selected={filters.make.includes(make.value)}
                     >
                       <Translate text={make.label} />
                     </option>
@@ -458,9 +458,9 @@ const SearchPage = () => {
               <Slider
                 range
                 min={0}
-                max={4000000}
+                max={1000000}
                 step={1000}
-                value={[filters.minPrice || 0, filters.maxPrice || 4000000]}
+                value={[filters.minPrice || 0, filters.maxPrice || 1000000]}
                 onChange={(value) =>
                   setFilters((prev) => ({
                     ...prev,
@@ -471,7 +471,7 @@ const SearchPage = () => {
               />
               <div className="flex justify-between mt-2 text-sm text-gray-700">
                 <span>${filters.minPrice || 0}</span>
-                <span>${filters.maxPrice || 4000000}</span>
+                <span>${filters.maxPrice || 1000000}</span>
               </div>
             </div>
 
