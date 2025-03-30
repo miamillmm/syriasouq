@@ -1,7 +1,11 @@
 import React from "react";
 import Translate from "../utils/Translate";
+import { useTranslation } from "react-i18next";
 
 const PrivacyPolicy = () => {
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language; // Gets current language
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-gray-100 py-12 px-6 lg:px-28">
       <div className="max-w-5xl mx-auto bg-white shadow-xl rounded-2xl p-10">
@@ -25,11 +29,9 @@ const PrivacyPolicy = () => {
               <Translate text={"Introduction"} />
             </h2>
             <p>
-              <Translate
-                text={`
-                Your privacy is extremely important to{" "} SyriaSouq. We are committed to protecting your Personal Data and ensuring transparency about how we collect and use it.
-                `}
-              />
+              {currentLanguage === "ar"
+                ? "خصوصيتك مهمة للغاية بالنسبة ل سيريا سوق. نحن ملتزمون بحماية بياناتك الشخصية وضمان الشفافية في كيفية جمعها واستخدامها"
+                : "Your privacy is extremely important to SyriaSouq. We are committed to protecting your Personal Data and ensuring transparency about how we collect and use it."}
             </p>
           </section>
 
@@ -178,10 +180,12 @@ const PrivacyPolicy = () => {
           {/* Contact Information */}
           <section className="text-center bg-gray-100 p-6 rounded-lg shadow-sm">
             <h2 className="text-2xl font-semibold text-gray-800 mb-2">
-              <Translate text={`Contact Us`} />
+              {currentLanguage === "ar" ? "تواصل معنا" : "Contact Us"}
             </h2>
             <p className="text-gray-600">
-              <Translate text={`For any privacy concerns, contact us at:`} />
+              {currentLanguage === "ar"
+                ? ":ألي مخاوف تتعلق بالخصوصية ، تواصل معنا على"
+                : "For any privacy concerns, contact us at:"}
             </p>
             <p className="text-blue-700 font-semibold mt-2">
               <a href="mailto:syriasouq@outlook.com">syriasouq@outlook.com</a>

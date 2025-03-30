@@ -79,9 +79,9 @@ const Contact = () => {
             <Translate text={"We Are Ready to Help"} />
           </h2>
           <p className="text-gray-500">
-            <Translate
-              text={`Please fill out the contact form and allow us to help you with any problem you may be facing on the website – SyriaSouq`}
-            />
+            {currentLanguage === "ar"
+              ? `يرجى ملئ نموذج التواصل والسماح لنا بمساعدتك في أي مشكلة قد تواجهها على موقع سيريا سوق`
+              : `Please fill out the contact form and allow us to help you with any problem you may be facing on the website – SyriaSouq`}
           </p>
         </div>
 
@@ -128,7 +128,7 @@ const Contact = () => {
               value={formData.message}
               onChange={handleChange}
               className="w-full h-32 p-4 border border-gray-100/50 rounded-lg focus:outline-none placeholder-gray-100/50 text-white"
-              placeholder="Message *"
+              placeholder={currentLanguage === "ar" ? `الرسالة` : "Message *"}
               required
             />
             <div className="flex justify-center">

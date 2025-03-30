@@ -222,7 +222,7 @@ const Featured = () => {
                           ) : (
                             "آخر"
                           )}{" "}
-                          km
+                          <Translate text={"km"} />
                         </span>
                       </div>
                     </div>

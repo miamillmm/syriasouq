@@ -84,7 +84,9 @@ const Footer = () => {
             {/* Get Social */}
             <div>
               <h3 className="font-bold mb-3">
-                <Translate text={"get social"} />
+                {currentLanguage === "ar"
+                  ? `راسلنا عن طريق البريد الالكتروني`
+                  : "get social"}
               </h3>
               <ul className="space-y-1">
                 <li>

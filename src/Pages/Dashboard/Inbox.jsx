@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { FiSend } from "react-icons/fi";
 import { io } from "socket.io-client";
 import Translate from "../../utils/Translate";
+import { useTranslation } from "react-i18next";
 
 // const socket = io(import.meta.env.VITE_API_URL);
 const socket = io("http://api.syriasouq.com");
@@ -18,6 +19,8 @@ const Inbox = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [image, setImage] = useState(null);
   const [audio, setAudio] = useState(null);
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language; // Gets current language
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("SyriaSouq-auth"));
@@ -377,7 +380,9 @@ const Inbox = () => {
           </>
         ) : (
           <div className="flex items-center justify-center h-full text-gray-500 text-lg">
-            Select a conversation to start chatting 💬
+            {currentLanguage === "ar"
+              ? `حدد محادثة لبدء الدردشة`
+              : "Select a conversation to start chatting 💬"}
           </div>
         )}
       </div>

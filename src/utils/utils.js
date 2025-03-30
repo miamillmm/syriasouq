@@ -3155,30 +3155,30 @@ export const alllocation = [
   // { value: "All", label: "All", arLabel: "الحسكة" },
   { value: "Aleppo", label: "Aleppo", arLabel: "حلب" },
   { value: "Damascus", label: "Damascus", arLabel: "دمشق" },
-  { value: "Daraa", label: "Daraa", arLabel: "درعا" },
+  { value: "Daraa", label: "Daraa", arLabel: "دير الزور" },
   { value: "Deir ez-Zor", label: "Deir ez-Zor", arLabel: "الزور" },
   { value: "Hama", label: "Hama", arLabel: "حماه" },
-  { value: "Homs", label: "Homs", arLabel: "دير" },
-  { value: "Idlib", label: "Idlib", arLabel: "حمص" },
-  { value: "Latakia", label: "Latakia", arLabel: "إدلب" },
+  { value: "Hasaka", label: "Hasaka", arLabel: "الحسكة" },
+  { value: "Homs", label: "Homs", arLabel: "حمص" },
+  { value: "Idlib", label: "Idlib", arLabel: "إدلب" },
+  { value: "Latakia", label: "Latakia", arLabel: "اللاذقية" },
   { value: "Qamishli", label: "Qamishli", arLabel: "اللاذقية" },
   { value: "Raqqa", label: "Raqqa", arLabel: "الرقة" },
-  // { value: "Rif Dimashq", label: "Rif Dimashq" },
   { value: "Suweida", label: "Suweida", arLabel: "السويداء" },
   { value: "Tartus", label: "Tartus", arLabel: "طرطوس" },
 ];
 export const allenginesize = [
-  { value: "0-499 cc", label: "0-499 cc" },
-  { value: "1000-1499 cc", label: "1000-1499 cc" },
-  { value: "1500-1999 cc", label: "1500-1999 cc" },
-  { value: "2000-2499 cc", label: "2000-2499 cc" },
-  { value: "2500-2999 cc", label: "2500-2999 cc" },
-  { value: "3000-3499 cc", label: "3000-3499 cc" },
-  { value: "3500-3999 cc", label: "3500-3999 cc" },
-  { value: "4000+ cc", label: "4000+ cc" },
-  { value: "500-999 cc", label: "500-999 cc" },
-  { value: "Other", label: "Other" },
-  { value: "Unknown", label: "Unknown" },
+  { value: "0-499 cc", label: "0-499 cc", arLabel: "0-499 سي سي" },
+  { value: "1000-1499 cc", label: "1000-1499 cc", arLabel: "1000-1499 سي سي" },
+  { value: "1500-1999 cc", label: "1500-1999 cc", arLabel: "1500-1999 سي سي" },
+  { value: "2000-2499 cc", label: "2000-2499 cc", arLabel: "2000-2499 سي سي" },
+  { value: "2500-2999 cc", label: "2500-2999 cc", arLabel: "2500-2999 سي سي" },
+  { value: "3000-3499 cc", label: "3000-3499 cc", arLabel: "3000-3499 سي سي" },
+  { value: "3500-3999 cc", label: "3500-3999 cc", arLabel: "3500-3999 سي سي" },
+  { value: "4000+ cc", label: "4000+ cc", arLabel: "4000+ سي سي" },
+  { value: "500-999 cc", label: "500-999 cc", arLabel: "500-999 سي سي" },
+  { value: "Other", label: "Other", arLabel: "آخر" },
+  { value: "Unknown", label: "Unknown", arLabel: "غير معروف" },
 ];
 export const allTransmission = [
   { value: "Automatic", label: "Automatic" },
@@ -3191,28 +3191,28 @@ export const allFuelType = [
   { value: "Petrol", label: "Petrol" },
 ];
 export const allExteriorColor = [
-  { value: "BLACK", label: "BLACK" },
-  { value: "Blue", label: "Blue" },
-  { value: "Brown", label: "Brown" },
-  { value: "Gold", label: "Gold" },
-  { value: "Green", label: "Green" },
-  { value: "red", label: "red" },
-  { value: "Pink", label: "Pink" },
-  { value: "Purple", label: "Purple" },
-  { value: "Red", label: "Red" },
-  { value: "Silver", label: "Silver" },
-  { value: "White", label: "White" },
-  { value: "red", label: "red" },
-  { value: "other", label: "other" },
+  { value: "Black", label: "Black", arLabel: "أسود" },
+  { value: "Blue", label: "Blue", arLabel: "أزرق" },
+  { value: "Brown", label: "Brown", arLabel: "بني" },
+  { value: "Gold", label: "Gold", arLabel: "ذهبي" },
+  { value: "Green", label: "Green", arLabel: "أخضر" },
+  { value: "red", label: "red", arLabel: "أحمر" },
+  { value: "Pink", label: "Pink", arLabel: "وردي" },
+  { value: "Purple", label: "Purple", arLabel: "بنفسجي" },
+  { value: "Red", label: "Red", arLabel: "أحمر" },
+  { value: "Silver", label: "Silver", arLabel: "فضي" },
+  { value: "White", label: "White", arLabel: "أبيض" },
+  { value: "red", label: "red", arLabel: "أحمر" },
+  { value: "other", label: "other", arLabel: "آخر" },
 ];
 export const allInteriorColor = [
-  { value: "Beige", label: "Beige" },
-  { value: "Black", label: "Black" },
-  { value: "Blue", label: "Blue" },
-  { value: "Brown", label: "Brown" },
-  { value: "Red", label: "Red" },
-  { value: "White", label: "White" },
-  { value: "Other", label: "Other" },
+  { value: "Beige", label: "Beige", arLabel: "بيج" },
+  { value: "Black", label: "Black", arLabel: "أسود" },
+  { value: "Blue", label: "Blue", arLabel: "أزرق" },
+  { value: "Brown", label: "Brown", arLabel: "بني" },
+  { value: "Red", label: "Red", arLabel: "أحمر" },
+  { value: "White", label: "White", arLabel: "أبيض" },
+  { value: "Other", label: "Other", arLabel: "آخر" },
 ];
 
 export const features = [
@@ -3389,4 +3389,13 @@ export const getLocalizedFeature = (feature, currentLanguage) => {
   }
 
   return feature; // Return English feature if language is not Arabic
+};
+
+export const localizeEngineSize = (engineSize, currentLanguage = "en") => {
+  const engine = allenginesize.find((size) => size.value === engineSize);
+  return engine
+    ? currentLanguage === "ar"
+      ? engine.arLabel
+      : engine.label
+    : "Unknown";
 };

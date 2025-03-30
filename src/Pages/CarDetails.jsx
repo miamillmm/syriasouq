@@ -27,6 +27,7 @@ import {
   getLocalizedFeature,
   getLocalizedLocation,
   getLocalizedMake,
+  localizeEngineSize,
 } from "../utils/utils";
 
 const CarDetails = () => {
@@ -222,7 +223,7 @@ const CarDetails = () => {
                 <p>{getArabicModel(carDetails, currentLanguage)}</p>
 
                 <p className="font-semibold">
-                  <Translate text={"Kilometer:"} />
+                  {currentLanguage === "ar" ? "الكيلومتر" : "Kilometer:"}
                 </p>
                 <p>
                   {carDetails?.kilometer} <Translate text={"km"} />
@@ -287,7 +288,10 @@ const CarDetails = () => {
                       {currentLanguage === "ar" ? "حجم المحرك" : "Engine Size:"}
                     </p>
                     <p>
-                      {carDetails?.engineSize ? carDetails?.engineSize : "N/A"}
+                      {localizeEngineSize(
+                        carDetails?.engineSize,
+                        currentLanguage
+                      )}
                     </p>
 
                     <p className="font-semibold">
@@ -302,7 +306,9 @@ const CarDetails = () => {
                     </p>
 
                     <p className="font-semibold">
-                      {currentLanguage === "ar" ? "الانتقال" : "Transmission:"}
+                      {currentLanguage === "ar"
+                        ? "ناقل الحركة"
+                        : "Transmission:"}
                     </p>
                     <p>
                       {carDetails?.transmission ? (
@@ -331,7 +337,7 @@ const CarDetails = () => {
             {/* car details  */}
             <div className="space-y-5 bg-white shadow rounded-lg p-6">
               <h1 className="text-2xl text-[#314352] font-bold mt-2">
-                <Translate text={"Description:"} />
+                {currentLanguage === "ar" ? "الوصف" : "Description:"}
               </h1>
               <p className="text-[#314352] mt-2 mb-5">
                 {carDetails?.description}
@@ -417,7 +423,7 @@ const CarDetails = () => {
                 onClick={() => startNewChat(carDetails?.user)}
                 className="w-full bg-red-500 text-white py-4 px-8 font-semibold rounded-md flex items-center justify-center gap-2 cursor-pointer"
               >
-                <TiMessages /> Chat
+                <TiMessages /> {currentLanguage === "ar" ? `دردشة` : "Chat"}
               </button>
               {/* <a
                 href={`mailto:${carDetails?.user?.email}`}
@@ -474,7 +480,11 @@ const CarDetails = () => {
           uid={user?._id}
         /> */}
         <MoreFromUser
-          title={"You may also like..."}
+          title={
+            currentLanguage === "ar"
+              ? `قد يهمك ايضاً …`
+              : "You may also like..."
+          }
           button={"Start a new search"}
         />
       </div>

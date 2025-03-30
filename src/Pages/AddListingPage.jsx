@@ -252,7 +252,7 @@ const AddListingPage = () => {
             <label className="w-full">
               <div className="mb-2 px-3">
                 <h3 className="font-semibold">
-                  <Translate text={"Make"} />
+                  {currentLanguage === "ar" ? "النوع" : "Make"}
                 </h3>
               </div>
               <Select
@@ -277,7 +277,7 @@ const AddListingPage = () => {
             <label className="w-full">
               <div className="mb-2 px-3">
                 <h3 className="font-semibold">
-                  <Translate text={"Model"} />
+                  {currentLanguage === "ar" ? "الموديل" : "Model"}
                 </h3>
               </div>
               <Select
@@ -300,7 +300,7 @@ const AddListingPage = () => {
             <label className="w-full">
               <div className="mb-2 px-3">
                 <h3 className="font-semibold">
-                  <Translate text={"Price (USD)"} />
+                  {currentLanguage === "ar" ? "السعر (دوالر)" : "Price (USD)"}
                 </h3>
               </div>
               <input
@@ -337,7 +337,7 @@ const AddListingPage = () => {
               </div>
               <input
                 type="number"
-                placeholder="km"
+                placeholder={currentLanguage === "ar" ? `كم` : "km"}
                 className="w-full py-4 border-gray-300 rounded px-6 text-left"
                 value={kilometer}
                 onChange={(e) => setKilometer(e.target.value)}
@@ -394,7 +394,7 @@ const AddListingPage = () => {
             <label className="w-full">
               <div className="mb-2 px-3">
                 <h3 className="font-semibold ">
-                  Location{" "}
+                  <Translate text={"Location"} />
                   <span className="text-xs">
                     {/* <Translate text={"(Optional)"} /> */}
                   </span>
@@ -550,7 +550,7 @@ const AddListingPage = () => {
           </div>
           <div className="mt-10">
             <h2 className="text-xl mb-2 font-bold">
-              <Translate text={"Description"} />
+              {currentLanguage === "ar" ? "الوصف" : "Description"}
             </h2>
             <textarea
               onChange={(e) => setDescription(e.target.value)}

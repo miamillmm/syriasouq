@@ -11,10 +11,12 @@ import { FaList, FaMapMarkerAlt, FaTh, FaTimes } from "react-icons/fa";
 import { Link, useSearchParams } from "react-router-dom";
 import Breadcrumb from "./Breadcumb";
 import {
+  allenginesize,
   arabicMakes,
   getArabicModel,
   getLocalizedLocation,
   getLocalizedMake,
+  localizeEngineSize,
   makes,
 } from "../utils/utils";
 import { useTranslation } from "react-i18next";
@@ -29,22 +31,23 @@ const SearchPage = () => {
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language; // Gets current language
 
-  const allenginesize = [
-    { value: "0-499 cc", label: "0-499 cc" },
-    { value: "1000-1499 cc", label: "1000-1499 cc" },
-    { value: "1500-1999 cc", label: "1500-1999 cc" },
-    { value: "2000-2499 cc", label: "2000-2499 cc" },
-    { value: "2500-2999 cc", label: "2500-2999 cc" },
-    { value: "3000-3499 cc", label: "3000-3499 cc" },
-    { value: "3500-3999 cc", label: "3500-3999 cc" },
-    { value: "4000+ cc", label: "4000+ cc" },
-    { value: "500-999 cc", label: "500-999 cc" },
-    { value: "Other", label: "Other" },
-    { value: "Unknown", label: "Unknown" },
-  ];
+  // const allenginesize = [
+  //   { value: "0-499 cc", label: "0-499 cc" },
+  //   { value: "1000-1499 cc", label: "1000-1499 cc" },
+  //   { value: "1500-1999 cc", label: "1500-1999 cc" },
+  //   { value: "2000-2499 cc", label: "2000-2499 cc" },
+  //   { value: "2500-2999 cc", label: "2500-2999 cc" },
+  //   { value: "3000-3499 cc", label: "3000-3499 cc" },
+  //   { value: "3500-3999 cc", label: "3500-3999 cc" },
+  //   { value: "4000+ cc", label: "4000+ cc" },
+  //   { value: "500-999 cc", label: "500-999 cc" },
+  //   { value: "Other", label: "Other" },
+  //   { value: "Unknown", label: "Unknown" },
+  // ];
+
   const allTransmission = [
-    { value: "Automatic", label: "Automatic" },
-    { value: "Manual", label: "Manual" },
+    { value: "Automatic", label: "Automatic", arLabel: "اتوماتيك" },
+    { value: "Manual", label: "Manual", arLabel: "يدوي" },
   ];
   const allFuelType = [
     { value: "Diesel", label: "Diesel" },
@@ -313,7 +316,7 @@ const SearchPage = () => {
           {/* filter side bar  */}
           <div className="xl:col-span-2 col-span-8 shadow rounded p-4 xl:block hidden">
             <h3 className="font-bold text-xl mb-4">
-              <Translate text={"Filters"} />
+              {currentLanguage === "ar" ? "تحديد" : "Filters"}
             </h3>
             {/* Make */}
             <div className="mb-4">
@@ -537,16 +540,8 @@ const SearchPage = () => {
             {/* Location */}
             <div className="mb-4">
               <label className="block text-gray-700 mb-2">
-                <Translate text={"Location"} />
+                {currentLanguage === "ar" ? "الموقع" : "Location"}
               </label>
-              {/* <input
-                type="text"
-                name="location"
-                value={filters.location}
-                onChange={handleFilterChange}
-                className="w-full border p-2 rounded"
-                placeholder="Search location"
-              /> */}
               <div>
                 <select
                   name="location"
@@ -556,7 +551,9 @@ const SearchPage = () => {
                   value={filters.location}
                 >
                   <option hidden selected>
-                    <Translate text={"Select Location"} />
+                    {currentLanguage === "ar"
+                      ? "حدد الموقع"
+                      : "Select Location"}
                   </option>
                   {alllocation.map((loc) => (
                     <option key={loc.label} value={loc.value}>
@@ -579,23 +576,12 @@ const SearchPage = () => {
                   onChange={handleFilterChange}
                   value={filters.engineSize}
                 >
-                  {/* <div key={size.label}>
-                    <input
-                      type="checkbox"
-                      name="engineSize"
-                      value={size.value}
-                      onChange={handleFilterChange}
-                    />
-                    <label className="ml-2">
-                      <Translate text={size.label} />
-                    </label>
-                  </div> */}
                   <option hidden selected>
                     <Translate text={"Select Engine Size"} />
                   </option>
                   {allenginesize.map((size) => (
                     <option key={size.label} value={size.value}>
-                      <Translate text={size.label} />
+                      {localizeEngineSize(size.value, currentLanguage)}
                     </option>
                   ))}
                 </select>
@@ -604,14 +590,14 @@ const SearchPage = () => {
             {/* Transmission */}
             <div className="mb-4">
               <label className="block text-gray-700 mb-2">
-                <Translate text={"Transmission"} />
+                {currentLanguage === "ar" ? "ناقل الحركة" : "Transmission"}
               </label>
               {allTransmission.map((trans) => (
                 <div key={trans.label}>
                   <input
                     type="radio"
                     name="transmission"
-                    id={trans.label}
+                    id={trans.value}
                     value={trans.value}
                     onChange={handleFilterChange}
                     checked={
@@ -619,8 +605,8 @@ const SearchPage = () => {
                       filters.transmission !== ""
                     }
                   />
-                  <label className="ml-2" htmlFor={trans.label}>
-                    <Translate text={trans.label} />
+                  <label className="ml-2" htmlFor={trans.value}>
+                    {currentLanguage === "ar" ? trans.arLabel : trans.label}
                   </label>
                 </div>
               ))}
@@ -733,7 +719,7 @@ const SearchPage = () => {
                 </button>
                 <div className="xl:col-span-2 col-span-8 shadow rounded p-4 bg-slate-50 h-full overflow-scroll mb-4">
                   <h3 className="font-bold text-xl mb-4">
-                    <Translate text={"Filters"} />
+                    {currentLanguage === "ar" ? "تحديد" : "Filters"}
                   </h3>
                   {/* Make */}
                   <div className="mb-4">
@@ -741,17 +727,15 @@ const SearchPage = () => {
                       <Translate text={"Make"} />
                     </label>
                     {/* <input
-                      type="text"
-                      name="make"
-                      value={filters.make[0] || ""}
-                      onChange={handleFilterChange}
-                      className="w-full border p-2 rounded"
-                      placeholder={
-                        currentLanguage === "ar"
-                          ? "البحث عن الماركة"
-                          : "Search make"
-                      }
-                    /> */}
+                type="text"
+                name="make"
+                value={filters.make[0] || ""}
+                onChange={handleFilterChange}
+                className="w-full border p-2 rounded"
+                placeholder={
+                  currentLanguage === "ar" ? "البحث عن الماركة" : "Search make"
+                }
+              /> */}
                     <div>
                       {/* <input
                     type="checkbox"
@@ -766,12 +750,17 @@ const SearchPage = () => {
                         id=""
                         onChange={handleFilterChange}
                         className="w-full py-2 !bg-white px-2 rounded"
+                        value={filters.make}
                       >
+                        <option hidden selected>
+                          <Translate text={"Select Make"} />
+                        </option>
                         {carMakes.map((make) => (
                           <option
                             key={make.label}
                             value={make.value}
                             className="ml-2"
+                            selected={filters.make.includes(make.value)}
                           >
                             <Translate text={make.label} />
                           </option>
@@ -804,6 +793,7 @@ const SearchPage = () => {
                       <span>{filters.maxYear || 2025}</span>
                     </div>
                   </div>
+
                   {/* Price Filter */}
                   <div className="mb-6">
                     <label className="block text-gray-700 font-semibold mb-3">
@@ -831,6 +821,8 @@ const SearchPage = () => {
                       <span>${filters.maxPrice || 400000}</span>
                     </div>
                   </div>
+
+                  {/* Kilometer Filter (Now a Proper Range Slider) */}
                   {/* Kilometer Filter */}
                   <div className="mb-6">
                     <label className="block text-gray-700 font-semibold mb-3">
@@ -863,16 +855,8 @@ const SearchPage = () => {
                   {/* Location */}
                   <div className="mb-4">
                     <label className="block text-gray-700 mb-2">
-                      <Translate text={"Location"} />
+                      {currentLanguage === "ar" ? "الموقع" : "Location"}
                     </label>
-                    {/* <input
-                type="text"
-                name="location"
-                value={filters.location}
-                onChange={handleFilterChange}
-                className="w-full border p-2 rounded"
-                placeholder="Search location"
-              /> */}
                     <div>
                       <select
                         name="location"
@@ -882,7 +866,9 @@ const SearchPage = () => {
                         value={filters.location}
                       >
                         <option hidden selected>
-                          <Translate text={"Select Location"} />
+                          {currentLanguage === "ar"
+                            ? "حدد الموقع"
+                            : "Select Location"}
                         </option>
                         {alllocation.map((loc) => (
                           <option key={loc.label} value={loc.value}>
@@ -905,23 +891,12 @@ const SearchPage = () => {
                         onChange={handleFilterChange}
                         value={filters.engineSize}
                       >
-                        {/* <div key={size.label}>
-                    <input
-                      type="checkbox"
-                      name="engineSize"
-                      value={size.value}
-                      onChange={handleFilterChange}
-                    />
-                    <label className="ml-2">
-                      <Translate text={size.label} />
-                    </label>
-                  </div> */}
                         <option hidden selected>
                           <Translate text={"Select Engine Size"} />
                         </option>
                         {allenginesize.map((size) => (
                           <option key={size.label} value={size.value}>
-                            <Translate text={size.label} />
+                            {localizeEngineSize(size.value, currentLanguage)}
                           </option>
                         ))}
                       </select>
@@ -930,14 +905,16 @@ const SearchPage = () => {
                   {/* Transmission */}
                   <div className="mb-4">
                     <label className="block text-gray-700 mb-2">
-                      <Translate text={"Transmission"} />
+                      {currentLanguage === "ar"
+                        ? "ناقل الحركة"
+                        : "Transmission"}
                     </label>
                     {allTransmission.map((trans) => (
                       <div key={trans.label}>
                         <input
                           type="radio"
                           name="transmission"
-                          id={trans.label}
+                          id={trans.value}
                           value={trans.value}
                           onChange={handleFilterChange}
                           checked={
@@ -945,8 +922,10 @@ const SearchPage = () => {
                             filters.transmission !== ""
                           }
                         />
-                        <label className="ml-2" htmlFor={trans.label}>
-                          <Translate text={trans.label} />
+                        <label className="ml-2" htmlFor={trans.value}>
+                          {currentLanguage === "ar"
+                            ? trans.arLabel
+                            : trans.label}
                         </label>
                       </div>
                     ))}
@@ -1228,7 +1207,7 @@ const SearchPage = () => {
                                       data?.kilometer ? data?.kilometer : "آخر"
                                     }
                                   />{" "}
-                                  km
+                                  <Translate text={"km"} />
                                 </span>
                               </div>
                             </div>

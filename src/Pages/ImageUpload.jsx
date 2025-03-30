@@ -1,8 +1,12 @@
 import React from "react";
 import { AiOutlineClose, AiOutlineCloudUpload } from "react-icons/ai";
 import Translate from "../utils/Translate";
+import { useTranslation } from "react-i18next";
 
 const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language; // Gets current language
+
   // Handle file upload
   const handleFileChange = (event) => {
     if (uploadedImages?.length > 9)
@@ -41,7 +45,7 @@ const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
     <div>
       <div className="flex items-center w-full mb-5 pl-5">
         <h2 className="text-2xl font-bold text-[#314252] whitespace-nowrap">
-          <Translate text={"Galary"} /> *
+          {currentLanguage === "ar" ? "الصور" : "Galary"}*
         </h2>
         <div className="flex-1 border-t border-gray-300 border-dashed mx-2"></div>
         <button className="text-gray-400 hover:text-gray-600">▼</button>
@@ -63,7 +67,7 @@ const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
               <span className="text-[#B80200]">
                 <Translate text={"Choose images"} />
               </span>{" "}
-              <Translate text={"or drag it here"} />
+              {currentLanguage === "ar" ? `أو اسحبها هنا` : `or drag it here`}
             </p>
             <input
               id="file-input"

@@ -2,12 +2,15 @@ import { useLocation } from "react-router";
 import Translate from "../../utils/Translate";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Navbar = () => {
   const location = useLocation();
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language; // Gets current language
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("SyriaSouq-auth"));
@@ -37,15 +40,21 @@ const Navbar = () => {
         {showProfileMenu && (
           <>
             <div className="absolute top-10 left-0 min-w-60 p-3 rounded-lg shadow-lg bg-slate-200 z-[99999] flex flex-col gap-2 transition-all">
-              <p>{user?.email}</p>
+              <p>{user?.email || user?.phone}</p>
               <hr />
-              <Link to={"/change-password"}>Change Password</Link>
+              <Link to={"/change-password"}>
+                {currentLanguage === "ar"
+                  ? `تغيير كلمة المرور`
+                  : "Change Password"}
+              </Link>
               <hr />
               <button
-                className="text-red-400 text-left cursor-pointer"
+                className={`text-red-400 text-left cursor-pointer ${
+                  currentLanguage === "ar" && "text-right"
+                }`}
                 onClick={handleLogout}
               >
-                LogOut
+                {currentLanguage === "ar" ? `تسجيل الخروج` : "LogOut"}
               </button>
             </div>
           </>

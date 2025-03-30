@@ -202,7 +202,7 @@ export default function MoreFromUser({ title, button, uid }) {
     <div className="w-full py-10 relative">
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
         <h2 className="sm:text-3xl text-2xl text-[#314252] font-bold">
-          <Translate text={title} />
+          {title}
         </h2>
         <div className="flex items-center gap-2 mt-4 sm:mt-0">
           {/* <button className="bg-[#B80200] px-4 py-2 rounded-md text-white cursor-pointer">
@@ -330,7 +330,10 @@ export default function MoreFromUser({ title, button, uid }) {
                     </div>
                     <div className="flex items-center gap-1 text-sm">
                       <AiOutlineDashboard />
-                      <span>{car?.kilometer ? car?.kilometer : "آخر"} km</span>
+                      <span>
+                        {car?.kilometer ? car?.kilometer : "آخر"}{" "}
+                        <Translate text={"km"} />
+                      </span>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">

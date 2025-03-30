@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 // import img from "../assets/bg-image/banner-img.jpg";
 // import img from "../assets/bg-image/banner-img-1.png";
 import img from "../assets/bg-image/banner-img-2.jpeg";
+import imgForMobile from "../assets/bg-image/banner-img-for-mobile.jpeg";
 import Translate from "../utils/Translate";
 import { arabicMakes as arMake, makes as enMakes } from "../utils/utils";
 import { useTranslation } from "react-i18next";
@@ -71,11 +72,24 @@ const BannerSection = () => {
     setSerachModel(selectedOption ? selectedOption.value : "");
   };
 
+  const [bgImage, setBgImage] = useState(
+    window.innerWidth < 768 ? imgForMobile : img
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setBgImage(window.innerWidth < 768 ? imgForMobile : img);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <div
-      className="relative border-t-2 border-[#576877] py-10 pt-28 sm:py-24 flex items-center justify-center min-h-[80vh]"
+      className="relative border-t-2 border-[#576877] py-10 pt-28 sm:py-24 flex items-center justify-center md:min-h-[80vh] min-h-[70vh]"
       style={{
-        backgroundImage: `url(${img})`,
+        backgroundImage: `url(${bgImage})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
@@ -92,9 +106,9 @@ const BannerSection = () => {
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 sm:px-8 md:px-16 md:py-10 grid grid-cols-1 gap-4 items-center w-full">
         {/* Left Side */}
-        <div className="md:hidden block">
+        {/* <div className="md:hidden block">
           <img src={img} alt="" className="w-full h-full rounded-2xl" />
-        </div>
+        </div> */}
         {/* <div className="text-white text-center md:text-left hidden">
           <h1 className="text-2xl sm:text-4xl md:text-7xl font-bold mb-4 tracking-[-0.04em]">
             {currentLanguage === "ar" ? (
