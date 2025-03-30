@@ -73,7 +73,7 @@ const BannerSection = () => {
 
   return (
     <div
-      className="relative border-t-2 border-[#576877] py-16 pt-34 sm:py-24 flex items-center justify-center min-h-[80vh]"
+      className="relative border-t-2 border-[#576877] py-10 pt-28 sm:py-24 flex items-center justify-center min-h-[80vh]"
       style={{
         backgroundImage: `url(${img})`,
         backgroundSize: "cover",
@@ -90,10 +90,12 @@ const BannerSection = () => {
       ></div>
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 sm:px-8 md:px-16 md:py-10 grid grid-cols-1 md:grid-cols-2 gap-4 items-center w-full">
+      <div className="relative z-10 container mx-auto px-4 sm:px-8 md:px-16 md:py-10 grid grid-cols-1 gap-4 items-center w-full">
         {/* Left Side */}
-        <div></div>
-        <div className="text-white text-center md:text-left hidden">
+        <div className="md:hidden block">
+          <img src={img} alt="" className="w-full h-full rounded-2xl" />
+        </div>
+        {/* <div className="text-white text-center md:text-left hidden">
           <h1 className="text-2xl sm:text-4xl md:text-7xl font-bold mb-4 tracking-[-0.04em]">
             {currentLanguage === "ar" ? (
               <>الموقع رقم 1 لشراء و بيع السيارات في سوريا</>
@@ -130,10 +132,10 @@ const BannerSection = () => {
               ></path>
             </svg>
           </div>
-        </div>
+        </div> */}
 
         {/* Right Side - Form */}
-        <div className="bg-[#323232fa] shadow-lg rounded-2xl w-full md:w-3/4 p-6 sm:p-8 ml-auto mt-10 md:mt-0">
+        <div className="bg-[#323232fa] shadow-lg rounded-2xl w-full max-w-lg p-6 sm:p-8 mx-auto mt-28 md:mt-0">
           <h2 className="text-xl sm:text-2xl font-bold mb-4 text-white text-center">
             <Translate text={"Search listings"} />
           </h2>
