@@ -50,7 +50,7 @@ const Subscribe = () => {
           <div className="text-white">
             <p className="text-base md:text-[16px] font-[400] mb-4 leading-6 md:leading-7">
               {currentLanguage === "ar"
-                ? "!اشترك األن لتصلك أحدث المعلومات حول كل ما يهمك"
+                ? "!اشترك الأن لتصلك أحدث المعلومات حول كل ما يهمك"
                 : "All you need to know about everything that matters"}
             </p>
           </div>

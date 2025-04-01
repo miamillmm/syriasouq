@@ -85,7 +85,7 @@ const BestCar = () => {
             </h2>
             <p className="text-sm md:text-base text-[#9AA4AD] leading-none">
               {currentLanguage === "ar"
-                ? "يخضع كل اعالن وحساب للمراجعة قبل النشر لضمان السالمة واالمان"
+                ? "يخضع كل اعلان وحساب للمراجعة قبل النشر لضمان السلامة والامان"
                 : "To post an advertisement each account and ad is checked through safety & security"}
             </p>
           </div>
@@ -100,7 +100,7 @@ const BestCar = () => {
             </h2>
             <p className="text-sm md:text-base text-[#9AA4AD] leading-none">
               {currentLanguage === "ar"
-                ? `موقع سيريا سوق هو منصة إعالنية فقط، وال يتحمل أي مسؤولية عن أي معامالت تتم عبره. نوصي المشترين والبائعين بالتواصل بوضوح والتحقق من التفاصيل قبل إتمام أي عملية شراء`
+                ? `موقع سيريا سوق هو منصة إعلانية فقط، ولا يتحمل أي مسؤولية عن أي معاملات تتم عبره. نوصي المشترين والبائعين بالتواصل بوضوح والتحقق من التفاصيل قبل إتمام أي عملية شراء`
                 : `SyriaSouq.com acts solely as an advertising platform and has no responsibility for transactions; buyers and sellers are encouraged to communicate effectivley before purchase`}
             </p>
           </div>
