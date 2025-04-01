@@ -75,7 +75,7 @@ const TermsPage = () => {
           <section className="bg-gray-50 p-6 rounded-lg">
             <h2 className="text-2xl font-semibold text-blue-600 mb-4">
               {currentLanguage === "ar"
-                ? `تحميل االعالن على الموقع`
+                ? `تحميل الاعلان على الموقع`
                 : "Uploading Content to the Platform"}
             </h2>
             <p>
@@ -92,7 +92,7 @@ const TermsPage = () => {
             </h2>
             <p>
               {currentLanguage === "ar"
-                ? "في حال انتهاكك لهذه الشروط، تحتفظ سوريا سوق بالحق في تعليق حسابك أو تقييد الوصول إليه أو اتخاذ اإلجراءات القانونية .الالزمة"
+                ? "في حال انتهاكك لهذه الشروط، تحتفظ سوريا سوق بالحق في تعليق حسابك أو تقييد الوصول إليه أو اتخاذ الإجراءات القانونية اللازمة."
                 : "If you violate these Terms, SyriaSouq reserves the right to suspend your account, restrict access, or take legal action as necessary."}
             </p>
           </section>

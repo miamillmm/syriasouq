@@ -184,7 +184,7 @@ const PrivacyPolicy = () => {
             </h2>
             <p className="text-gray-600">
               {currentLanguage === "ar"
-                ? ":ألي مخاوف تتعلق بالخصوصية ، تواصل معنا على"
+                ? "لأي مخاوف تتعلق بالخصوصية ، تواصل معنا على:"
                 : "For any privacy concerns, contact us at:"}
             </p>
             <p className="text-blue-700 font-semibold mt-2">
