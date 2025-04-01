@@ -56,7 +56,7 @@ const BestCar = () => {
             </div>
             <h2 className="text-lg md:text-[24px] font-[700] leading-none text-[#F3F4F6]">
               {currentLanguage === "ar"
-                ? "اعالنات سيارات غير محدودة"
+                ? "اعلانات سيارات غير محدودة"
                 : "Huge cars inventory"}
             </h2>
             <p className="text-sm md:text-base text-[#9AA4AD] leading-none">
