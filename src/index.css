@@ -17,7 +17,11 @@ html[lang="ar"] {
 }
 
 body {
-  font-family: "Lexend Deca", serif;
+  /* font-family: "Lexend Deca", serif; */
+  /* font-family: "Noto Sans Arabic", "Tajawal", "Cairo", "Amiri", "Arial",
+    sans-serif; */
+  font-family: "Noto Sans Arabic", "Tajawal", "Cairo", "Amiri", "Arial",
+    sans-serif;
 }
 
 select {

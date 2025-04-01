@@ -48,7 +48,14 @@ const Featured = () => {
 
   // Function to handle adding cars to the wishlist
   const handleWishlist = async (car) => {
-    if (!user) return alert("Please log in before managing your wishlist");
+    if (!user)
+      return alert(
+        `${
+          currentLanguage === "ar"
+            ? "يرجى تسجيل الدخول قبل إدارة قائمة الرغبات الخاصة بك"
+            : "Please log in before managing your wishlist"
+        }`
+      );
 
     // Find the wishlist item for this car
     const wishlistItem = wishlist.find((item) => item.car._id === car._id);
@@ -141,7 +148,9 @@ const Featured = () => {
             <button className="bg-[#B80200] text-white text-[16px] sm:text-[18px] font-[400] justify-between py-3 sm:py-4 px-8 sm:px-12 rounded-md flex items-center gap-2 cursor-pointer">
               <Translate text={"View All"} />
               <span>
-                <TiArrowRight />
+                <TiArrowRight
+                  className={currentLanguage === "ar" ? "rotate-180" : ""}
+                />
               </span>
             </button>
           </Link>

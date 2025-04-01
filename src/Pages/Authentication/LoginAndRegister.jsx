@@ -236,7 +236,10 @@ const LoginAndRegister = () => {
           >
             <input
               {...registerRegister("username", {
-                required: "Username is required",
+                required:
+                  currentLanguage === "ar"
+                    ? "اسم المستخدم مطلوب"
+                    : "Username is required",
               })}
               placeholder={
                 currentLanguage === "ar" ? "اسم المستخدم" : "Username"
@@ -288,7 +291,12 @@ const LoginAndRegister = () => {
             <Controller
               name="phone"
               control={registerControl}
-              rules={{ required: "Phone number is required" }}
+              rules={{
+                required:
+                  currentLanguage === "ar"
+                    ? "رقم الهاتف مطلوب"
+                    : "Phone number is required",
+              }}
               render={({ field }) => {
                 const handlePhoneChange = (value, countryData) => {
                   // Ensure country code is always present and only phone number is editable
@@ -324,11 +332,16 @@ const LoginAndRegister = () => {
 
             <input
               {...registerRegister("password", {
-                required: "Password is required",
+                required:
+                  currentLanguage === "ar"
+                    ? `كلمة المرور مطلوبة`
+                    : `Password is required`,
                 pattern: {
                   value: /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/,
                   message:
-                    "Password must contain at least one uppercase letter, one lowercase letter, and be at least 6 characters long",
+                    currentLanguage === "ar"
+                      ? `يجب أن تحتوي كلمة المرور على حرف كبير واحد على الأقل، وحرف صغير على الأقل، وأن تكون بطول 6 أحرف على الأقل`
+                      : `Password must contain at least one uppercase letter, one lowercase letter, and be at least 6 characters long`,
                 },
               })}
               type="password"

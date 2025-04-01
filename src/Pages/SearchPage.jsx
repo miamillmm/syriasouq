@@ -457,9 +457,9 @@ const SearchPage = () => {
               <Slider
                 range
                 min={0}
-                max={400000}
+                max={100000}
                 step={1000}
-                value={[filters.minPrice || 0, filters.maxPrice || 400000]}
+                value={[filters.minPrice || 0, filters.maxPrice || 100000]}
                 onChange={(value) =>
                   setFilters((prev) => ({
                     ...prev,
@@ -470,7 +470,7 @@ const SearchPage = () => {
               />
               <div className="flex justify-between mt-2 text-sm text-gray-700">
                 <span>${filters.minPrice || 0}</span>
-                <span>${filters.maxPrice || 400000}</span>
+                <span>${filters.maxPrice || 100000}</span>
               </div>
             </div>
 
@@ -519,21 +519,27 @@ const SearchPage = () => {
                 max={200000}
                 step={5000}
                 marks={{
-                  0: "0 km",
-                  50000: "50k km",
-                  100000: "100k km",
-                  150000: "150k km",
-                  200000: "200k+ km",
+                  0: `0 ${currentLanguage === "ar" ? "كم" : "km"}`,
+                  50000: `50k ${currentLanguage === "ar" ? "كم" : "km"}`,
+                  100000: `100k ${currentLanguage === "ar" ? "كم" : "km"}`,
+                  150000: `150k ${currentLanguage === "ar" ? "كم" : "km"}`,
+                  200000: `200k+ ${currentLanguage === "ar" ? "كم" : "km"}`,
                 }}
                 value={filters.kilometer || [0, 200000]} // Default range
                 onChange={(value) => {
                   setFilters((prev) => ({ ...prev, kilometer: value }));
                 }}
               />
-              <p className="text-center mt-1 text-sm font-medium text-red-600">
-                {filters.kilometer
-                  ? `${filters.kilometer[0]} - ${filters.kilometer[1]} km`
-                  : "All Kilometers"}
+              <p className="text-center mt-2 text-sm font-medium text-red-600">
+                <Translate
+                  text={
+                    filters.kilometer
+                      ? `${filters.kilometer[0]} - ${filters.kilometer[1]} km`
+                      : currentLanguage === "ar"
+                      ? "الممشى"
+                      : "All Kilometers"
+                  }
+                />
               </p>
             </div>
 
@@ -566,7 +572,9 @@ const SearchPage = () => {
             {/* Engine Size */}
             <div className="mb-4">
               <label className="block text-gray-700 mb-2">
-                <Translate text={"Engine Size (CC)"} />
+                {currentLanguage === "ar"
+                  ? `حجم المحرك (سم مكعب)`
+                  : `Engine Size (CC)`}
               </label>
               <div>
                 <select
@@ -644,7 +652,9 @@ const SearchPage = () => {
                 style={{ backgroundColor: "#fff" }}
               >
                 <option hidden selected>
-                  <Translate text={"Select Exteriror Color"} />
+                  {currentLanguage === "ar"
+                    ? `اللون الخارجي`
+                    : "Select Exteriror Color"}
                 </option>
                 {allExteriorColor.map((color) => (
                   <>
@@ -802,11 +812,11 @@ const SearchPage = () => {
                     <Slider
                       range
                       min={0}
-                      max={400000}
+                      max={100000}
                       step={1000}
                       value={[
                         filters.minPrice || 0,
-                        filters.maxPrice || 400000,
+                        filters.maxPrice || 100000,
                       ]}
                       onChange={(value) =>
                         setFilters((prev) => ({
@@ -818,13 +828,13 @@ const SearchPage = () => {
                     />
                     <div className="flex justify-between mt-2 text-sm text-gray-700">
                       <span>${filters.minPrice || 0}</span>
-                      <span>${filters.maxPrice || 400000}</span>
+                      <span>${filters.maxPrice || 100000}</span>
                     </div>
                   </div>
 
                   {/* Kilometer Filter (Now a Proper Range Slider) */}
                   {/* Kilometer Filter */}
-                  <div className="mb-6">
+                  <div className="mb-10">
                     <label className="block text-gray-700 font-semibold mb-3">
                       <Translate text={"Kilometer"} />
                     </label>
@@ -834,21 +844,33 @@ const SearchPage = () => {
                       max={200000}
                       step={5000}
                       marks={{
-                        0: "0 km",
-                        50000: "50k km",
-                        100000: "100k km",
-                        150000: "150k km",
-                        200000: "200k+ km",
+                        0: `0 ${currentLanguage === "ar" ? "كم" : "km"}`,
+                        50000: `50k ${currentLanguage === "ar" ? "كم" : "km"}`,
+                        100000: `100k ${
+                          currentLanguage === "ar" ? "كم" : "km"
+                        }`,
+                        150000: `150k ${
+                          currentLanguage === "ar" ? "كم" : "km"
+                        }`,
+                        200000: `200k+ ${
+                          currentLanguage === "ar" ? "كم" : "km"
+                        }`,
                       }}
                       value={filters.kilometer || [0, 200000]} // Default range
                       onChange={(value) => {
                         setFilters((prev) => ({ ...prev, kilometer: value }));
                       }}
                     />
-                    <p className="text-center mt-1 text-sm font-medium text-red-600">
-                      {filters.kilometer
-                        ? `${filters.kilometer[0]} - ${filters.kilometer[1]} km`
-                        : "All Kilometers"}
+                    <p className="text-center mt-2 text-sm font-medium text-red-600">
+                      <Translate
+                        text={
+                          filters.kilometer
+                            ? `${filters.kilometer[0]} - ${filters.kilometer[1]} km`
+                            : currentLanguage === "ar"
+                            ? "الممشى"
+                            : "All Kilometers"
+                        }
+                      />
                     </p>
                   </div>
 
@@ -881,7 +903,9 @@ const SearchPage = () => {
                   {/* Engine Size */}
                   <div className="mb-4">
                     <label className="block text-gray-700 mb-2">
-                      <Translate text={"Engine Size (CC)"} />
+                      {currentLanguage === "ar"
+                        ? `حجم المحرك (سم مكعب)`
+                        : `Engine Size (CC)`}
                     </label>
                     <div>
                       <select
@@ -963,7 +987,9 @@ const SearchPage = () => {
                       style={{ backgroundColor: "#fff" }}
                     >
                       <option hidden selected>
-                        <Translate text={"Select Exteriror Color"} />
+                        {currentLanguage === "ar"
+                          ? `اللون الخارجي`
+                          : "Select Exteriror Color"}
                       </option>
                       {allExteriorColor.map((color) => (
                         <>

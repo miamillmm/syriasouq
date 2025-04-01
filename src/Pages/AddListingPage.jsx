@@ -4,7 +4,7 @@ import FeaturesSection from "./FeaturesSection";
 // import DescriptionEditor from "./DescriptionEditor";
 // import { Link, useNavigate } from "react-router";
 import { Link, useNavigate } from "react-router-dom";
-import { makes } from "../utils/utils";
+import { alllocation, makes } from "../utils/utils";
 import { arabicMakes } from "../utils/utils";
 import ImageUpload from "./ImageUpload";
 import Translate from "../utils/Translate";
@@ -23,22 +23,6 @@ const carMakes = [
   { value: "BMW", label: "BMW" },
   { value: "Bugatti", label: "Bugatti" },
   { value: "BYD", label: "BYD" },
-];
-const alllocation = [
-  { value: "Al-Hasakah", label: "Al-Hasakah" },
-  { value: "Aleppo", label: "Aleppo" },
-  { value: "Damascus", label: "Damascus" },
-  { value: "Daraa", label: "Daraa" },
-  { value: "Deir ez-Zor", label: "Deir ez-Zor" },
-  { value: "Hama", label: "Hama" },
-  { value: "Homs", label: "Homs" },
-  { value: "Idlib", label: "Idlib" },
-  { value: "Latakia", label: "Latakia" },
-  { value: "Qamishli", label: "Qamishli" },
-  { value: "Raqqa", label: "Raqqa" },
-  { value: "Rif Dimashq", label: "Rif Dimashq" },
-  { value: "Suweida", label: "Suweida" },
-  { value: "Tartus", label: "Tartus" },
 ];
 
 const allenginesize = [
@@ -145,12 +129,21 @@ const AddListingPage = () => {
       : [];
 
   useEffect(() => {
+    console.log(
+      "Rendered Arabic Text:",
+      currentLanguage === "ar" ? "الموقع" : "Location"
+    );
+
     const storedUser = JSON.parse(localStorage.getItem("SyriaSouq-auth"));
     console.log(storedUser);
     if (storedUser) {
       return setUser(storedUser);
     }
-    toast.warn("Please loggin beofre add listing");
+    toast.warn(
+      currentLanguage === "ar"
+        ? "يرجى تسجيل الدخول قبل إضافة قائمة"
+        : "Please loggin beofre add listing"
+    );
     navigate("/login-and-register", { replace: true });
   }, [navigate]);
 
@@ -285,7 +278,11 @@ const AddListingPage = () => {
                 value={model}
                 onChange={setModel}
                 required
-                placeholder={<Translate text={"Select Make First"} />}
+                placeholder={
+                  currentLanguage === "ar"
+                    ? `حدد النوع أولاً`
+                    : "Select Make First"
+                }
                 isSearchable
                 className="cursor-pointer"
                 styles={{
@@ -300,7 +297,7 @@ const AddListingPage = () => {
             <label className="w-full">
               <div className="mb-2 px-3">
                 <h3 className="font-semibold">
-                  {currentLanguage === "ar" ? "السعر (دوالر)" : "Price (USD)"}
+                  {currentLanguage === "ar" ? "السعر (دولار)" : "Price (USD)"}
                 </h3>
               </div>
               <input
@@ -394,7 +391,7 @@ const AddListingPage = () => {
             <label className="w-full">
               <div className="mb-2 px-3">
                 <h3 className="font-semibold ">
-                  <Translate text={"Location"} />
+                  {currentLanguage === "ar" ? `\u200Eالموقع` : "Location"}
                   <span className="text-xs">
                     {/* <Translate text={"(Optional)"} /> */}
                   </span>
@@ -405,7 +402,9 @@ const AddListingPage = () => {
                 value={location}
                 onChange={setLocation}
                 required
-                placeholder={<Translate text={"Location"} />}
+                placeholder={
+                  currentLanguage === "ar" ? `\u200Eالموقع` : "Location"
+                }
                 isSearchable
                 className="cursor-pointer"
                 styles={{
@@ -415,7 +414,9 @@ const AddListingPage = () => {
                   }),
                 }}
                 classNamePrefix="select"
-                getOptionLabel={(e) => <Translate text={e.label} />}
+                getOptionLabel={(e) =>
+                  currentLanguage === "ar" ? e.arLabel : e.label
+                }
               />
             </label>
             <label className="w-full">

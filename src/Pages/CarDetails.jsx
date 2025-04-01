@@ -184,7 +184,7 @@ const CarDetails = () => {
                       ) : (
                         "آخر"
                       )}{" "}
-                      km
+                      <Translate text={"km"} />
                     </span>
                   </div>
                 </div>
@@ -240,7 +240,7 @@ const CarDetails = () => {
                       onClick={() => setShowMore(false)}
                       className="cursor-pointer text-[#B80200]"
                     >
-                      Show Less
+                      {currentLanguage === "ar" ? "ما هو الخطأ" : "Show Less"}
                     </button>
                     <p></p>
                   </>
@@ -250,7 +250,7 @@ const CarDetails = () => {
                       onClick={() => setShowMore(true)}
                       className="cursor-pointer text-[#B80200]"
                     >
-                      Show More
+                      {currentLanguage === "ar" ? "أظهر المزيد" : "Show More"}
                     </button>
                     <p></p>
                   </>
@@ -318,7 +318,9 @@ const CarDetails = () => {
                       )}
                     </p>
 
-                    <p className="text-lg font-semibold mt-5">Features:</p>
+                    <p className="text-lg font-semibold mt-5">
+                      {currentLanguage === "ar" ? `المواصفات` : "Features:"}
+                    </p>
                     <p></p>
 
                     {carDetails?.features.map((fe) => (
