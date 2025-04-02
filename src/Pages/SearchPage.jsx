@@ -543,11 +543,19 @@ const SearchPage = () => {
                   setFilters((prev) => ({ ...prev, kilometer: value }));
                 }}
               />
-              <p className="text-center mt-2 text-sm font-medium text-red-600">
+              <p
+                className={`text-center mt-2 text-sm font-medium text-red-600 ${
+                  currentLanguage === "ar" && "flex-row-reverse"
+                }`}
+              >
                 <Translate
                   text={
                     filters.kilometer
-                      ? `${filters.kilometer[0]} - ${filters.kilometer[1]} km`
+                      ? `${
+                          currentLanguage === "ar"
+                            ? `${filters.kilometer[1]} - ${filters.kilometer[0]}`
+                            : `${filters.kilometer[0]} - ${filters.kilometer[1]}`
+                        } km`
                       : currentLanguage === "ar"
                       ? "الممشى"
                       : "All Kilometers"
