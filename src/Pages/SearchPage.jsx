@@ -414,7 +414,11 @@ const SearchPage = () => {
                   }))
                 }
               />
-              <div className="flex justify-between mt-2 text-sm text-gray-700">
+              <div
+                className={`flex justify-between mt-2 text-sm text-gray-700 ${
+                  currentLanguage === "ar" && "flex-row-reverse"
+                }`}
+              >
                 <span>{filters.minYear || 1920}</span>
                 <span>{filters.maxYear || 2025}</span>
               </div>
@@ -450,11 +454,15 @@ const SearchPage = () => {
             </div> */}
 
             {/* Price Filter */}
-            <div className="mb-6">
+            <div
+              className="mb-6 "
+              style={{ direction: currentLanguage === "ar" ? "rtl" : "ltr" }}
+            >
               <label className="block text-gray-700 font-semibold mb-3">
                 <Translate text={"Price"} /> ($)
               </label>
               <Slider
+                key={currentLanguage} // Force re-render when language changes
                 range
                 min={0}
                 max={100000}
@@ -467,8 +475,13 @@ const SearchPage = () => {
                     maxPrice: value[1],
                   }))
                 }
+                direction={currentLanguage === "ar" ? "rtl" : "ltr"}
               />
-              <div className="flex justify-between mt-2 text-sm text-gray-700">
+              <div
+                className={`flex justify-between mt-2 text-sm text-gray-700 ${
+                  currentLanguage === "ar" && "flex-row-reverse"
+                }`}
+              >
                 <span>${filters.minPrice || 0}</span>
                 <span>${filters.maxPrice || 100000}</span>
               </div>
@@ -798,18 +811,28 @@ const SearchPage = () => {
                         }))
                       }
                     />
-                    <div className="flex justify-between mt-2 text-sm text-gray-700">
+                    <div
+                      className={`flex justify-between mt-2 text-sm text-gray-700 ${
+                        currentLanguage === "ar" && "flex-row-reverse"
+                      }`}
+                    >
                       <span>{filters.minYear || 1920}</span>
                       <span>{filters.maxYear || 2025}</span>
                     </div>
                   </div>
 
                   {/* Price Filter */}
-                  <div className="mb-6">
+                  <div
+                    className="mb-6 "
+                    style={{
+                      direction: currentLanguage === "ar" ? "rtl" : "ltr",
+                    }}
+                  >
                     <label className="block text-gray-700 font-semibold mb-3">
                       <Translate text={"Price"} /> ($)
                     </label>
                     <Slider
+                      key={currentLanguage} // Force re-render when language changes
                       range
                       min={0}
                       max={100000}
@@ -825,8 +848,13 @@ const SearchPage = () => {
                           maxPrice: value[1],
                         }))
                       }
+                      direction={currentLanguage === "ar" ? "rtl" : "ltr"}
                     />
-                    <div className="flex justify-between mt-2 text-sm text-gray-700">
+                    <div
+                      className={`flex justify-between mt-2 text-sm text-gray-700 ${
+                        currentLanguage === "ar" && "flex-row-reverse"
+                      }`}
+                    >
                       <span>${filters.minPrice || 0}</span>
                       <span>${filters.maxPrice || 100000}</span>
                     </div>

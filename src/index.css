@@ -66,3 +66,23 @@ select option {
   height: 100%;
   object-fit: cover;
 }
+
+/* rc slider */
+[dir="rtl"] .rc-slider {
+  direction: rtl;
+}
+[lang="ar"] .rc-slider {
+  direction: rtl;
+}
+
+[lang="ar"] .rc-slider-handle {
+  transform: translateX(-50%); /* Move the handles correctly */
+}
+
+[dir="rtl"] .rc-slider {
+  direction: rtl;
+}
+
+[dir="rtl"] .rc-slider-handle {
+  transform: translateX(-50%); /* Fix handle alignment */
+}
