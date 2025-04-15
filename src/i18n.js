@@ -10,8 +10,8 @@ i18n.use(initReactI18next).init({
       translation: { welcome: "مرحبًا بك في موقعي", post: "منشور المستخدم" },
     },
   },
-  lng: "en",
-  fallbackLng: "en",
+  lng: "ar",
+  fallbackLng: "ar",
   interpolation: { escapeValue: false },
 });
 
