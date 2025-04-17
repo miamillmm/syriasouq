@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 // import img from "../assets/bg-image/banner-img.jpg";
 // import img from "../assets/bg-image/banner-img-1.png";
-import img from "../assets/bg-image/banner-img-2.jpeg";
+import img from "../assets/bg-image/banner-img-3.jpeg";
 import imgForMobile from "../assets/bg-image/banner-img-for-mobile-2.jpeg";
 import Translate from "../utils/Translate";
 import { arabicMakes as arMake, makes as enMakes } from "../utils/utils";
