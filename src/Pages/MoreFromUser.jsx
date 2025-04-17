@@ -181,7 +181,11 @@ export default function MoreFromUser({ title, button, uid }) {
           }
         );
 
-        alert("Car Added to Wishlist");
+        alert(
+          currentLanguage === "ar"
+            ? `تم إضافة السيارة إلى قائمة الرغبات`
+            : `Car Added to Wishlist`
+        );
 
         // Update wishlist state
         setWishlist([...wishlist, res.data.data]);

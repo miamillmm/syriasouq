@@ -115,7 +115,8 @@ const Navbar = () => {
 
         <Link to={"/addlisting"} className="block md:hidden">
           <button className="bg-[#B80200] text-white px-4 py-2 rounded-md  cursor-pointer text-xs ">
-            <Translate text={"Add Listing"} /> <span>+</span>
+            {currentLanguage === "ar" ? "نشر الأعلان" : "Add Listing"}{" "}
+            <span>+</span>
           </button>
         </Link>
 
@@ -313,7 +314,8 @@ const Navbar = () => {
             {/* Add Listing Button */}
             <NavLink to="/addlisting">
               <button className="bg-[#B80200] text-white px-4 py-2 rounded-md  cursor-pointer  font-bold">
-                <Translate text={"Add Listing"} /> <span>+</span>
+                {currentLanguage === "ar" ? "نشر الأعلان" : "Add Listing"}{" "}
+                <span>+</span>
               </button>
             </NavLink>
             {/* <button className="bg-red-500 text-[#314352] text-[18px] font-light px-4 py-2 rounded-md cursor-pointer">
@@ -418,7 +420,7 @@ const Navbar = () => {
                   onClick={() => setIsSidebarOpen(false)}
                 >
                   <button className="bg-white px-4 py-2 text-[#B80200] rounded-md hover:bg-slate-200 cursor-pointer font-bold">
-                    <Translate text={"Add Listing"} />
+                    {currentLanguage === "ar" ? "نشر الأعلان" : "Add Listing"}
                   </button>
                 </NavLink>
               </li>

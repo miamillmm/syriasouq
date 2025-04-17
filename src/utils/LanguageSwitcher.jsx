@@ -29,12 +29,15 @@ const LanguageSwitcher = () => {
     document.documentElement.dir = newLang === "ar" ? "rtl" : "ltr";
   };
 
+  const currentLanguage = i18n.language; // Gets current language
+
   return (
     <>
       <div className="fixed bottom-4 right-2 w-40 z-50 shadow">
         <Link to={"/addlisting"} className="block ">
           <button className="bg-[#B80200] text-white px-4 py-2 rounded-md cursor-pointer text-md">
-            <Translate text={"Add Listing"} /> <span>+</span>
+            {currentLanguage === "ar" ? "نشر الأعلان" : "Add Listing"}{" "}
+            <span>+</span>
           </button>
         </Link>
       </div>

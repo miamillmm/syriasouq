@@ -40,8 +40,8 @@ const allenginesize = [
 ];
 
 const allTransmission = [
-  { value: "Automatic", label: "Automatic" },
-  { value: "Manual", label: "Manual" },
+  { value: "Automatic", label: "Automatic", arLabel: "اتوماتيك" },
+  { value: "Manual", label: "Manual", arLabel: "يدوي" },
 ];
 
 const allFuelType = [
@@ -254,7 +254,9 @@ const AddListingPage = () => {
                 value={make}
                 onChange={setMake}
                 required
-                placeholder={<Translate text={"Select Make"} />}
+                placeholder={
+                  currentLanguage === "ar" ? "حدد نوع السيارة" : "Select Make"
+                }
                 isSearchable
                 className="cursor-pointer"
                 styles={{
@@ -385,7 +387,9 @@ const AddListingPage = () => {
                   }),
                 }}
                 classNamePrefix="select"
-                getOptionLabel={(e) => <Translate text={e.label} />}
+                getOptionLabel={(e) =>
+                  currentLanguage === "ar" ? e.arLabel : e.label
+                }
               />
             </label>
             <label className="w-full">
@@ -572,7 +576,7 @@ const AddListingPage = () => {
               type="submit"
               className="bg-[#B80200] text-white px-4 py-2 rounded-md  cursor-pointer"
             >
-              <Translate text={"Add Listing"} /> +
+              {currentLanguage === "ar" ? "نشر الأعلان" : "Add Listing"} +
             </button>
           </div>
         </form>
