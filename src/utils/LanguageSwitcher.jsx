@@ -36,7 +36,7 @@ const LanguageSwitcher = () => {
       <div className="fixed bottom-4 right-2 w-40 z-50 shadow">
         <Link to={"/addlisting"} className="block ">
           <button className="bg-[#B80200] text-white px-4 py-2 rounded-md cursor-pointer text-md">
-            {currentLanguage === "ar" ? "إضافة قائمة" : "Add Listing"}{" "}
+            {currentLanguage === "ar" ? "إضافة إعلان" : "Add Listing"}{" "}
             <span>+</span>
           </button>
         </Link>
