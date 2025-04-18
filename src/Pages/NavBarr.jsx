@@ -314,7 +314,7 @@ const Navbar = () => {
             {/* Add Listing Button */}
             <NavLink to="/addlisting">
               <button className="bg-[#B80200] text-white px-4 py-2 rounded-md  cursor-pointer  font-bold">
-                {currentLanguage === "ar" ? "إضافة قائمة" : "Add Listing"}{" "}
+                {currentLanguage === "ar" ? "إضافة إعلان" : "Add Listing"}{" "}
                 <span>+</span>
               </button>
             </NavLink>
