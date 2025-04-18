@@ -3181,7 +3181,7 @@ export const allenginesize = [
   { value: "Unknown", label: "Unknown", arLabel: "غير معروف" },
 ];
 export const allTransmission = [
-  { value: "Automatic", label: "Automatic" },
+  { value: "Automatic", label: "Automatic", arLabel: "اتوماتيك"},
   { value: "Manual", label: "Manual" },
 ];
 export const allFuelType = [
