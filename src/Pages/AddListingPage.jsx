@@ -53,32 +53,6 @@ const allFuelType = [
   { value: "Petrol", label: "Petrol" },
 ];
 
-const allExteriorColor = [
-  { value: "BLACK", label: "BLACK" },
-  { value: "Blue", label: "Blue" },
-  { value: "Brown", label: "Brown" },
-  { value: "Gold", label: "Gold" },
-  { value: "Green", label: "Green" },
-  { value: "red", label: "red" },
-  { value: "Pink", label: "Pink" },
-  { value: "Purple", label: "Purple" },
-  { value: "Red", label: "Red" },
-  { value: "Silver", label: "Silver" },
-  { value: "White", label: "White" },
-  { value: "red", label: "red" },
-  { value: "other", label: "other" },
-];
-
-const allInteriorColor = [
-  { value: "Beige", label: "Beige" },
-  { value: "Black", label: "Black" },
-  { value: "Blue", label: "Blue" },
-  { value: "Brown", label: "Brown" },
-  { value: "Red", label: "Red" },
-  { value: "White", label: "White" },
-  { value: "Other", label: "Other" },
-];
-
 const AddListingPage = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
