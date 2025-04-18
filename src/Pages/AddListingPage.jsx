@@ -5,6 +5,8 @@ import FeaturesSection from "./FeaturesSection";
 // import { Link, useNavigate } from "react-router";
 import { Link, useNavigate } from "react-router-dom";
 import { alllocation, makes } from "../utils/utils";
+import { allExteriorColor, makes } from "../utils/utils";
+import { allInteriorColor, makes } from "../utils/utils";
 import { arabicMakes } from "../utils/utils";
 import ImageUpload from "./ImageUpload";
 import Translate from "../utils/Translate";
