@@ -115,7 +115,7 @@ const Navbar = () => {
 
         <Link to={"/addlisting"} className="block md:hidden">
           <button className="bg-[#B80200] text-white px-4 py-2 rounded-md  cursor-pointer text-xs ">
-            {currentLanguage === "ar" ? "نشر الأعلان" : "Add Listing"}{" "}
+            {currentLanguage === "ar" ? "إضافة قائمة" : "Add Listing"}{" "}
             <span>+</span>
           </button>
         </Link>
