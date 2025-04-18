@@ -3180,9 +3180,15 @@ export const allenginesize = [
   { value: "Other", label: "Other", arLabel: "آخر" },
   { value: "Unknown", label: "Unknown", arLabel: "غير معروف" },
 ];
-export const allTransmission = [
-  { value: "Automatic", label: "Automatic", arLabel: "اتوماتيك" },
-  { value: "Manual", label: "Manual",  arLabel: "يدوي" },
+const allTransmission = [
+  {
+    value: "Automatic",
+    label: currentLanguage === "ar" ? "اتوماتيك" : "Automatic"
+  },
+  { 
+    value: "Manual", 
+    label: currentLanguage === "ar" ? "يدوي" : "Manual" 
+  }
 ];
 export const allFuelType = [
   { value: "Diesel", label: "Diesel" },
