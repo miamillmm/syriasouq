@@ -240,7 +240,7 @@ const CarDetails = () => {
                       onClick={() => setShowMore(false)}
                       className="cursor-pointer text-[#B80200]"
                     >
-                      {currentLanguage === "ar" ? "ما هو الخطأ" : "Show Less"}
+                      {currentLanguage === "ar" ? "عرض أقل" : "Show Less"}
                     </button>
                     <p></p>
                   </>
