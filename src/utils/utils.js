@@ -3182,7 +3182,7 @@ export const allenginesize = [
 ];
 export const allTransmission = [
   { value: "Automatic", label: "Automatic", arLabel: "اتوماتيك"},
-  { value: "Manual", label: "Manual" },
+  { value: "Manual", label: "Manual",  arLabel: "يدوي"},
 ];
 export const allFuelType = [
   { value: "Diesel", label: "Diesel" },
