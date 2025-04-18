@@ -40,8 +40,8 @@ const allenginesize = [
 ];
 
 const allTransmission = [
-  { value: "Automatic", label: "Automatic", arLabel: "اتوماتيك" },
-  { value: "Manual", label: "Manual", arLabel: "يدوي" },
+  { value: "Automatic", label: "Automatic" },
+  { value: "Manual", label: "Manual" },
 ];
 
 const allFuelType = [
@@ -89,7 +89,7 @@ const AddListingPage = () => {
   const [kilometer, setKilometer] = useState("");
   const [engineSize, setEngineSize] = useState(null);
   const [location, setLocation] = useState(null);
-  const [transmission, setTransmission] = useState("");
+  const [transmission, setTransmission] = useState(null);
   const [fuelType, setFuelType] = useState(null);
   const [exteriorColor, setExteriorColor] = useState(null);
   const [interiorColor, setInteriorColor] = useState(null);
