@@ -89,7 +89,7 @@ const AddListingPage = () => {
   const [kilometer, setKilometer] = useState("");
   const [engineSize, setEngineSize] = useState(null);
   const [location, setLocation] = useState(null);
-  const [transmission, setTransmission] = useState(null);
+  const [transmission, setTransmission] = useState("");
   const [fuelType, setFuelType] = useState(null);
   const [exteriorColor, setExteriorColor] = useState(null);
   const [interiorColor, setInteriorColor] = useState(null);
