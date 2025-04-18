@@ -46,8 +46,8 @@ const SearchPage = () => {
   // ];
 
   const allTransmission = [
-    { value: "Automatic", label: "Automatic", arLabel: "اتوماتيك" },
-    { value: "Manual", label: "Manual", arLabel: "يدوي" },
+    { value: "Automatic", label: "Automatic" },
+    { value: "Manual", label: "Manual" },
   ];
   const allFuelType = [
     { value: "Diesel", label: "Diesel" },
