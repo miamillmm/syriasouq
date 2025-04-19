@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Translate from "../../utils/Translate";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { CiCalendar, CiLocationOn, CiSettings } from "react-icons/ci";
+import { useTranslation } from "react-i18next";
 
 const getUidFromUrl = () => {
   const queryParams = new URLSearchParams(window.location.search);
@@ -12,6 +13,8 @@ const getUidFromUrl = () => {
 
 const CarListing = () => {
   const [cars, setCars] = useState([]);
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language; // Gets current language
   const [loading, setLoading] = useState(true);
   const uid = getUidFromUrl();
   const user = JSON.parse(localStorage.getItem("SyriaSouq-auth")); // Assume user is stored in localStorage
@@ -206,7 +209,7 @@ const CarListing = () => {
                   onClick={() => handleDelete(car._id)}
                   className="mt-3 w-full bg-red-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-700 transition text-lg cursor-pointer"
                 >
-                  🗑️ <Translate text={"Delete"} />
+                  🗑️ {currentLanguage === "ar" ? "مسح الإعلان" : "Delete"}
                 </button>
               </div>
             </div>
