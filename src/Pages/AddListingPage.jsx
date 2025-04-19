@@ -548,7 +548,6 @@ const AddListingPage = () => {
             <FeaturesSection
               selectedFeatures={selectedFeatures}
               setSelectedFeatures={setSelectedFeatures}
-              placeholder={currentLanguage === "ar" ? "المواصفات" : "Features"}
             />
           </div>
           <div className="mt-10">
