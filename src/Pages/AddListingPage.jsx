@@ -542,9 +542,6 @@ const AddListingPage = () => {
           </div>
 
                 <div className="mt-10">
-                <h2 className="text-xl mb-2 font-bold">
-                {currentLanguage === "ar" ? "المواصفات" : "Features"}
-                 </h2>
                  <FeaturesSection
                   selectedFeatures={selectedFeatures}
                  setSelectedFeatures={setSelectedFeatures}
