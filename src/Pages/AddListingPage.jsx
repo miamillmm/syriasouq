@@ -336,8 +336,8 @@ const AddListingPage = () => {
               </div>
               <input
                 type="number"
-                placeholder={currentLanguage === "ar" ? `كم` : "km"}
-                className="w-full py-4 border-gray-300 rounded px-6 text-left"
+                placeholder={currentLanguage === "ar" ? `يرجى كتابة الأرقام باللغة الإنجليزية` : "km"}
+                className="w-full py-4 border-gray-300 rounded px-6 text-right"
                 value={kilometer}
                 onChange={(e) => setKilometer(e.target.value)}
                 required
