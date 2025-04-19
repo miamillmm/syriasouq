@@ -319,7 +319,7 @@ const CarDetails = () => {
                     </p>
 
                     <p className="text-lg font-semibold mt-5">
-                      {currentLanguage === "ar" ? `المواصفات` : "Features:"}
+                      {currentLanguage === "ar" ? "المواصفات" : "Features:"}
                     </p>
                     <p></p>
 
