@@ -72,7 +72,7 @@ const BestCar = () => {
             </h2>
             <p className="text-sm md:text-base text-[#9AA4AD] leading-none">
               {currentLanguage === "ar"
-                ? "موقع موثوق لخدمة الجميع"
+                ? "خدمة الجميع بلا استثناء"
                 : "Syrian owned website for the people"}
             </p>
           </div>
