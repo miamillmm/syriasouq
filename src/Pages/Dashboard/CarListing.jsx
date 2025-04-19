@@ -155,7 +155,7 @@ const CarListing = () => {
                       : "bg-[#B80200]"
                   }`}
                 >
-                  {car.status}
+                  <Translate text={car.status} />
                 </span>
               </div>
 
