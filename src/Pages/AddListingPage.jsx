@@ -493,7 +493,7 @@ const AddListingPage = () => {
               <Select
                 options={allExteriorColor}
                 value={exteriorColor}
-                onChange={setExteriorColor}
+                //onChange={setExteriorColor}
                 required
                 placeholder={
                   currentLanguage === "ar" ? "اللون الخارجي" : "Exterior Color"
