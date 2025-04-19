@@ -68,7 +68,7 @@ const FeaturesSection = ({
               }`}
             >
               {currentLanguage === "ar"
-                ? feature.arLabel || feature.label
+                ? feature.arLabel 
                 : feature.label}
             </span>
           </label>
