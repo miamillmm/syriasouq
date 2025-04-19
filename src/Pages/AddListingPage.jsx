@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Select from "react-select";
-import FeaturesSection from "../utils/utils";
+import FeaturesSection from "./FeaturesSection";
 // import DescriptionEditor from "./DescriptionEditor";
 // import { Link, useNavigate } from "react-router";
 import { Link, useNavigate } from "react-router-dom";
