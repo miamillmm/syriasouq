@@ -3196,13 +3196,11 @@ export const allExteriorColor = [
   { value: "Brown", label: "Brown", arLabel: "بني" },
   { value: "Gold", label: "Gold", arLabel: "ذهبي" },
   { value: "Green", label: "Green", arLabel: "أخضر" },
-  { value: "red", label: "red", arLabel: "أحمر" },
+  { value: "red", label: "Red", arLabel: "أحمر" },
   { value: "Pink", label: "Pink", arLabel: "وردي" },
   { value: "Purple", label: "Purple", arLabel: "بنفسجي" },
-  { value: "Red", label: "Red", arLabel: "أحمر" },
   { value: "Silver", label: "Silver", arLabel: "فضي" },
   { value: "White", label: "White", arLabel: "أبيض" },
-  { value: "red", label: "red", arLabel: "أحمر" },
   { value: "other", label: "other", arLabel: "آخر" },
 ];
 export const allInteriorColor = [
