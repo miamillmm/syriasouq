@@ -304,7 +304,7 @@ const AddListingPage = () => {
               </div>
               <input
                 type="number"
-                placeholder={currentLanguage === "ar" ? `                 يرجى كتابة الأرقام باللغة الإنجليزية` : "$"}
+                placeholder={currentLanguage === "ar" ? `                                                        يرجى كتابة الأرقام باللغة الإنجليزية` : "$"}
                 className="w-full py-4 border-gray-300 rounded px-6 text-left"
                 value={priceUSD}
                 onChange={(e) => setPriceUSD(e.target.value)}
