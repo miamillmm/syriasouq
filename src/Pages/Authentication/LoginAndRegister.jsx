@@ -7,6 +7,7 @@ import Translate from "../../utils/Translate";
 import { useTranslation } from "react-i18next";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css"; // Import default styles
+import SyrianFlag from "../../assets/flag/syria-flag.png"; // Import the new Syrian flag
 
 const LoginAndRegister = () => {
   const [activeTab, setActiveTab] = useState("login");
@@ -71,8 +72,6 @@ const LoginAndRegister = () => {
         data
       );
 
-      console.log(data);
-
       if (!response?.data?.message) {
         console.log("Register Response:", response.data);
         const data = response.data;
@@ -106,6 +105,21 @@ const LoginAndRegister = () => {
 
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language; // Gets current language
+
+  // Custom flag rendering function
+  const customFlag = (country) => {
+    if (country.countryCode === "sy") {
+      return (
+        <img
+          src={SyrianFlag}
+          alt="Syria Flag"
+          className="w-6 h-4 mr-2"
+          style={{ objectFit: "cover" }}
+        />
+      );
+    }
+    return null; // Use default flag for other countries
+  };
 
   return (
     <div
@@ -160,26 +174,26 @@ const LoginAndRegister = () => {
               rules={{ required: "Phone number is required" }}
               render={({ field }) => {
                 const handlePhoneChange = (value, countryData) => {
-                  // Ensure country code is always present and only phone number is editable
                   const countryCode = `+${countryData.dialCode}`;
-                  const phoneNumber = value.replace(countryCode, "").trim(); // Remove country code part
-                  field.onChange(phoneNumber); // Update the phone number field
+                  const phoneNumber = value.replace(countryCode, "").trim();
+                  field.onChange(phoneNumber);
                 };
 
                 return (
                   <div className="w-full flex items-center gap-2">
-                    {/* Phone Input */}
                     <PhoneInput
-                      country={"sy"} // Default to Syria (or any other country)
-                      value={field.value ? `+${field.value}` : ""} // Display country code
-                      onChange={handlePhoneChange} // Update value on change
-                      inputClass="!w-full !p-3 !pl-14 !border !rounded-lg" // Styling for phone input
-                      containerClass="!w-full" // Full width for container
-                      buttonClass="!bg-white !border-r !rounded-l-lg" // Keep flag visible and clickable
-                      dropdownClass="!bg-white !text-black" // Styling for dropdown
-                      disableDropdown={false} // Allow changing country
+                      country={"sy"}
+                      value={field.value ? `+${field.value}` : ""}
+                      onChange={handlePhoneChange}
+                      inputClass="!w-full !p-3 !pl-14 !border !rounded-lg"
+                      containerClass="!w-full"
+                      buttonClass="!bg-white !border-r !rounded-l-lg"
+                      dropdownClass="!bg-white !text-black"
+                      disableDropdown={false}
                       enableSearch
-                      // onlyCountries={["sy", "us", "gb", "de", "fr"]} // Restrict countries (optional)
+                      specialLabel={false}
+                      countryCodeEditable={false}
+                      renderFlag={customFlag} // Custom flag rendering
                     />
                   </div>
                 );
@@ -209,13 +223,6 @@ const LoginAndRegister = () => {
                 {loginErrors.password.message}
               </p>
             )}
-            {/* <button
-              type="button"
-              onClick={() => setIsModalOpen(true)}
-              className="text-red-400 text-sm cursor-pointer"
-            >
-              <Translate text={"Forgot Password?"} />
-            </button> */}
             <Link
               to={"/change-password"}
               className="text-red-400 text-sm cursor-pointer block"
@@ -254,13 +261,11 @@ const LoginAndRegister = () => {
             <input
               type="hidden"
               {...registerRegister("email", {
-                // required: "Email is required",
                 pattern: {
                   value: /^[^@\s]+@[^@\s]+\.[^@\s]+$/,
                   message: "Invalid email format",
                 },
               })}
-              // type="email"
               placeholder={
                 currentLanguage === "ar" ? "بريد إلكتروني" : "E-mail"
               }
@@ -271,23 +276,7 @@ const LoginAndRegister = () => {
                 {registerErrors.email.message}
               </p>
             )}
-            {/* <input
-              {...registerRegister("phone", {
-                required: "Phone number is required",
-                pattern: {
-                  value: /^[0-9]+$/,
-                  message: "Only numeric values allowed",
-                },
-              })}
-              placeholder={currentLanguage === "ar" ? "هاتف" : "Phone"}
-              className="w-full p-3 border rounded-lg"
-            />
-            {registerErrors.phone && (
-              <p className="text-red-500 text-sm">
-                {registerErrors.phone.message}
-              </p>
-            )} */}
-            {/* Phone Number Field with Controller */}
+
             <Controller
               name="phone"
               control={registerControl}
@@ -299,26 +288,26 @@ const LoginAndRegister = () => {
               }}
               render={({ field }) => {
                 const handlePhoneChange = (value, countryData) => {
-                  // Ensure country code is always present and only phone number is editable
                   const countryCode = `+${countryData.dialCode}`;
-                  const phoneNumber = value.replace(countryCode, "").trim(); // Remove country code part
-                  field.onChange(phoneNumber); // Update the phone number field
+                  const phoneNumber = value.replace(countryCode, "").trim();
+                  field.onChange(phoneNumber);
                 };
 
                 return (
                   <div className="w-full flex items-center gap-2">
-                    {/* Phone Input */}
                     <PhoneInput
-                      country={"sy"} // Default to Syria (or any other country)
-                      value={field.value ? `+${field.value}` : ""} // Display country code
-                      onChange={handlePhoneChange} // Update value on change
-                      inputClass="!w-full !p-3 !pl-14 !border !rounded-lg" // Styling for phone input
-                      containerClass="!w-full" // Full width for container
-                      buttonClass="!bg-white !border-r !rounded-l-lg" // Keep flag visible and clickable
-                      dropdownClass="!bg-white !text-black" // Styling for dropdown
-                      disableDropdown={false} // Allow changing country
+                      country={"sy"}
+                      value={field.value ? `+${field.value}` : ""}
+                      onChange={handlePhoneChange}
+                      inputClass="!w-full !p-3 !pl-14 !border !rounded-lg"
+                      containerClass="!w-full"
+                      buttonClass="!bg-white !border-r !rounded-l-lg"
+                      dropdownClass="!bg-white !text-black"
+                      disableDropdown={false}
                       enableSearch
-                      // onlyCountries={["sy", "us", "gb", "de", "fr"]} // Restrict countries (optional)
+                      specialLabel={false}
+                      countryCodeEditable={false}
+                      renderFlag={customFlag} // Custom flag rendering
                     />
                   </div>
                 );
