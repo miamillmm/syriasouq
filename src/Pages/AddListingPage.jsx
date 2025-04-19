@@ -321,8 +321,8 @@ const AddListingPage = () => {
               </div>
               <input
                 type="number"
-                placeholder=""
-                className="w-full py-4 border-gray-300 rounded px-6"
+                placeholder={currentLanguage === "ar" ? `يرجى كتابة الأرقام باللغة الإنجليزية` : "yr"}
+                className="w-full py-4 border-gray-300 rounded px-6 text-right"
                 value={year}
                 onChange={(e) => setYear(e.target.value)}
                 required
