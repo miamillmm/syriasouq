@@ -57,12 +57,12 @@ const allExteriorColor = [
     { value: "Brown", label: "Brown", arLabel: "بني" },
     { value: "Gold", label: "Gold", arLabel: "ذهبي" },
     { value: "Green", label: "Green", arLabel: "أخضر" },
-    { value: "red", label: "Red", arLabel: "أحمر" },
+    { value: "Red", label: "Red", arLabel: "أحمر" },
     { value: "Pink", label: "Pink", arLabel: "وردي" },
-    { value: "Purple", label: "Purple", arLabel: "بنفسجي" },
+    { value: "Purple", label: "Purple", arLabel: "أرجواني" },
     { value: "Silver", label: "Silver", arLabel: "فضي" },
     { value: "White", label: "White", arLabel: "أبيض" },
-    { value: "other", label: "other", arLabel: "آخر" },
+    { value: "Other", label: "Other", arLabel: "آخر" },
   ];
   
 const allInteriorColor = [
