@@ -550,7 +550,7 @@ const AddListingPage = () => {
             <FeaturesSection
               selectedFeatures={selectedFeatures}
               setSelectedFeatures={setSelectedFeatures}
-              currentLanguage={currentLanguage}
+              currentLanguage={currentLanguage === "ar" ? "المواصفات" : "Features"}
             />
           </div>
           <div className="mt-10">
