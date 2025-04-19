@@ -52,19 +52,19 @@ const allFuelType = [
 ];
 
 const allExteriorColor = [
-  { value: "BLACK", label: "BLACK" },
-  { value: "Blue", label: "Blue" },
-  { value: "Brown", label: "Brown" },
-  { value: "Gold", label: "Gold" },
-  { value: "Green", label: "Green" },
-  { value: "red", label: "red" },
-  { value: "Pink", label: "Pink" },
-  { value: "Purple", label: "Purple" },
-  { value: "Red", label: "Red" },
-  { value: "Silver", label: "Silver" },
-  { value: "White", label: "White" },
-  { value: "red", label: "red" },
-  { value: "other", label: "other" },
+  { value: "Black", label: "Black", arLabel: "أسود" },
+  { value: "Blue", label: "Blue", arLabel: "أزرق" },
+  { value: "Brown", label: "Brown", arLabel: "بني" },
+  { value: "Gold", label: "Gold", arLabel: "ذهبي" },
+  { value: "Green", label: "Green", arLabel: "أخضر" },
+  { value: "red", label: "red", arLabel: "أحمر" },
+  { value: "Pink", label: "Pink", arLabel: "وردي" },
+  { value: "Purple", label: "Purple", arLabel: "بنفسجي" },
+  { value: "Red", label: "Red", arLabel: "أحمر" },
+  { value: "Silver", label: "Silver", arLabel: "فضي" },
+  { value: "White", label: "White", arLabel: "أبيض" },
+  { value: "red", label: "red", arLabel: "أحمر" },
+  { value: "other", label: "other", arLabel: "آخر" },
 ];
 
 const allInteriorColor = [
