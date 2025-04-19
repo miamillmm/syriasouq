@@ -507,7 +507,7 @@ const AddListingPage = () => {
                   }),
                 }}
                 classNamePrefix="select"
-                getOptionLabel={(e) => <Translate text={e.label} />}
+                getOptionLabel={(e) => (currentLanguage === "ar" ? e.arLabel : e.label)}
               />
             </label>
             <label className="w-full">
