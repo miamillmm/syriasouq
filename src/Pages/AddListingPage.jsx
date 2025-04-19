@@ -528,9 +528,7 @@ const AddListingPage = () => {
                 value={interiorColor}
                 onChange={setInteriorColor}
                 required
-                placeholder={
-                  currentLanguage === "ar" ? "اللون الداخلي" : "Interior Color"
-                }
+                placeholder={currentLanguage === "ar" ? "اللون الداخلي" : "Interior Color"}
                 isSearchable
                 className="cursor-pointer"
                 styles={{
@@ -550,7 +548,7 @@ const AddListingPage = () => {
             <FeaturesSection
               selectedFeatures={selectedFeatures}
               setSelectedFeatures={setSelectedFeatures}
-              currentLanguage={currentLanguage === "ar" ? "المواصفات" : "Features"}
+              placeholder={currentLanguage === "ar" ? "المواصفات" : "Features"}
             />
           </div>
           <div className="mt-10">
