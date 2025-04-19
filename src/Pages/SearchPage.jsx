@@ -46,7 +46,7 @@ const SearchPage = () => {
   // ];
 
   const allTransmission = [
-    { value: "Automatic", label: "Automatic" },
+    { value: "Automatic", label: "Automatic"},
     { value: "Manual", label: "Manual" },
   ];
   const allFuelType = [
