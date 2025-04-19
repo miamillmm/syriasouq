@@ -5,8 +5,6 @@ import FeaturesSection from "./FeaturesSection";
 // import { Link, useNavigate } from "react-router";
 import { Link, useNavigate } from "react-router-dom";
 import { alllocation, makes } from "../utils/utils";
-import { allExteriorColor, makes } from "../utils/utils";
-import { allInteriorColor, makes } from "../utils/utils";
 import { arabicMakes } from "../utils/utils";
 import ImageUpload from "./ImageUpload";
 import Translate from "../utils/Translate";
@@ -51,6 +49,32 @@ const allFuelType = [
   { value: "Electric", label: "Electric" },
   { value: "Hybrid", label: "Hybrid" },
   { value: "Petrol", label: "Petrol" },
+];
+
+const allExteriorColor = [
+  { value: "BLACK", label: "BLACK" },
+  { value: "Blue", label: "Blue" },
+  { value: "Brown", label: "Brown" },
+  { value: "Gold", label: "Gold" },
+  { value: "Green", label: "Green" },
+  { value: "red", label: "red" },
+  { value: "Pink", label: "Pink" },
+  { value: "Purple", label: "Purple" },
+  { value: "Red", label: "Red" },
+  { value: "Silver", label: "Silver" },
+  { value: "White", label: "White" },
+  { value: "red", label: "red" },
+  { value: "other", label: "other" },
+];
+
+const allInteriorColor = [
+  { value: "Beige", label: "Beige" },
+  { value: "Black", label: "Black" },
+  { value: "Blue", label: "Blue" },
+  { value: "Brown", label: "Brown" },
+  { value: "Red", label: "Red" },
+  { value: "White", label: "White" },
+  { value: "Other", label: "Other" },
 ];
 
 const AddListingPage = () => {
@@ -280,7 +304,7 @@ const AddListingPage = () => {
               </div>
               <input
                 type="number"
-                placeholder="$"
+                placeholder="$ يرجى كتابة الأرقام باللغة الإنجليزية"
                 className="w-full py-4 border-gray-300 rounded px-6 text-left"
                 value={priceUSD}
                 onChange={(e) => setPriceUSD(e.target.value)}
