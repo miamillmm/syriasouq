@@ -6,7 +6,7 @@ const Button = () => {
     <div>
       {" "}
       <button className="bg-[#B80200] text-white my-3 ml-20 text-[18px] font-light px-4 py-2 rounded-md cursor-pointer">
-        <Translate text={"Add"} /> <span>+</span>
+        <Translate text={"Add Listing"} /> <span>+</span>
       </button>
     </div>
   );

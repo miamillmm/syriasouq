@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import Select from "react-select";
 import SyrianFlag from "../assets/flag/syria-flag.png";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom"; // Import useLocation
 import Translate from "./Translate";
 
 // Language options
@@ -19,6 +19,7 @@ const languages = [
 
 const LanguageSwitcher = () => {
   const { i18n } = useTranslation();
+  const location = useLocation(); 
 
   const changeLanguage = (selectedOption) => {
     const newLang = selectedOption.value;
@@ -29,18 +30,22 @@ const LanguageSwitcher = () => {
     document.documentElement.dir = newLang === "ar" ? "rtl" : "ltr";
   };
 
-  const currentLanguage = i18n.language; // Gets current language
+  const currentLanguage = i18n.language;
+
+  const showAddListing = location.pathname !== "/addlisting";
 
   return (
     <>
-      <div className="fixed bottom-4 right-2 w-40 z-50 shadow">
-        <Link to={"/addlisting"} className="block ">
-          <button className="bg-[#B80200] text-white px-4 py-2 rounded-md cursor-pointer text-md">
-            {currentLanguage === "ar" ? "إضافة إعلان" : "Add Listing"}{" "}
-            <span>+</span>
-          </button>
-        </Link>
-      </div>
+      {showAddListing && (
+        <div className="fixed bottom-4 right-2 w-40 z-50 shadow">
+          <Link to={"/addlisting"} className="block">
+            <button className="bg-[#B80200] text-white px-4 py-2 rounded-md cursor-pointer text-md">
+              {currentLanguage === "ar" ? "إضافة إعلان" : "Add Listing"}{" "}
+              <span>+</span>
+            </button>
+          </Link>
+        </div>
+      )}
       <div className="fixed bottom-4 left-4 w-40 z-50">
         <Select
           options={languages}
