@@ -3217,6 +3217,11 @@ export const allInteriorColor = [
 
 export const features = [
   {
+    label: "Features",
+    value: "Features",
+    arLabel: "المواصفات",
+  },
+  {
     label: "360-degree camera",
     value: "360-degree camera",
     arLabel: "كاميرا ٣٦٠ درجة",
