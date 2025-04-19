@@ -594,7 +594,7 @@ const SearchPage = () => {
             <div className="mb-4">
               <label className="block text-gray-700 mb-2">
                 {currentLanguage === "ar"
-                  ? `حجم المحرك (سم مكعب)`
+                  ? `حجم المحرك (سي سي)`
                   : `Engine Size (CC)`}
               </label>
               <div>
@@ -940,7 +940,7 @@ const SearchPage = () => {
                   <div className="mb-4">
                     <label className="block text-gray-700 mb-2">
                       {currentLanguage === "ar"
-                        ? `حجم المحرك (سم مكعب)`
+                        ? `حجم المحرك (سي سي)`
                         : `Engine Size (CC)`}
                     </label>
                     <div>
