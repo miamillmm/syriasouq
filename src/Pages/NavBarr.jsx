@@ -25,13 +25,14 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("SyriaSouq-auth");
+    setUser(null); 
     navigate("/", { replace: true });
   };
-
+  
   const handleLogoutOnMobile = () => {
     localStorage.removeItem("SyriaSouq-auth");
+    setUser(null);
     navigate("/", { replace: true });
-    window.location.href = "/";
   };
 
   const { i18n } = useTranslation();
@@ -306,8 +307,8 @@ const Navbar = () => {
                   to="/login-and-register"
                   className="hover:text-[#B80200] text-[18px] font-[500] duration-500"
                 >
-                  {currentLanguage === "ar" ? " إنشاء حساب" : "Register"}
-                  </Link>
+                  <Translate text={"Register"} />
+                </Link>
               </>
             )}
 
