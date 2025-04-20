@@ -25,14 +25,13 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("SyriaSouq-auth");
-    setUser(null); 
     navigate("/", { replace: true });
   };
-  
+
   const handleLogoutOnMobile = () => {
     localStorage.removeItem("SyriaSouq-auth");
-    setUser(null);
     navigate("/", { replace: true });
+    window.location.href = "/";
   };
 
   const { i18n } = useTranslation();
@@ -421,7 +420,7 @@ const Navbar = () => {
                   onClick={() => setIsSidebarOpen(false)}
                 >
                   <button className="bg-white px-4 py-2 text-[#B80200] rounded-md hover:bg-slate-200 cursor-pointer font-bold">
-                    {currentLanguage === "ar" ? "إضافة إعلان" : "Add Listing"}
+                    {currentLanguage === "ar" ? "" : "Add Listing"}
                   </button>
                 </NavLink>
               </li>
