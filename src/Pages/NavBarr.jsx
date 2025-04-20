@@ -306,8 +306,8 @@ const Navbar = () => {
                   to="/login-and-register"
                   className="hover:text-[#B80200] text-[18px] font-[500] duration-500"
                 >
-                  <Translate text={"Register"} />
-                </Link>
+                  {currentLanguage === "ar" ? " إنشاء حساب" : "Register"}
+                  </Link>
               </>
             )}
 
