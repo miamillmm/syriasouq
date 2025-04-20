@@ -42,8 +42,8 @@ const allenginesize = [
 ];
 
 const allTransmission = [
-  { value: "Automatic", label: "Automatic" },
-  { value: "Manual", label: "Manual" },
+  { value: "Automatic", label: "Automatic", arLabel: "اتوماتيك" },
+  { value: "Manual", label: "Manual",  arLabel: "يدوي" },
 ];
 
 const allFuelType = [
@@ -449,8 +449,9 @@ const AddListingPage = () => {
                   }),
                 }}
                 classNamePrefix="select"
-                getOptionLabel={(e) => <Translate text={e.label} />}
-              />
+                getOptionLabel={(e) =>
+                  currentLanguage === "ar" ? e.arLabel : e.label
+                }              />
             </label>
           </div>
           <div className="flex justify-between items-center lg:flex-row flex-col gap-10 mt-8">
