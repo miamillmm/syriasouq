@@ -25,7 +25,7 @@ import { AiFillDashboard, AiOutlineDashboard } from "react-icons/ai";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css"; // Import styles
 import "./custom-slider.css"; // Custom styles for black & gray theme
-import { alllocation } from "../utils/utils";
+import { alllocation,allExteriorColor } from "../utils/utils";
 
 const SearchPage = () => {
   const { i18n } = useTranslation();
@@ -56,21 +56,7 @@ const SearchPage = () => {
     { value: "Hybrid", label: "Hybrid" },
     { value: "Petrol", label: "Petrol" },
   ];
-  const allExteriorColor = [
-    { value: "BLACK", label: "BLACK" },
-    { value: "Blue", label: "Blue" },
-    { value: "Brown", label: "Brown" },
-    { value: "Gold", label: "Gold" },
-    { value: "Green", label: "Green" },
-    { value: "red", label: "red" },
-    { value: "Pink", label: "Pink" },
-    { value: "Purple", label: "Purple" },
-    { value: "Red", label: "Red" },
-    { value: "Silver", label: "Silver" },
-    { value: "White", label: "White" },
-    { value: "red", label: "red" },
-    { value: "other", label: "other" },
-  ];
+
   const allInteriorColor = [
     { value: "Beige", label: "Beige" },
     { value: "Black", label: "Black" },
@@ -681,7 +667,7 @@ const SearchPage = () => {
                 {allExteriorColor.map((color) => (
                   <>
                     <option key={color.label} value={color.value}>
-                      <Translate text={color.label} />
+                    {currentLanguage === "ar" ? loc.arLabel : loc.label}
                     </option>
                   </>
                 ))}
