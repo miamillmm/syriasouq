@@ -56,18 +56,20 @@ const SearchPage = () => {
     { value: "Hybrid", label: "Hybrid" },
     { value: "Petrol", label: "Petrol" },
   ];
- const allExteriorColor = [
-    { value: "Black", label: "Black", arLabel: "أسود" },
-    { value: "Blue", label: "Blue", arLabel: "أزرق" },
-    { value: "Brown", label: "Brown", arLabel: "بني" },
-    { value: "Gold", label: "Gold", arLabel: "ذهبي" },
-    { value: "Green", label: "Green", arLabel: "أخضر" },
-    { value: "Red", label: "Red", arLabel: "أحمر" },
-    { value: "Pink", label: "Pink", arLabel: "وردي" },
-    { value: "Purple", label: "Purple", arLabel: "أرجواني" },
-    { value: "Silver", label: "Silver", arLabel: "فضي" },
-    { value: "White", label: "White", arLabel: "أبيض" },
-    { value: "Other", label: "Other", arLabel: "آخر" },
+  const allExteriorColor = [
+    { value: "BLACK", label: "BLACK" },
+    { value: "Blue", label: "Blue" },
+    { value: "Brown", label: "Brown" },
+    { value: "Gold", label: "Gold" },
+    { value: "Green", label: "Green" },
+    { value: "red", label: "red" },
+    { value: "Pink", label: "Pink" },
+    { value: "Purple", label: "Purple" },
+    { value: "Red", label: "Red" },
+    { value: "Silver", label: "Silver" },
+    { value: "White", label: "White" },
+    { value: "red", label: "red" },
+    { value: "other", label: "other" },
   ];
   const allInteriorColor = [
     { value: "Beige", label: "Beige" },
@@ -679,7 +681,7 @@ const SearchPage = () => {
                 {allExteriorColor.map((color) => (
                   <>
                     <option key={color.label} value={color.value}>
-                    {currentLanguage === "ar" ? loc.arLabel : loc.label}
+                      <Translate text={color.label} />
                     </option>
                   </>
                 ))}
