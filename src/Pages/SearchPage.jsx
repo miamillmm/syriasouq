@@ -712,7 +712,7 @@ const SearchPage = () => {
             {/* Button */}
             <div className="mb-4 flex flex-col gap-2">
               <button className="text-white bg-[#fb2c36] w-full py-2 rounded cursor-pointer">
-                <Translate text={"Apply Filters"} />
+              {currentLanguage === "ar" ? "تطبيق التصفية" : "Apply Filters"}
               </button>
               <button
                 className="text-black bg-gray-200 w-full py-2 rounded cursor-pointer"
@@ -733,8 +733,8 @@ const SearchPage = () => {
                   })
                 }
               >
-                <Translate text={"Reset Filters"} />
-              </button>
+                    {currentLanguage === "ar" ? "إعادة تعيين التصفيات" : "Reset Filters"}
+                    </button>
             </div>
           </div>
 
