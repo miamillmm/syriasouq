@@ -1029,7 +1029,7 @@ const SearchPage = () => {
                       {allExteriorColor.map((color) => (
                         <>
                           <option key={color.label} value={color.value}>
-                            <Translate text={color.label} />
+                          {currentLanguage === "ar" ? color.arLabel : color.label}
                           </option>
                         </>
                       ))}
