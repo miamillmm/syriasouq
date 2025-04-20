@@ -25,7 +25,7 @@ import { AiFillDashboard, AiOutlineDashboard } from "react-icons/ai";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css"; // Import styles
 import "./custom-slider.css"; // Custom styles for black & gray theme
-import { alllocation,allExteriorColor } from "../utils/utils";
+import { alllocation } from "../utils/utils";
 
 const SearchPage = () => {
   const { i18n } = useTranslation();
@@ -56,7 +56,19 @@ const SearchPage = () => {
     { value: "Hybrid", label: "Hybrid" },
     { value: "Petrol", label: "Petrol" },
   ];
-
+ const allExteriorColor = [
+    { value: "Black", label: "Black", arLabel: "أسود" },
+    { value: "Blue", label: "Blue", arLabel: "أزرق" },
+    { value: "Brown", label: "Brown", arLabel: "بني" },
+    { value: "Gold", label: "Gold", arLabel: "ذهبي" },
+    { value: "Green", label: "Green", arLabel: "أخضر" },
+    { value: "Red", label: "Red", arLabel: "أحمر" },
+    { value: "Pink", label: "Pink", arLabel: "وردي" },
+    { value: "Purple", label: "Purple", arLabel: "أرجواني" },
+    { value: "Silver", label: "Silver", arLabel: "فضي" },
+    { value: "White", label: "White", arLabel: "أبيض" },
+    { value: "Other", label: "Other", arLabel: "آخر" },
+  ];
   const allInteriorColor = [
     { value: "Beige", label: "Beige" },
     { value: "Black", label: "Black" },
