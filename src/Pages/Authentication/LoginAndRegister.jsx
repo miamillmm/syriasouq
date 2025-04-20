@@ -9,17 +9,6 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css"; // Import default styles
 import SyrianFlag from "../../assets/flag/syria-flag.png"; // Import the new Syrian flag
 
-// Custom CSS to override the Syrian flag
-const styles = `
-  .react-tel-input .flag.sy {
-    background-image: url(${SyrianFlag}) !important;
-    background-size: cover !important;
-    background-position: center !important;
-    width: 24px !important;
-    height: 16px !important;
-  }
-`;
-
 const LoginAndRegister = () => {
   const [activeTab, setActiveTab] = useState("login");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -117,13 +106,26 @@ const LoginAndRegister = () => {
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language; // Gets current language
 
+  // Custom flag rendering function
+  const customFlag = (country) => {
+    if (country.countryCode === "sy") {
+      return (
+        <img
+          src={SyrianFlag}
+          alt="Syria Flag"
+          className="w-6 h-4 mr-2"
+          style={{ objectFit: "cover" }}
+        />
+      );
+    }
+    return null; // Use default flag for other countries
+  };
+
   return (
     <div
       className="relative flex justify-center items-center min-h-screen bg-cover bg-center"
       style={{ backgroundImage: `url(${cover})` }}
     >
-
-      <style>{styles}</style>
       <div className="absolute inset-0 bg-[#304455] opacity-85"></div>
       <div className="bg-white shadow-md rounded-lg p-8 w-[90%] sm:w-96 z-10">
         <div className="flex justify-center mb-6 gap-5">
@@ -191,6 +193,7 @@ const LoginAndRegister = () => {
                       enableSearch
                       specialLabel={false}
                       countryCodeEditable={false}
+                      renderFlag={customFlag} // Custom flag rendering
                     />
                   </div>
                 );
@@ -304,6 +307,7 @@ const LoginAndRegister = () => {
                       enableSearch
                       specialLabel={false}
                       countryCodeEditable={false}
+                      renderFlag={customFlag} // Custom flag rendering
                     />
                   </div>
                 );
@@ -342,9 +346,8 @@ const LoginAndRegister = () => {
               type="submit"
               className="w-full bg-red-500 py-3 rounded-lg cursor-pointer"
             >
-
-                {currentLanguage === "ar" ? " إنشاء حساب" : "Register"}           
-                 </button>
+              <Translate text={"Register"} />
+            </button>
           </form>
         )}
       </div>
