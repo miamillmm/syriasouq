@@ -342,9 +342,10 @@ const LoginAndRegister = () => {
               type="submit"
               className="w-full bg-red-500 py-3 rounded-lg cursor-pointer"
             >
-
-              {currentLanguage === "ar" ? " إنشاء حساب" : "Register"}            
-              </button>
+{
+                currentLanguage === "ar" ? " إنشاء حساب" : "Register"
+              }           
+               </button>
           </form>
         )}
       </div>
