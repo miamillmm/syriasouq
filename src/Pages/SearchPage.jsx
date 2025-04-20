@@ -1065,8 +1065,8 @@ const SearchPage = () => {
                       className="text-white bg-[#fb2c36] w-full py-2 rounded cursor-pointer"
                       onClick={() => setIsMobileFilterOpen(false)}
                     >
-                      <Translate text={"Apply Filters"} />
-                    </button>
+              {currentLanguage === "ar" ? "تطبيق التصفية" : "Apply Filters"}
+              </button>
                     <button
                       className="text-black bg-gray-200 w-full py-2 rounded cursor-pointer"
                       onClick={() =>
