@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import avatar from "../assets/images/avatar/photo.png";
-// import logo from "../assets/images/logo/logo.png";
-// import logo from "../assets/images/logo/logo-new.jpeg";
 import logo from "../assets/images/logo/logo-new-transparent-bg.png";
 import Translate from "../utils/Translate";
 import { useTranslation } from "react-i18next";
@@ -12,12 +9,12 @@ import { FaRegUserCircle } from "react-icons/fa";
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navigate = useNavigate();
-
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language;
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("SyriaSouq-auth"));
-    console.log(storedUser);
     if (storedUser) {
       setUser(storedUser);
     }
@@ -34,16 +31,14 @@ const Navbar = () => {
     window.location.href = "/";
   };
 
-  const { i18n } = useTranslation();
-  const currentLanguage = i18n.language; // Gets current language
-
   return (
-    <nav className="bg-[#323232fa] w-screen text-white py-4 px-4 md:px-28 fixed z-20">
-      <div className="flex justify-between items-center">
-        {/* Left: Hamburger Menu (Mobile) */}
+    <nav className="bg-[#323232fa] text-white py-3 px-4 sm:px-6 md:px-16 lg:px-28 fixed w-full top-0 z-20">
+      <div className="flex justify-between items-center max-w-7xl mx-auto">
+        {/* Left: Hamburger Menu (Mobile/Tablet) */}
         <button
-          className="md:hidden text-white focus:outline-none cursor-pointer"
+          className="sm:hidden text-white focus:outline-none"
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          aria-label={isSidebarOpen ? "Close menu" : "Open menu"}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -70,111 +65,63 @@ const Navbar = () => {
           </svg>
         </button>
 
-        {/* <div className="relative group flex items-center justify-between gap-10 md:hidden"> */}
-        {/* Currency Dropdown */}
-        {/* <div className="dropdown dropdown-hover">
-            <button className="hover:text-[#B80200] duration-500 text-[18px] font-[500] cursor-pointer flex items-center">
-              <Translate text={"SYP"} />
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="w-4 h-4 ml-1 transition-all duration-300 group-hover:opacity-0"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </button>
-            <ul
-              tabIndex={0}
-              className="dropdown-content menu text-black hover:text-[#B80200] text-[18px] font-[500] bg-base-100 rounded-box z-10 w-32 mt-10 p-2 shadow-sm"
-            >
-              <li>
-                <NavLink to="#">
-                  <Translate text={"USD"} />
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="#">
-                  <Translate text={"SYP"} />
-                </NavLink>
-              </li>
-            </ul>
-          </div> */}
-        {/* </div> */}
-
         {/* Middle: Logo */}
-        <NavLink className="w-14 md:hidden" to="/">
-          <img src={logo} className="w-14" alt="Logos" />
+        <NavLink className="flex-shrink-0" to="/">
+          <img
+            src={logo}
+            className="w-12 sm:w-14 md:w-16"
+            alt="SyriaSouq Logo"
+          />
         </NavLink>
 
-        <Link to={"/addlisting"} className="block md:hidden">
-          <button className="bg-[#B80200] text-white px-4 py-2 rounded-md  cursor-pointer text-xs ">
-            {currentLanguage === "ar" ? "إضافة إعلان" : "Add Listing"}{" "}
-            <span>+</span>
-          </button>
-        </Link>
-
-        {/* Right: Avatar (Mobile) */}
-        {/* <div className="avatar md:hidden">
-          <div className="w-12 rounded-full">
-            <img src={avatar} alt="avatar" />
-          </div>
-        </div> */}
-
-        <div className="avatar md:hidden">
+        {/* Right: Mobile Actions */}
+        <div className="flex items-center gap-2 sm:gap-3 sm:hidden">
+          <Link to="/addlisting">
+            <button className="bg-[#B80200] text-white px-3 py-1.5 rounded-md text-xs font-semibold flex items-center gap-1">
+              {currentLanguage === "ar" ? "إضافة إعلان" : "Add Listing"}
+              <span>+</span>
+            </button>
+          </Link>
           <Link to={user ? "/dashboard" : "/login-and-register"}>
-            <div className="w-10 rounded-full h-10 bg-white !flex items-center justify-center font-black text-lg">
-              {/* <img src={avatar} alt="avatar" /> */}
-              {/* <Translate
-                text={(() => {
-                  const firstLetter =
-                    user?.username?.charAt(0).toUpperCase() || "?";
-                  return firstLetter;
-                })()}
-              /> */}
-              <FaRegUserCircle className="text-[#B80200] w-full h-full" />
+            <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+              <FaRegUserCircle className="text-[#B80200] w-6 h-6" />
             </div>
           </Link>
         </div>
 
         {/* Desktop Navigation */}
-        <div className="w-full hidden md:flex justify-between items-center space-x-6">
-          <div className="flex items-center justify-between gap-10">
-            <NavLink className="w-14" to="/">
-              <img src={logo} className="w-14" alt="Logo" />
-            </NavLink>
-            <ul className="flex items-center space-x-6">
+        <div className="hidden sm:flex flex-1 justify-between items-center gap-6">
+          {/* Left: Nav Links */}
+          <div className="flex items-center gap-6">
+            <ul className="flex items-center gap-4 lg:gap-6">
               <li className="relative group">
                 <NavLink
                   to="/"
-                  className="hover:text-[#B80200] duration-500 text-[18px] font-[500]"
+                  className="text-sm lg:text-lg font-medium hover:text-[#B80200] transition-colors duration-300"
                 >
                   <span className="absolute left-[-20px] opacity-0 group-hover:opacity-100 group-hover:translate-x-2.5 transition-all duration-500 ease-in-out">
                     •
                   </span>
-                  <Translate text={"Home"} />
+                  <Translate text="Home" />
                 </NavLink>
               </li>
               <li className="relative group">
                 <div className="dropdown dropdown-hover">
-                  <button className="hover:text-[#B80200] duration-500 text-[18px] font-[500] cursor-pointer flex items-center">
+                  <button
+                    className="text-sm lg:text-lg font-medium hover:text-[#B80200] transition-colors duration-300 flex items-center"
+                    aria-haspopup="true"
+                  >
                     <span className="absolute left-[-20px] opacity-0 group-hover:opacity-100 group-hover:translate-x-2.5 transition-all duration-500 ease-in-out">
                       •
                     </span>
-                    <Translate text={"Page"} />
+                    <Translate text="Page" />
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
                       strokeWidth={2}
                       stroke="currentColor"
-                      className="w-4 h-4 ml-1 transition-all duration-500 group-hover:opacity-0"
+                      className="w-4 h-4 ml-1 group-hover:opacity-0 transition-opacity duration-300"
                     >
                       <path
                         strokeLinecap="round"
@@ -185,38 +132,38 @@ const Navbar = () => {
                   </button>
                   <ul
                     tabIndex={0}
-                    className="dropdown-content menu text-black bg-base-100 rounded-box z-10 mt-10 w-44 p-2 shadow-sm"
+                    className="dropdown-content menu bg-white text-gray-800 rounded-lg mt-2 w-48 p-2 shadow-lg"
                   >
                     <li>
                       <NavLink
                         to="/about"
-                        className="hover:text-[#B80200] duration-500 text-[18px] font-[500]"
+                        className="text-sm hover:text-[#B80200] py-2 px-4 rounded transition-colors duration-300"
                       >
-                        <Translate text={"About Us"} />
+                        <Translate text="About Us" />
                       </NavLink>
                     </li>
                     <li>
                       <NavLink
                         to="/contact"
-                        className="hover:text-[#B80200] duration-500 text-[18px] font-[500]"
+                        className="text-sm hover:text-[#B80200] py-2 px-4 rounded transition-colors duration-300"
                       >
-                        <Translate text={"Contact"} />
+                        <Translate text="Contact" />
                       </NavLink>
                     </li>
                     <li>
                       {user ? (
                         <NavLink
                           to="/dashboard"
-                          className="hover:text-[#B80200] duration-500 text-[18px] font-[500]"
+                          className="text-sm hover:text-[#B80200] py-2 px-4 rounded transition-colors duration-300"
                         >
-                          <Translate text={"Listing"} />
+                          <Translate text="Listing" />
                         </NavLink>
                       ) : (
                         <NavLink
                           to="/login-and-register"
-                          className="hover:text-[#B80200] duration-500 text-[18px] font-[500]"
+                          className="text-sm hover:text-[#B80200] py-2 px-4 rounded transition-colors duration-300"
                         >
-                          <Translate text={"Login/Register"} />
+                          <Translate text="Login/Register" />
                         </NavLink>
                       )}
                     </li>
@@ -226,118 +173,63 @@ const Navbar = () => {
             </ul>
           </div>
 
-          <div className="relative group flex items-center justify-between gap-10">
-            {/* Currency Dropdown */}
-            {/* <div className="dropdown dropdown-hover">
-              <button className="hover:text-[#B80200] duration-500 text-[18px] font-[500] cursor-pointer flex items-center">
-                <Translate text={"SYP"} />
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
-                  className="w-4 h-4 ml-1 transition-all duration-300 group-hover:opacity-0"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </button>
-              <ul
-                tabIndex={0}
-                className="dropdown-content menu text-black hover:text-[#B80200] text-[18px] font-[500] bg-base-100 rounded-box z-10 w-32 mt-10 p-2 shadow-sm"
-              >
-                <li>
-                  <NavLink to="#">
-                    <Translate text={"USD"} />
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="#">
-                    <Translate text={"SYP"} />
-                  </NavLink>
-                </li>
-              </ul>
-            </div> */}
-
-            {/* Avatar */}
-            {user && (
+          {/* Right: Actions */}
+          <div className="flex items-center gap-4 lg:gap-6">
+            {user ? (
               <>
-                <div className="avatar">
-                  <Link to={"/dashboard"}>
-                    <div className="w-10 rounded-full h-10 bg-white !flex items-center justify-center font-black text-lg">
-                      {/* <img src={avatar} alt="avatar" /> */}
-                      {/* <Translate
-                        text={(() => {
-                          const firstLetter =
-                            user?.username?.charAt(0).toUpperCase() || "?";
-                          return firstLetter;
-                        })()}
-                      /> */}
-                      <FaRegUserCircle className="text-[#B80200] w-full h-full" />
-                    </div>
-                  </Link>
-                </div>
+                <Link to="/dashboard">
+                  <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                    <FaRegUserCircle className="text-[#B80200] w-8 h-8" />
+                  </div>
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="text-sm lg:text-lg text-[#B80200] font-medium hover:underline"
+                >
+                  <Translate text="Logout" />
+                </button>
               </>
-            )}
-
-            {/* Login/Register */}
-            {user && (
-              <button
-                onClick={handleLogout}
-                className="cursor-pointer text-[#B80200]"
-              >
-                <Translate text={"Logout"} />
-              </button>
-            )}
-            {!user && (
+            ) : (
               <>
                 <Link
                   to="/login-and-register"
-                  className="hover:text-[#B80200] text-[18px] font-[500] duration-500"
+                  className="text-sm lg:text-lg font-medium hover:text-[#B80200] transition-colors duration-300"
                 >
-                  <Translate text={"Login"} />
+                  <Translate text="Login" />
                 </Link>
                 <span className="border-r border-gray-300 h-6"></span>
                 <Link
                   to="/login-and-register"
-                  className="hover:text-[#B80200] text-[18px] font-[500] duration-500"
+                  className="text-sm lg:text-lg font-medium hover:text-[#B80200] transition-colors duration-300"
                 >
-                  <Translate text={"Register"} />
+                  <Translate text="Register" />
                 </Link>
               </>
             )}
-
-            {/* Add Listing Button */}
             <NavLink to="/addlisting">
-              <button className="bg-[#B80200] text-white px-4 py-2 rounded-md  cursor-pointer  font-bold">
-                {currentLanguage === "ar" ? "إضافة إعلان" : "Add Listing"}{" "}
+              <button className="bg-[#B80200] text-white px-4 py-2 rounded-md text-sm lg:text-base font-semibold flex items-center gap-1">
+                {currentLanguage === "ar" ? "إضافة إعلان" : "Add Listing"}
                 <span>+</span>
               </button>
             </NavLink>
-            {/* <button className="bg-red-500 text-[#314352] text-[18px] font-light px-4 py-2 rounded-md cursor-pointer">
-              Add Listing 
-            </button> */}
           </div>
         </div>
       </div>
 
-      {/* Sidebar for Mobile */}
+      {/* Sidebar for Mobile/Tablet */}
       {isSidebarOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-10"
+          className="fixed inset-0 bg-black bg-opacity-50 z-30 sm:hidden"
           onClick={() => setIsSidebarOpen(false)}
         >
           <div
-            className="bg-[#374b5c] text-white w-64 h-full p-6 shadow-md z-20"
+            className="bg-[#374b5c] text-white w-64 h-full p-6 transform transition-transform duration-300 ease-in-out"
             onClick={(e) => e.stopPropagation()}
           >
             <button
-              className="absolute top-4 right-4 text-white focus:outline-none cursor-pointer"
+              className="absolute top-4 right-4 text-white focus:outline-none"
               onClick={() => setIsSidebarOpen(false)}
+              aria-label="Close sidebar"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -354,60 +246,60 @@ const Navbar = () => {
                 />
               </svg>
             </button>
-            <ul className="space-y-4">
+            <ul className="space-y-4 mt-10">
               <li>
                 <NavLink
                   to="/"
                   onClick={() => setIsSidebarOpen(false)}
-                  className="block hover:text-[#B80200]"
+                  className="block text-base font-medium hover:text-[#B80200] py-2"
                 >
                   {currentLanguage === "ar" ? "الصفحة الرئيسية" : "Home"}
                 </NavLink>
               </li>
               <li>
-                <div className="dropdown">
-                  {/* <button className="hover:text-[#B80200]">
-                    <Translate text={"Page"} />
-                  </button> */}
-                  <ul className="ml-4 mt-2 space-y-2">
+                <div className="space-y-2">
+                  <span className="block text-base font-medium py-2">
+                    <Translate text="Page" />
+                  </span>
+                  <ul className="ml-4 space-y-2">
                     <li>
                       <NavLink
                         to="/about"
                         onClick={() => setIsSidebarOpen(false)}
-                        className="block hover:text-[#B80200]"
+                        className="block text-sm hover:text-[#B80200] py-1"
                       >
-                        <Translate text={"About Us"} />
+                        <Translate text="About Us" />
                       </NavLink>
                     </li>
                     <li>
                       <NavLink
                         to="/contact"
                         onClick={() => setIsSidebarOpen(false)}
-                        className="block hover:text-[#B80200]"
+                        className="block text-sm hover:text-[#B80200] py-1"
                       >
                         {currentLanguage === "ar" ? "تواصل معنا" : "Contact"}
                       </NavLink>
                     </li>
                     {user ? (
-                      <>
-                        <li
+                      <li>
+                        <button
                           onClick={() => {
                             handleLogoutOnMobile();
                             setIsSidebarOpen(false);
                           }}
-                          className="block text-[#B80200]"
+                          className="block text-sm text-[#B80200] py-1"
                         >
-                          <Translate text={"Logout"} />
-                        </li>
-                      </>
+                          <Translate text="Logout" />
+                        </button>
+                      </li>
                     ) : (
                       <li>
                         <NavLink
                           to="/login-and-register"
                           onClick={() => setIsSidebarOpen(false)}
-                          className="block hover:text-[#B80200]"
+                          className="block text-sm hover:text-[#B80200] py-1"
                         >
-                          <Translate text={"Login/Register"} />
+                          <Translate text="Login/Register" />
                         </NavLink>
                       </li>
                     )}
@@ -418,8 +310,9 @@ const Navbar = () => {
                 <NavLink
                   to="/addlisting"
                   onClick={() => setIsSidebarOpen(false)}
+                  className="block"
                 >
-                  <button className="bg-white px-4 py-2 text-[#B80200] rounded-md hover:bg-slate-200 cursor-pointer font-bold">
+                  <button className="bg-white px-4 py-2 text-[#B80200] rounded-md text-sm font-semibold hover:bg-gray-100 w-full text-left">
                     {currentLanguage === "ar" ? "إضافة إعلان" : "Add Listing"}
                   </button>
                 </NavLink>
