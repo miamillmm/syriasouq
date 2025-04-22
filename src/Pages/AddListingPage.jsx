@@ -197,7 +197,7 @@ const AddListingPage = () => {
       }
     } catch (error) {
       console.error("Error submitting listing:", error);
-      toast.error(error);
+      toast.error(result);
     }
   };
 
