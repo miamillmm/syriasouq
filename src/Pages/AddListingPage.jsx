@@ -148,12 +148,63 @@ const AddListingPage = () => {
   }, [navigate]);
 
   // Handle form submission
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   // Create FormData to handle image uploads
+  //   const formData = new FormData();
+
+  //   formData.append("make", make?.value || "");
+  //   formData.append("model", model?.value || "");
+  //   formData.append("priceUSD", priceUSD);
+  //   formData.append("priceSYP", priceSYP);
+  //   formData.append("year", year);
+  //   formData.append("kilometer", kilometer);
+  //   formData.append("engineSize", engineSize?.value || "");
+  //   formData.append("location", location?.value || "");
+  //   formData.append("transmission", transmission?.value || "");
+  //   formData.append("fuelType", fuelType?.value || "");
+  //   formData.append("exteriorColor", exteriorColor?.value || "");
+  //   formData.append("interiorColor", interiorColor?.value || "");
+  //   formData.append("description", description);
+
+  //   // Append selected features as JSON string
+  //   formData.append("selectedFeatures", JSON.stringify(selectedFeatures));
+
+  //   // Append uploaded images
+  //   uploadedImages.forEach((image, index) => {
+  //     formData.append(`images`, image.file);
+  //   });
+
+  //   try {
+  //     const response = await fetch(`${import.meta.env.VITE_API_URL}/cars`, {
+  //       method: "POST",
+  //       headers: {
+  //         authorization: `Bearer ${user.jwt}`, // Ensure `user.jwt` exists
+  //       },
+  //       body: formData, // Let the browser set Content-Type automatically
+  //     });
+
+  //     const result = await response.json();
+
+  //     if (response.ok) {
+  //       toast.success(
+  //         "Listing added successfully! This will expire after 35 days"
+  //       );
+  //       navigate("/dashboard", { replace: true });
+  //     } else {
+  //       toast.error(`Error: ${result.message}`);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error submitting listing:", error);
+  //     toast.error("Failed to submit listing.");
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Create FormData to handle image uploads
+  
     const formData = new FormData();
-
     formData.append("make", make?.value || "");
     formData.append("model", model?.value || "");
     formData.append("priceUSD", priceUSD);
@@ -167,37 +218,68 @@ const AddListingPage = () => {
     formData.append("exteriorColor", exteriorColor?.value || "");
     formData.append("interiorColor", interiorColor?.value || "");
     formData.append("description", description);
-
-    // Append selected features as JSON string
     formData.append("selectedFeatures", JSON.stringify(selectedFeatures));
-
-    // Append uploaded images
     uploadedImages.forEach((image, index) => {
       formData.append(`images`, image.file);
     });
-
+  
+    // Log FormData for debugging
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}:`, value);
+    }
+  
+    // Validate required fields
+    if (!make || !model || !priceUSD || !year || !kilometer || !description) {
+      toast.error(
+        currentLanguage === "ar"
+          ? "يرجى ملء جميع الحقول المطلوبة"
+          : "Please fill all required fields"
+      );
+      return;
+    }
+  
+    if (uploadedImages.length === 0) {
+      toast.error(
+        currentLanguage === "ar"
+          ? "يرجى رفع صورة واحدة على الأقل"
+          : "Please upload at least one image"
+      );
+      return;
+    }
+  
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/cars`, {
         method: "POST",
         headers: {
-          authorization: `Bearer ${user.jwt}`, // Ensure `user.jwt` exists
+          authorization: `Bearer ${user.jwt}`,
         },
-        body: formData, // Let the browser set Content-Type automatically
+        body: formData,
       });
-
+  
       const result = await response.json();
-
+  
       if (response.ok) {
         toast.success(
-          "Listing added successfully! This will expire after 35 days"
+          currentLanguage === "ar"
+            ? "تمت إضافة الإعلان بنجاح! سينتهي هذا بعد 35 يومًا"
+            : "Listing added successfully! This will expire after 35 days"
         );
         navigate("/dashboard", { replace: true });
       } else {
-        toast.error(`Error: ${result.message}`);
+        console.error("Server Response:", result);
+        toast.error(
+          currentLanguage === "ar"
+            ? `خطأ: ${result.message || "فشل في إرسال الإعلان"}`
+            : `Error: ${result.message || "Failed to submit listing"}`
+        );
       }
     } catch (error) {
-      console.error("Error submitting listing:", error);
-      toast.error(result);
+      console.error("Submission Error:", error);
+      toast.error(
+        currentLanguage === "ar"
+          ? "فشل في إرسال الإعلان"
+          : "Failed to submit listing"
+      );
     }
   };
 
