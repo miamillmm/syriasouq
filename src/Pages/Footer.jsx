@@ -85,7 +85,7 @@ const Footer = () => {
             <div>
               <h3 className="font-bold mb-3">
                 {currentLanguage === "ar"
-                  ? `راسلنا عن طريق البريد الالكتروني`
+                  ? "راسلنا عن طريق وسائل التواصل الاجتماعي"  
                   : "get social"}
               </h3>
               <ul className="space-y-1">
