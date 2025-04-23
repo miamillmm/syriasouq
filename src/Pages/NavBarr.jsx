@@ -1,35 +1,16 @@
-import { useEffect, useState } from "react";
-import { NavLink, Link, useNavigate } from "react-router-dom";
-import avatar from "../assets/images/avatar/photo.png";
+import { useState, useContext } from "react";
+import { NavLink, Link } from "react-router-dom";
 import logo from "../assets/images/logo/logo-new-transparent-bg.png";
 import Translate from "../utils/Translate";
 import { useTranslation } from "react-i18next";
 import { FaRegUserCircle } from "react-icons/fa";
+import { AuthContext } from "../context/AuthContext";
 
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const navigate = useNavigate();
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language;
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("SyriaSouq-auth"));
-    if (storedUser) {
-      setUser(storedUser);
-    }
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem("SyriaSouq-auth");
-    navigate("/", { replace: true });
-  };
-
-  const handleLogoutOnMobile = () => {
-    localStorage.removeItem("SyriaSouq-auth");
-    navigate("/", { replace: true });
-    window.location.href = "/";
-  };
+  const { user, logout } = useContext(AuthContext);
 
   return (
     <nav className="bg-[#323232fa] text-white py-3 px-4 sm:px-6 md:px-16 lg:px-28 fixed w-full top-0 z-20">
@@ -74,17 +55,16 @@ const Navbar = () => {
           />
         </NavLink>
 
-        {/* Right: Mobile Actions */}
+        {/* Right: Mobile Actions (Profile Only on Small Screens) */}
         <div className="flex items-center gap-2 sm:gap-3 sm:hidden">
-          <Link to="/addlisting">
-            <button className="bg-[#B80200] text-white px-3 py-1.5 rounded-md text-xs font-semibold flex items-center gap-1">
-              {currentLanguage === "ar" ? "إضافة إعلان" : "Add Listing"}
-              <span>+</span>
-            </button>
-          </Link>
           <Link to={user ? "/dashboard" : "/login-and-register"}>
-            <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-              <FaRegUserCircle className="text-[#B80200] w-6 h-6" />
+            <div className="flex flex-col items-center gap-1">
+              <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center border border-[#B80200] shadow-sm">
+                <FaRegUserCircle className="text-[#B80200] w-6 h-6" />
+              </div>
+              <p className="bg-gradient-to-r from-[#B80200] to-[#A00000] text-white px-2 py-1 rounded-md text-xs font-bold hover:bg-gradient-to-r hover:from-[#A00000] hover:to-[#900000] transition-all hover:scale-105 shadow-md">
+                {currentLanguage === "ar" ? "حسابي" : "My Profile"}
+              </p>
             </div>
           </Link>
         </div>
@@ -173,7 +153,7 @@ const Navbar = () => {
             </ul>
           </div>
 
-          {/* Right: Actions */}
+          {/* Right: Actions (Including Add Listing on Larger Screens) */}
           <div className="flex items-center gap-4 lg:gap-6">
             {user ? (
               <>
@@ -183,7 +163,7 @@ const Navbar = () => {
                   </div>
                 </Link>
                 <button
-                  onClick={handleLogout}
+                  onClick={logout}
                   className="text-sm lg:text-lg text-[#B80200] font-medium hover:underline"
                 >
                   <Translate text="Logout" />
@@ -207,7 +187,7 @@ const Navbar = () => {
               </>
             )}
             <NavLink to="/addlisting">
-              <button className="bg-[#B80200] text-white px-4 py-2 rounded-md text-sm lg:text-base font-semibold flex items-center gap-1">
+              <button className="bg-[#B80200] text-white px-4 py-2 rounded-md text-sm lg:text-base font-semibold flex items-center gap-1 hover:bg-red-600 transition-colors shadow-md">
                 {currentLanguage === "ar" ? "إضافة إعلان" : "Add Listing"}
                 <span>+</span>
               </button>
@@ -284,7 +264,7 @@ const Navbar = () => {
                       <li>
                         <button
                           onClick={() => {
-                            handleLogoutOnMobile();
+                            logout();
                             setIsSidebarOpen(false);
                           }}
                           className="block text-sm text-[#B80200] py-1"

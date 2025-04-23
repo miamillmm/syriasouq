@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { IoIosAt } from "react-icons/io";
 import { IoLocationSharp } from "react-icons/io5";
-import { FaFacebookF, FaInstagram, FaEnvelope } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaEnvelope, FaPhone, FaHeadset } from "react-icons/fa";
 import LanguageSwitcher from "../utils/LanguageSwitcher";
 import { LuMapPin } from "react-icons/lu";
 import { CiAt } from "react-icons/ci";
@@ -37,22 +37,25 @@ const Footer = () => {
           variants={fadeIn}
           viewport={{ once: true }}
         >
-          <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 px-6 text-center md:text-left">
+          <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 px-6">
             {/* Company Section */}
-            <motion.div className="space-y-4" variants={fadeIn}>
-              <h3 className="font-bold text-2xl text-center">
+            <motion.div
+              className="space-y-4 flex flex-col items-center md:items-start"
+              variants={fadeIn}
+            >
+              <h3 className="font-bold text-2xl">
                 {currentLanguage === "ar" ? (
                   <motion.img
                     src={FooterLogoAr}
                     alt="SyriaSouq Logo Arabic"
-                    className="max-w-52 w-full md:mx-0 mx-auto"
+                    className="max-w-52 w-full mx-auto md:mx-0"
                     whileHover={hoverEffect}
                   />
                 ) : (
                   <motion.img
                     src={FooterLogoEn}
                     alt="SyriaSouq Logo English"
-                    className="max-w-52 w-full md:mx-0 mx-auto"
+                    className="max-w-52 w-full mx-auto md:mx-0"
                     whileHover={hoverEffect}
                   />
                 )}
@@ -67,8 +70,11 @@ const Footer = () => {
             </motion.div>
 
             {/* Useful Links */}
-            <motion.div variants={fadeIn}>
-              <h3 className="font-bold mb-4 text-lg capitalize">
+            <motion.div
+              className="space-y-4 flex flex-col items-center md:items-start"
+              variants={fadeIn}
+            >
+              <h3 className="font-bold mb-4 text-lg capitalize text-center md:text-left">
                 <Translate text={"useful links"} />
               </h3>
               <ul className="space-y-2">
@@ -76,7 +82,7 @@ const Footer = () => {
                   <motion.div whileHover={hoverEffect}>
                     <Link
                       to="/about"
-                      className="text-red-500 hover:text-red-400 font-bold transition-colors capitalize"
+                      className="text-red-500 hover:text-red-400 font-bold transition-colors capitalize flex justify-center md:justify-start"
                     >
                       <Translate text={"About us"} />
                     </Link>
@@ -86,7 +92,7 @@ const Footer = () => {
                   <motion.div whileHover={hoverEffect}>
                     <Link
                       to="/term-and-use"
-                      className="text-red-500 hover:text-red-400 font-bold transition-colors capitalize"
+                      className="text-red-500 hover:text-red-400 font-bold transition-colors capitalize flex justify-center md:justify-start"
                     >
                       <Translate text={"Terms of Use"} />
                     </Link>
@@ -96,7 +102,7 @@ const Footer = () => {
                   <motion.div whileHover={hoverEffect}>
                     <Link
                       to="/privacy-policy"
-                      className="text-red-500 hover:text-red-400 font-bold transition-colors capitalize"
+                      className="text-red-500 hover:text-red-400 font-bold transition-colors capitalize flex justify-center md:justify-start"
                     >
                       <Translate text={"Privacy Policy"} />
                     </Link>
@@ -106,8 +112,11 @@ const Footer = () => {
             </motion.div>
 
             {/* Get Social */}
-            <motion.div variants={fadeIn}>
-              <h3 className="font-bold mb-4 text-lg capitalize">
+            <motion.div
+              className="space-y-4 flex flex-col items-center md:items-start"
+              variants={fadeIn}
+            >
+              <h3 className="font-bold mb-4 text-lg capitalize text-center md:text-left">
                 {currentLanguage === "ar" ? "راسلنا عبر وسائل التواصل" : "get social"}
               </h3>
               <ul className="space-y-2">
@@ -115,7 +124,7 @@ const Footer = () => {
                   <motion.div whileHover={hoverEffect}>
                     <Link
                       to="https://www.facebook.com/share/1HKg5LFhzB/?mibextid=wwXIfr"
-                      className="text-red-500 hover:text-red-400 flex items-center gap-2 capitalize"
+                      className="text-red-500 hover:text-red-400 flex items-center gap-2 capitalize justify-center md:justify-start"
                     >
                       <FaFacebookF className="text-lg" />
                       {currentLanguage === "ar" ? "فيسبوك" : "Facebook"}
@@ -126,7 +135,7 @@ const Footer = () => {
                   <motion.div whileHover={hoverEffect}>
                     <Link
                       to="https://www.instagram.com/mysyriasouq?igsh=bHFnNWo2aGszcHF4&utm_source=qr"
-                      className="text-red-500 hover:text-red-400 flex items-center gap-2 capitalize"
+                      className="text-red-500 hover:text-red-400 flex items-center gap-2 capitalize justify-center md:justify-start"
                     >
                       <FaInstagram className="text-lg" />
                       {currentLanguage === "ar" ? "انستاغرام" : "Instagram"}
@@ -137,7 +146,7 @@ const Footer = () => {
                   <motion.div whileHover={hoverEffect}>
                     <Link
                       to="mailto:syriasouq@outlook.com"
-                      className="text-red-500 hover:text-red-400 flex items-center gap-2 capitalize"
+                      className="text-red-500 hover:text-red-400 flex items-center gap-2 capitalize justify-center md:justify-start"
                     >
                       <FaEnvelope className="text-lg" />
                       {currentLanguage === "ar" ? "بريد إلكتروني" : "Email"}
@@ -148,29 +157,37 @@ const Footer = () => {
             </motion.div>
 
             {/* Support */}
-            <motion.div variants={fadeIn}>
-              <h3 className="font-bold mb-4 text-lg capitalize">
+            <motion.div
+              className="space-y-4 flex flex-col items-center md:items-start"
+              variants={fadeIn}
+            >
+              <h3 className="font-bold mb-4 text-lg capitalize text-center md:text-left">
                 {currentLanguage === "ar" ? "الدعم" : "support"}
               </h3>
               <motion.div whileHover={hoverEffect}>
                 <Link
                   to="/contact"
-                  className="text-red-500 hover:text-red-400 transition-colors capitalize"
+                  className="text-red-500 hover:text-red-400 transition-colors capitalize flex items-center gap-2 justify-center md:justify-start"
                 >
+                
+                   <FaHeadset className="text-lg" />
                   {currentLanguage === "ar" ? "تواصل معنا" : "contact us"}
                 </Link>
               </motion.div>
             </motion.div>
 
             {/* Languages */}
-            <motion.div variants={fadeIn}>
-              <h3 className="font-bold mb-4 text-lg capitalize">
+            <motion.div
+              className="space-y-4 flex flex-col items-center md:items-start"
+              variants={fadeIn}
+            >
+              <h3 className="font-bold mb-4 text-lg capitalize text-center md:text-left">
                 <Translate text={"languages"} />
               </h3>
               <motion.div whileHover={hoverEffect}>
                 <Link
                   to="#"
-                  className="text-red-500 hover:text-red-400 transition-colors capitalize"
+                  className="text-red-500 hover:text-red-400 transition-colors capitalize flex justify-center md:justify-start"
                 >
                   <Translate text={"arabic (arabic language)"} />
                 </Link>
@@ -186,7 +203,7 @@ const Footer = () => {
           viewport={{ once: true }}
         >
           <aside>
-            <p className="capitalize">
+            <p className="capitalize text-center">
               © {new Date().getFullYear()}{" "}
               <Translate text={"SyriaSouq - All rights reserved."} />
             </p>

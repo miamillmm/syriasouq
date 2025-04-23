@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { FaEdit } from "react-icons/fa";
 import Translate from "../../utils/Translate";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { CiCalendar, CiLocationOn, CiSettings } from "react-icons/ci";
@@ -14,74 +15,24 @@ const getUidFromUrl = () => {
 const CarListing = () => {
   const [cars, setCars] = useState([]);
   const { i18n } = useTranslation();
-  const currentLanguage = i18n.language; // Gets current language
+  const currentLanguage = i18n.language;
   const [loading, setLoading] = useState(true);
   const uid = getUidFromUrl();
-  const user = JSON.parse(localStorage.getItem("SyriaSouq-auth")); // Assume user is stored in localStorage
+  const user = JSON.parse(localStorage.getItem("SyriaSouq-auth"));
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCars = async () => {
       try {
-        // Replace with your real API URL
-        // const response = await axios.get("https://api.example.com/cars");
-        // setCars(response.data);
-
-        // Replace with your real API later
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/cars/uid/${uid ? uid : user._id}`
         );
-        // const response = await axios.get(`https://api.example.com/api/cars`);
         if (response.data.success) {
           console.log(response?.data?.data);
           setCars(response?.data?.data);
         }
       } catch (error) {
         console.error("Error fetching cars:", error);
-        // Demo data (for now)
-        // setCars([
-        //   {
-        //     id: 1,
-        //     name: "Tesla Model S",
-        //     brand: "Tesla",
-        //     model: "Model S",
-        //     year: 2023,
-        //     price: "$85,000",
-        //     mileage: "15,000 miles",
-        //     fuel: "Electric",
-        //     location: "Los Angeles, CA",
-        //     images: [
-        //       "https://cdn.pixabay.com/photo/2019/12/17/04/54/tesla-4705739_1280.jpg",
-        //     ],
-        //   },
-        //   {
-        //     id: 2,
-        //     name: "BMW M3",
-        //     brand: "BMW",
-        //     model: "M3",
-        //     year: 2022,
-        //     price: "$72,000",
-        //     mileage: "10,500 miles",
-        //     fuel: "Gasoline",
-        //     location: "New York, NY",
-        //     images: [
-        //       "https://cdn.pixabay.com/photo/2016/09/02/22/34/bmw-1646326_1280.jpg",
-        //     ],
-        //   },
-        //   {
-        //     id: 3,
-        //     name: "Audi R8",
-        //     brand: "Audi",
-        //     model: "R8",
-        //     year: 2021,
-        //     price: "$160,000",
-        //     mileage: "8,000 miles",
-        //     fuel: "Gasoline",
-        //     location: "Miami, FL",
-        //     images: [
-        //       "https://cdn.pixabay.com/photo/2016/11/29/08/49/audi-1866623_1280.jpg",
-        //     ],
-        //   },
-        // ]);
       }
       setLoading(false);
     };
@@ -114,12 +65,13 @@ const CarListing = () => {
     }
   };
 
+  const handleEdit = (carId) => {
+    // Navigate to AddListingPage with the car ID to open the edit modal
+    navigate(`/edit-listing/${carId}`);
+  };
+
   return (
     <div className="container mx-auto px-6 py-10">
-      {/* <h2 className="text-4xl font-extrabold text-gray-900 text-center mb-10">
-        <Translate text={"🚗 Explore Our Premium Car Collection"} />
-      </h2> */}
-
       {loading ? (
         <div className="text-center text-gray-600 text-xl animate-pulse">
           <Translate text={"Loading cars... ⏳"} />
@@ -145,7 +97,6 @@ const CarListing = () => {
                       "https://via.placeholder.com/400x300?text=No+Image")
                   }
                 />
-
                 <span
                   className={`absolute top-2 right-2 text-white text-sm px-3 py-1 rounded ${
                     car.status === "pending"
@@ -166,7 +117,7 @@ const CarListing = () => {
                 </h3>
 
                 {/* Make & Model */}
-                <h3 className="text-lg  text-gray-900">
+                <h3 className="text-lg text-gray-900">
                   <Translate text={car.make} /> .{" "}
                   <Translate text={car?.model} />
                 </h3>
@@ -175,14 +126,6 @@ const CarListing = () => {
                 <p className="text-gray-500 text-sm flex items-center gap-1">
                   <CiCalendar /> <Translate text={car?.year} />
                 </p>
-
-                {/* Mileage */}
-                {/* <p className="text-gray-700 font-medium">
-                  🛣️ <Translate text={"Mileage:"} /> {car.kilometer} km
-                </p> */}
-
-                {/* Fuel Type */}
-                {/* <p className="text-gray-500">⛽ {car.fuelType}</p> */}
 
                 {/* Transmission */}
                 <p className="text-gray-500 flex items-center gap-1">
@@ -205,9 +148,19 @@ const CarListing = () => {
                     <Translate text={"View Details"} />
                   </button>
                 </Link>
+
+                {/* Edit Button */}
+                <button
+                  onClick={() => handleEdit(car._id)}
+                  className="mt-3 w-full bg-blue-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-blue-700 transition text-lg cursor-pointer flex items-center justify-center gap-2"
+                >
+                  <FaEdit /> {currentLanguage === "ar" ? "تعديل" : "Edit"}
+                </button>
+
+                {/* Delete Button */}
                 <button
                   onClick={() => handleDelete(car._id)}
-                  className="mt-3 w-full bg-red-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-700 transition text-lg cursor-pointer"
+                  className="mt-3 w-full bg-red-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-700 transition text-lg cursor-pointer flex items-center justify-center gap-2"
                 >
                   🗑️ {currentLanguage === "ar" ? "مسح الإعلان" : "Delete"}
                 </button>

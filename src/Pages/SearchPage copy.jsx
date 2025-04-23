@@ -98,8 +98,7 @@ const SearchPage = () => {
     exteriorColor: "",
     interiorColor: "",
   });
-  const [isAnyPrice, setIsAnyPrice] = useState(false); // New state for "Any" price option
-  const [isAnyKilometer, setIsAnyKilometer] = useState(false); // New state for "Any" kilometer option
+
   useEffect(() => {
     if (
       currentLanguage === "ar" &&
@@ -178,7 +177,7 @@ const SearchPage = () => {
 
   const handleFilterChange = (e) => {
     const { name, value, type, checked } = e.target;
-  
+
     if (type === "checkbox") {
       if (name === "fuelType" || name === "make") {
         setFilters((prev) => ({
@@ -186,18 +185,6 @@ const SearchPage = () => {
           [name]: checked
             ? [...prev[name], value]
             : prev[name].filter((item) => item !== value),
-        }));
-      } else if (name === "isAnyPrice") {
-        setIsAnyPrice(checked);
-        setFilters((prev) => ({
-          ...prev,
-          maxPrice: checked ? Infinity : 100000, // Reset to default if unchecked
-        }));
-      } else if (name === "isAnyKilometer") {
-        setIsAnyKilometer(checked);
-        setFilters((prev) => ({
-          ...prev,
-          kilometer: checked ? [prev.kilometer[0] || 0, Infinity] : [prev.kilometer[0] || 0, 200000], // Reset to default if unchecked
         }));
       }
     } else if (name === "make") {
@@ -222,18 +209,33 @@ const SearchPage = () => {
       exteriorColor,
       interiorColor,
     } = filters;
-  
+
+    // const matchesKilometer =
+    //   !kilometer ||
+    //   (kilometer === "0-50000" &&
+    //     data.kilometer >= 0 &&
+    //     data.kilometer <= 50000) ||
+    //   (kilometer === "50001-100000" &&
+    //     data.kilometer >= 50001 &&
+    //     data.kilometer <= 100000) ||
+    //   (kilometer === "100001-150000" &&
+    //     data.kilometer >= 100001 &&
+    //     data.kilometer <= 150000) ||
+    //   (kilometer === "150001-200000" &&
+    //     data.kilometer >= 150001 &&
+    //     data.kilometer <= 200000) ||
+    //   (kilometer === "+200000" && data.kilometer >= 200001);
+
     const matchesKilometer =
       !kilometer ||
-      (data.kilometer >= kilometer[0] &&
-        (kilometer[1] === Infinity || data.kilometer <= kilometer[1]));
-  
+      (data.kilometer >= kilometer[0] && data.kilometer <= kilometer[1]);
+
     const matchesEngineSize =
       !engineSize ||
       engineSize === "Other" ||
       engineSize === "Unknown" ||
       data.engineSize === engineSize;
-  
+
     return (
       (make.length > 0
         ? make.some((m) =>
@@ -245,7 +247,7 @@ const SearchPage = () => {
       (minYear ? data.year >= parseInt(minYear, 10) : true) &&
       (maxYear ? data.year <= parseInt(maxYear, 10) : true) &&
       (minPrice ? data.priceUSD >= parseFloat(minPrice) : true) &&
-      (maxPrice === Infinity || (maxPrice ? data.priceUSD <= parseFloat(maxPrice) : true)) &&
+      (maxPrice ? data.priceUSD <= parseFloat(maxPrice) : true) &&
       matchesKilometer &&
       (location
         ? String(data.location || "")
@@ -265,6 +267,7 @@ const SearchPage = () => {
           !allInteriorColor.includes(data.interiorColor.toLowerCase())))
     );
   });
+
   // const carMakes =
   //   currentLanguage === "ar"
   //     ? [{ label: "الكل", value: "", models: [""] }, ...arabicMakes]
@@ -481,18 +484,6 @@ const SearchPage = () => {
                 <span>${filters.minPrice || 0}</span>
                 <span>${filters.maxPrice || 100000}</span>
               </div>
-              <div className="mt-2 flex items-center gap-2">
-  <input
-    type="checkbox"
-    name="isAnyPrice"
-    checked={isAnyPrice}
-    onChange={handleFilterChange}
-    className="accent-red-500"
-  />
-  <label className="text-sm text-gray-700">
-    <Translate text={"Any"} />
-  </label>
-</div>
             </div>
 
             {/* Kilometer */}
@@ -570,7 +561,6 @@ const SearchPage = () => {
                   }
                 />
               </p>
-              
             </div>
 
             {/* Location */}
@@ -875,18 +865,6 @@ const SearchPage = () => {
                       <span>${filters.minPrice || 0}</span>
                       <span>${filters.maxPrice || 100000}</span>
                     </div>
-                    <div className="mt-2 flex items-center gap-2">
-  <input
-    type="checkbox"
-    name="isAnyPrice"
-    checked={isAnyPrice}
-    onChange={handleFilterChange}
-    className="accent-red-500"
-  />
-  <label className="text-sm text-gray-700">
-    <Translate text={"Any"} />
-  </label>
-</div>
                   </div>
 
                   {/* Kilometer Filter (Now a Proper Range Slider) */}
@@ -929,7 +907,6 @@ const SearchPage = () => {
                         }
                       />
                     </p>
-                    
                   </div>
 
                   {/* Location */}
@@ -1434,4 +1411,4 @@ const SearchPage = () => {
   );
 };
 
-export default SearchPage; 
+export default SearchPage;

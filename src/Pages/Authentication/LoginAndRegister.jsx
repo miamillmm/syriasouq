@@ -1,7 +1,6 @@
-import axios from "axios";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import cover from "../../assets/service/cover.jpg";
@@ -10,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import SyrianFlag from "../../assets/flag/syria-flag.png";
+import { AuthContext } from "../../context/AuthContext";
 
 // Import Google Fonts for Arabic
 const styles = `
@@ -47,9 +47,9 @@ const LoginAndRegister = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showLoginPassword, setShowLoginPassword] = useState(false);
   const [showRegisterPassword, setShowRegisterPassword] = useState(false);
-  const navigate = useNavigate();
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language;
+  const { handleLogin, handleRegister } = useContext(AuthContext);
 
   const {
     register: loginRegister,
@@ -76,54 +76,6 @@ const LoginAndRegister = () => {
     formState: { errors: forgotPasswordErrors },
   } = useForm({ defaultValues: { email: "" } });
 
-  const handleLogin = async (data) => {
-    data.email = data.email.toLowerCase();
-    console.log("Login Data:", data);
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/auth/login`,
-        data
-      );
-
-      if (!response?.data?.message) {
-        console.log("Login Response:", response.data);
-        const data = response.data;
-        localStorage.setItem("SyriaSouq-auth", JSON.stringify(data));
-        resetLogin();
-        navigate("/dashboard", { replace: true });
-      } else {
-        alert(response?.data?.message);
-      }
-    } catch (error) {
-      alert(error?.response?.data?.message);
-      console.error("Login Error:", error);
-    }
-  };
-
-  const handleRegister = async (data) => {
-    data.email = data.email.toLowerCase();
-    console.log("Register Data:", data);
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/auth/register`,
-        data
-      );
-
-      if (!response?.data?.message) {
-        console.log("Register Response:", response.data);
-        const data = response.data;
-        localStorage.setItem("SyriaSouq-auth", JSON.stringify(data));
-        resetRegister();
-        navigate("/dashboard", { replace: true });
-      } else {
-        alert(response?.data?.message);
-      }
-    } catch (error) {
-      alert(error?.response?.data?.message);
-      console.error("Register Error:", error.response.data.message);
-    }
-  };
-
   const handleForgotPassword = async (data) => {
     data.email = data.email.toLowerCase();
     console.log("Forgot Password Data:", data);
@@ -135,8 +87,19 @@ const LoginAndRegister = () => {
       console.log("Forgot Password Response:", response.data);
       resetForgotPassword();
       setIsModalOpen(false);
+      toast.success(
+        currentLanguage === "ar"
+          ? "تم إرسال رابط إعادة تعيين كلمة المرور!"
+          : "Password reset link sent!"
+      );
     } catch (error) {
       console.error("Forgot Password Error:", error);
+      toast.error(
+        error?.response?.data?.message ||
+          (currentLanguage === "ar"
+            ? "فشل إعادة تعيين كلمة المرور"
+            : "Failed to reset password")
+      );
     }
   };
 
@@ -199,7 +162,12 @@ const LoginAndRegister = () => {
           </motion.button>
         </div>
         {activeTab === "login" ? (
-          <form onSubmit={handleLoginSubmit(handleLogin)} className="space-y-5">
+          <form
+            onSubmit={handleLoginSubmit((data) =>
+              handleLogin(data, resetLogin, currentLanguage)
+            )}
+            className="space-y-5"
+          >
             <input
               {...loginRegister("email")}
               placeholder={
@@ -217,7 +185,9 @@ const LoginAndRegister = () => {
             <Controller
               name="phone"
               control={loginControl}
-              rules={{ required: currentLanguage === "ar" ? "رقم الهاتف مطلوب" : "Phone number is required" }}
+              rules={{
+                required: currentLanguage === "ar" ? "رقم الهاتف مطلوب" : "Phone number is required",
+              }}
               render={({ field }) => {
                 const handlePhoneChange = (value, countryData) => {
                   const countryCode = `+${countryData.dialCode}`;
@@ -304,7 +274,9 @@ const LoginAndRegister = () => {
           </form>
         ) : (
           <form
-            onSubmit={handleRegisterSubmit(handleRegister)}
+            onSubmit={handleRegisterSubmit((data) =>
+              handleRegister(data, resetRegister, currentLanguage)
+            )}
             className="space-y-5"
           >
             <motion.input

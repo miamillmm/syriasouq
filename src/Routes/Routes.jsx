@@ -14,10 +14,13 @@ import TermsPage from "../Pages/TermAndUse";
 import PasswordChangePage from "../Pages/Authentication/PasswordChangePage";
 import ChangePassword from "../Pages/Authentication/ChangePassword";
 import Favorites from "../Pages/Dashboard/Favorites";
+import { AuthProvider } from "../context/AuthContext";
 
 const Router = () => {
   return (
     <BrowserRouter>
+    <AuthProvider>
+
       <Routes>
         <Route path="/" element={<Main />}>
           <Route index element={<Home />} />
@@ -31,6 +34,7 @@ const Router = () => {
           <Route path="/change-password" element={<ChangePassword />} />
           <Route path="/listing/:id" element={<CarDetails />} />
           <Route path="/addlisting" element={<AddListingPage />} />
+          <Route path="/edit-listing/:id" element={<AddListingPage />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/messages" element={<MessagesPage />} />
@@ -39,6 +43,7 @@ const Router = () => {
           <Route path="/term-and-use" element={<TermsPage />} />
         </Route>
       </Routes>
+    </AuthProvider>
     </BrowserRouter>
   );
 };
