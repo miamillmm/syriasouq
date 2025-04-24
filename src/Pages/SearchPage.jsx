@@ -23,32 +23,17 @@ import { useTranslation } from "react-i18next";
 import Translate from "../utils/Translate";
 import { AiFillDashboard, AiOutlineDashboard } from "react-icons/ai";
 import Slider from "rc-slider";
-import "rc-slider/assets/index.css"; // Import styles
-import "./custom-slider.css"; // Custom styles for black & gray theme
+import "rc-slider/assets/index.css";
+import "./custom-slider.css";
 import { alllocation } from "../utils/utils";
 
 const SearchPage = () => {
   const { i18n } = useTranslation();
-  const currentLanguage = i18n.language; // Gets current language
-
-  // const allenginesize = [
-  //   { value: "0-499 cc", label: "0-499 cc" },
-  //   { value: "1000-1499 cc", label: "1000-1499 cc" },
-  //   { value: "1500-1999 cc", label: "1500-1999 cc" },
-  //   { value: "2000-2499 cc", label: "2000-2499 cc" },
-  //   { value: "2500-2999 cc", label: "2500-2999 cc" },
-  //   { value: "3000-3499 cc", label: "3000-3499 cc" },
-  //   { value: "3500-3999 cc", label: "3500-3999 cc" },
-  //   { value: "4000+ cc", label: "4000+ cc" },
-  //   { value: "500-999 cc", label: "500-999 cc" },
-  //   { value: "Other", label: "Other" },
-  //   { value: "Unknown", label: "Unknown" },
-  // ];
+  const currentLanguage = i18n.language;
 
   const allTransmission = [
     { value: "automatic", label: "Automatic", arLabel: "اتوماتيك" },
     { value: "manual", label: "Manual", arLabel: "يدوي" },
-    // more transmission types...
   ];
   const allFuelType = [
     { value: "Diesel", label: "Diesel" },
@@ -56,7 +41,7 @@ const SearchPage = () => {
     { value: "Hybrid", label: "Hybrid" },
     { value: "Petrol", label: "Petrol" },
   ];
- const allExteriorColor = [
+  const allExteriorColor = [
     { value: "Black", label: "Black", arLabel: "أسود" },
     { value: "Blue", label: "Blue", arLabel: "أزرق" },
     { value: "Brown", label: "Brown", arLabel: "بني" },
@@ -98,8 +83,7 @@ const SearchPage = () => {
     exteriorColor: "",
     interiorColor: "",
   });
-  const [isAnyPrice, setIsAnyPrice] = useState(false); // New state for "Any" price option
-  const [isAnyKilometer, setIsAnyKilometer] = useState(false); // New state for "Any" kilometer option
+
   useEffect(() => {
     if (
       currentLanguage === "ar" &&
@@ -129,11 +113,6 @@ const SearchPage = () => {
     axios
       .get(`${import.meta.env.VITE_API_URL}/cars?status=available`)
       .then((res) => {
-        // const sanitizedData = res.data.map((item) => ({
-        //   ...item,
-        //   make: String(item.make || ""),
-        //   location: String(item.location || ""),
-        // }));
         setDatas(res.data.data);
       })
       .catch((error) => console.log("Error fetching data:", error));
@@ -157,10 +136,9 @@ const SearchPage = () => {
         sortedData.sort((a, b) => b.priceUSD - a.priceUSD);
         break;
       case "Lowest Price":
-        sortedData.sort((a, b) => a.priceUSD - b.priceUSD);
+        sortedData.sort((a, b) => a.priceUSD - a.priceUSD);
         break;
       case "Most Relevant":
-        // Example: Sort by recent cars first, then by highest price
         sortedData.sort((a, b) => {
           const dateDiff = new Date(b.createdAt) - new Date(a.createdAt);
           if (dateDiff !== 0) return dateDiff;
@@ -168,7 +146,6 @@ const SearchPage = () => {
         });
         break;
       default:
-        // No sorting — keep original order
         sortedData = [...datas];
         break;
     }
@@ -178,7 +155,7 @@ const SearchPage = () => {
 
   const handleFilterChange = (e) => {
     const { name, value, type, checked } = e.target;
-  
+
     if (type === "checkbox") {
       if (name === "fuelType" || name === "make") {
         setFilters((prev) => ({
@@ -186,18 +163,6 @@ const SearchPage = () => {
           [name]: checked
             ? [...prev[name], value]
             : prev[name].filter((item) => item !== value),
-        }));
-      } else if (name === "isAnyPrice") {
-        setIsAnyPrice(checked);
-        setFilters((prev) => ({
-          ...prev,
-          maxPrice: checked ? Infinity : 100000, // Reset to default if unchecked
-        }));
-      } else if (name === "isAnyKilometer") {
-        setIsAnyKilometer(checked);
-        setFilters((prev) => ({
-          ...prev,
-          kilometer: checked ? [prev.kilometer[0] || 0, Infinity] : [prev.kilometer[0] || 0, 200000], // Reset to default if unchecked
         }));
       }
     } else if (name === "make") {
@@ -222,18 +187,18 @@ const SearchPage = () => {
       exteriorColor,
       interiorColor,
     } = filters;
-  
+
     const matchesKilometer =
       !kilometer ||
       (data.kilometer >= kilometer[0] &&
-        (kilometer[1] === Infinity || data.kilometer <= kilometer[1]));
-  
+        (kilometer[1] >= 210000 || data.kilometer <= kilometer[1]));
+
     const matchesEngineSize =
       !engineSize ||
       engineSize === "Other" ||
       engineSize === "Unknown" ||
       data.engineSize === engineSize;
-  
+
     return (
       (make.length > 0
         ? make.some((m) =>
@@ -245,7 +210,7 @@ const SearchPage = () => {
       (minYear ? data.year >= parseInt(minYear, 10) : true) &&
       (maxYear ? data.year <= parseInt(maxYear, 10) : true) &&
       (minPrice ? data.priceUSD >= parseFloat(minPrice) : true) &&
-      (maxPrice === Infinity || (maxPrice ? data.priceUSD <= parseFloat(maxPrice) : true)) &&
+      (maxPrice >= 110000 || (maxPrice ? data.priceUSD <= parseFloat(maxPrice) : true)) &&
       matchesKilometer &&
       (location
         ? String(data.location || "")
@@ -265,17 +230,6 @@ const SearchPage = () => {
           !allInteriorColor.includes(data.interiorColor.toLowerCase())))
     );
   });
-  // const carMakes =
-  //   currentLanguage === "ar"
-  //     ? [{ label: "الكل", value: "", models: [""] }, ...arabicMakes]
-  //     : [
-  //         {
-  //           label: "All",
-  //           value: "",
-  //           models: [""],
-  //         },
-  //         ...makes,
-  //       ];
 
   const carMakes =
     currentLanguage === "ar"
@@ -319,25 +273,7 @@ const SearchPage = () => {
               <label className="block text-gray-700 mb-2">
                 {currentLanguage === "ar" ? "نوع السيارة" : "Make"}
               </label>
-              {/* <input
-                type="text"
-                name="make"
-                value={filters.make[0] || ""}
-                onChange={handleFilterChange}
-                className="w-full border p-2 rounded"
-                placeholder={
-                  currentLanguage === "ar" ? "البحث عن الماركة" : "Search make"
-                }
-              /> */}
               <div>
-                {/* <input
-                    type="checkbox"
-                    name="make"
-                    value={make.label}
-                    checked={filters.make.includes(make)}
-                    onChange={handleFilterChange}
-                  />
-                  <label className="ml-2">{make.label}</label> */}
                 <select
                   name="make"
                   id=""
@@ -361,35 +297,6 @@ const SearchPage = () => {
                 </select>
               </div>
             </div>
-
-            {/* Year */}
-            {/* <div className="mb-4">
-              <label className="block text-gray-700 mb-2">
-                <Translate text={"Year"} />
-              </label>
-              <div className="flex gap-2">
-                <input
-                  type="number"
-                  name="minYear"
-                  value={filters.minYear}
-                  onChange={handleFilterChange}
-                  className="w-1/2 border p-2 rounded"
-                  placeholder={
-                    currentLanguage === "ar" ? "الحد الأدنى للسنة" : "Min Year"
-                  }
-                />
-                <input
-                  type="number"
-                  name="maxYear"
-                  value={filters.maxYear}
-                  onChange={handleFilterChange}
-                  className="w-1/2 border p-2 rounded"
-                  placeholder={
-                    currentLanguage === "ar" ? "الحد الأقصى للسنة" : "Max Year"
-                  }
-                />
-              </div>
-            </div> */}
 
             {/* Year Filter */}
             <div className="mb-6">
@@ -420,50 +327,29 @@ const SearchPage = () => {
               </div>
             </div>
 
-            {/* Price */}
-            {/* <div className="mb-4">
-              <label className="block text-gray-700 mb-2">
-                <Translate text={"Price"} />
-              </label>
-              <div className="flex gap-2">
-                <input
-                  type="number"
-                  name="minPrice"
-                  value={filters.minPrice}
-                  onChange={handleFilterChange}
-                  className="w-1/2 border p-2 rounded"
-                  placeholder={
-                    currentLanguage === "ar" ? "الحد الأدنى للسعر" : "Min Price"
-                  }
-                />
-                <input
-                  type="number"
-                  name="maxPrice"
-                  value={filters.maxPrice}
-                  onChange={handleFilterChange}
-                  className="w-1/2 border p-2 rounded"
-                  placeholder={
-                    currentLanguage === "ar" ? "السعر الأقصى" : "Max Price"
-                  }
-                />
-              </div>
-            </div> */}
-
             {/* Price Filter */}
             <div
-              className="mb-6 "
+              className="mb-6"
               style={{ direction: currentLanguage === "ar" ? "rtl" : "ltr" }}
             >
               <label className="block text-gray-700 font-semibold mb-3">
                 <Translate text={"Price"} /> ($)
               </label>
               <Slider
-                key={currentLanguage} // Force re-render when language changes
+                key={currentLanguage}
                 range
                 min={0}
-                max={100000}
+                max={110000}
                 step={1000}
-                value={[filters.minPrice || 0, filters.maxPrice || 100000]}
+                marks={{
+                  0: `$0`,
+                  25000: `$25k`,
+                  50000: `$50k`,
+                  75000: `$75k`,
+                  90000: `$90k`,
+                  110000: `Any`,
+                }}
+                value={[filters.minPrice || 0, filters.maxPrice || 110000]}
                 onChange={(value) =>
                   setFilters((prev) => ({
                     ...prev,
@@ -479,56 +365,10 @@ const SearchPage = () => {
                 }`}
               >
                 <span>${filters.minPrice || 0}</span>
-                <span>${filters.maxPrice || 100000}</span>
+                <span>{filters.maxPrice >= 110000 ? "Any" : `$${filters.maxPrice || 100000}`}</span>
               </div>
-              <div className="mt-2 flex items-center gap-2">
-  <input
-    type="checkbox"
-    name="isAnyPrice"
-    checked={isAnyPrice}
-    onChange={handleFilterChange}
-    className="accent-red-500"
-  />
-  <label className="text-sm text-gray-700">
-    <Translate text={"Any"} />
-  </label>
-</div>
             </div>
 
-            {/* Kilometer */}
-            {/* <div className="mb-4">
-              <label className="block text-gray-700 mb-2">
-                <Translate text={"Kilometer"} />
-              </label>
-              <select
-                name="kilometer"
-                value={filters.kilometer}
-                onChange={handleFilterChange}
-                className="w-full border p-2 rounded"
-                style={{ backgroundColor: "#fff" }}
-              >
-                <option value="">
-                  <Translate text={"Select Kilometer"} />
-                </option>
-                <option value="0-50000">
-                  <Translate text={"0-50,000"} />
-                </option>
-                <option value="50001-100000">
-                  <Translate text={"50,001-100,000"} />
-                </option>
-                <option value="100001-150000">
-                  <Translate text={"100,001-150,000"} />
-                </option>
-                <option value="150001-200000">
-                  <Translate text={"150,001-200,000"} />
-                </option>
-                <option value="+200000">
-                  <Translate text={"+200,000"} />
-                </option>
-              </select>
-            </div> */}
-
-            {/* Kilometer Filter (Now a Proper Range Slider) */}
             {/* Kilometer Filter */}
             <div className="mb-6">
               <label className="block text-gray-700 font-semibold mb-3">
@@ -537,16 +377,17 @@ const SearchPage = () => {
               <Slider
                 range
                 min={0}
-                max={200000}
-                step={5000}
+                max={210000}
+                step={4000}
                 marks={{
                   0: `0 ${currentLanguage === "ar" ? "كم" : "km"}`,
-                  50000: `50k ${currentLanguage === "ar" ? "كم" : "km"}`,
-                  100000: `100k ${currentLanguage === "ar" ? "كم" : "km"}`,
-                  150000: `150k ${currentLanguage === "ar" ? "كم" : "km"}`,
-                  200000: `200k+ ${currentLanguage === "ar" ? "كم" : "km"}`,
+                  40000: `40k ${currentLanguage === "ar" ? "كم" : "km"}`,
+                  80000: `80k ${currentLanguage === "ar" ? "كم" : "km"}`,
+                  120000: `120k ${currentLanguage === "ar" ? "كم" : "km"}`,
+                  160000: `160k ${currentLanguage === "ar" ? "كم" : "km"}`,
+                  210000: `Any`,
                 }}
-                value={filters.kilometer || [0, 200000]} // Default range
+                value={filters.kilometer || [0, 210000]}
                 onChange={(value) => {
                   setFilters((prev) => ({ ...prev, kilometer: value }));
                 }}
@@ -561,8 +402,8 @@ const SearchPage = () => {
                     filters.kilometer
                       ? `${
                           currentLanguage === "ar"
-                            ? `${filters.kilometer[1]} - ${filters.kilometer[0]}`
-                            : `${filters.kilometer[0]} - ${filters.kilometer[1]}`
+                            ? `${filters.kilometer[1] >= 210000 ? "Any" : filters.kilometer[1]} - ${filters.kilometer[0]}`
+                            : `${filters.kilometer[0]} - ${filters.kilometer[1] >= 210000 ? "Any" : filters.kilometer[1]}`
                         } km`
                       : currentLanguage === "ar"
                       ? "الممشى"
@@ -570,7 +411,6 @@ const SearchPage = () => {
                   }
                 />
               </p>
-              
             </div>
 
             {/* Location */}
@@ -684,12 +524,12 @@ const SearchPage = () => {
                 <option hidden selected>
                   {currentLanguage === "ar"
                     ? `اللون الخارجي`
-                    : "Select Exteriror Color"}
+                    : "Select Exterior Color"}
                 </option>
                 {allExteriorColor.map((color) => (
                   <>
                     <option key={color.label} value={color.value}>
-                    {currentLanguage === "ar" ? color.arLabel : color.label}
+                      {currentLanguage === "ar" ? color.arLabel : color.label}
                     </option>
                   </>
                 ))}
@@ -722,7 +562,7 @@ const SearchPage = () => {
             {/* Button */}
             <div className="mb-4 flex flex-col gap-2">
               <button className="text-white bg-[#fb2c36] w-full py-2 rounded cursor-pointer">
-              {currentLanguage === "ar" ? "تطبيق التصفية" : "Apply Filters"}
+                {currentLanguage === "ar" ? "تطبيق التصفية" : "Apply Filters"}
               </button>
               <button
                 className="text-black bg-gray-200 w-full py-2 rounded cursor-pointer"
@@ -743,8 +583,8 @@ const SearchPage = () => {
                   })
                 }
               >
-                    {currentLanguage === "ar" ? "إعادة تعيين التصفيات" : "Reset Filters"}
-                    </button>
+                {currentLanguage === "ar" ? "إعادة تعيين التصفيات" : "Reset Filters"}
+              </button>
             </div>
           </div>
 
@@ -766,25 +606,7 @@ const SearchPage = () => {
                     <label className="block text-gray-700 mb-2">
                       {currentLanguage === "ar" ? "نوع السيارة" : "Make"}
                     </label>
-                    {/* <input
-                type="text"
-                name="make"
-                value={filters.make[0] || ""}
-                onChange={handleFilterChange}
-                className="w-full border p-2 rounded"
-                placeholder={
-                  currentLanguage === "ar" ? "البحث عن الماركة" : "Search make"
-                }
-              /> */}
                     <div>
-                      {/* <input
-                    type="checkbox"
-                    name="make"
-                    value={make.label}
-                    checked={filters.make.includes(make)}
-                    onChange={handleFilterChange}
-                  />
-                  <label className="ml-2">{make.label}</label> */}
                       <select
                         name="make"
                         id=""
@@ -840,7 +662,7 @@ const SearchPage = () => {
 
                   {/* Price Filter */}
                   <div
-                    className="mb-6 "
+                    className="mb-6"
                     style={{
                       direction: currentLanguage === "ar" ? "rtl" : "ltr",
                     }}
@@ -849,15 +671,20 @@ const SearchPage = () => {
                       <Translate text={"Price"} /> ($)
                     </label>
                     <Slider
-                      key={currentLanguage} // Force re-render when language changes
+                      key={currentLanguage}
                       range
                       min={0}
-                      max={100000}
+                      max={110000}
                       step={1000}
-                      value={[
-                        filters.minPrice || 0,
-                        filters.maxPrice || 100000,
-                      ]}
+                      marks={{
+                        0: `$0`,
+                        25000: `$25k`,
+                        50000: `$50k`,
+                        75000: `$75k`,
+                        90000: `$90k`,
+                        110000: `Any`,
+                      }}
+                      value={[filters.minPrice || 0, filters.maxPrice || 110000]}
                       onChange={(value) =>
                         setFilters((prev) => ({
                           ...prev,
@@ -873,23 +700,10 @@ const SearchPage = () => {
                       }`}
                     >
                       <span>${filters.minPrice || 0}</span>
-                      <span>${filters.maxPrice || 100000}</span>
+                      <span>{filters.maxPrice >= 110000 ? "Any" : `$${filters.maxPrice || 100000}`}</span>
                     </div>
-                    <div className="mt-2 flex items-center gap-2">
-  <input
-    type="checkbox"
-    name="isAnyPrice"
-    checked={isAnyPrice}
-    onChange={handleFilterChange}
-    className="accent-red-500"
-  />
-  <label className="text-sm text-gray-700">
-    <Translate text={"Any"} />
-  </label>
-</div>
                   </div>
 
-                  {/* Kilometer Filter (Now a Proper Range Slider) */}
                   {/* Kilometer Filter */}
                   <div className="mb-10">
                     <label className="block text-gray-700 font-semibold mb-3">
@@ -898,22 +712,17 @@ const SearchPage = () => {
                     <Slider
                       range
                       min={0}
-                      max={200000}
-                      step={5000}
+                      max={210000}
+                      step={4000}
                       marks={{
                         0: `0 ${currentLanguage === "ar" ? "كم" : "km"}`,
-                        50000: `50k ${currentLanguage === "ar" ? "كم" : "km"}`,
-                        100000: `100k ${
-                          currentLanguage === "ar" ? "كم" : "km"
-                        }`,
-                        150000: `150k ${
-                          currentLanguage === "ar" ? "كم" : "km"
-                        }`,
-                        200000: `200k+ ${
-                          currentLanguage === "ar" ? "كم" : "km"
-                        }`,
+                        40000: `40k ${currentLanguage === "ar" ? "كم" : "km"}`,
+                        80000: `80k ${currentLanguage === "ar" ? "كم" : "km"}`,
+                        120000: `120k ${currentLanguage === "ar" ? "كم" : "km"}`,
+                        160000: `160k ${currentLanguage === "ar" ? "كم" : "km"}`,
+                        210000: `Any`,
                       }}
-                      value={filters.kilometer || [0, 200000]} // Default range
+                      value={filters.kilometer || [0, 210000]}
                       onChange={(value) => {
                         setFilters((prev) => ({ ...prev, kilometer: value }));
                       }}
@@ -922,14 +731,13 @@ const SearchPage = () => {
                       <Translate
                         text={
                           filters.kilometer
-                            ? `${filters.kilometer[0]} - ${filters.kilometer[1]} km`
+                            ? `${filters.kilometer[0]} - ${filters.kilometer[1] >= 210000 ? "Any" : filters.kilometer[1]} km`
                             : currentLanguage === "ar"
                             ? "الممشى"
                             : "All Kilometers"
                         }
                       />
                     </p>
-                    
                   </div>
 
                   {/* Location */}
@@ -1047,12 +855,12 @@ const SearchPage = () => {
                       <option hidden selected>
                         {currentLanguage === "ar"
                           ? `اللون الخارجي`
-                          : "Select Exteriror Color"}
+                          : "Select Exterior Color"}
                       </option>
                       {allExteriorColor.map((color) => (
                         <>
                           <option key={color.label} value={color.value}>
-                          {currentLanguage === "ar" ? color.arLabel : color.label}
+                            {currentLanguage === "ar" ? color.arLabel : color.label}
                           </option>
                         </>
                       ))}
@@ -1088,8 +896,8 @@ const SearchPage = () => {
                       className="text-white bg-[#fb2c36] w-full py-2 rounded cursor-pointer"
                       onClick={() => setIsMobileFilterOpen(false)}
                     >
-              {currentLanguage === "ar" ? "تطبيق التصفية" : "Apply Filters"}
-              </button>
+                      {currentLanguage === "ar" ? "تطبيق التصفية" : "Apply Filters"}
+                    </button>
                     <button
                       className="text-black bg-gray-200 w-full py-2 rounded cursor-pointer"
                       onClick={() =>
@@ -1126,30 +934,10 @@ const SearchPage = () => {
               </span>
             </h2>
             <div className="flex xl:items-center gap-8 xl:flex-row flex-col">
-              {/* <select
-                 className="border border-gray-200 p-3 pr-10 rounded-lg bg-white appearance-none h-16 w-full shadow-md text-gray-700 font-medium cursor-pointer"
-                style={{ backgroundColor: "#ffff" }}
-                value={sortOption}
-                onChange={(e) => {
-                  setSortOption(e.target.value);
-                  sortData(e.target.value);
-                }}
-              >
-                <option>Most Relevant</option>
-                <option>Newest</option>
-                <option>Oldest</option>
-                <option>Highest Price</option>
-                <option>Lowest Price</option>
-                
-              </select> */}
-
               <div className="flex items-center space-x-2">
-                {/* Left side label */}
                 <label className="text-gray-700 font-semibold">
                   <Translate text={"Sort by:"} />
                 </label>
-
-                {/* Dropdown with arrow */}
                 <div className="relative xl:w-64 w-40">
                   <select
                     className="border border-gray-200 xl:p-3 p-1 pr-10 rounded-lg bg-white appearance-none xl:h-16 h-10 w-full shadow-md text-gray-700 font-medium cursor-pointer"
@@ -1176,8 +964,6 @@ const SearchPage = () => {
                       <Translate text={"Lowest Price"} />
                     </option>
                   </select>
-
-                  {/* Dropdown Arrow (Right Side) */}
                   <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
                     <svg
                       className="w-4 h-4 text-gray-500"
@@ -1234,14 +1020,6 @@ const SearchPage = () => {
                       index < 0 ? "border-red-500 border-2 bg-[#FFEEE2]" : ""
                     }`} // Apply border to first two cards
                   >
-                    {/* Add "Featured" badge */}
-
-                    {/* {index < 2 && (
-                      <div className="absolute top-5 left-5 bg-red-500 text-white text-sm font-bold px-2 py-1 rounded-tr-lg rounded-bl-lg z-10 pointer-events-none">
-                        <Translate text={"Featured"} />
-                      </div>
-                    )} */}
-
                     {view === "grid" ? (
                       <>
                         <div className="flex flex-col-reverse gap-4 bg-slate-100 p-3 rounded">
@@ -1333,18 +1111,6 @@ const SearchPage = () => {
                               </div>
                             </Link>
                             <div className="absolute top-2 right-2 flex items-center gap-2">
-                              {/* <div
-                                onClick={() => handleWishlist(data)}
-                                className={`hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-white cursor-pointer text-white `}
-                              >
-                                <CiHeart className="w-1/2 h-1/2" />
-                              </div> */}
-                              {/* <div
-                                onClick={() => handleShare(data)}
-                                className={`hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-white cursor-pointer text-white`}
-                              >
-                                <CiShare2 className="w-1/2 h-1/2" />
-                              </div> */}
                             </div>
                           </div>
                           <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
@@ -1355,9 +1121,6 @@ const SearchPage = () => {
                                   text={data?.priceUSD ? data?.priceUSD : "آخر"}
                                 />
                               </h2>
-                              {/* <span className="block px-2 py-1 rounded bg-[#B80200] text-white text-xs">
-                                {currentLanguage === "ar" ? "مميز" : "PREMIUM"}
-                              </span> */}
                             </div>
                             <div className="flex items-center gap-2 md:mt-3">
                               <h2 className="text-sm">
@@ -1411,10 +1174,6 @@ const SearchPage = () => {
                                 <Translate text={"View Details"} />
                               </Link>
                             </div>
-                            {/* <div className="flex items-center justify-end gap-3 text-sm">
-                              <Translate text={"Listed By:"} />{" "}
-                              {data.user.username}
-                            </div> */}
                           </div>
                         </div>
                       </>
@@ -1434,4 +1193,4 @@ const SearchPage = () => {
   );
 };
 
-export default SearchPage; 
+export default SearchPage;

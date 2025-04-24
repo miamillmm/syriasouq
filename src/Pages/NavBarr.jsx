@@ -54,20 +54,25 @@ const Navbar = () => {
             alt="SyriaSouq Logo"
           />
         </NavLink>
-
-        {/* Right: Mobile Actions (Profile Only on Small Screens) */}
         <div className="flex items-center gap-2 sm:gap-3 sm:hidden">
-          <Link to={user ? "/dashboard" : "/login-and-register"}>
-            <div className="flex flex-col items-center gap-1">
-              <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center border border-[#B80200] shadow-sm">
-                <FaRegUserCircle className="text-[#B80200] w-6 h-6" />
-              </div>
-              <p className="bg-gradient-to-r from-[#B80200] to-[#A00000] text-white px-2 py-1 rounded-md text-xs font-bold hover:bg-gradient-to-r hover:from-[#A00000] hover:to-[#900000] transition-all hover:scale-105 shadow-md">
-                {currentLanguage === "ar" ? "حسابي" : "My Profile"}
-              </p>
-            </div>
-          </Link>
-        </div>
+  <NavLink to="/addlisting">
+    <button className="bg-[#B80200] text-white px-3 py-1.5 rounded-md text-xs font-semibold flex items-center gap-1 hover:bg-red-600 transition-colors shadow-md">
+      {currentLanguage === "ar" ? "إضافة إعلان" : "Add Listing"}
+      <span>+</span>
+    </button>
+  </NavLink>
+  <Link to={user ? "/dashboard" : "/login-and-register"}>
+    <div className="flex flex-col items-center gap-1">
+      <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center border border-[#B80200] shadow-sm">
+        <FaRegUserCircle className="text-[#B80200] w-6 h-6" />
+      </div>
+      <p className="bg-gradient-to-r from-[#B80200] to-[#A00000] text-white px-2 py-1 rounded-md text-xs font-bold hover:bg-gradient-to-r hover:from-[#A00000] hover:to-[#900000] transition-all hover:scale-105 shadow-md">
+        {currentLanguage === "ar" ? "حسابي" : "My Profile"}
+      </p>
+    </div>
+  </Link>
+</div>
+     
 
         {/* Desktop Navigation */}
         <div className="hidden sm:flex flex-1 justify-between items-center gap-6">

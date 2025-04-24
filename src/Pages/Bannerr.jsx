@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
-// import img from "../assets/bg-image/banner-img.jpg";
-// import img from "../assets/bg-image/banner-img-1.png";
+import { useNavigate } from "react-router-dom";
 import img from "../assets/bg-image/banner-img-4.jpeg";
 import imgForMobile from "../assets/bg-image/banner-img-for-mobile-2.jpeg";
 import Translate from "../utils/Translate";
@@ -11,13 +9,13 @@ import Select from "react-select";
 
 const BannerSection = () => {
   const navigate = useNavigate();
-
   const { i18n } = useTranslation();
-  const currentLanguage = i18n.language; // Gets current language
+  const currentLanguage = i18n.language;
 
-  const [searchMake, setSerachMake] = useState(null);
+  const [searchMake, setSearchMake] = useState(null);
   const [make, setMake] = useState(null);
-  const [searchModel, setSerachModel] = useState(null);
+  const [searchModel, setSearchModel] = useState(null);
+  const [searchLocation, setSearchLocation] = useState(null);
 
   const makes = [
     { label: "All", value: "All", models: ["All"] },
@@ -27,16 +25,27 @@ const BannerSection = () => {
   const arabicMakes = [
     { label: "الكل", value: "الكل", models: ["الكل"] },
     ...arMake,
-    {},
+    { label: "أخرى", value: "أخرى", models: ["أخرى"] },
   ];
 
-  const handleSerach = (e) => {
-    e.preventDefault();
+  const locations = [
+    { label: currentLanguage === "ar" ? "الكل" : "All", value: "All" },
+    { label: currentLanguage === "ar" ? "دمشق" : "Damascus", value: "Damascus" },
+    { label: currentLanguage === "ar" ? "حلب" : "Aleppo", value: "Aleppo" },
+    { label: currentLanguage === "ar" ? "حمص" : "Homs", value: "Homs" },
+    { label: currentLanguage === "ar" ? "اللاذقية" : "Latakia", value: "Latakia" },
+    { label: currentLanguage === "ar" ? "أخرى" : "Other", value: "Other" },
+  ];
 
+  const handleSearch = (e) => {
+    e.preventDefault();
     if (searchMake) {
-      navigate(`/search?make=${searchMake}&model=${searchModel}`);
+      const query = `/search?make=${searchMake}${searchModel ? `&model=${searchModel}` : ""}${
+        searchLocation ? `&location=${searchLocation}` : ""
+      }`;
+      navigate(query);
     } else {
-      alert("Please choose make");
+      alert(currentLanguage === "ar" ? "يرجى اختيار النوع" : "Please choose make");
     }
   };
 
@@ -61,16 +70,19 @@ const BannerSection = () => {
 
   const handleChange = (selectedOption) => {
     setMake(selectedOption);
-    setSerachMake(selectedOption ? selectedOption.value : "");
-    console.log(selectedOption ? selectedOption.value : "");
-    setSerachModel(null); // Reset model when make changes
+    setSearchMake(selectedOption ? selectedOption.value : null);
+    setSearchModel(null); // Reset model when make changes
+  };
+
+  const handleModelChange = (selectedOption) => {
+    setSearchModel(selectedOption ? selectedOption.value : null);
+  };
+
+  const handleLocationChange = (selectedOption) => {
+    setSearchLocation(selectedOption ? selectedOption.value : null);
   };
 
   const options = currentLanguage === "ar" ? arabicMakes : makes;
-
-  const handleModelChange = (selectedOption) => {
-    setSerachModel(selectedOption ? selectedOption.value : "");
-  };
 
   const [bgImage, setBgImage] = useState(
     window.innerWidth < 768 ? imgForMobile : img
@@ -80,10 +92,49 @@ const BannerSection = () => {
     const handleResize = () => {
       setBgImage(window.innerWidth < 768 ? imgForMobile : img);
     };
-
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  const selectStyles = {
+    control: (base) => ({
+      ...base,
+      backgroundColor: "#323232fa",
+      borderColor: "#B80200",
+      color: "white",
+      padding: "5px",
+      borderRadius: "0.5rem",
+      boxShadow: "none",
+      "&:hover": {
+        borderColor: "#B80200",
+      },
+    }),
+    singleValue: (base) => ({
+      ...base,
+      color: "white",
+    }),
+    menu: (base) => ({
+      ...base,
+      backgroundColor: "#323232fa",
+      borderRadius: "0.5rem",
+    }),
+    option: (base, { isFocused, isSelected }) => ({
+      ...base,
+      backgroundColor: isSelected ? "#B80200" : isFocused ? "#4a4a4a" : "#323232fa",
+      color: "white",
+      "&:active": {
+        backgroundColor: "#B80200",
+      },
+    }),
+    input: (base) => ({
+      ...base,
+      color: "white",
+    }),
+    placeholder: (base) => ({
+      ...base,
+      color: "#bbb",
+    }),
+  };
 
   return (
     <div
@@ -103,189 +154,51 @@ const BannerSection = () => {
         }}
       ></div>
 
-      {/* Content */}
       <div className="relative z-10 container mx-auto px-4 sm:px-8 md:px-16 md:py-10 grid grid-cols-1 gap-4 items-center w-full">
-        {/* Left Side */}
-        {/* <div className="md:hidden block">
-          <img src={img} alt="" className="w-full h-full rounded-2xl" />
-        </div> */}
-        {/* <div className="text-white text-center md:text-left hidden">
-          <h1 className="text-2xl sm:text-4xl md:text-7xl font-bold mb-4 tracking-[-0.04em]">
-            {currentLanguage === "ar" ? (
-              <>الموقع رقم 1 لشراء و بيع السيارات في سوريا</>
-            ) : (
-              <>
-                The #1 Website <span className="text-[#B80200]">buy</span> &{" "}
-                <span className="text-[#B80200]">sell</span> cars in Syria
-              </>
-            )}
-          </h1>
-          <p className="text-base sm:text-lg md:text-2xl font-light">
-            <Translate text={"Our goal is to meet your needs"} />{" "}
-            <br className="hidden sm:block" />{" "}
-            <Translate text={"and exceed your expectations."} />
-          </p>
-          <div className="mt-3 hidden md:block ml-16">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="165"
-              height="132"
-              viewBox="0 0 165 132"
-              fill="none"
-            >
-              <path
-                d="M2.34023 75.9972C8.21078 91.5275 30.6305 105.065 43.8518 106.15C102.049 110.93 125.108 73.862 136.864 20.142"
-                stroke="#FF9540"
-                strokeWidth="3"
-                strokeDasharray="8"
-              ></path>{" "}
-              <path
-                d="M119.737 26.7773C145.605 11.3468 136.232 6.43047 147.243 29.7675"
-                stroke="#FF9540"
-                strokeWidth="3"
-              ></path>
-            </svg>
-          </div>
-        </div> */}
-
-        {/* Right Side - Form */}
-        <div className="bg-[#323232fa] shadow-lg rounded-2xl w-full max-w-lg p-6 sm:p-8 mx-auto mt-28 md:mt-0">
-          <h2 className="text-xl sm:text-2xl font-bold mb-4 text-white text-center">
-            <Translate text={"Search listings"} />
+        <div className="bg-[#323232fa] shadow-xl rounded-2xl w-full max-w-md p-6 sm:p-8 mx-auto mt-28 md:mt-0">
+          <h2 className="text-2xl sm:text-3xl font-semibold mb-6 text-white text-center">
+            <Translate text={"Find Your Perfect Car"} />
           </h2>
-          <form className="space-y-4 sm:space-y-6" onSubmit={handleSerach}>
+          <form className="space-y-5" onSubmit={handleSearch}>
             <div className="space-y-4">
-              {/* <select
-                name="make"
-                className="w-full rounded-lg border-gray-300 hover:border-[#B80200] px-4 py-3 sm:py-4 text-white !bg-[#323232fa]"
-                onChange={(e) => {
-                  const selectedMake = makes.find(
-                    (m) => m.value === e.target.value
-                  );
-                  setMake(selectedMake);
-                  setSerachMake(selectedMake.value);
-                  console.log(selectedMake.value);
-                  setSerachModel(null); // Reset model when make changes
-                }}
-              >
-                <option value="" disabled selected>
-                  {currentLanguage === "ar" ? "-- النوع --" : "-- Make --"}
-                </option>
-                {currentLanguage === "ar"
-                  ? arabicMakes.map((make) => (
-                      <option key={make.value} value={make.value}>
-                        {make.label}
-                      </option>
-                    ))
-                  : makes.map((make) => (
-                      <option key={make.value} value={make.value}>
-                        {make.label}
-                      </option>
-                    ))}
-              </select> */}
               <Select
                 options={options}
                 getOptionLabel={(e) => e.label}
                 getOptionValue={(e) => e.value}
                 onChange={handleChange}
-                placeholder={
-                  currentLanguage === "ar" ? "-- النوع --" : "-- Make --"
-                }
+                placeholder={currentLanguage === "ar" ? "-- النوع --" : "-- Make --"}
                 className="w-full"
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    backgroundColor: "#323232fa",
-                    borderColor: "#B80200",
-                    color: "white",
-                    padding: "5px",
-                  }),
-                  singleValue: (base) => ({
-                    ...base,
-                    color: "white",
-                  }),
-                  menu: (base) => ({
-                    ...base,
-                    backgroundColor: "#323232fa",
-                  }),
-                  option: (base, { isFocused }) => ({
-                    ...base,
-                    backgroundColor: isFocused ? "#B80200" : "#323232fa",
-                    color: "white",
-                  }),
-                  input: (base) => ({
-                    ...base,
-                    color: "white", // Make text inside input field white
-                  }),
-                  placeholder: (base) => ({
-                    ...base,
-                    color: "#bbb", // Light gray for placeholder text
-                  }),
-                }}
+                styles={selectStyles}
                 isSearchable
+                required
               />
-              {/* <select
-                name="model"
-                className="w-full rounded-lg border-gray-300 hover:border-[#B80200] px-4 py-3 sm:py-4 text-white !bg-[#323232fa]"
-                onChange={(e) => setSerachModel(e.target.value)}
-              >
-                <option value="" disabled selected>
-                  {currentLanguage === "ar" ? "-- الموديل --" : "-- Model --"}
-                </option>
-                {modelOptions.map((model) => (
-                  <>
-                    <option value={model.value}>{model.label}</option>
-                  </>
-                ))}
-              </select> */}
               <Select
                 options={modelOptions}
                 getOptionLabel={(e) => e.label}
                 getOptionValue={(e) => e.value}
                 onChange={handleModelChange}
-                placeholder={
-                  currentLanguage === "ar" ? "-- الموديل --" : "-- Model --"
-                }
+                placeholder={currentLanguage === "ar" ? "-- الموديل --" : "-- Model --"}
                 className="w-full"
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    backgroundColor: "#323232fa",
-                    borderColor: "#B80200",
-                    color: "white",
-                    padding: "5px",
-                  }),
-                  singleValue: (base) => ({
-                    ...base,
-                    color: "white",
-                  }),
-                  menu: (base) => ({
-                    ...base,
-                    backgroundColor: "#323232fa",
-                  }),
-                  option: (base, { isFocused }) => ({
-                    ...base,
-                    backgroundColor: isFocused ? "#B80200" : "#323232fa",
-                    color: "white",
-                  }),
-                  input: (base) => ({
-                    ...base,
-                    color: "white", // Ensures typed text is white
-                  }),
-                  placeholder: (base) => ({
-                    ...base,
-                    color: "#bbb", // Light gray for placeholder text
-                  }),
-                }}
+                styles={selectStyles}
+                isSearchable
+                isDisabled={!make}
+              />
+              <Select
+                options={locations}
+                getOptionLabel={(e) => e.label}
+                getOptionValue={(e) => e.value}
+                onChange={handleLocationChange}
+                placeholder={currentLanguage === "ar" ? "-- الموقع --" : "-- Location --"}
+                className="w-full"
+                styles={selectStyles}
                 isSearchable
               />
             </div>
-
             <button
               type="submit"
-              className="w-full bg-white hover:bg-slate-200 py-3 sm:py-4 rounded-lg text-[#B80200] text-lg cursor-pointer font-bold"
+              className="w-full bg-white hover:bg-slate-200 py-3 sm:py-4 rounded-lg text-[#B80200] text-lg font-semibold transition-colors duration-200"
             >
-              {currentLanguage === "ar" ? "بحث" : "Search"}
+              <Translate text={currentLanguage === "ar" ? "بحث" : "Search"} />
             </button>
           </form>
         </div>

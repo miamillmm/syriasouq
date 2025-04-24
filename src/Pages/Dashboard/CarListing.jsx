@@ -152,7 +152,7 @@ const CarListing = () => {
                 {/* Edit Button */}
                 <button
                   onClick={() => handleEdit(car._id)}
-                  className="mt-3 w-full bg-blue-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-blue-700 transition text-lg cursor-pointer flex items-center justify-center gap-2"
+                  className="mt-3 w-full bg-[#323232fa] text-white font-bold px-4 py-2 rounded-lg hover:bg-bg-[#323232fa] transition text-lg cursor-pointer flex items-center justify-center gap-2"
                 >
                   <FaEdit /> {currentLanguage === "ar" ? "تعديل" : "Edit"}
                 </button>
