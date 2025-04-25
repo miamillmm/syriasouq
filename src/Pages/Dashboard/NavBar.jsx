@@ -1,27 +1,22 @@
 import { useLocation } from "react-router";
-import Translate from "../../utils/Translate";
-import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useContext, useState } from "react";
+import Translate from "../../utils/Translate";
+import { AuthContext } from "../../context/AuthContext"; // Adjust the path as needed
 
 const Navbar = () => {
   const location = useLocation();
-  const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const { i18n } = useTranslation();
-  const currentLanguage = i18n.language; // Gets current language
+  const currentLanguage = i18n.language;
 
-  useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("SyriaSouq-auth"));
-    console.log(storedUser);
-    if (storedUser) {
-      return setUser(storedUser);
-    }
-  }, []);
+  // Use AuthContext to get user and logout function
+  const { user, logout } = useContext(AuthContext);
 
   const handleLogout = () => {
-    localStorage.removeItem("SyriaSouq-auth");
+    logout(); // Use logout from AuthContext
     navigate("/", { replace: true });
   };
 
@@ -32,7 +27,7 @@ const Navbar = () => {
           className="w-10 h-10 rounded-full border-2 border-gray-400 bg-gray-200 shadow-xl flex items-center justify-center cursor-pointer"
           onClick={() => setShowProfileMenu(!showProfileMenu)}
         >
-          <span className="font-bold ">
+          <span className="font-bold">
             {user?.username?.slice(0, 1).toUpperCase()}
           </span>
         </div>

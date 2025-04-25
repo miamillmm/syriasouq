@@ -2,7 +2,6 @@ import { useTranslation } from "react-i18next";
 import Select from "react-select";
 import SyrianFlag from "../assets/flag/syria-flag.png";
 import { Link, useLocation } from "react-router-dom";
-import Translate from "./Translate";
 import { motion } from "framer-motion";
 
 // Language options
@@ -51,7 +50,7 @@ const LanguageSwitcher = () => {
   };
 
   return (
-    <div className="fixed bottom-2 sm:bottom-4 flex flex-col sm:flex-row items-center gap-2 sm:gap-6 z-50 px-2 sm:px-4 pb-safe">
+    <div className="fixed bottom-2 left-0 right-0 flex flex-row items-center justify-between w-full z-50 px-4 pb-safe">
       {/* Language Selector */}
       <motion.div
         className="w-32 sm:w-40"
