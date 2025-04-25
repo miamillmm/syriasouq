@@ -150,13 +150,6 @@ const ListingForm = ({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 relative">
-      {/* Loader Overlay */}
-      {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 bg-opacity-50 z-20">
-          <div className="loader"></div>
-        </div>
-      )}
-
       <div className="flex items-center w-full mb-5 pl-5">
         <h2 className="text-2xl font-bold text-[#314252] whitespace-nowrap">
           <Translate text={"General info"} />
@@ -519,7 +512,7 @@ const ListingForm = ({
       <div className="flex justify-end py-10">
         <motion.button
           type="submit"
-          className="bg-[#B80200] text-white px-4 py-2 rounded-md flex items-center justify-center gap-2"
+          className="bg-[#B80200] text-white px-4 py-2 rounded-md flex items-center justify-center gap-2 disabled:opacity-50"
           disabled={isLoading}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -849,7 +842,7 @@ const AddListingPage = () => {
             exit={{ scale: 0.8, y: 50 }}
           >
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-[#314352]">
+              <h2 className="text-2xl font-bold text-[#314252]">
                 <Translate text={"Edit Listing"} />
               </h2>
               <button
