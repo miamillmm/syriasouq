@@ -168,13 +168,13 @@ const Featured = () => {
             {cars?.map((data) => (
               <>
                 <div className="flex md:flex-row flex-col-reverse gap-4 bg-slate-100 p-3 rounded">
-                  <div className="relative w-full max-w-[350px]">
+                  <div className="relative w-full max-w-[420px]">
                     <Link to={`/listing/${data._id}`} key={data._id}>
                       <div className="overflow-hidden rounded-md">
                         <img
                           alt=""
                           src={`http://api.syriasouq.com/uploads/cars/${data.images[0]}`}
-                          className="h-40 sm:h-56 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
+                          className="h-56 sm:h-56 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
                         />
                       </div>
                     </Link>

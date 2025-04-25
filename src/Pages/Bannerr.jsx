@@ -138,7 +138,7 @@ const BannerSection = () => {
 
   return (
     <div
-      className="relative border-t-2 border-[#576877] py-10 pt-28 sm:py-24 flex items-center justify-center md:min-h-[80vh] min-h-[70vh]"
+      className="relative border-t-2 border-[#576877] py-10 pt-52 sm:py-24 flex items-center justify-center md:min-h-[80vh] min-h-[70vh]"
       style={{
         backgroundImage: `url(${bgImage})`,
         backgroundSize: "cover",
