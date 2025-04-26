@@ -11,6 +11,9 @@ import {
   getLocalizedLocation,
   getLocalizedMake,
 } from "../utils/utils";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 const Featured = () => {
   const [cars, setCars] = useState([]);
@@ -59,11 +62,6 @@ const Featured = () => {
 
     // Find the wishlist item for this car
     const wishlistItem = wishlist.find((item) => item.car._id === car._id);
-
-    // console.log("Wishlist", wishlist);
-    // console.log("Wishlist Items", wishlistItem);
-
-    // return;
 
     if (wishlistItem) {
       // If the car is in the wishlist, remove it
@@ -117,16 +115,65 @@ const Featured = () => {
   };
 
   const handleShare = (car) => {
-    const shareLink = `${window.location.origin}/listing/${car._id}`; // Adjust based on your app's routing
-
-    navigator.clipboard
-      .writeText(shareLink)
-      .then(() => {
-        alert("Link copied to clipboard!");
-      })
-      .catch((err) => {
-        console.error("Failed to copy link:", err);
-      });
+    const url = `${window.location.origin}/listing/${car._id}`;
+    const title = `${getLocalizedMake(car, currentLanguage)} ${getArabicModel(car, currentLanguage)}`;
+    if (navigator.share) {
+      navigator
+        .share({
+          title: title,
+          url: url,
+        })
+        .catch((err) => {
+          console.error("Share failed: ", err);
+          toast.error(
+            currentLanguage === "ar"
+              ? "فشل في مشاركة الرابط!"
+              : "Failed to share URL!",
+            {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+            }
+          );
+        });
+    } else {
+      navigator.clipboard
+        .writeText(url)
+        .then(() => {
+          toast.success(
+            currentLanguage === "ar"
+              ? "تم نسخ رابط الإعلان إلى الحافظة!"
+              : "Listing URL copied to clipboard!",
+            {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+            }
+          );
+        })
+        .catch((err) => {
+          console.error("Failed to copy URL: ", err);
+          toast.error(
+            currentLanguage === "ar"
+              ? "فشل في نسخ الرابط!"
+              : "Failed to copy URL!",
+            {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+            }
+          );
+        });
+    }
   };
 
   const { i18n } = useTranslation();
@@ -134,6 +181,17 @@ const Featured = () => {
 
   return (
     <div className="container mx-auto px-4 sm:px-8 md:px-16 w-screen py-10 md:py-20">
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={currentLanguage === "ar"}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       {/* header */}
       <div className="header flex flex-col md:flex-row justify-between flex-wrap items-center mb-12">
         <div className="space-y-4 text-center md:text-left">
@@ -167,7 +225,19 @@ const Featured = () => {
           <>
             {cars?.map((data) => (
               <>
-                <div className="flex md:flex-row flex-col-reverse gap-4 bg-slate-100 p-3 rounded">
+                <div className="flex md:flex-row flex-col-reverse gap-4 bg-slate-100 p-3 rounded relative">
+                  <div
+                    className={`absolute top-2 ${
+                      currentLanguage === "ar" ? "left-2" : "right-2"
+                    } flex items-center gap-2`}
+                  >
+                    <div
+                      onClick={() => handleShare(data)}
+                      className="hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-300 cursor-pointer text-gray-600"
+                    >
+                      <CiShare2 className="w-1/2 h-1/2" />
+                    </div>
+                  </div>
                   <div className="relative w-full max-w-[420px]">
                     <Link to={`/listing/${data._id}`} key={data._id}>
                       <div className="overflow-hidden rounded-md">
@@ -189,12 +259,6 @@ const Featured = () => {
                       >
                         <CiHeart className="w-1/2 h-1/2" />
                       </div>
-                      {/* <div
-                        onClick={() => handleShare(data)}
-                        className={`hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-white cursor-pointer text-white`}
-                      >
-                        <CiShare2 className="w-1/2 h-1/2" />
-                      </div> */}
                     </div>
                   </div>
                   <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">

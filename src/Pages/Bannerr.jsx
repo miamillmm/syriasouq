@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import img from "../assets/bg-image/banner-img-4.jpeg";
 import imgForMobile from "../assets/bg-image/banner-img-for-mobile-2.jpeg";
 import Translate from "../utils/Translate";
-import { arabicMakes as arMake, makes as enMakes } from "../utils/utils";
+import { arabicMakes as arMake, makes as enMakes, alllocation } from "../utils/utils";
 import { useTranslation } from "react-i18next";
 import Select from "react-select";
 
@@ -28,13 +28,10 @@ const BannerSection = () => {
     { label: "أخرى", value: "أخرى", models: ["أخرى"] },
   ];
 
+  // Add "All" option to alllocation
   const locations = [
-    { label: currentLanguage === "ar" ? "الكل" : "All", value: "All" },
-    { label: currentLanguage === "ar" ? "دمشق" : "Damascus", value: "Damascus" },
-    { label: currentLanguage === "ar" ? "حلب" : "Aleppo", value: "Aleppo" },
-    { label: currentLanguage === "ar" ? "حمص" : "Homs", value: "Homs" },
-    { label: currentLanguage === "ar" ? "اللاذقية" : "Latakia", value: "Latakia" },
-    { label: currentLanguage === "ar" ? "أخرى" : "Other", value: "Other" },
+    { value: "All", label: currentLanguage === "ar" ? "الكل" : "All", arLabel: "الكل" },
+    ...alllocation,
   ];
 
   const handleSearch = (e) => {
@@ -176,7 +173,7 @@ const BannerSection = () => {
                 options={modelOptions}
                 getOptionLabel={(e) => e.label}
                 getOptionValue={(e) => e.value}
-                onChange={handleModelChange}
+                WORonChange={handleModelChange}
                 placeholder={currentLanguage === "ar" ? "-- الموديل --" : "-- Model --"}
                 className="w-full"
                 styles={selectStyles}
@@ -185,7 +182,7 @@ const BannerSection = () => {
               />
               <Select
                 options={locations}
-                getOptionLabel={(e) => e.label}
+                getOptionLabel={(e) => (currentLanguage === "ar" ? e.arLabel : e.label)}
                 getOptionValue={(e) => e.value}
                 onChange={handleLocationChange}
                 placeholder={currentLanguage === "ar" ? "-- الموقع --" : "-- Location --"}

@@ -199,17 +199,17 @@ const SearchPage = () => {
       exteriorColor,
       interiorColor,
     } = filters;
-
+  
     const matchesKilometer =
       !kilometer ||
       (data.kilometer >= kilometer[0] && data.kilometer <= kilometer[1]);
-
+  
     const matchesEngineSize =
       !engineSize ||
       engineSize === "Other" ||
       engineSize === "Unknown" ||
       data.engineSize === engineSize;
-
+  
     return (
       (make.length > 0
         ? make.some((m) =>
@@ -221,13 +221,13 @@ const SearchPage = () => {
       (minYear ? data.year >= parseInt(minYear, 10) : true) &&
       (maxYear ? data.year <= parseInt(maxYear, 10) : true) &&
       (minPrice ? data.priceUSD >= parseFloat(minPrice) : true) &&
-      (maxPrice ? data.priceUSD <= parseFloat(maxPrice) : true) &&
+      (maxPrice >= 110000 || (maxPrice ? data.priceUSD <= parseFloat(maxPrice) : true)) &&
       matchesKilometer &&
       (location
         ? String(data.location || "")
             .toLowerCase()
             .includes(location.toLowerCase())
-        : true) &&
+          : true) &&
       matchesEngineSize &&
       (transmission ? data.transmission === transmission : true) &&
       (fuelType.length > 0 ? fuelType.includes(data.fuelType) : true) &&
@@ -356,48 +356,40 @@ const SearchPage = () => {
 
               {/* Price Filter */}
               <div
-                className="mb-6"
-                style={{ direction: currentLanguage === "ar" ? "rtl" : "ltr" }}
-              >
-                <label className="block text-gray-700 font-semibold mb-3">
-                  <Translate text={"Price"} /> ($)
-                </label>
-                <Slider
-                  key={currentLanguage} // Force re-render when language changes
-                  range
-                  min={0}
-                  max={100000}
-                  step={1000}
-                  marks={{
-                    0: `$0`,
-                    25000: `$25k`,
-                    50000: `$50k`,
-                    75000: `$75k`,
-                    90000: `$90k`,
-                    100000: currentLanguage === "ar" ? "أي سعر" : "Any",
-                  }}
-                  value={[filters.minPrice || 0, filters.maxPrice || 100000]}
-                  onChange={(value) =>
-                    setFilters((prev) => ({
-                      ...prev,
-                      minPrice: value[0],
-                      maxPrice: value[1],
-                    }))
-                  }
-                  direction={currentLanguage === "ar" ? "rtl" : "ltr"}
-                />
-                <div
-                  className={`flex justify-between mt-2 text-sm text-gray-700 ${
-                    currentLanguage === "ar" && "flex-row-reverse"
-                  }`}
-                >
-                  <span>${filters.minPrice || 0}</span>
-                  <span>${filters.maxPrice || 100000}</span>
-                </div>
-              </div>
+  className="mb-16"
+  style={{ direction: currentLanguage === "ar" ? "rtl" : "ltr" }}
+>
+  <label className="block text-gray-700 font-semibold mb-3">
+    <Translate text={"Price"} /> ($)
+  </label>
+  <Slider
+    key={currentLanguage} // Force re-render when language changes
+    range
+    min={0}
+    max={125000}
+    step={1000}
+    marks={{
+      0: `$0`,
+      25000: `$25k`,
+      50000: `$50k`,
+      75000: `$75k`,
+      100000: `$100k`,
+      125000: currentLanguage === "ar" ? "أي سعر" : "Any",
+    }}
+    value={[filters.minPrice || 0, filters.maxPrice || 110000]}
+    onChange={(value) =>
+      setFilters((prev) => ({
+        ...prev,
+        minPrice: value[0],
+        maxPrice: value[1],
+      }))
+    }
+    direction={currentLanguage === "ar" ? "rtl" : "ltr"}
+  />
+</div>
 
               {/* Kilometer Filter */}
-              <div className="mb-6">
+              <div className="mb-16">
                 <label className="block text-gray-700 font-semibold mb-3">
                   <Translate text={"Kilometer"} />
                 </label>
@@ -424,21 +416,6 @@ const SearchPage = () => {
                     currentLanguage === "ar" && "flex-row-reverse"
                   }`}
                 >
-                  <Translate
-                    text={
-                      filters.kilometer &&
-                      filters.kilometer[0] === 0 &&
-                      filters.kilometer[1] === 200000
-                        ? currentLanguage === "ar"
-                          ? "الممشى"
-                          : "ALL Kilometers"
-                        : `${
-                            currentLanguage === "ar"
-                              ? `${filters.kilometer[1]} - ${filters.kilometer[0]}`
-                              : `${filters.kilometer[0]} - ${filters.kilometer[1]}`
-                          } ${currentLanguage === "ar" ? "كم" : "km"}`
-                    }
-                  />
                 </p>
               </div>
 
@@ -691,47 +668,39 @@ const SearchPage = () => {
 
                     {/* Price Filter */}
                     <div
-                      className="mb-6"
-                      style={{
-                        direction: currentLanguage === "ar" ? "rtl" : "ltr",
-                      }}
-                    >
-                      <label className="block text-gray-700 font-semibold mb-3">
-                        <Translate text={"Price"} /> ($)
-                      </label>
-                      <Slider
-                        key={currentLanguage} // Force re-render when language changes
-                        range
-                        min={0}
-                        max={100000}
-                        step={1000}
-                        marks={{
-                          0: `$0`,
-                          25000: `$25k`,
-                          50000: `$50k`,
-                          75000: `$75k`,
-                          90000: `$90k`,
-                          100000: currentLanguage === "ar" ? "أي سعر" : "Any",
-                        }}
-                        value={[filters.minPrice || 0, filters.maxPrice || 100000]}
-                        onChange={(value) =>
-                          setFilters((prev) => ({
-                            ...prev,
-                            minPrice: value[0],
-                            maxPrice: value[1],
-                          }))
-                        }
-                        direction={currentLanguage === "ar" ? "rtl" : "ltr"}
-                      />
-                      <div
-                        className={`flex justify-between mt-2 text-sm text-gray-700 ${
-                          currentLanguage === "ar" && "flex-row-reverse"
-                        }`}
-                      >
-                        <span>${filters.minPrice || 0}</span>
-                        <span>${filters.maxPrice || 100000}</span>
-                      </div>
-                    </div>
+  className="mb-14"
+  style={{
+    direction: currentLanguage === "ar" ? "rtl" : "ltr",
+  }}
+>
+  <label className="block text-gray-700 font-semibold mb-3">
+    <Translate text={"Price"} /> ($)
+  </label>
+  <Slider
+    key={currentLanguage} // Force re-render when language changes
+    range
+    min={0}
+    max={125000}
+    step={1000}
+    marks={{
+      0: `$0`,
+      25000: `$25k`,
+      50000: `$50k`,
+      75000: `$75k`,
+      100000: `$100k`,
+      125000: currentLanguage === "ar" ? "أي سعر" : "Any",
+    }}
+    value={[filters.minPrice || 0, filters.maxPrice || 110000]}
+    onChange={(value) =>
+      setFilters((prev) => ({
+        ...prev,
+        minPrice: value[0],
+        maxPrice: value[1],
+      }))
+    }
+    direction={currentLanguage === "ar" ? "rtl" : "ltr"}
+  />
+</div>
 
                     {/* Kilometer Filter */}
                     <div className="mb-10">
@@ -761,21 +730,6 @@ const SearchPage = () => {
                           currentLanguage === "ar" && "flex-row-reverse"
                         }`}
                       >
-                        <Translate
-                          text={
-                            filters.kilometer &&
-                            filters.kilometer[0] === 0 &&
-                            filters.kilometer[1] === 200000
-                              ? currentLanguage === "ar"
-                                ? "الممشى"
-                                : "ALL Kilometers"
-                              : `${
-                                  currentLanguage === "ar"
-                                    ? `${filters.kilometer[1]} - ${filters.kilometer[0]}`
-                                    : `${filters.kilometer[0]} - ${filters.kilometer[1]}`
-                                } ${currentLanguage === "ar" ? "كم" : "km"}`
-                          }
-                        />
                       </p>
                     </div>
 
@@ -1133,12 +1087,12 @@ const SearchPage = () => {
                               </div>
                             </div>
                             <Link to={`/listing/${data._id}`}>
-                              <div className="relative w-full max-w-[350px]">
+                              <div className="relative w-full max-w-[400px]">
                                 <div className="overflow-hidden rounded-md">
                                   <img
                                     alt=""
                                     src={`http://api.syriasouq.com/uploads/cars/${data.images[0]}`}
-                                    className="h-48 sm:h-56 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
+                                    className="h-52 sm:h-56 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
                                   />
                                 </div>
                               </div>
@@ -1275,12 +1229,12 @@ const SearchPage = () => {
                               </div>
                             </div>
                             <Link to={`/listing/${data._id}`}>
-                              <div className="relative w-full max-w-[350px]">
+                              <div className="relative w-full max-w-[400px]">
                                 <div className="overflow-hidden rounded-md">
                                   <img
                                     alt=""
                                     src={`http://api.syriasouq.com/uploads/cars/${data.images[0]}`}
-                                    className="h-48 sm:h-56 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
+                                    className="h-52 sm:h-56 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
                                   />
                                 </div>
                               </div>

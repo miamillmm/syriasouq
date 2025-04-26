@@ -34,6 +34,7 @@ const CarDetails = () => {
   const [showMore, setShowMore] = useState(false);
   const [showMoreFeatures, setShowMoreFeatures] = useState(false); // New state for features toggle
   const [relatedCars, setRelatedCars] = useState([]);
+  const [isChatLoading, setIsChatLoading] = useState(false);
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("SyriaSouq-auth"));
@@ -55,6 +56,8 @@ const CarDetails = () => {
   }, [id]);
 
   const startNewChat = async (receiver) => {
+    if (isChatLoading) return;
+    setIsChatLoading(true);
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/conversations`,
@@ -67,12 +70,14 @@ const CarDetails = () => {
           },
         }
       );
-
+  
       if (response.data) {
-        return navigate("/messages", { replace: true });
+        navigate("/messages", { replace: true });
       }
     } catch (error) {
       console.error("Error starting new chat", error);
+    } finally {
+      setIsChatLoading(false);
     }
   };
 
@@ -103,7 +108,7 @@ const CarDetails = () => {
   };
 
   return (
-    <div className="pt-24 px-4 sm:px-6 md:px-16 lg:px-28 pb-safe bg-gradient-to-b from-gray-50 to-gray-100 min-h-screen">
+    <div className="pt-24 px-4 sm:px-6 md:px-16 lg:px-28 pb-safe bg-gradient-to-b  min-h-screen">
       {/* Top Path and Slider */}
       <motion.h2
         className="mb-6 sm:mb-8 mt-5 sm:mt-7 text-xl sm:text-2xl font-bold text-gray-800"
@@ -119,26 +124,27 @@ const CarDetails = () => {
         animate="visible"
         variants={fadeIn}
       >
-        <div className="w-full flex flex-col gap-2 relative h-auto">
-          <Swiper
-            direction="horizontal"
-            slidesPerView={1}
-            spaceBetween={10}
-            navigation={true}
-            modules={[Navigation]}
-            className="h-auto"
-          >
-            {carDetails?.images?.map((img, index) => (
-              <SwiperSlide key={index} className="h-auto">
-                <img
-                  src={`http://api.syriasouq.com/uploads/cars/${img}`}
-                  alt={`Thumbnail ${index}`}
-                  className="w-full h-auto max-h-[500px] object-contain rounded-lg cursor-pointer hover:opacity-80 transition-opacity duration-300"
-                />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
+       <div className="w-full flex flex-col gap-2 relative h-auto">
+      <Swiper
+        direction="horizontal"
+        slidesPerView={1}
+        spaceBetween={10}
+        navigation={true}
+        modules={[Navigation]}
+        className="h-auto"
+        dir={currentLanguage === "ar" ? "rtl" : "ltr"}
+      >
+        {carDetails?.images?.map((img, index) => (
+          <SwiperSlide key={index} className="h-auto">
+            <img
+              src={`http://api.syriasouq.com/uploads/cars/${img}`}
+              alt={`Thumbnail ${index}`}
+              className="w-full h-[300px] sm:h-[400px] lg:h-[500px] object-contain rounded-lg cursor-pointer hover:opacity-80 transition-opacity duration-300"
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
       </motion.div>
 
       {/* Car Details and User Details */}
@@ -375,14 +381,21 @@ const CarDetails = () => {
 
             {/* Action Buttons */}
             <div className="mt-8 sm:mt-12 flex flex-col gap-3 sm:gap-5 justify-between">
-              <motion.button
-                onClick={() => startNewChat(carDetails?.user)}
-                className="w-full bg-gradient-to-r from-[#B80200] to-[#A00000] text-white py-3 sm:py-4 px-6 sm:px-8 font-semibold rounded-md flex items-center justify-center gap-2 cursor-pointer hover:bg-gradient-to-r hover:from-[#A00000] hover:to-[#900000] transition-all shadow-md"
-                whileHover={hoverEffect}
-                whileTap={{ scale: 0.95 }}
-              >
-                <TiMessages /> {currentLanguage === "ar" ? `دردشة` : "Chat"}
-              </motion.button>
+            <motion.button
+  onClick={() => startNewChat(carDetails?.user)}
+  className="w-full bg-gradient-to-r from-[#B80200] to-[#A00000] text-white py-3 sm:py-4 px-6 sm:px-8 font-semibold rounded-md flex items-center justify-center gap-2 cursor-pointer hover:bg-gradient-to-r hover:from-[#A00000] hover:to-[#900000] transition-all shadow-md disabled:opacity-50"
+  whileHover={hoverEffect}
+  whileTap={{ scale: 0.95 }}
+  disabled={isChatLoading}
+>
+  {isChatLoading ? (
+    <div className="loader border-t-2 border-white h-5 w-5 animate-spin rounded-full"></div>
+  ) : (
+    <>
+      <TiMessages /> {currentLanguage === "ar" ? `دردشة` : "Chat"}
+    </>
+  )}
+</motion.button>
               <motion.a
                 href={`tel:${carDetails?.user?.phone}`}
                 className="w-full bg-gradient-to-r from-[#B80200] to-[#A00000] text-white py-3 sm:py-4 px-6 sm:px-8 font-semibold rounded-md flex items-center justify-center gap-2 cursor-pointer hover:bg-gradient-to-r hover:from-[#A00000] hover:to-[#900000] transition-all shadow-md"

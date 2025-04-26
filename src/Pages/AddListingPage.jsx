@@ -593,6 +593,7 @@ const AddListingPage = () => {
             }
           );
           const car = response.data.data;
+          console.log(car.features)
           setCarData(car);
 
           // Pre-fill form fields
@@ -635,7 +636,7 @@ const AddListingPage = () => {
               : null
           );
           setDescription(car.description || "");
-          setSelectedFeatures(car.selectedFeatures || []);
+          setSelectedFeatures(car.features || []);
           setUploadedImages(
             car.images
               ? car.images.map((img, index) => ({
