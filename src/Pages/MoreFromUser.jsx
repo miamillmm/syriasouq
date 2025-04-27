@@ -18,14 +18,14 @@ import {
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import { useWishlist } from "../context/WishlistContext";
 
 export default function MoreFromUser({ title, button, uid }) {
   const swiperRef = useRef(null);
   const [listings, setListings] = useState([]);
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language;
-  const [wishlist, setWishlist] = useState([]);
-  const user = JSON.parse(localStorage.getItem("SyriaSouq-auth"));
+  const { wishlist, handleWishlist, isWishlistLoading } = useWishlist();
 
   useEffect(() => {
     console.log(uid);
@@ -40,76 +40,6 @@ export default function MoreFromUser({ title, button, uid }) {
     };
     getCars();
   }, [uid]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (user) {
-          const wishlistRes = await axios.get(
-            `${import.meta.env.VITE_API_URL}/wishlist/uid/${user._id}`,
-            {
-              headers: { authorization: `Bearer ${user.jwt}` },
-            }
-          );
-          setWishlist(wishlistRes.data.data);
-        }
-      } catch (error) {
-        console.log("Error fetching data:", error);
-      }
-    };
-    fetchData();
-  }, [user]);
-
-  const handleWishlist = async (car) => {
-    if (!user)
-      return alert(
-        `${
-          currentLanguage === "ar"
-            ? "يرجى تسجيل الدخول قبل إدارة قائمة الرغبات الخاصة بك"
-            : "Please log in before managing your wishlist"
-        }`
-      );
-
-    const wishlistItem = wishlist.find((item) => item.car._id === car._id);
-
-    if (wishlistItem) {
-      try {
-        await axios.delete(
-          `${import.meta.env.VITE_API_URL}/wishlist/${wishlistItem._id}`,
-          {
-            headers: { authorization: `Bearer ${user.jwt}` },
-          }
-        );
-        alert("Car Removed from Wishlist");
-        setWishlist(wishlist.filter((item) => item._id !== wishlistItem._id));
-        window.location.reload();
-      } catch (error) {
-        console.log("Error removing from wishlist:", error);
-      }
-    } else {
-      try {
-        const res = await axios.post(
-          `${import.meta.env.VITE_API_URL}/wishlist`,
-          {
-            userId: user._id,
-            carId: car._id,
-          },
-          {
-            headers: { authorization: `Bearer ${user.jwt}` },
-          }
-        );
-        alert(
-          currentLanguage === "ar"
-            ? `تم إضافة السيارة إلى قائمة الرغبات`
-            : `Car Added to Wishlist`
-        );
-        setWishlist([...wishlist, res.data.data]);
-        window.location.reload();
-      } catch (error) {
-        console.log("Error adding to wishlist:", error);
-      }
-    }
-  };
 
   const handleShare = (car) => {
     const url = `${window.location.origin}/listing/${car._id}`;
@@ -175,7 +105,6 @@ export default function MoreFromUser({ title, button, uid }) {
 
   return (
     <div className="w-full py-6 sm:py-10 relative px-4 sm:px-6 lg:px-8">
-      {/* Responsive padding for container */}
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -231,13 +160,30 @@ export default function MoreFromUser({ title, button, uid }) {
               <div className="flex md:flex-row flex-col-reverse gap-4 bg-slate-100 p-3 sm:p-4 rounded relative">
                 <div className="w-full max-w-[450px] sm:max-w-[350px]">
                   <Link to={`/listing/${car?._id}`} key={car?._id}>
-                    <div className="overflow-hidden rounded-md">
+                    <div className="overflow-hidden rounded-md relative">
                       <img
                         alt={`${getLocalizedMake(car, currentLanguage)} ${getArabicModel(car, currentLanguage)}`}
                         src={`http://api.syriasouq.com/uploads/cars/${car?.images[0]}`}
                         className="w-full h-48 sm:h-52 lg:h-56 object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
                         loading="lazy"
                       />
+                      {/* Wishlist Button */}
+                      <div
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          if (!isWishlistLoading) {
+                            handleWishlist(car);
+                          }
+                        }}
+                        className={`absolute top-3 ${currentLanguage === "ar" ? "right-3" : "left-3"} hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-300 cursor-pointer text-gray-600 ${
+                          wishlist.some((item) => item.car?._id === car._id)
+                            ? "bg-[#B80200] border-[#B80200] text-white"
+                            : "bg-white"
+                        } ${isWishlistLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+                      >
+                        <CiHeart className="w-4 h-4 sm:w-5 sm:h-5" />
+                      </div>
                     </div>
                   </Link>
                 </div>

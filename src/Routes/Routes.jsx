@@ -15,11 +15,14 @@ import PasswordChangePage from "../Pages/Authentication/PasswordChangePage";
 import ChangePassword from "../Pages/Authentication/ChangePassword";
 import Favorites from "../Pages/Dashboard/Favorites";
 import { AuthProvider } from "../context/AuthContext";
+import { WishlistProvider } from "../context/WishlistContext";
 
 const Router = () => {
   return (
     <BrowserRouter>
     <AuthProvider>
+    <WishlistProvider>
+
 
       <Routes>
         <Route path="/" element={<Main />}>
@@ -43,6 +46,8 @@ const Router = () => {
           <Route path="/term-and-use" element={<TermsPage />} />
         </Route>
       </Routes>
+      </WishlistProvider>
+
     </AuthProvider>
     </BrowserRouter>
   );

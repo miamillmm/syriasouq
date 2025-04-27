@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { CiCalendar, CiHeart, CiLocationOn, CiShare2 } from "react-icons/ci";
 import { TiArrowRight } from "react-icons/ti";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Translate from "../utils/Translate";
 import { useTranslation } from "react-i18next";
 import {
@@ -11,108 +11,46 @@ import {
   getLocalizedLocation,
   getLocalizedMake,
 } from "../utils/utils";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
+import { useWishlist } from "../context/WishlistContext";
 
 const Featured = () => {
   const [cars, setCars] = useState([]);
-  const [wishlist, setWishlist] = useState([]);
-  const user = JSON.parse(localStorage.getItem("SyriaSouq-auth")); // Assume user is stored in localStorage
-  const navigate = useNavigate();
+  const { wishlist, handleWishlist,isWishlistLoading } = useWishlist();
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language;
 
-  // Fetch all cars and the user's wishlist when component mounts
+  // Debug: Log wishlist to verify its contents
+  useEffect(() => {
+    console.log("Wishlist in Featured:", wishlist);
+  }, [wishlist]);
+
+  // Fetch all cars when component mounts or when wishlist or currentLanguage changes
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch all cars
         const carRes = await axios.get(
           `${import.meta.env.VITE_API_URL}/cars?status=available`
         );
         setCars(carRes.data.data);
-
-        // Fetch the user's wishlist
-        if (user) {
-          const wishlistRes = await axios.get(
-            `${import.meta.env.VITE_API_URL}/wishlist/uid/${user._id}`, // Assuming API endpoint for fetching wishlist
-            {
-              headers: { authorization: `Bearer ${user.jwt}` },
-            }
-          );
-          setWishlist(wishlistRes.data.data);
-        }
+        console.log("Fetched cars:", carRes.data.data); // Debug log
       } catch (error) {
-        console.log("Error fetching data:", error);
+        console.log("Error fetching cars:", error);
+        toast.error(
+          currentLanguage === "ar"
+            ? "فشل في جلب السيارات"
+            : "Failed to fetch cars",
+          {
+            position: "top-right",
+            autoClose: 3000,
+          }
+        );
       }
     };
 
     fetchData();
-  }, [user]);
-
-  // Function to handle adding cars to the wishlist
-  const handleWishlist = async (car) => {
-    if (!user)
-      return alert(
-        `${
-          currentLanguage === "ar"
-            ? "يرجى تسجيل الدخول قبل إدارة قائمة الرغبات الخاصة بك"
-            : "Please log in before managing your wishlist"
-        }`
-      );
-
-    // Find the wishlist item for this car
-    const wishlistItem = wishlist.find((item) => item.car._id === car._id);
-
-    if (wishlistItem) {
-      // If the car is in the wishlist, remove it
-      try {
-        await axios.delete(
-          `${import.meta.env.VITE_API_URL}/wishlist/${wishlistItem._id}`, // Assuming wishlist items have unique IDs
-          {
-            headers: { authorization: `Bearer ${user.jwt}` },
-          }
-        );
-
-        alert("Car Removed from Wishlist");
-
-        // Update the wishlist state by filtering out the removed item
-        setWishlist(
-          wishlist.filter((item) => item.car._id !== wishlistItem._id)
-        );
-        // navigate("/");
-        window.location.href = "/";
-      } catch (error) {
-        console.log("Error removing from wishlist:", error);
-      }
-    } else {
-      // If the car is not in the wishlist, add it
-      try {
-        const res = await axios.post(
-          `${import.meta.env.VITE_API_URL}/wishlist`,
-          {
-            userId: user._id,
-            carId: car._id,
-          },
-          {
-            headers: { authorization: `Bearer ${user.jwt}` },
-          }
-        );
-
-        alert(
-          currentLanguage === "ar"
-            ? `تم إضافة السيارة إلى قائمة الرغبات`
-            : `Car Added to Wishlist`
-        );
-
-        // Update wishlist state
-        setWishlist([...wishlist, res.data.data]);
-        // navigate("/");
-        window.location.href = "/";
-      } catch (error) {
-        console.log("Error adding to wishlist:", error);
-      }
-    }
-  };
+  }, [currentLanguage, wishlist]);
 
   const handleShare = (car) => {
     const url = `${window.location.origin}/listing/${car._id}`;
@@ -176,9 +114,6 @@ const Featured = () => {
     }
   };
 
-  const { i18n } = useTranslation();
-  const currentLanguage = i18n.language; // Gets current language
-
   return (
     <div className="container mx-auto px-4 sm:px-8 md:px-16 w-screen py-10 md:py-20">
       <ToastContainer
@@ -192,20 +127,13 @@ const Featured = () => {
         draggable
         pauseOnHover
       />
-      {/* header */}
       <div className="header flex flex-col md:flex-row justify-between flex-wrap items-center mb-12">
         <div className="space-y-4 text-center md:text-left">
-          {/* <button className="text-[12px] sm:text-[14px] font-[400] text-gray-500 bg-gray-100 py-2 px-4 rounded cursor-pointer">
-            {currentLanguage === "ar" ? "مختارات ألجلك" : "Handy picked"}
-          </button> */}
           <h2 className="text-[28px] sm:text-[36px] font-bold text-[#314352]">
             <Translate text={"Recent listings"} />
           </h2>
         </div>
         <div className="flex gap-4 mt-6 md:mt-0">
-          {/* <button className="text-[14px] sm:text-[16px] font-[400] text-white bg-[#4b4b4bfa] py-3 sm:py-4 px-6 sm:px-8 rounded cursor-pointer">
-            <Translate text={"All"} />
-          </button> */}
           <Link to={"/search?make=All"}>
             <button className="bg-[#B80200] text-white text-[16px] sm:text-[18px] font-[400] justify-between py-3 sm:py-4 px-8 sm:px-12 rounded-md flex items-center gap-2 cursor-pointer">
               <Translate text={"View All"} />
@@ -218,128 +146,115 @@ const Featured = () => {
           </Link>
         </div>
       </div>
-
-      {/* All Car cards */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-7">
         {cars.length > 0 ? (
-          <>
-            {cars?.map((data) => (
-              <>
-                <div className="flex md:flex-row flex-col-reverse gap-4 bg-slate-100 p-3 rounded relative">
+          cars.map((data) => (
+            <div
+              key={data._id}
+              className="flex md:flex-row flex-col-reverse gap-4 bg-slate-100 p-3 rounded relative"
+            >
+              <div
+                className={`absolute top-2 ${
+                  currentLanguage === "ar" ? "left-2" : "right-2"
+                } flex items-center gap-2`}
+              >
+                <div
+                  onClick={() => handleShare(data)}
+                  className="hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-300 cursor-pointer text-gray-600"
+                >
+                  <CiShare2 className="w-1/2 h-1/2" />
+                </div>
+              </div>
+              <div className="relative w-full max-w-[420px]">
+                <Link to={`/listing/${data._id}`}>
+                  <div className="overflow-hidden rounded-md">
+                    <img
+                      alt=""
+                      src={`http://api.syriasouq.com/uploads/cars/${data.images[0]}`}
+                      className="h-56 sm:h-56 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
+                    />
+                  </div>
+                </Link>
+                <div className=" flex items-center gap-2">
                   <div
-                    className={`absolute top-2 ${
-                      currentLanguage === "ar" ? "left-2" : "right-2"
-                    } flex items-center gap-2`}
+                    onClick={() => handleWishlist(data)}
+                    className={`absolute top-2 ${currentLanguage === "ar" ? "left-2" : "right-2"} hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-300 cursor-pointer text-gray-600 ${
+                      wishlist.some((item) => item.car?._id === data._id)
+                        ? "bg-[#B80200] border-[#B80200] text-white"
+                        : "bg-white"
+                    } ${isWishlistLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+                  
                   >
-                    <div
-                      onClick={() => handleShare(data)}
-                      className="hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-300 cursor-pointer text-gray-600"
-                    >
-                      <CiShare2 className="w-1/2 h-1/2" />
-                    </div>
-                  </div>
-                  <div className="relative w-full max-w-[420px]">
-                    <Link to={`/listing/${data._id}`} key={data._id}>
-                      <div className="overflow-hidden rounded-md">
-                        <img
-                          alt=""
-                          src={`http://api.syriasouq.com/uploads/cars/${data.images[0]}`}
-                          className="h-56 sm:h-56 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
-                        />
-                      </div>
-                    </Link>
-                    <div className="absolute top-2 right-2 flex items-center gap-2">
-                      <div
-                        onClick={() => handleWishlist(data)}
-                        className={`hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-white cursor-pointer text-white ${
-                          wishlist.some((item) => item.car?._id === data._id)
-                            ? "bg-[#B80200] border-[#B80200]"
-                            : ""
-                        }`}
-                      >
-                        <CiHeart className="w-1/2 h-1/2" />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
-                    <div className="flex items-center justify-between gap-2">
-                      <h2 className="text-2xl font-bold">
-                        <span className="text-2xl">$ </span>
-                        {data?.priceUSD ? data?.priceUSD : "آخر"}
-                      </h2>
-                      {/* <span className="block px-2 py-1 rounded bg-[#B80200] text-white text-xs">
-                        {currentLanguage === "ar" ? "مميز" : "PREMIUM"}
-                      </span> */}
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <h2 className="text-md">
-                        {data?.make
-                          ? getLocalizedMake(data, currentLanguage)
-                          : "آخر"}
-                      </h2>
-                      <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
-                      <h2 className="text-md">
-                        {data?.model
-                          ? getArabicModel(data, currentLanguage)
-                          : "آخر"}
-                      </h2>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="flex items-center gap-1 text-md">
-                        <CiCalendar />
-                        <span>
-                          {data?.year ? <Translate text={data?.year} /> : "آخر"}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-1 text-md">
-                        <AiOutlineDashboard />
-                        <span>
-                          {data?.kilometer ? (
-                            <Translate text={data?.kilometer} />
-                          ) : (
-                            "آخر"
-                          )}{" "}
-                          <Translate text={"km"} />
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="flex items-center gap-1 text-md">
-                        <CiLocationOn />
-                        <span>
-                          {data?.location
-                            ? getLocalizedLocation(
-                                data?.location,
-                                currentLanguage
-                              )
-                            : "آخر"}
-                        </span>
-                      </div>
-                    </div>
-                    {/* <div className="flex items-center justify-end gap-3 mt-2 md:mt-4 text-sm">
-                      <Translate text={"Listed By:"} /> {data.user.username}
-                    </div> */}
-                    <div className="flex items-center gap-3 mt-2 md:mt-4">
-                      <Link
-                        to={`/listing/${data?._id}`}
-                        className="block bg-[#B80200] text-white text-lg py-1 px-4 rounded"
-                      >
-                        <Translate text={"View Details"} />
-                      </Link>
-                    </div>
+                    <CiHeart className="w-1/2 h-1/2" />
                   </div>
                 </div>
-              </>
-            ))}
-          </>
-        ) : (
-          <>
-            <div className="">
-              <h2 className="text-3xl text-[#B80200] text-center">
-                No Result Found
-              </h2>
+              </div>
+              <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
+                <div className="flex items-center justify-between gap-2">
+                  <h2 className="text-2xl font-bold">
+                    <span className="text-2xl">$ </span>
+                    {data?.priceUSD ? data?.priceUSD : "آخر"}
+                  </h2>
+                </div>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-md">
+                    {data?.make
+                      ? getLocalizedMake(data, currentLanguage)
+                      : "آخر"}
+                  </h2>
+                  <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
+                  <h2 className="text-md">
+                    {data?.model
+                      ? getArabicModel(data, currentLanguage)
+                      : "آخر"}
+                  </h2>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1 text-md">
+                    <CiCalendar />
+                    <span>
+                      {data?.year ? <Translate text={data?.year} /> : "آخر"}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1 text-md">
+                    <AiOutlineDashboard />
+                    <span>
+                      {data?.kilometer ? (
+                        <Translate text={data?.kilometer} />
+                      ) : (
+                        "آخر"
+                      )}{" "}
+                      <Translate text={"km"} />
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1 text-md">
+                    <CiLocationOn />
+                    <span>
+                      {data?.location
+                        ? getLocalizedLocation(data?.location, currentLanguage)
+                        : "آخر"}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 mt-2 md:mt-4">
+                  <Link
+                    to={`/listing/${data?._id}`}
+                    className="block bg-[#B80200] text-white text-lg py-1 px-4 rounded"
+                  >
+                    <Translate text={"View Details"} />
+                  </Link>
+                </div>
+              </div>
             </div>
-          </>
+          ))
+        ) : (
+          <div className="">
+            <h2 className="text-3xl text-[#B80200] text-center">
+              No Result Found
+            </h2>
+          </div>
         )}
       </div>
     </div>

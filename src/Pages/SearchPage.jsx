@@ -1,3 +1,4 @@
+
 import axios from "axios";
 import { useEffect, useState } from "react";
 import {
@@ -29,10 +30,12 @@ import { alllocation } from "../utils/utils";
 import { toast } from "react-toastify"; // Import react-toastify
 import "react-toastify/dist/ReactToastify.css"; // Import react-toastify styles
 import { ToastContainer } from "react-toastify"; // Import ToastContainer
+import { useWishlist } from "../context/WishlistContext"; // Import WishlistContext
 
 const SearchPage = () => {
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language; // Gets current language
+  const { wishlist, handleWishlist, isWishlistLoading } = useWishlist(); // Use WishlistContext
 
   const allTransmission = [
     { value: "automatic", label: "Automatic", arLabel: "اتوماتيك" },
@@ -335,7 +338,7 @@ const SearchPage = () => {
                   min={1920}
                   max={2025}
                   step={1}
-                  value={[filters.minYear || 1920, filters.maxYear || 2025]}
+                  value={[filters.minYear ||  filters.maxYear || 2025]}
                   onChange={(value) =>
                     setFilters((prev) => ({
                       ...prev,
@@ -374,7 +377,7 @@ const SearchPage = () => {
       50000: `$50k`,
       75000: `$75k`,
       100000: `$100k`,
-      125000: currentLanguage === "ar" ? "أي سعر" : "Any",
+      125000: currentLanguage === "ar" ? "أي" : "Any",
     }}
     value={[filters.minPrice || 0, filters.maxPrice || 110000]}
     onChange={(value) =>
@@ -404,7 +407,7 @@ const SearchPage = () => {
                     80000: `80k ${currentLanguage === "ar" ? "كم" : "km"}`,
                     120000: `120k ${currentLanguage === "ar" ? "كم" : "km"}`,
                     160000: `160k ${currentLanguage === "ar" ? "كم" : "km"}`,
-                    200000: currentLanguage === "ar" ? "أي مسافة" : "Any",
+                    200000: currentLanguage === "ar" ? "أي" : "Any",
                   }}
                   value={filters.kilometer || [0, 200000]} // Default range
                   onChange={(value) => {
@@ -420,7 +423,7 @@ const SearchPage = () => {
               </div>
 
               {/* Location */}
-              <div className="mb-4">
+              <div className="my-8 mt-16">
                 <label className="block text-gray-700 mb-2">
                   {currentLanguage === "ar" ? "الموقع" : "Location"}
                 </label>
@@ -446,7 +449,7 @@ const SearchPage = () => {
                 </div>
               </div>
               {/* Engine Size */}
-              <div className="mb-4">
+              <div className="my-4">
                 <label className="block text-gray-700 mb-2">
                   {currentLanguage === "ar"
                     ? `حجم المحرك (سي سي)`
@@ -688,7 +691,7 @@ const SearchPage = () => {
       50000: `$50k`,
       75000: `$75k`,
       100000: `$100k`,
-      125000: currentLanguage === "ar" ? "أي سعر" : "Any",
+      125000: currentLanguage === "ar" ? "أي" : "Any",
     }}
     value={[filters.minPrice || 0, filters.maxPrice || 110000]}
     onChange={(value) =>
@@ -718,7 +721,7 @@ const SearchPage = () => {
                           80000: `80k ${currentLanguage === "ar" ? "كم" : "km"}`,
                           120000: `120k ${currentLanguage === "ar" ? "كم" : "km"}`,
                           160000: `160k ${currentLanguage === "ar" ? "كم" : "km"}`,
-                          200000: currentLanguage === "ar" ? "أي مسافة" : "Any",
+                          200000: currentLanguage === "ar" ? "أي" : "Any",
                         }}
                         value={filters.kilometer || [0, 200000]} // Default range
                         onChange={(value) => {
@@ -734,7 +737,7 @@ const SearchPage = () => {
                     </div>
 
                     {/* Location */}
-                    <div className="mb-4">
+                    <div className="my-8 mt-16">
                       <label className="block text-gray-700 mb-2">
                         {currentLanguage === "ar" ? "الموقع" : "Location"}
                       </label>
@@ -1020,150 +1023,141 @@ const SearchPage = () => {
                     >
                       {view === "grid" ? (
                         <>
-                          <div className="relative flex flex-col-reverse gap-4 bg-slate-100 p-3 rounded">
-                            {/* Share Button Position Adjusted for Language */}
-                            <div className={`absolute top-2 ${currentLanguage === "ar" ? "left-2" : "right-2"} flex items-center gap-2`}>
-                              <div
-                                onClick={(e) => {
-                                  e.stopPropagation(); // Prevent the Link click event
-                                  const url = `${window.location.origin}/listing/${data._id}`;
-                                  const title = `${getLocalizedMake(data, currentLanguage)} ${getArabicModel(data, currentLanguage)}`;
-                                  if (navigator.share) {
-                                    navigator.share({
-                                      title: title,
-                                      url: url,
-                                    }).catch((err) => {
-                                      console.error("Share failed: ", err);
-                                      toast.error(
-                                        currentLanguage === "ar"
-                                          ? "فشل في مشاركة الرابط!"
-                                          : "Failed to share URL!",
-                                        {
-                                          position: "top-right",
-                                          autoClose: 3000,
-                                          hideProgressBar: false,
-                                          closeOnClick: true,
-                                          pauseOnHover: true,
-                                          draggable: true,
-                                        }
-                                      );
-                                    });
-                                  } else {
-                                    navigator.clipboard.writeText(url).then(() => {
-                                      toast.success(
-                                        currentLanguage === "ar"
-                                          ? "تم نسخ رابط الإعلان إلى الحافظة!"
-                                          : "Listing URL copied to clipboard!",
-                                        {
-                                          position: "top-right",
-                                          autoClose: 3000,
-                                          hideProgressBar: false,
-                                          closeOnClick: true,
-                                          pauseOnHover: true,
-                                          draggable: true,
-                                        }
-                                      );
-                                    }).catch((err) => {
-                                      console.error("Failed to copy URL: ", err);
-                                      toast.error(
-                                        currentLanguage === "ar"
-                                          ? "فشل في نسخ الرابط!"
-                                          : "Failed to copy URL!",
-                                        {
-                                          position: "top-right",
-                                          autoClose: 3000,
-                                          hideProgressBar: false,
-                                          closeOnClick: true,
-                                          pauseOnHover: true,
-                                          draggable: true,
-                                        }
-                                      );
-                                    });
-                                  }
-                                }}
-                                className="hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-300 cursor-pointer text-gray-600"
-                              >
-                                <CiShare2 className="w-1/2 h-1/2" />
-                              </div>
-                            </div>
-                            <Link to={`/listing/${data._id}`}>
-                              <div className="relative w-full max-w-[400px]">
-                                <div className="overflow-hidden rounded-md">
-                                  <img
-                                    alt=""
-                                    src={`http://api.syriasouq.com/uploads/cars/${data.images[0]}`}
-                                    className="h-52 sm:h-56 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
-                                  />
-                                </div>
-                              </div>
-                            </Link>
-                            <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
-                              <div className="flex items-center justify-between gap-2">
-                                <h2 className="text-xl font-bold">
-                                  <span className="text-lg">$ </span>
-                                  <Translate
-                                    text={data?.priceUSD ? data?.priceUSD : "آخر"}
-                                  />
-                                </h2>
-                              </div>
-                              <div className="flex md:items-center md:flex-row flex-col md:gap-2 gap-0">
-                                <h2 className="text-md">
-                                  {getLocalizedMake(data, currentLanguage)}
-                                </h2>
-                                <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
-                                <h2 className="text-md">
-                                  {getArabicModel(data, currentLanguage)}
-                                </h2>
-                              </div>
-                              <div className="flex md:items-center md:flex-row flex-col md:gap-3 gap0">
-                                <div className="flex items-center gap-1 text-md">
-                                  <CiCalendar />
-                                  <span>
-                                    <Translate
-                                      text={data?.year ? data?.year : "آخر"}
-                                    />
-                                  </span>
-                                </div>
-                                <div className="flex items-center gap-1 text-md">
-                                  <AiOutlineDashboard />
-                                  <span>
-                                    <Translate
-                                      text={
-                                        data?.kilometer ? data?.kilometer : "آخر"
-                                      }
-                                    />{" "}
-                                    <Translate text={"km"} />
-                                  </span>
-                                </div>
-                              </div>
-                              <div className="flex items-center gap-3">
-                                <div className="flex items-center gap-1 text-md">
-                                  <CiLocationOn />
-                                  <span>
-                                    {data?.location
-                                      ? getLocalizedLocation(
-                                          data?.location,
-                                          currentLanguage
-                                        )
-                                      : "آخر"}
-                                  </span>
-                                </div>
-                              </div>
-                              <div className="flex items-center gap-3 mt-2 md:mt-4">
-                                <Link
-                                  to={`/listing/${data?._id}`}
-                                  className="block bg-[#B80200] text-white text-lg py-1 px-4 rounded"
-                                >
-                                  <Translate text={"View Details"} />
-                                </Link>
-                              </div>
-                            </div>
-                          </div>
+                        <div className="relative flex flex-col-reverse gap-4 bg-slate-100 p-3 rounded">
+  {/* Share Button */}
+  <div className={`absolute top-2 ${currentLanguage === "ar" ? "left-2" : "right-2"} flex items-center gap-2`}>
+    <div
+      onClick={(e) => {
+        e.stopPropagation();
+        const url = `${window.location.origin}/listing/${data._id}`;
+        const title = `${getLocalizedMake(data, currentLanguage)} ${getArabicModel(data, currentLanguage)}`;
+        if (navigator.share) {
+          navigator.share({
+            title: title,
+            url: url,
+          }).catch((err) => {
+            console.error("Share failed: ", err);
+            toast.error(
+              currentLanguage === "ar" ? "فشل في مشاركة الرابط!" : "Failed to share URL!",
+              {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+              }
+            );
+          });
+        } else {
+          navigator.clipboard.writeText(url).then(() => {
+            toast.success(
+              currentLanguage === "ar" ? "تم نسخ رابط الإعلان إلى الحافظة!" : "Listing URL copied to clipboard!",
+              {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+              }
+            );
+          }).catch((err) => {
+            console.error("Failed to copy URL: ", err);
+            toast.error(
+              currentLanguage === "ar" ? "فشل في نسخ الرابط!" : "Failed to copy URL!",
+              {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+              }
+            );
+          });
+        }
+      }}
+      className="hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-300 cursor-pointer text-gray-600"
+    >
+      <CiShare2 className="w-1/2 h-1/2" />
+    </div>
+  </div>
+  <Link to={`/listing/${data._id}`}>
+    <div className="relative w-full max-w-[400px]">
+      <div className="overflow-hidden rounded-md aspect-w-16 aspect-h-9">
+        <img
+          alt=""
+          src={`http://api.syriasouq.com/uploads/cars/${data.images[0]}`}
+          className="h-40 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out sm:h-56"
+        />
+        {/* Wishlist Button on Image */}
+        <div
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (!isWishlistLoading) {
+              handleWishlist(data);
+            }
+          }}
+          className={`absolute top-2 ${currentLanguage === "ar" ? "left-2" : "right-2"} hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-300 cursor-pointer text-gray-600 ${
+            wishlist.some((item) => item.car?._id === data._id)
+              ? "bg-[#B80200] border-[#B80200] text-white"
+              : "bg-white"
+          } ${isWishlistLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+        >
+          <CiHeart className="w-1/2 h-1/2" />
+        </div>
+      </div>
+    </div>
+  </Link>
+  <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
+    <div className="flex items-center justify-between gap-2">
+      <h2 className="text-xl font-bold">
+        <span className="text-lg">$ </span>
+        <Translate text={data?.priceUSD ? data?.priceUSD : "آخر"} />
+      </h2>
+    </div>
+    <div className="flex md:items-center md:flex-row flex-col md:gap-2 gap-0">
+      <h2 className="text-md">{getLocalizedMake(data, currentLanguage)}</h2>
+      <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
+      <h2 className="text-md">{getArabicModel(data, currentLanguage)}</h2>
+    </div>
+    <div className="flex md:items-center md:flex-row flex-col md:gap-3 gap0">
+      <div className="flex items-center gap-1 text-md">
+        <CiCalendar />
+        <span>
+          <Translate text={data?.year ? data?.year : "آخر"} />
+        </span>
+      </div>
+      <div className="flex items-center gap-1 text-md">
+        <AiOutlineDashboard />
+        <span>
+          <Translate text={data?.kilometer ? data?.kilometer : "آخر"} />{" "}
+          <Translate text={"km"} />
+        </span>
+      </div>
+    </div>
+    <div className="flex items-center gap-3">
+      <div className="flex items-center gap-1 text-md">
+        <CiLocationOn />
+        <span>
+          {data?.location ? getLocalizedLocation(data?.location, currentLanguage) : "آخر"}
+        </span>
+      </div>
+    </div>
+    <div className="flex items-center gap-3 mt-2 md:mt-4">
+      <Link to={`/listing/${data?._id}`} className="block bg-[#B80200] text-white text-lg py-1 px-4 rounded">
+        <Translate text={"View Details"} />
+      </Link>
+    </div>
+  </div>
+</div>
                         </>
                       ) : (
                         <>
                           <div className="relative flex md:flex-row flex-col-reverse gap-4 bg-slate-100 p-3 rounded">
-                            {/* Share Button Position Adjusted for Language */}
+                            {/* Share Button */}
                             <div className={`absolute top-2 ${currentLanguage === "ar" ? "left-2" : "right-2"} flex items-center gap-2`}>
                               <div
                                 onClick={(e) => {
@@ -1234,8 +1228,25 @@ const SearchPage = () => {
                                   <img
                                     alt=""
                                     src={`http://api.syriasouq.com/uploads/cars/${data.images[0]}`}
-                                    className="h-52 sm:h-56 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
+                                    className="h-56 sm:h-56 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
                                   />
+                                  {/* Wishlist Button on Image */}
+                                  <div
+                                    onClick={(e) => {
+                                      e.preventDefault(); // Prevent default behavior
+    e.stopPropagation(); // Stop event from bubbling up to parent Link
+    if (!isWishlistLoading) {
+      handleWishlist(data);
+    }
+                                    }}
+                                    className={`absolute top-2 ${currentLanguage === "ar" ? "left-2" : "right-2"} hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-300 cursor-pointer text-gray-600 ${
+                                      wishlist.some((item) => item.car?._id === data._id)
+                                        ? "bg-[#B80200] border-[#B80200] text-white"
+                                        : "bg-white"
+                                    } ${isWishlistLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+                                  >
+                                    <CiHeart className="w-1/2 h-1/2" />
+                                  </div>
                                 </div>
                               </div>
                             </Link>
