@@ -26,7 +26,6 @@ export default function MoreFromUser({ title, button, uid }) {
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language;
   const { wishlist, handleWishlist, isWishlistLoading } = useWishlist();
-
   useEffect(() => {
     console.log(uid);
     const getCars = async () => {
@@ -41,6 +40,12 @@ export default function MoreFromUser({ title, button, uid }) {
     getCars();
   }, [uid]);
 
+  // Update Swiper when language changes
+  useEffect(() => {
+    if (swiperRef.current && swiperRef.current.swiper) {
+      swiperRef.current.swiper.update(); // Update Swiper layout
+    }
+  }, [currentLanguage]);
   const handleShare = (car) => {
     const url = `${window.location.origin}/listing/${car._id}`;
     const title = `${getLocalizedMake(car, currentLanguage)} ${getArabicModel(car, currentLanguage)}`;
@@ -152,7 +157,9 @@ export default function MoreFromUser({ title, button, uid }) {
         }}
         onSwiper={(swiper) => (swiperRef.current = swiper)}
         className="overflow-hidden"
-        //dir={currentLanguage === "ar" ? "rtl" : "ltr"}
+        dir={currentLanguage === "ar" ? "rtl" : "ltr"} // Fix direction
+        key={currentLanguage} // Force re-render on language change
+        ref={swiperRef} // Attach ref to Swiper
       >
         {listings.length > 0 ? (
           listings.map((car) => (

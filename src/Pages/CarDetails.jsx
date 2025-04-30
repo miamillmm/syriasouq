@@ -5,7 +5,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaWhatsapp } from "react-icons/fa";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { MdErrorOutline, MdOutlinePhone } from "react-icons/md";
@@ -36,7 +36,9 @@ const CarDetails = () => {
   const [showMoreFeatures, setShowMoreFeatures] = useState(false); // New state for features toggle
   const [relatedCars, setRelatedCars] = useState([]);
   const [isChatLoading, setIsChatLoading] = useState(false);
-
+  const swiperRef = useRef(null); // Create a ref for the Swiper instance
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language;
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("SyriaSouq-auth"));
     if (storedUser) {
@@ -55,6 +57,11 @@ const CarDetails = () => {
         console.log("error fetching data:", error);
       });
   }, [id]);
+  useEffect(() => {
+    if (swiperRef.current && swiperRef.current.swiper) {
+      swiperRef.current.swiper.update(); // Update Swiper layout
+    }
+  }, [currentLanguage]);
 
   const startNewChat = async (receiver) => {
     if (isChatLoading) return;
@@ -82,8 +89,7 @@ const CarDetails = () => {
     }
   };
 
-  const { i18n } = useTranslation();
-  const currentLanguage = i18n.language;
+
 
   useEffect(() => {
     axios
@@ -132,8 +138,10 @@ const CarDetails = () => {
         spaceBetween={10}
         navigation={true}
         modules={[Navigation]}
+        ref={swiperRef} // Attach ref to Swiper
+        key={currentLanguage} // Force re-render on language change
         className="h-auto"
-       // dir={currentLanguage === "ar" ? "rtl" : "ltr"}
+       dir={currentLanguage === "ar" ?  "ltr":"rtl"}
       >
         {carDetails?.images?.map((img, index) => (
           <SwiperSlide key={index} className="h-auto">
