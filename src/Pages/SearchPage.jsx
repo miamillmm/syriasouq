@@ -91,30 +91,53 @@ const SearchPage = () => {
     interiorColor: "",
   });
 
-  useEffect(() => {
-    if (
-      currentLanguage === "ar" &&
-      make !== "الكل" &&
-      make !== "" &&
-      make !== "All"
-    ) {
-      const currentMake = arabicMakes.find((mk) => mk.value === make)?.enValue;
 
-      setFilters((prev) => ({
-        ...prev,
-        make: [currentMake],
-      }));
-    } else {
-      setFilters((prev) => ({
-        ...prev,
-        make: [
+  useEffect(() => {
+    const location = searchParams.get("location"); // Get location from URL
+  
+    if (make === "null" && location === "null") return; // Skip if both are null
+  
+    let updatedFilters = { ...filters };
+  
+    // Handle make filter
+    if (make && make !== "null") {
+      if (
+        currentLanguage === "ar" &&
+        make !== "الكل" &&
+        make !== "" &&
+        make !== "All"
+      ) {
+        const currentMake = arabicMakes.find((mk) => mk.value === make)?.enValue;
+        updatedFilters.make = [currentMake];
+      } else {
+        updatedFilters.make = [
           make !== "All" && make !== "Other" && make !== "الكل" ? make : "",
-        ],
-      }));
+        ];
+      }
     }
-  }, [make]);
+  
+    // Handle location filter
+    if (location && location !== "null") {
+      updatedFilters.location = [location];
+    }
+  
+    setFilters(updatedFilters);
+  }, [make, searchParams.get("location")]);
 
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+
+  useEffect(() => {
+    if (isMobileFilterOpen) {
+      document.body.style.overflow = "hidden"; // Prevent background scrolling
+    } else {
+      document.body.style.overflow = "auto"; // Restore scrolling
+    }
+  
+    // Cleanup on component unmount or when isMobileFilterOpen changes
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isMobileFilterOpen]);
 
   useEffect(() => {
     setIsLoading(true); // Set loading to true before fetching data
@@ -211,6 +234,7 @@ const SearchPage = () => {
       engineSize === "Other" ||
       engineSize === "Unknown" ||
       data.engineSize === engineSize;
+      
   
     return (
       (make.length > 0
@@ -263,6 +287,25 @@ const SearchPage = () => {
           },
           ...makes,
         ];
+
+
+  // Custom Handle component with tooltip
+const CustomHandle = (props) => {
+  const { value, dragging, index, ...restProps } = props;
+  return (
+    <div className="relative">
+      <Handle value={value} {...restProps} />
+      {dragging && (
+        <div
+          className="absolute -top-8 text-xs bg-gray-800 text-white px-2 py-1 rounded"
+          style={{ transform: "translateX(-50%)" }}
+        >
+          {value}
+        </div>
+      )}
+    </div>
+  );
+};
 
   return (
     <div className="pt-24 px-5 md:px-16 lg:px-28">
@@ -329,99 +372,99 @@ const SearchPage = () => {
                 </div>
               </div>
 
-              {/* Year Filter */}
-              <div className="mb-6">
-                <label className="block text-gray-700 font-semibold mb-3">
-                  <Translate text={"Year"} />
-                </label>
-                <Slider
-                  range
-                  min={1920}
-                  max={2025}
-                  step={1}
-                  value={[filters.minYear || 1920, filters.maxYear || 2025]}
-                  onChange={(value) =>
-                    setFilters((prev) => ({
-                      ...prev,
-                      minYear: value[0],
-                      maxYear: value[1],
-                    }))
-                  }
-                />
-                <div
-                  className={`flex justify-between mt-2 text-sm text-gray-700 ${
-                    currentLanguage === "ar" && "flex-row-reverse"
-                  }`}
-                >
-                  <span>{filters.minYear || 1920}</span>
-                  <span>{filters.maxYear || 2025}</span>
-                </div>
-              </div>
-
-              {/* Price Filter */}
-              <div
-                className="mb-16"
-                style={{ direction: currentLanguage === "ar" ? "rtl" : "ltr" }}
-              >
-                <label className="block text-gray-700 font-semibold mb-3">
-                  <Translate text={"Price"} /> ($)
-                </label>
-                <Slider
-                  key={currentLanguage} // Force re-render when language changes
-                  range
-                  min={0}
-                  max={125000}
-                  step={1000}
-                  marks={{
-                    0: `$0`,
-                    25000: `$25k`,
-                    50000: `$50k`,
-                    75000: `$75k`,
-                    100000: `$100k`,
-                    125000: currentLanguage === "ar" ? "أي" : "Any",
-                  }}
-                  value={[filters.minPrice || 0, filters.maxPrice || 110000]}
-                  onChange={(value) =>
-                    setFilters((prev) => ({
-                      ...prev,
-                      minPrice: value[0],
-                      maxPrice: value[1],
-                    }))
-                  }
-                  direction={currentLanguage === "ar" ? "rtl" : "ltr"}
-                />
-              </div>
-
-              {/* Kilometer Filter */}
-              <div className="mb-16">
-                <label className="block text-gray-700 font-semibold mb-3">
-                  <Translate text={"Kilometer"} />
-                </label>
-                <Slider
-                  range
-                  min={0}
-                  max={200000}
-                  step={5000}
-                  marks={{
-                    0: `0 ${currentLanguage === "ar" ? "كم" : "km"}`,
-                    40000: `40k ${currentLanguage === "ar" ? "كم" : "km"}`,
-                    80000: `80k ${currentLanguage === "ar" ? "كم" : "km"}`,
-                    120000: `120k ${currentLanguage === "ar" ? "كم" : "km"}`,
-                    160000: `160k ${currentLanguage === "ar" ? "كم" : "km"}`,
-                    200000: currentLanguage === "ar" ? "أي" : "Any",
-                  }}
-                  value={filters.kilometer || [0, 200000]} // Default range
-                  onChange={(value) => {
-                    setFilters((prev) => ({ ...prev, kilometer: value }));
-                  }}
-                />
-                <p
-                  className={`text-center mt-2 text-sm font-medium text-red-600 ${
-                    currentLanguage === "ar" && "flex-row-reverse"
-                  }`}
-                >
-                </p>
-              </div>
+              {/* // Year Filter (Desktop) */}
+<div className="mb-6">
+  <label className="block text-gray-700 font-semibold mb-3">
+    <Translate text={"Year"} />: {filters.minYear || 1920} - {filters.maxYear || 2025}
+  </label>
+  <Slider
+    range
+    min={1920}
+    max={2025}
+    step={1}
+    value={[filters.minYear || 1920, filters.maxYear || 2025]}
+    onChange={(value) =>
+      setFilters((prev) => ({
+        ...prev,
+        minYear: value[0],
+        maxYear: value[1],
+      }))
+    }
+    handle={CustomHandle}
+  />
+  <div
+    className={`flex justify-between mt-2 text-sm text-gray-700 ${
+      currentLanguage === "ar" && "flex-row-reverse"
+    }`}
+  >
+    <span>{filters.minYear || 1920}</span>
+    <span>{filters.maxYear || 2025}</span>
+  </div>
+</div>
+{/* // Price Filter (Desktop) */}
+<div
+  className="mb-16"
+  style={{ direction: currentLanguage === "ar" ? "rtl" : "ltr" }}
+>
+  <label className="block text-gray-700 font-semibold mb-3">
+    <Translate text={"Price"} /> ($): {filters.minPrice || 0} - {filters.maxPrice || currentLanguage === "ar" ? "أي" : "Any"}
+  </label>
+  <Slider
+    key={currentLanguage}
+    range
+    min={0}
+    max={125000}
+    step={1000}
+    marks={{
+      0: `$0`,
+      25000: `$25k`,
+      50000: `$50k`,
+      75000: `$75k`,
+      100000: `$100k`,
+      125000: currentLanguage === "ar" ? "أي" : "Any",
+    }}
+    value={[filters.minPrice || 0, filters.maxPrice || 125000]}
+    onChange={(value) =>
+      setFilters((prev) => ({
+        ...prev,
+        minPrice: value[0],
+        maxPrice: value[1],
+      }))
+    }
+    handle={CustomHandle}
+    direction={currentLanguage === "ar" ? "rtl" : "ltr"}
+  />
+</div>
+{/* // Kilometer Filter (Desktop) */}
+<div className="mb-16">
+  <label className="block text-gray-700 font-semibold mb-3">
+    <Translate text={"Kilometer"} />: {filters.kilometer ? filters.kilometer[0] : 0} - {filters.kilometer ? filters.kilometer[1] : currentLanguage === "ar" ? "أي" : "Any"} {currentLanguage === "ar" ? "كم" : "km"}
+  </label>
+  <Slider
+    range
+    min={0}
+    max={200000}
+    step={5000}
+    marks={{
+      0: `0 ${currentLanguage === "ar" ? "كم" : "km"}`,
+      40000: `40k ${currentLanguage === "ar" ? "كم" : "km"}`,
+      80000: `80k ${currentLanguage === "ar" ? "كم" : "km"}`,
+      120000: `120k ${currentLanguage === "ar" ? "كم" : "km"}`,
+      160000: `160k ${currentLanguage === "ar" ? "كم" : "km"}`,
+      200000: currentLanguage === "ar" ? "أي" : "Any",
+    }}
+    value={filters.kilometer || [0, 200000]}
+    onChange={(value) => {
+      setFilters((prev) => ({ ...prev, kilometer: value }));
+    }}
+    handle={CustomHandle}
+  />
+  <p
+    className={`text-center mt-2 text-sm font-medium text-red-600 ${
+      currentLanguage === "ar" && "flex-row-reverse"
+    }`}
+  ></p>
+</div>
 
               {/* Location */}
               <div className="my-8 mt-16">
@@ -638,101 +681,101 @@ const SearchPage = () => {
                       </div>
                     </div>
 
-                    {/* Year Filter */}
-                    <div className="mb-6">
-                      <label className="block text-gray-700 font-semibold mb-3">
-                        <Translate text={"Year"} />
-                      </label>
-                      <Slider
-                        range
-                        min={1920}
-                        max={2025}
-                        step={1}
-                        value={[filters.minYear || 1920, filters.maxYear || 2025]}
-                        onChange={(value) =>
-                          setFilters((prev) => ({
-                            ...prev,
-                            minYear: value[0],
-                            maxYear: value[1],
-                          }))
-                        }
-                      />
-                      <div
-                        className={`flex justify-between mt-2 text-sm text-gray-700 ${
-                          currentLanguage === "ar" && "flex-row-reverse"
-                        }`}
-                      >
-                        <span>{filters.minYear || 1920}</span>
-                        <span>{filters.maxYear || 2025}</span>
-                      </div>
-                    </div>
+                    {/* // Year Filter (Mobile) */}
+<div className="mb-6">
+  <label className="block text-gray-700 font-semibold mb-3">
+    <Translate text={"Year"} />: {filters.minYear || 1920} - {filters.maxYear || 2025}
+  </label>
+  <Slider
+    range
+    min={1920}
+    max={2025}
+    step={1}
+    value={[filters.minYear || 1920, filters.maxYear || 2025]}
+    onChange={(value) =>
+      setFilters((prev) => ({
+        ...prev,
+        minYear: value[0],
+        maxYear: value[1],
+      }))
+    }
+    handle={CustomHandle}
+  />
+  <div
+    className={`flex justify-between mt-2 text-sm text-gray-700 ${
+      currentLanguage === "ar" && "flex-row-reverse"
+    }`}
+  >
+    <span>{filters.minYear || 1920}</span>
+    <span>{filters.maxYear || 2025}</span>
+  </div>
+</div>
 
-                    {/* Price Filter */}
-                    <div
-                      className="mb-14"
-                      style={{
-                        direction: currentLanguage === "ar" ? "rtl" : "ltr",
-                      }}
-                    >
-                      <label className="block text-gray-700 font-semibold mb-3">
-                        <Translate text={"Price"} /> ($)
-                      </label>
-                      <Slider
-                        key={currentLanguage} // Force re-render when language changes
-                        range
-                        min={0}
-                        max={125000}
-                        step={1000}
-                        marks={{
-                          0: `$0`,
-                          25000: `$25k`,
-                          50000: `$50k`,
-                          75000: `$75k`,
-                          100000: `$100k`,
-                          125000: currentLanguage === "ar" ? "أي" : "Any",
-                        }}
-                        value={[filters.minPrice || 0, filters.maxPrice || 110000]}
-                        onChange={(value) =>
-                          setFilters((prev) => ({
-                            ...prev,
-                            minPrice: value[0],
-                            maxPrice: value[1],
-                          }))
-                        }
-                        direction={currentLanguage === "ar" ? "rtl" : "ltr"}
-                      />
-                    </div>
+                    {/* // Price Filter (Mobile) */}
+<div
+  className="mb-14"
+  style={{ direction: currentLanguage === "ar" ? "rtl" : "ltr" }}
+>
+  <label className="block text-gray-700 font-semibold mb-3">
+    <Translate text={"Price"} /> ($): {filters.minPrice || 0} - {filters.maxPrice || currentLanguage === "ar" ? "أي" : "Any"}
+  </label>
+  <Slider
+    key={currentLanguage}
+    range
+    min={0}
+    max={125000}
+    step={1000}
+    marks={{
+      0: `$0`,
+      25000: `$25k`,
+      50000: `$50k`,
+      75000: `$75k`,
+      100000: `$100k`,
+      125000: currentLanguage === "ar" ? "أي" : "Any",
+    }}
+    value={[filters.minPrice || 0, filters.maxPrice || 125000]}
+    onChange={(value) =>
+      setFilters((prev) => ({
+        ...prev,
+        minPrice: value[0],
+        maxPrice: value[1],
+      }))
+    }
+    handle={CustomHandle}
+    direction={currentLanguage === "ar" ? "rtl" : "ltr"}
+  />
+</div>
 
-                    {/* Kilometer Filter */}
-                    <div className="mb-10">
-                      <label className="block text-gray-700 font-semibold mb-3">
-                        <Translate text={"Kilometer"} />
-                      </label>
-                      <Slider
-                        range
-                        min={0}
-                        max={200000}
-                        step={5000}
-                        marks={{
-                          0: `0 ${currentLanguage === "ar" ? "كم" : "km"}`,
-                          40000: `40k ${currentLanguage === "ar" ? "كم" : "km"}`,
-                          80000: `80k ${currentLanguage === "ar" ? "كم" : "km"}`,
-                          120000: `120k ${currentLanguage === "ar" ? "كم" : "km"}`,
-                          160000: `160k ${currentLanguage === "ar" ? "كم" : "km"}`,
-                          200000: currentLanguage === "ar" ? "أي" : "Any",
-                        }}
-                        value={filters.kilometer || [0, 200000]} // Default range
-                        onChange={(value) => {
-                          setFilters((prev) => ({ ...prev, kilometer: value }));
-                        }}
-                      />
-                      <p
-                        className={`text-center mt-2 text-sm font-medium text-red-600 ${
-                          currentLanguage === "ar" && "flex-row-reverse"
-                        }`}
-                      >
-                      </p>
-                    </div>
+{/* // Kilometer Filter (Mobile) */}
+<div className="mb-10">
+  <label className="block text-gray-700 font-semibold mb-3">
+    <Translate text={"Kilometer"} />: {filters.kilometer ? filters.kilometer[0] : 0} - {filters.kilometer ? filters.kilometer[1] : currentLanguage === "ar" ? "أي" : "Any"} {currentLanguage === "ar" ? "كم" : "km"}
+  </label>
+  <Slider
+    range
+    min={0}
+    max={200000}
+    step={5000}
+    marks={{
+      0: `0 ${currentLanguage === "ar" ? "كم" : "km"}`,
+      40000: `40k ${currentLanguage === "ar" ? "كم" : "km"}`,
+      80000: `80k ${currentLanguage === "ar" ? "كم" : "km"}`,
+      120000: `120k ${currentLanguage === "ar" ? "كم" : "km"}`,
+      160000: `160k ${currentLanguage === "ar" ? "كم" : "km"}`,
+      200000: currentLanguage === "ar" ? "أي" : "Any",
+    }}
+    value={filters.kilometer || [0, 200000]}
+    onChange={(value) => {
+      setFilters((prev) => ({ ...prev, kilometer: value }));
+    }}
+    handle={CustomHandle}
+  />
+  <p
+    className={`text-center mt-2 text-sm font-medium text-red-600 ${
+      currentLanguage === "ar" && "flex-row-reverse"
+    }`}
+  ></p>
+</div>
 
                     {/* Location */}
                     <div className="my-8 mt-16">
@@ -918,7 +961,7 @@ const SearchPage = () => {
           </div>
           <div className="xl:col-span-6 col-span-8">
             <div className="flex justify-between xl:items-center mb-4 p-2 rounded bg-transparent xl:flex-row flex-col">
-              <h2 className="xl:text-[24px] text-[18px] font-semibold mr-4">
+              <h2 className="xl:text-[24px] text-[18px] font-semibold mr-4 mb-2">
                 {filteredData?.length} <Translate text={"Results"} />{" "}
                 <span className="text-red-500 xl:text-[15px] text-[12px]">
                   <Translate text={"Classified Ads"} />
@@ -1075,12 +1118,12 @@ const SearchPage = () => {
                                 }}
                                 className="hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-300 cursor-pointer text-gray-600"
                               >
-                                <CiShare2 className="w-1/2 h-1/2" />
+                                <CiShare2 className="w-[75%] h-[75%]" />
                               </div>
                             </div>
                             <Link to={`/listing/${data._id}`}>
                               <div className="relative w-full max-w-[400px]">
-                                <div className="overflow-hidden rounded-md aspect-w-16 aspect-h-9">
+                                <div className="overflow-hidden rounded-md max-w-[400px]">
                                   <img
                                     alt=""
                                     src={`http://api.syriasouq.com/uploads/cars/${data.images[0]}`}
@@ -1101,7 +1144,7 @@ const SearchPage = () => {
                                         : "bg-white"
                                       } ${isWishlistLoading ? "opacity-50 cursor-not-allowed" : ""}`}
                                   >
-                                    <CiHeart className="w-1/2 h-1/2" />
+                                    <CiHeart className="w-[75%] h-[75%]" />
                                   </div>
                                 </div>
                               </div>
@@ -1115,7 +1158,7 @@ System: flex-col justify-between py-0 md:py-2">
       <Translate text={data?.priceUSD ? data?.priceUSD : "آخر"} />
     </h2>
   </div>
-  <div className="flex md:items-center md:flex-row flex-col md:gap-2 gap-0">
+  <div className="flex items-center flex-row gap-2 ">
     <h2 className="text-md">{getLocalizedMake(data, currentLanguage)}</h2>
     <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
     <h2 className="text-md">{getArabicModel(data, currentLanguage)}</h2>
@@ -1216,7 +1259,7 @@ System: flex-col justify-between py-0 md:py-2">
                                 }}
                                 className="hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-300 cursor-pointer text-gray-600"
                               >
-                                <CiShare2 className="w-1/2 h-1/2" />
+                                <CiShare2 className="w-[75%] h-[75%]" />
                               </div>
                             </div>
                             <Link to={`/listing/${data._id}`}>

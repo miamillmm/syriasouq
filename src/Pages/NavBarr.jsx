@@ -3,7 +3,7 @@ import { NavLink, Link } from "react-router-dom";
 import logo from "../assets/images/logo/logo-new-transparent-bg.png";
 import Translate from "../utils/Translate";
 import { useTranslation } from "react-i18next";
-import { FaRegUserCircle } from "react-icons/fa";
+import { FaEnvelope, FaFacebookF, FaInstagram, FaRegUserCircle } from "react-icons/fa";
 import { AuthContext } from "../context/AuthContext";
 
 const Navbar = () => {
@@ -68,7 +68,7 @@ const Navbar = () => {
               <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center border border-[#B80200] shadow-sm">
                 <FaRegUserCircle className="text-[#B80200] w-6 h-6" />
               </div>
-              <p className="bg-gradient-to-r from-[#B80200] to-[#A00000] text-white px-2 py-1 rounded-md text-xs font-bold hover:bg-gradient-to-r hover:from-[#A00000] hover:to-[#900000] transition-all hover:scale-105 shadow-md">
+              <p className="bg-gradient-to-r  text-white px-2 py-1 rounded-md text-xs font-bold hover:bg-gradient-to-r hover:from-[#A00000] hover:to-[#900000] transition-all hover:scale-105 shadow-md">
                 {currentLanguage === "ar" ? "حسابي" : "My Profile"}
               </p>
             </div>
@@ -304,6 +304,33 @@ const Navbar = () => {
                   </button>
                 </NavLink>
               </li>
+                <li>
+                    <Link
+                      to="https://www.facebook.com/share/1HKg5LFhzB/?mibextid=wwXIfr"
+                      className="text-red-500 hover:text-red-400 flex items-center gap-2 capitalize justify-center md:justify-start"
+                    >
+                      <FaFacebookF className="text-lg" />
+                      {currentLanguage === "ar" ? "فيسبوك" : "Facebook"}
+                    </Link>
+                </li>
+                <li>
+                    <Link
+                      to="https://www.instagram.com/mysyriasouq?igsh=bHFnNWo2aGszcHF4&utm_source=qr"
+                      className="text-red-500 hover:text-red-400 flex items-center gap-2 capitalize justify-center md:justify-start"
+                    >
+                      <FaInstagram className="text-lg" />
+                      {currentLanguage === "ar" ? "انستاغرام" : "Instagram"}
+                    </Link>
+                </li>
+                <li>
+                    <Link
+                      to="mailto:syriasouq@outlook.com"
+                      className="text-red-500 hover:text-red-400 flex items-center gap-2 capitalize justify-center md:justify-start"
+                    >
+                      <FaEnvelope className="text-lg" />
+                      {currentLanguage === "ar" ? "بريد إلكتروني" : "Email"}
+                    </Link>
+                </li>
             </ul>
           </div>
         </div>

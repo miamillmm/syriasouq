@@ -162,7 +162,7 @@ const Featured = () => {
                   onClick={() => handleShare(data)}
                   className="hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-300 cursor-pointer text-gray-600"
                 >
-                  <CiShare2 className="w-1/2 h-1/2" />
+                  <CiShare2 className="w-[75%] h-[75%]" />
                 </div>
               </div>
               <div className="relative w-full max-w-[420px]">
@@ -185,7 +185,7 @@ const Featured = () => {
                     } ${isWishlistLoading ? "opacity-50 cursor-not-allowed" : ""}`}
                   
                   >
-                    <CiHeart className="w-1/2 h-1/2" />
+                    <CiHeart className="w-[75%] h-[75%]" />
                   </div>
                 </div>
               </div>

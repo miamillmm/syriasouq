@@ -133,7 +133,7 @@ const CarDetails = () => {
         navigation={true}
         modules={[Navigation]}
         className="h-auto"
-        dir={currentLanguage === "ar" ? "rtl" : "ltr"}
+       // dir={currentLanguage === "ar" ? "rtl" : "ltr"}
       >
         {carDetails?.images?.map((img, index) => (
           <SwiperSlide key={index} className="h-auto">
@@ -221,134 +221,145 @@ const CarDetails = () => {
             </div>
 
             {/* Car Information */}
-            <motion.div className="p-4 sm:p-6 bg-white shadow-lg rounded-lg mt-4 sm:mt-6" variants={fadeIn}>
-              <h2 className="text-xl sm:text-2xl pb-4 text-[#314352] font-bold">
-                {currentLanguage === "ar" ? "نظرة عامة عن السيارة" : "Information:"}
-              </h2>
-              <div className="grid grid-cols-2 sm:grid-cols-2 gap-y-2 sm:gap-y-4 text-[#314352]">
-                <p className="font-semibold text-sm sm:text-base">
-                  {currentLanguage === "ar" ? "النوع" : "Make:"}
-                </p>
-                <p className="text-sm sm:text-base">{getLocalizedMake(carDetails, currentLanguage)}</p>
+            <motion.div
+  className="p-5 sm:p-8 bg-white shadow-lg rounded-lg mt-4 sm:mt-6"
+  variants={fadeIn}
+>
+  <h2 className="text-2xl sm:text-3xl pb-6 text-[#314352] font-bold">
+    {currentLanguage === "ar" ? "نظرة عامة عن السيارة" : "Information:"}
+  </h2>
+  <div className="grid grid-cols-2 sm:grid-cols-2 gap-y-3 sm:gap-y-6 text-[#314352]">
+    <p className="font-semibold text-base sm:text-lg">
+      {currentLanguage === "ar" ? "النوع" : "Make:"}
+    </p>
+    <p className="text-base sm:text-lg">{getLocalizedMake(carDetails, currentLanguage)}</p>
 
-                <p className="font-semibold text-sm sm:text-base">
-                  {currentLanguage === "ar" ? "الموديل" : "Model:"}
-                </p>
-                <p className="text-sm sm:text-base">{getArabicModel(carDetails, currentLanguage)}</p>
+    <p className="font-semibold text-base sm:text-lg">
+      {currentLanguage === "ar" ? "الموديل" : "Model:"}
+    </p>
+    <p className="text-base sm:text-lg">{getArabicModel(carDetails, currentLanguage)}</p>
 
-                <p className="font-semibold text-sm sm:text-base">
-                  {currentLanguage === "ar" ? "الكيلومتر" : "Kilometer:"}
-                </p>
-                <p className="text-sm sm:text-base">
-                  {carDetails?.kilometer} <Translate text={"km"} />
-                </p>
+    <p className="font-semibold text-base sm:text-lg">
+      {currentLanguage === "ar" ? "الكيلومتر" : "Kilometer:"}
+    </p>
+    <p className="text-base sm:text-lg">
+      {carDetails?.kilometer} <Translate text={"km"} />
+    </p>
 
-                <p className="font-semibold text-sm sm:text-base">
-                  {currentLanguage === "ar" ? "السعر" : "Price:"}
-                </p>
-                <p className="text-sm sm:text-base">$ {carDetails?.priceUSD}</p>
+    <p className="font-semibold text-base sm:text-lg">
+      {currentLanguage === "ar" ? "السعر" : "Price:"}
+    </p>
+    <p className="text-base sm:text-lg">$ {carDetails?.priceUSD}</p>
 
-                <p className="font-semibold text-sm sm:text-base">
-                  {currentLanguage === "ar" ? "اللون الداخلي" : "Interior Color:"}
-                </p>
-                <p className="text-sm sm:text-base">
-                  {carDetails?.interiorColor ? (
-                    <Translate text={carDetails?.interiorColor} />
-                  ) : (
-                    "N/A"
-                  )}
-                </p>
+    <p className="font-semibold text-base sm:text-lg">
+      {currentLanguage === "ar" ? "اللون الداخلي" : "Interior Color:"}
+    </p>
+    <p className="text-base sm:text-lg">
+      {carDetails?.interiorColor ? (
+        <Translate text={carDetails?.interiorColor} />
+      ) : (
+        "N/A"
+      )}
+    </p>
 
-                <p className="font-semibold text-sm sm:text-base">
-                  {currentLanguage === "ar" ? "اللون الخارجي" : "Exterior Color:"}
-                </p>
-                <p className="text-sm sm:text-base">
-                  {carDetails?.exteriorColor ? (
-                    <Translate text={carDetails?.exteriorColor} />
-                  ) : (
-                    "N/A"
-                  )}
-                </p>
+    <p className="font-semibold text-base sm:text-lg">
+      {currentLanguage === "ar" ? "اللون الخارجي" : "Exterior Color:"}
+    </p>
+    <p className="text-base sm:text-lg">
+      {carDetails?.exteriorColor ? (
+        <Translate text={carDetails?.exteriorColor} />
+      ) : (
+        "N/A"
+      )}
+    </p>
 
-                <p className="font-semibold text-sm sm:text-base">
-                  {currentLanguage === "ar" ? "حجم المحرك" : "Engine Size:"}
-                </p>
-                <p className="text-sm sm:text-base">
-                  {localizeEngineSize(carDetails?.engineSize, currentLanguage)}
-                </p>
+    <p className="font-semibold text-base sm:text-lg">
+      {currentLanguage === "ar" ? "حجم المحرك" : "Engine Size:"}
+    </p>
+    <p className="text-base sm:text-lg">
+      {localizeEngineSize(carDetails?.engineSize, currentLanguage)}
+    </p>
 
-                <p className="font-semibold text-sm sm:text-base">
-                  {currentLanguage === "ar" ? "نوع الوقود" : "Fuel Type:"}
-                </p>
-                <p className="text-sm sm:text-base">
-                  {carDetails?.fuelType ? (
-                    <Translate text={carDetails?.fuelType} />
-                  ) : (
-                    "N/A"
-                  )}
-                </p>
+    <p className="font-semibold text-base sm:text-lg">
+      {currentLanguage === "ar" ? "نوع الوقود" : "Fuel Type:"}
+    </p>
+    <p className="text-base sm:text-lg">
+      {carDetails?.fuelType ? (
+        <Translate text={carDetails?.fuelType} />
+      ) : (
+        "N/A"
+      )}
+    </p>
 
-                <p className="font-semibold text-sm sm:text-base">
-                  {currentLanguage === "ar" ? "ناقل الحركة" : "Transmission:"}
-                </p>
-                <p className="text-sm sm:text-base">
-                  {carDetails?.transmission ? (
-                    <Translate text={carDetails?.transmission} />
-                  ) : (
-                    "N/A"
-                  )}
-                </p>
+    <p className="font-semibold text-base sm:text-lg">
+      {currentLanguage === "ar" ? "ناقل الحركة" : "Transmission:"}
+    </p>
+    <p className="text-base sm:text-lg">
+      {carDetails?.transmission ? (
+        <Translate text={carDetails?.transmission} />
+      ) : (
+        "N/A"
+      )}
+    </p>
 
-                {/* Features Section with Separate Show More/Show Less */}
-                <p className="font-semibold text-sm sm:text-base mt-4">
-                  {currentLanguage === "ar" ? "المواصفات" : "Features:"}
-                </p>
-                <div className="flex items-center gap-2">
-                  {carDetails?.features?.length > 0 ? (
-                    <>
-                      {showMoreFeatures ? (
-                        <motion.button
-                          onClick={() => setShowMoreFeatures(false)}
-                          className="text-[#B80200] text-sm sm:text-base hover:underline"
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                        >
-                          {currentLanguage === "ar" ? "عرض أقل" : "Show Less"}
-                        </motion.button>
-                      ) : (
-                        <motion.button
-                          onClick={() => setShowMoreFeatures(true)}
-                          className="text-[#B80200] text-sm sm:text-base hover:underline"
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                        >
-                          {currentLanguage === "ar" ? "أظهر المزيد" : "Show More"}
-                        </motion.button>
-                      )}
-                    </>
-                  ) : (
-                    <p className="text-sm sm:text-base">N/A</p>
-                  )}
-                </div>
+    {/* Features Section with Separate Show More/Show Less */}
+    <p className="font-semibold text-base sm:text-lg mt-6">
+      {currentLanguage === "ar" ? "المواصفات" : "Features:"}
+    </p>
+    <div className="flex items-center gap-2">
+      {carDetails?.features?.length > 0 ? (
+        <>
+          {showMoreFeatures ? (
+            <motion.button
+              onClick={() => setShowMoreFeatures(false)}
+              className="text-[#B80200] text-base sm:text-lg hover:underline"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {currentLanguage === "ar" ? "عرض أقل" : "Show Less"}
+            </motion.button>
+          ) : (
+            <motion.button
+              onClick={() => setShowMoreFeatures(true)}
+              className="text-[#B80200] text-base sm:text-lg hover:underline"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {currentLanguage === "ar" ? "أظهر المزيد" : "Show More"}
+            </motion.button>
+          )}
+        </>
+      ) : (
+        <p className="text-base sm:text-lg">N/A</p>
+      )}
+    </div>
 
-               {showMoreFeatures && carDetails?.features?.length > 0 && (
-  <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 sm:gap-y-4">
-    {carDetails?.features.map((fe) => (
-      <div
-        key={fe}
-        className={`flex items-center gap-2 text-sm sm:text-base ${
-          currentLanguage === "ar" ? "" : ""
-        }`}
-      >
-        <FaCheck className="text-red-500 w-4 h-4" />
-        <p>{getLocalizedFeature(fe, currentLanguage)}</p>
+    {showMoreFeatures && carDetails?.features?.length > 0 && (
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 sm:gap-y-6">
+        {carDetails?.features.map((fe) => (
+          <div
+            key={fe}
+            className={`flex items-center gap-2 text-base sm:text-lg `}
+          >
+            <FaCheck className="text-red-500 w-4 h-4" />
+            <p>{getLocalizedFeature(fe, currentLanguage)}</p>
+          </div>
+        ))}
       </div>
-    ))}
+    )}
+   
   </div>
-)}
-              </div>
+   {/* Error Report */}
+   <motion.div
+              className="flex justify-center items-center my-6 sm:my-8 gap-2 text-lg sm:text-xl text-[#B80200] cursor-pointer"
+              whileHover={hoverEffect}
+            >
+              <MdErrorOutline />
+              <h2 className="text-sm sm:text-base">
+                {currentLanguage === "ar" ? "اإلبالغ عن انتهاك" : "Report abuse"}
+              </h2>
             </motion.div>
-
+</motion.div>
             {/* Car Description */}
             <motion.div
               className="space-y-5 bg-white shadow-lg rounded-lg p-4 sm:p-6 mt-4 sm:mt-6"
@@ -425,16 +436,7 @@ const CarDetails = () => {
               </motion.a>
             </div>
 
-            {/* Error Report */}
-            <motion.div
-              className="flex justify-center items-center my-6 sm:my-8 gap-2 text-lg sm:text-xl text-[#B80200] cursor-pointer"
-              whileHover={hoverEffect}
-            >
-              <MdErrorOutline />
-              <h2 className="text-sm sm:text-base">
-                {currentLanguage === "ar" ? "اإلبالغ عن انتهاك" : "Report abuse"}
-              </h2>
-            </motion.div>
+            
           </motion.div>
         </div>
 

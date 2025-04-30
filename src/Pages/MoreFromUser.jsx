@@ -126,14 +126,14 @@ export default function MoreFromUser({ title, button, uid }) {
           }`}
         >
           <button
-            onClick={() => swiperRef.current?.slidePrev()}
+            onClick={() => swiperRef.current?.slideNext()}
             className="bg-[#B80200] text-white p-2 rounded cursor-pointer hover:bg-[#a50200] transition-colors"
             aria-label="Previous slide"
           >
             <FaChevronLeft size={20} className="sm:w-6 sm:h-6" />
           </button>
           <button
-            onClick={() => swiperRef.current?.slideNext()}
+            onClick={() => swiperRef.current?.slidePrev()}
             className="bg-[#B80200] text-white p-2 rounded cursor-pointer hover:bg-[#a50200] transition-colors"
             aria-label="Next slide"
           >
@@ -152,15 +152,15 @@ export default function MoreFromUser({ title, button, uid }) {
         }}
         onSwiper={(swiper) => (swiperRef.current = swiper)}
         className="overflow-hidden"
-        dir={currentLanguage === "ar" ? "rtl" : "ltr"}
+        //dir={currentLanguage === "ar" ? "rtl" : "ltr"}
       >
         {listings.length > 0 ? (
           listings.map((car) => (
             <SwiperSlide key={car._id}>
-              <div className="flex md:flex-row flex-col-reverse gap-4 bg-slate-100 p-3 sm:p-4 rounded relative">
+              <div className="flex md:flex-row flex-col-reverse gap-4 bg-slate-100 p-5 sm:p-4 rounded relative">
                 <div className="w-full max-w-[450px] sm:max-w-[350px]">
                   <Link to={`/listing/${car?._id}`} key={car?._id}>
-                    <div className="overflow-hidden rounded-md relative">
+                    <div className="overflow-hidden h-52 sm:h-58 lg:h-60 rounded-md relative">
                       <img
                         alt={`${getLocalizedMake(car, currentLanguage)} ${getArabicModel(car, currentLanguage)}`}
                         src={`http://api.syriasouq.com/uploads/cars/${car?.images[0]}`}

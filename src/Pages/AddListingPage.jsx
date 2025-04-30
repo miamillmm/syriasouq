@@ -519,7 +519,7 @@ const ListingForm = ({
         >
           {isLoading ? (
             <div >{currentLanguage === "ar"
-              ? "تحديث الإعلان"
+              ? "جاري تحميل الإعلان"
               : "loading"}</div>
           ) : (
             <>

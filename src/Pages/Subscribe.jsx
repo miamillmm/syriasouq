@@ -12,7 +12,7 @@ const Subscribe = () => {
 
   return (
     <div
-      className="relative px-4 md:px-26 py-16 flex justify-center h-screen"
+      className="relative px-4 md:px-26 py-16 flex justify-center h-[50%]"
       style={{
         backgroundImage: `url(${bgImg})`,
         backgroundSize: "cover",
