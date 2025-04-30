@@ -245,9 +245,9 @@ const Navbar = () => {
               </li>
               <li>
                 <div className="space-y-2">
-                  <span className="block text-base font-medium py-2">
+                  {/* <span className="block text-base font-medium py-2">
                     <Translate text="Page" />
-                  </span>
+                  </span> */}
                   <ul className="ml-4 space-y-2">
                     <li>
                       <NavLink

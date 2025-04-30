@@ -167,7 +167,6 @@ const BannerSection = () => {
                 className="w-full"
                 styles={selectStyles}
                 isSearchable
-                required
               />
               <Select
                 options={modelOptions}

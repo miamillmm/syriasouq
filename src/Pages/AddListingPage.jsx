@@ -14,7 +14,7 @@ import { alllocation, makes, arabicMakes } from "../utils/utils";
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
   .loader {
-    border: 4px solid #f3f3f3;
+   border: 4px solid #f3f3f3;
     border-top: 4px solid #B80200;
     border-radius: 50%;
     width: 24px;
@@ -518,7 +518,9 @@ const ListingForm = ({
           whileTap={{ scale: 0.95 }}
         >
           {isLoading ? (
-            <div className="loader"></div>
+            <div >{currentLanguage === "ar"
+              ? "تحديث الإعلان"
+              : "loading"}</div>
           ) : (
             <>
               {isEditMode

@@ -36,8 +36,7 @@ const LanguageSwitcher = () => {
   };
 
   const currentLanguage = i18n.language;
-  const showAddListing = location.pathname !== "/addlisting";
-
+  const showAddListing = location.pathname !== "/addlisting" && !location.pathname.startsWith("/edit-listing/");
   // Animation variants for fade-in and hover
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },

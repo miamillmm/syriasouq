@@ -6,7 +6,12 @@
 html {
   direction: ltr; /* Default is Left-to-Right */
 }
-
+.error-border {
+  border-color: red !important;
+}
+.error-border-select .select__control {
+  border-color: red !important;
+}
 html[lang="ar"] {
   direction: rtl;
   text-align: right;

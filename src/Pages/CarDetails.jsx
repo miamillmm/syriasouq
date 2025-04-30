@@ -1,5 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { FaCheck } from "react-icons/fa"; // Import FaCheck for tick mark
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
@@ -159,15 +160,15 @@ const CarDetails = () => {
             variants={fadeIn}
           >
             <div className="space-y-5 bg-white shadow-lg rounded-lg p-3 sm:p-4">
-              <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
+              <div className="flex-1 h-full flex flex-col gap-1 justify-between py-0 md:py-2">
                 <div className="flex items-center justify-between gap-2">
-                  <h2 className="text-xl sm:text-2xl font-bold text-gray-800">
+                  <h2 className="text-xl sm:text-2xl font-bold text-red-500">
                     <span className="text-lg sm:text-xl text-red-500">$</span>{" "}
                     {carDetails?.priceUSD ? carDetails?.priceUSD : "آخر"}
                   </h2>
                 </div>
                 <div className="flex items-center gap-2">
-                  <h2 className="text-sm sm:text-base font-semibold text-gray-700">
+                  <h2 className="text-base sm:text-xl font-semibold text-gray-700">
                     {carDetails?.make
                       ? getLocalizedMake(carDetails, currentLanguage)
                       : "آخر"}
@@ -177,8 +178,8 @@ const CarDetails = () => {
                     {getArabicModel(carDetails, currentLanguage)}
                   </h2>
                 </div>
-                <div className="flex md:items-center md:flex-row flex-col gap-1 sm:gap-2">
-                  <div className="flex items-center gap-1 text-sm text-gray-600">
+                <div className="flex items-center flex-row  gap-1 sm:gap-2">
+                  <div className="flex items-center gap-1 text-lg	 text-gray-600">
                     <motion.div whileHover={{ scale: 1.1 }}>
                       <CiCalendar className="text-red-500" />
                     </motion.div>
@@ -190,7 +191,7 @@ const CarDetails = () => {
                       )}
                     </span>
                   </div>
-                  <div className="flex items-center gap-1 text-sm text-gray-600">
+                  <div className="flex items-center gap-1 text-lg text-gray-600">
                     <motion.div whileHover={{ scale: 1.1 }}>
                       <AiOutlineDashboard className="text-red-500" />
                     </motion.div>
@@ -203,8 +204,7 @@ const CarDetails = () => {
                       <Translate text={"km"} />
                     </span>
                   </div>
-                </div>
-                <div className="flex items-center gap-1 text-sm text-gray-600">
+                  <div className="flex items-center gap-1 text-lg text-gray-600">
                   <motion.div whileHover={{ scale: 1.1 }}>
                     <CiLocationOn className="text-red-500" />
                   </motion.div>
@@ -214,6 +214,9 @@ const CarDetails = () => {
                       : "آخر"}
                   </span>
                 </div>
+                
+                </div>
+              
               </div>
             </div>
 
@@ -328,15 +331,21 @@ const CarDetails = () => {
                   )}
                 </div>
 
-                {showMoreFeatures && carDetails?.features?.length > 0 && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 sm:gap-y-4">
-                    {carDetails?.features.map((fe) => (
-                      <p key={fe} className="text-sm sm:text-base">
-                        {getLocalizedFeature(fe, currentLanguage)}
-                      </p>
-                    ))}
-                  </div>
-                )}
+               {showMoreFeatures && carDetails?.features?.length > 0 && (
+  <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 sm:gap-y-4">
+    {carDetails?.features.map((fe) => (
+      <div
+        key={fe}
+        className={`flex items-center gap-2 text-sm sm:text-base ${
+          currentLanguage === "ar" ? "" : ""
+        }`}
+      >
+        <FaCheck className="text-red-500 w-4 h-4" />
+        <p>{getLocalizedFeature(fe, currentLanguage)}</p>
+      </div>
+    ))}
+  </div>
+)}
               </div>
             </motion.div>
 

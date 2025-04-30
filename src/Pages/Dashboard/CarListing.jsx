@@ -144,7 +144,7 @@ const CarListing = () => {
 
                 {/* View Details Button */}
                 <Link to={`/listing/${car?._id}`}>
-                  <button className="mt-5 w-full bg-[#B80200] text-white font-bold px-4 py-3 rounded-lg hover:bg-[#B80200] transition text-lg cursor-pointer">
+                  <button className="mt-5 w-full bg-[#B80200] text-white font-bold px-4 py-2 rounded-lg hover:bg-[#B80200] transition text-lg cursor-pointer">
                     <Translate text={"View Details"} />
                   </button>
                 </Link>
@@ -160,7 +160,7 @@ const CarListing = () => {
                 {/* Delete Button */}
                 <button
                   onClick={() => handleDelete(car._id)}
-                  className="mt-3 w-full bg-red-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-700 transition text-lg cursor-pointer flex items-center justify-center gap-2"
+                  className="mt-3 w-full bg-[#B80200] text-white font-bold px-4 py-2 rounded-lg hover:bg-red-700 transition text-lg cursor-pointer flex items-center justify-center gap-2"
                 >
                   🗑️ {currentLanguage === "ar" ? "مسح الإعلان" : "Delete"}
                 </button>

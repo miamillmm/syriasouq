@@ -49,7 +49,7 @@ const ImageUpload = ({ uploadedImages, setUploadedImages }) => {
         multiple
         accept="image/*"
         onChange={handleImageChange}
-        className="w-full p-2 border rounded text-sm"
+        className="w-full p-4 sm:p-5 border rounded h-14 sm:h-16 text-lg sm:text-xl"
         name="images" // Matches multer's expected field
       />
       <p className="text-xs text-gray-500 mt-1">

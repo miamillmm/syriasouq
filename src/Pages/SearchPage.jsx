@@ -1,4 +1,3 @@
-
 import axios from "axios";
 import { useEffect, useState } from "react";
 import {
@@ -19,6 +18,7 @@ import {
   getLocalizedMake,
   localizeEngineSize,
   makes,
+  alllocation
 } from "../utils/utils";
 import { useTranslation } from "react-i18next";
 import Translate from "../utils/Translate";
@@ -26,7 +26,6 @@ import { AiFillDashboard, AiOutlineDashboard } from "react-icons/ai";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css"; // Import styles
 import "./custom-slider.css"; // Custom styles for black & gray theme
-import { alllocation } from "../utils/utils";
 import { toast } from "react-toastify"; // Import react-toastify
 import "react-toastify/dist/ReactToastify.css"; // Import react-toastify styles
 import { ToastContainer } from "react-toastify"; // Import ToastContainer
@@ -84,7 +83,7 @@ const SearchPage = () => {
     minPrice: "",
     maxPrice: "",
     kilometer: "",
-    location: "",
+    location: [], // Changed to array to support multiple selections
     engineSize: "",
     transmission: "",
     fuelType: [],
@@ -172,7 +171,7 @@ const SearchPage = () => {
     const { name, value, type, checked } = e.target;
 
     if (type === "checkbox") {
-      if (name === "fuelType" || name === "make") {
+      if (name === "fuelType" || name === "make" || name === "location") {
         setFilters((prev) => ({
           ...prev,
           [name]: checked
@@ -226,11 +225,13 @@ const SearchPage = () => {
       (minPrice ? data.priceUSD >= parseFloat(minPrice) : true) &&
       (maxPrice >= 110000 || (maxPrice ? data.priceUSD <= parseFloat(maxPrice) : true)) &&
       matchesKilometer &&
-      (location
-        ? String(data.location || "")
-            .toLowerCase()
-            .includes(location.toLowerCase())
-          : true) &&
+      (location.length > 0
+        ? location.some((loc) =>
+            String(data.location || "")
+              .toLowerCase()
+              .includes(loc.toLowerCase())
+          )
+        : true) &&
       matchesEngineSize &&
       (transmission ? data.transmission === transmission : true) &&
       (fuelType.length > 0 ? fuelType.includes(data.fuelType) : true) &&
@@ -338,7 +339,7 @@ const SearchPage = () => {
                   min={1920}
                   max={2025}
                   step={1}
-                  value={[filters.minYear ||  filters.maxYear || 2025]}
+                  value={[filters.minYear || 1920, filters.maxYear || 2025]}
                   onChange={(value) =>
                     setFilters((prev) => ({
                       ...prev,
@@ -359,37 +360,37 @@ const SearchPage = () => {
 
               {/* Price Filter */}
               <div
-  className="mb-16"
-  style={{ direction: currentLanguage === "ar" ? "rtl" : "ltr" }}
->
-  <label className="block text-gray-700 font-semibold mb-3">
-    <Translate text={"Price"} /> ($)
-  </label>
-  <Slider
-    key={currentLanguage} // Force re-render when language changes
-    range
-    min={0}
-    max={125000}
-    step={1000}
-    marks={{
-      0: `$0`,
-      25000: `$25k`,
-      50000: `$50k`,
-      75000: `$75k`,
-      100000: `$100k`,
-      125000: currentLanguage === "ar" ? "أي" : "Any",
-    }}
-    value={[filters.minPrice || 0, filters.maxPrice || 110000]}
-    onChange={(value) =>
-      setFilters((prev) => ({
-        ...prev,
-        minPrice: value[0],
-        maxPrice: value[1],
-      }))
-    }
-    direction={currentLanguage === "ar" ? "rtl" : "ltr"}
-  />
-</div>
+                className="mb-16"
+                style={{ direction: currentLanguage === "ar" ? "rtl" : "ltr" }}
+              >
+                <label className="block text-gray-700 font-semibold mb-3">
+                  <Translate text={"Price"} /> ($)
+                </label>
+                <Slider
+                  key={currentLanguage} // Force re-render when language changes
+                  range
+                  min={0}
+                  max={125000}
+                  step={1000}
+                  marks={{
+                    0: `$0`,
+                    25000: `$25k`,
+                    50000: `$50k`,
+                    75000: `$75k`,
+                    100000: `$100k`,
+                    125000: currentLanguage === "ar" ? "أي" : "Any",
+                  }}
+                  value={[filters.minPrice || 0, filters.maxPrice || 110000]}
+                  onChange={(value) =>
+                    setFilters((prev) => ({
+                      ...prev,
+                      minPrice: value[0],
+                      maxPrice: value[1],
+                    }))
+                  }
+                  direction={currentLanguage === "ar" ? "rtl" : "ltr"}
+                />
+              </div>
 
               {/* Kilometer Filter */}
               <div className="mb-16">
@@ -428,24 +429,21 @@ const SearchPage = () => {
                   {currentLanguage === "ar" ? "الموقع" : "Location"}
                 </label>
                 <div>
-                  <select
-                    name="location"
-                    id=""
-                    className="!bg-white py-2 px-2 rounded w-full"
-                    onChange={handleFilterChange}
-                    value={filters.location}
-                  >
-                    <option hidden selected>
-                      {currentLanguage === "ar"
-                        ? "حدد الموقع"
-                        : "Select Location"}
-                    </option>
-                    {alllocation.map((loc) => (
-                      <option key={loc.label} value={loc.value}>
+                  {alllocation.map((loc) => (
+                    <div key={loc.label} className="mb-2">
+                      <input
+                        type="checkbox"
+                        name="location"
+                        id={loc.value}
+                        value={loc.value}
+                        onChange={handleFilterChange}
+                        checked={filters.location.includes(loc.value)}
+                      />
+                      <label className="mx-2" htmlFor={loc.value}>
                         {currentLanguage === "ar" ? loc.arLabel : loc.label}
-                      </option>
-                    ))}
-                  </select>
+                      </label>
+                    </div>
+                  ))}
                 </div>
               </div>
               {/* Engine Size */}
@@ -492,7 +490,7 @@ const SearchPage = () => {
                         filters.transmission !== ""
                       }
                     />
-                    <label className="ml-2" htmlFor={trans.value}>
+                    <label className="mx-2" htmlFor={trans.value}>
                       {currentLanguage === "ar" ? trans.arLabel : trans.label}
                     </label>
                   </div>
@@ -512,7 +510,7 @@ const SearchPage = () => {
                       onChange={handleFilterChange}
                       checked={filters.fuelType.includes(fuel.value)}
                     />
-                    <label className="ml-2">
+                    <label className="mx-2">
                       <Translate text={fuel.label} />
                     </label>
                   </div>
@@ -583,7 +581,7 @@ const SearchPage = () => {
                       minPrice: "",
                       maxPrice: "",
                       kilometer: "",
-                      location: "",
+                      location: [],
                       engineSize: "",
                       transmission: "",
                       fuelType: [],
@@ -671,39 +669,39 @@ const SearchPage = () => {
 
                     {/* Price Filter */}
                     <div
-  className="mb-14"
-  style={{
-    direction: currentLanguage === "ar" ? "rtl" : "ltr",
-  }}
->
-  <label className="block text-gray-700 font-semibold mb-3">
-    <Translate text={"Price"} /> ($)
-  </label>
-  <Slider
-    key={currentLanguage} // Force re-render when language changes
-    range
-    min={0}
-    max={125000}
-    step={1000}
-    marks={{
-      0: `$0`,
-      25000: `$25k`,
-      50000: `$50k`,
-      75000: `$75k`,
-      100000: `$100k`,
-      125000: currentLanguage === "ar" ? "أي" : "Any",
-    }}
-    value={[filters.minPrice || 0, filters.maxPrice || 110000]}
-    onChange={(value) =>
-      setFilters((prev) => ({
-        ...prev,
-        minPrice: value[0],
-        maxPrice: value[1],
-      }))
-    }
-    direction={currentLanguage === "ar" ? "rtl" : "ltr"}
-  />
-</div>
+                      className="mb-14"
+                      style={{
+                        direction: currentLanguage === "ar" ? "rtl" : "ltr",
+                      }}
+                    >
+                      <label className="block text-gray-700 font-semibold mb-3">
+                        <Translate text={"Price"} /> ($)
+                      </label>
+                      <Slider
+                        key={currentLanguage} // Force re-render when language changes
+                        range
+                        min={0}
+                        max={125000}
+                        step={1000}
+                        marks={{
+                          0: `$0`,
+                          25000: `$25k`,
+                          50000: `$50k`,
+                          75000: `$75k`,
+                          100000: `$100k`,
+                          125000: currentLanguage === "ar" ? "أي" : "Any",
+                        }}
+                        value={[filters.minPrice || 0, filters.maxPrice || 110000]}
+                        onChange={(value) =>
+                          setFilters((prev) => ({
+                            ...prev,
+                            minPrice: value[0],
+                            maxPrice: value[1],
+                          }))
+                        }
+                        direction={currentLanguage === "ar" ? "rtl" : "ltr"}
+                      />
+                    </div>
 
                     {/* Kilometer Filter */}
                     <div className="mb-10">
@@ -742,24 +740,21 @@ const SearchPage = () => {
                         {currentLanguage === "ar" ? "الموقع" : "Location"}
                       </label>
                       <div>
-                        <select
-                          name="location"
-                          id=""
-                          className="!bg-white py-2 px-2 rounded w-full"
-                          onChange={handleFilterChange}
-                          value={filters.location}
-                        >
-                          <option hidden selected>
-                            {currentLanguage === "ar"
-                              ? "حدد الموقع"
-                              : "Select Location"}
-                          </option>
-                          {alllocation.map((loc) => (
-                            <option key={loc.label} value={loc.value}>
+                        {alllocation.map((loc) => (
+                          <div key={loc.label} className="mb-2">
+                            <input
+                              type="checkbox"
+                              name="location"
+                              id={loc.value}
+                              value={loc.value}
+                              onChange={handleFilterChange}
+                              checked={filters.location.includes(loc.value)}
+                            />
+                            <label className="mx-2" htmlFor={loc.value}>
                               {currentLanguage === "ar" ? loc.arLabel : loc.label}
-                            </option>
-                          ))}
-                        </select>
+                            </label>
+                          </div>
+                        ))}
                       </div>
                     </div>
                     {/* Engine Size */}
@@ -798,7 +793,7 @@ const SearchPage = () => {
                       {allTransmission.map((trans) => (
                         <div key={trans.label}>
                           <input
-                            type="radio"
+                            type="checkbox"
                             name="transmission"
                             id={trans.value}
                             value={trans.value}
@@ -808,7 +803,7 @@ const SearchPage = () => {
                               filters.transmission !== ""
                             }
                           />
-                          <label className="ml-2" htmlFor={trans.value}>
+                          <label className="mx-2" htmlFor={trans.value}>
                             {currentLanguage === "ar"
                               ? trans.arLabel
                               : trans.label}
@@ -830,7 +825,7 @@ const SearchPage = () => {
                             onChange={handleFilterChange}
                             checked={filters.fuelType.includes(fuel.value)}
                           />
-                          <label className="ml-2">
+                          <label className="mx-2">
                             <Translate text={fuel.label} />
                           </label>
                         </div>
@@ -904,7 +899,7 @@ const SearchPage = () => {
                             minPrice: "",
                             maxPrice: "",
                             kilometer: "",
-                            location: "",
+                            location: [],
                             engineSize: "",
                             transmission: "",
                             fuelType: [],
@@ -1023,135 +1018,137 @@ const SearchPage = () => {
                     >
                       {view === "grid" ? (
                         <>
-                        <div className="relative flex flex-col-reverse gap-4 bg-slate-100 p-3 rounded">
-  {/* Share Button */}
-  <div className={`absolute top-2 ${currentLanguage === "ar" ? "left-2" : "right-2"} flex items-center gap-2`}>
-    <div
-      onClick={(e) => {
-        e.stopPropagation();
-        const url = `${window.location.origin}/listing/${data._id}`;
-        const title = `${getLocalizedMake(data, currentLanguage)} ${getArabicModel(data, currentLanguage)}`;
-        if (navigator.share) {
-          navigator.share({
-            title: title,
-            url: url,
-          }).catch((err) => {
-            console.error("Share failed: ", err);
-            toast.error(
-              currentLanguage === "ar" ? "فشل في مشاركة الرابط!" : "Failed to share URL!",
-              {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-              }
-            );
-          });
-        } else {
-          navigator.clipboard.writeText(url).then(() => {
-            toast.success(
-              currentLanguage === "ar" ? "تم نسخ رابط الإعلان إلى الحافظة!" : "Listing URL copied to clipboard!",
-              {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-              }
-            );
-          }).catch((err) => {
-            console.error("Failed to copy URL: ", err);
-            toast.error(
-              currentLanguage === "ar" ? "فشل في نسخ الرابط!" : "Failed to copy URL!",
-              {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-              }
-            );
-          });
-        }
-      }}
-      className="hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-300 cursor-pointer text-gray-600"
-    >
-      <CiShare2 className="w-1/2 h-1/2" />
+                          <div className="relative flex flex-col-reverse gap-4 bg-slate-100 p-3 rounded">
+                            {/* Share Button */}
+                            <div className={`absolute top-2 ${currentLanguage === "ar" ? "left-2" : "right-2"} flex items-center gap-2`}>
+                              <div
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  const url = `${window.location.origin}/listing/${data._id}`;
+                                  const title = `${getLocalizedMake(data, currentLanguage)} ${getArabicModel(data, currentLanguage)}`;
+                                  if (navigator.share) {
+                                    navigator.share({
+                                      title: title,
+                                      url: url,
+                                    }).catch((err) => {
+                                      console.error("Share failed: ", err);
+                                      toast.error(
+                                        currentLanguage === "ar" ? "فشل في مشاركة الرابط!" : "Failed to share URL!",
+                                        {
+                                          position: "top-right",
+                                          autoClose: 3000,
+                                          hideProgressBar: false,
+                                          closeOnClick: true,
+                                          pauseOnHover: true,
+                                          draggable: true,
+                                        }
+                                      );
+                                    });
+                                  } else {
+                                    navigator.clipboard.writeText(url).then(() => {
+                                      toast.success(
+                                        currentLanguage === "ar" ? "تم نسخ رابط الإعلان إلى الحافظة!" : "Listing URL copied to clipboard!",
+                                        {
+                                          position: "top-right",
+                                          autoClose: 3000,
+                                          hideProgressBar: false,
+                                          closeOnClick: true,
+                                          pauseOnHover: true,
+                                          draggable: true,
+                                        }
+                                      );
+                                    }).catch((err) => {
+                                      console.error("Failed to copy URL: ", err);
+                                      toast.error(
+                                        currentLanguage === "ar" ? "فشل في نسخ الرابط!" : "Failed to copy URL!",
+                                        {
+                                          position: "top-right",
+                                          autoClose: 3000,
+                                          hideProgressBar: false,
+                                          closeOnClick: true,
+                                          pauseOnHover: true,
+                                          draggable: true,
+                                        }
+                                      );
+                                    });
+                                  }
+                                }}
+                                className="hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-300 cursor-pointer text-gray-600"
+                              >
+                                <CiShare2 className="w-1/2 h-1/2" />
+                              </div>
+                            </div>
+                            <Link to={`/listing/${data._id}`}>
+                              <div className="relative w-full max-w-[400px]">
+                                <div className="overflow-hidden rounded-md aspect-w-16 aspect-h-9">
+                                  <img
+                                    alt=""
+                                    src={`http://api.syriasouq.com/uploads/cars/${data.images[0]}`}
+                                    className="h-40 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out sm:h-56"
+                                  />
+                                  {/* Wishlist Button on Image */}
+                                  <div
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      e.stopPropagation();
+                                      if (!isWishlistLoading) {
+                                        handleWishlist(data);
+                                      }
+                                    }}
+                                    className={`absolute top-2 ${currentLanguage === "ar" ? "left-2" : "right-2"} hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-300 cursor-pointer text-gray-600 ${
+                                      wishlist.some((item) => item.car?._id === data._id)
+                                        ? "bg-[#B80200] border-[#B80200] text-white"
+                                        : "bg-white"
+                                      } ${isWishlistLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+                                  >
+                                    <CiHeart className="w-1/2 h-1/2" />
+                                  </div>
+                                </div>
+                              </div>
+                            </Link>
+                            <div className="flex-1 h-full flex어�
+
+System: flex-col justify-between py-0 md:py-2">
+  <div className="flex items-center justify-between gap-2">
+    <h2 className="text-xl font-bold text-red-500 ">
+      <span className="text-lg ">$ </span>
+      <Translate text={data?.priceUSD ? data?.priceUSD : "آخر"} />
+    </h2>
+  </div>
+  <div className="flex md:items-center md:flex-row flex-col md:gap-2 gap-0">
+    <h2 className="text-md">{getLocalizedMake(data, currentLanguage)}</h2>
+    <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
+    <h2 className="text-md">{getArabicModel(data, currentLanguage)}</h2>
+  </div>
+  <div className="flex md:items-center md:flex-row flex-col md:gap-3 gap0">
+    <div className="flex items-center gap-1 text-md">
+      <CiCalendar />
+      <span>
+        <Translate text={data?.year ? data?.year : "آخر"} />
+      </span>
+    </div>
+    <div className="flex items-center gap-1 text-md">
+      <AiOutlineDashboard />
+      <span>
+        <Translate text={data?.kilometer ? data?.kilometer : "آخر"} />{" "}
+        <Translate text={"km"} />
+      </span>
     </div>
   </div>
-  <Link to={`/listing/${data._id}`}>
-    <div className="relative w-full max-w-[400px]">
-      <div className="overflow-hidden rounded-md aspect-w-16 aspect-h-9">
-        <img
-          alt=""
-          src={`http://api.syriasouq.com/uploads/cars/${data.images[0]}`}
-          className="h-40 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out sm:h-56"
-        />
-        {/* Wishlist Button on Image */}
-        <div
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            if (!isWishlistLoading) {
-              handleWishlist(data);
-            }
-          }}
-          className={`absolute top-2 ${currentLanguage === "ar" ? "left-2" : "right-2"} hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-300 cursor-pointer text-gray-600 ${
-            wishlist.some((item) => item.car?._id === data._id)
-              ? "bg-[#B80200] border-[#B80200] text-white"
-              : "bg-white"
-          } ${isWishlistLoading ? "opacity-50 cursor-not-allowed" : ""}`}
-        >
-          <CiHeart className="w-1/2 h-1/2" />
-        </div>
-      </div>
-    </div>
-  </Link>
-  <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
-    <div className="flex items-center justify-between gap-2">
-      <h2 className="text-xl font-bold">
-        <span className="text-lg">$ </span>
-        <Translate text={data?.priceUSD ? data?.priceUSD : "آخر"} />
-      </h2>
-    </div>
-    <div className="flex md:items-center md:flex-row flex-col md:gap-2 gap-0">
-      <h2 className="text-md">{getLocalizedMake(data, currentLanguage)}</h2>
-      <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
-      <h2 className="text-md">{getArabicModel(data, currentLanguage)}</h2>
-    </div>
-    <div className="flex md:items-center md:flex-row flex-col md:gap-3 gap0">
-      <div className="flex items-center gap-1 text-md">
-        <CiCalendar />
-        <span>
-          <Translate text={data?.year ? data?.year : "آخر"} />
-        </span>
-      </div>
-      <div className="flex items-center gap-1 text-md">
-        <AiOutlineDashboard />
-        <span>
-          <Translate text={data?.kilometer ? data?.kilometer : "آخر"} />{" "}
-          <Translate text={"km"} />
-        </span>
-      </div>
-    </div>
-    <div className="flex items-center gap-3">
-      <div className="flex items-center gap-1 text-md">
-        <CiLocationOn />
-        <span>
-          {data?.location ? getLocalizedLocation(data?.location, currentLanguage) : "آخر"}
-        </span>
-      </div>
-    </div>
-    <div className="flex items-center gap-3 mt-2 md:mt-4">
-      <Link to={`/listing/${data?._id}`} className="block bg-[#B80200] text-white text-lg py-1 px-4 rounded">
-        <Translate text={"View Details"} />
-      </Link>
+  <div className="flex items-center gap-3">
+    <div className="flex items-center gap-1 text-md">
+      <CiLocationOn />
+      <span>
+        {data?.location ? getLocalizedLocation(data?.location, currentLanguage) : "آخر"}
+      </span>
     </div>
   </div>
+  <div className="flex items-center gap-3 mt-2 md:mt-4">
+    <Link to={`/listing/${data?._id}`} className="block bg-[#B80200] text-white text-lg py-1 px-4 rounded">
+      <Translate text={"View Details"} />
+    </Link>
+  </div>
+</div>
 </div>
                         </>
                       ) : (
@@ -1234,10 +1231,10 @@ const SearchPage = () => {
                                   <div
                                     onClick={(e) => {
                                       e.preventDefault(); // Prevent default behavior
-    e.stopPropagation(); // Stop event from bubbling up to parent Link
-    if (!isWishlistLoading) {
-      handleWishlist(data);
-    }
+                                      e.stopPropagation(); // Stop event from bubbling up to parent Link
+                                      if (!isWishlistLoading) {
+                                        handleWishlist(data);
+                                      }
                                     }}
                                     className={`absolute top-2 ${currentLanguage === "ar" ? "left-2" : "right-2"} hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-300 cursor-pointer text-gray-600 ${
                                       wishlist.some((item) => item.car?._id === data._id)
@@ -1252,7 +1249,7 @@ const SearchPage = () => {
                             </Link>
                             <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
                               <div className="flex items-center justify-between gap-2">
-                                <h2 className="text-xl font-bold">
+                                <h2 className="text-xl font-bold text-red-500">
                                   <span className="text-lg">$ </span>
                                   <Translate
                                     text={data?.priceUSD ? data?.priceUSD : "آخر"}
