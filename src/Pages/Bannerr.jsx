@@ -36,14 +36,11 @@ const BannerSection = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    if (searchMake) {
       const query = `/search?make=${searchMake}${searchModel ? `&model=${searchModel}` : ""}${
         searchLocation ? `&location=${searchLocation}` : ""
       }`;
       navigate(query);
-    } else {
-      alert(currentLanguage === "ar" ? "يرجى اختيار النوع" : "Please choose make");
-    }
+   
   };
 
   const modelOptions =
