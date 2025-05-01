@@ -129,24 +129,28 @@ const ListingForm = ({
   isEditMode,
   isLoading,
 }) => {
-  const modelOptions =
-    currentLanguage === "ar"
-      ? make
-        ? arabicMakes
-            .find((m) => m.value === make.value)
-            ?.models.map((model) => ({
-              value: model,
-              label: model,
-            })) || []
-        : []
-      : make
-      ? makes
-          .find((m) => m.value === make.value)
-          ?.models.map((model) => ({
-            value: model,
-            label: model,
-          })) || []
-      : [];
+  // Prepare make options
+  const makeOptions = makes.map((m) => {
+    const arabicMake = arabicMakes.find((am) => am.enValue === m.value);
+    return {
+      value: m.value, // Always use English value
+      label: currentLanguage === "ar" ? arabicMake?.label || m.label : m.label,
+    };
+  });
+
+  // Prepare model options based on selected make
+  const modelOptions = make
+    ? makes
+        .find((m) => m.value === make.value)
+        ?.models.map((model, index) => {
+          const arabicMake = arabicMakes.find((am) => am.enValue === make.value);
+          const arabicModel = arabicMake?.models[index] || model;
+          return {
+            value: model, // Always use English model value
+            label: currentLanguage === "ar" ? arabicModel : model,
+          };
+        }) || []
+    : [];
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 relative">
@@ -171,7 +175,7 @@ const ListingForm = ({
             </h3>
           </div>
           <Select
-            options={currentLanguage === "ar" ? arabicMakes : makes}
+            options={makeOptions}
             value={make}
             onChange={setMake}
             required
@@ -240,6 +244,7 @@ const ListingForm = ({
         </label>
       </div>
 
+      {/* Rest of the form remains the same */}
       <div className="flex justify-between items-center lg:flex-row flex-col gap-10">
         <label className="w-full">
           <div className="mb-2 px-3">
@@ -518,9 +523,9 @@ const ListingForm = ({
           whileTap={{ scale: 0.95 }}
         >
           {isLoading ? (
-            <div >{currentLanguage === "ar"
-              ? "جاري تحميل الإعلان"
-              : "loading"}</div>
+            <div>
+              {currentLanguage === "ar" ? "جاري تحميل الإعلان" : "loading"}
+            </div>
           ) : (
             <>
               {isEditMode
@@ -580,7 +585,7 @@ const AddListingPage = () => {
       );
       navigate("/login-and-register", { replace: true });
     }
-
+  
     if (id) {
       // Fetch car data for editing
       const fetchCarData = async () => {
@@ -595,12 +600,42 @@ const AddListingPage = () => {
             }
           );
           const car = response.data.data;
-          console.log(car.features)
           setCarData(car);
-
+  
+          // Find Arabic make for label
+          const arabicMake = arabicMakes.find((am) => am.enValue === car.make);
+          const makeLabel =
+            currentLanguage === "ar" ? arabicMake?.label || car.make : car.make;
+  
           // Pre-fill form fields
-          setMake(car.make ? { value: car.make, label: car.make } : null);
-          setModel(car.model ? { value: car.model, label: car.model } : null);
+          setMake(
+            car.make
+              ? {
+                  value: car.make, // English value
+                  label: makeLabel,
+                }
+              : null
+          );
+  
+          // Find Arabic model for label
+          const englishMake = makes.find((m) => m.value === car.make);
+          const modelIndex = englishMake?.models.indexOf(car.model);
+          const arabicModel =
+            modelIndex !== -1 && arabicMake
+              ? arabicMake.models[modelIndex]
+              : car.model;
+          const modelLabel =
+            currentLanguage === "ar" ? arabicModel : car.model;
+  
+          setModel(
+            car.model
+              ? {
+                  value: car.model, // English value
+                  label: modelLabel,
+                }
+              : null
+          );
+  
           setPriceUSD(car.priceUSD || "");
           setPriceSYP(car.priceSYP || 1);
           setYear(car.year || "");
@@ -627,14 +662,12 @@ const AddListingPage = () => {
           );
           setExteriorColor(
             car.exteriorColor
-              ? allExteriorColor.find((c) => c.value === car.exteriorColor) ||
-                null
+              ? allExteriorColor.find((c) => c.value === car.exteriorColor) || null
               : null
           );
           setInteriorColor(
             car.interiorColor
-              ? allInteriorColor.find((c) => c.value === car.interiorColor) ||
-                null
+              ? allInteriorColor.find((c) => c.value === car.interiorColor) || null
               : null
           );
           setDescription(car.description || "");
@@ -712,6 +745,7 @@ const AddListingPage = () => {
       return;
     }
 
+    console.log(formData)
     try {
       const url = id
         ? `${import.meta.env.VITE_API_URL}/cars/${id}`
