@@ -1,60 +1,62 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { AiOutlineDashboard } from "react-icons/ai";
-import { CiCalendar, CiHeart, CiLocationOn, CiShare2 } from "react-icons/ci";
-import { TiArrowRight } from "react-icons/ti";
-import { Link } from "react-router-dom";
-import Translate from "../utils/Translate";
-import { useTranslation } from "react-i18next";
-import {
-  getArabicModel,
-  getLocalizedLocation,
-  getLocalizedMake,
-} from "../utils/utils";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useWishlist } from "../context/WishlistContext";
+"use client"
+
+import axios from "axios"
+import { useEffect, useState } from "react"
+import { AiOutlineDashboard } from "react-icons/ai"
+import { CiCalendar, CiHeart, CiLocationOn, CiShare2 } from "react-icons/ci"
+import { TiArrowRight } from "react-icons/ti"
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa"
+import { Link } from "react-router-dom"
+import Translate from "../utils/Translate"
+import { useTranslation } from "react-i18next"
+import { getArabicModel, getLocalizedLocation, getLocalizedMake } from "../utils/utils"
+import { toast, ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+import { useWishlist } from "../context/WishlistContext"
 
 const Featured = () => {
-  const [cars, setCars] = useState([]);
-  const { wishlist, handleWishlist,isWishlistLoading } = useWishlist();
-  const { i18n } = useTranslation();
-  const currentLanguage = i18n.language;
+  const [cars, setCars] = useState([])
+  const { wishlist, handleWishlist, isWishlistLoading } = useWishlist()
+  const { i18n } = useTranslation()
+  const currentLanguage = i18n.language
+
+  // Track current image index for each car
+  const [currentImageIndices, setCurrentImageIndices] = useState({})
 
   // Debug: Log wishlist to verify its contents
   useEffect(() => {
-    console.log("Wishlist in Featured:", wishlist);
-  }, [wishlist]);
+    console.log("Wishlist in Featured:", wishlist)
+  }, [wishlist])
 
   // Fetch all cars when component mounts or when wishlist or currentLanguage changes
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const carRes = await axios.get(
-          `${import.meta.env.VITE_API_URL}/cars?status=available`
-        );
-        setCars(carRes.data.data);
-        console.log("Fetched cars:", carRes.data.data); // Debug log
-      } catch (error) {
-        console.log("Error fetching cars:", error);
-        toast.error(
-          currentLanguage === "ar"
-            ? "فشل في جلب السيارات"
-            : "Failed to fetch cars",
-          {
-            position: "top-right",
-            autoClose: 3000,
-          }
-        );
-      }
-    };
+        const carRes = await axios.get(`${import.meta.env.VITE_API_URL}/cars?status=available`)
+        setCars(carRes.data.data)
+        console.log("Fetched cars:", carRes.data.data) // Debug log
 
-    fetchData();
-  }, [currentLanguage, wishlist]);
+        // Initialize current image indices
+        const indices = {}
+        carRes.data.data.forEach((car) => {
+          indices[car._id] = 0
+        })
+        setCurrentImageIndices(indices)
+      } catch (error) {
+        console.log("Error fetching cars:", error)
+        toast.error(currentLanguage === "ar" ? "فشل في جلب السيارات" : "Failed to fetch cars", {
+          position: "top-right",
+          autoClose: 3000,
+        })
+      }
+    }
+
+    fetchData()
+  }, [currentLanguage, wishlist])
 
   const handleShare = (car) => {
-    const url = `${window.location.origin}/listing/${car._id}`;
-    const title = `${getLocalizedMake(car, currentLanguage)} ${getArabicModel(car, currentLanguage)}`;
+    const url = `${window.location.origin}/listing/${car._id}`
+    const title = `${getLocalizedMake(car, currentLanguage)} ${getArabicModel(car, currentLanguage)}`
     if (navigator.share) {
       navigator
         .share({
@@ -62,29 +64,22 @@ const Featured = () => {
           url: url,
         })
         .catch((err) => {
-          console.error("Share failed: ", err);
-          toast.error(
-            currentLanguage === "ar"
-              ? "فشل في مشاركة الرابط!"
-              : "Failed to share URL!",
-            {
-              position: "top-right",
-              autoClose: 3000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-            }
-          );
-        });
+          console.error("Share failed: ", err)
+          toast.error(currentLanguage === "ar" ? "فشل في مشاركة الرابط!" : "Failed to share URL!", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          })
+        })
     } else {
       navigator.clipboard
         .writeText(url)
         .then(() => {
           toast.success(
-            currentLanguage === "ar"
-              ? "تم نسخ رابط الإعلان إلى الحافظة!"
-              : "Listing URL copied to clipboard!",
+            currentLanguage === "ar" ? "تم نسخ رابط الإعلان إلى الحافظة!" : "Listing URL copied to clipboard!",
             {
               position: "top-right",
               autoClose: 3000,
@@ -92,27 +87,44 @@ const Featured = () => {
               closeOnClick: true,
               pauseOnHover: true,
               draggable: true,
-            }
-          );
+            },
+          )
         })
         .catch((err) => {
-          console.error("Failed to copy URL: ", err);
-          toast.error(
-            currentLanguage === "ar"
-              ? "فشل في نسخ الرابط!"
-              : "Failed to copy URL!",
-            {
-              position: "top-right",
-              autoClose: 3000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-            }
-          );
-        });
+          console.error("Failed to copy URL: ", err)
+          toast.error(currentLanguage === "ar" ? "فشل في نسخ الرابط!" : "Failed to copy URL!", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          })
+        })
     }
-  };
+  }
+
+  // Handle image navigation within a card
+  const navigateImage = (e, carId, direction) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    const car = cars.find((c) => c._id === carId)
+    if (!car || !car.images || car.images.length <= 1) return
+
+    setCurrentImageIndices((prev) => {
+      const currentIndex = prev[carId] || 0
+      let newIndex
+
+      if (direction === "next") {
+        newIndex = (currentIndex + 1) % car.images.length
+      } else {
+        newIndex = (currentIndex - 1 + car.images.length) % car.images.length
+      }
+
+      return { ...prev, [carId]: newIndex }
+    })
+  }
 
   return (
     <div className="container mx-auto px-4 sm:px-8 md:px-16 w-screen py-10 md:py-20">
@@ -138,9 +150,7 @@ const Featured = () => {
             <button className="bg-[#B80200] text-white text-[16px] sm:text-[18px] font-[400] justify-between py-3 sm:py-4 px-8 sm:px-12 rounded-md flex items-center gap-2 cursor-pointer">
               <Translate text={"View All"} />
               <span>
-                <TiArrowRight
-                  className={currentLanguage === "ar" ? "rotate-180" : ""}
-                />
+                <TiArrowRight className={currentLanguage === "ar" ? "rotate-180" : ""} />
               </span>
             </button>
           </Link>
@@ -149,14 +159,9 @@ const Featured = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-7">
         {cars.length > 0 ? (
           cars.map((data) => (
-            <div
-              key={data._id}
-              className="flex md:flex-row flex-col-reverse gap-4 bg-slate-100 p-3 rounded relative"
-            >
+            <div key={data._id} className="flex md:flex-row flex-col-reverse gap-4 bg-slate-100 p-3 rounded relative">
               <div
-                className={`absolute top-2 ${
-                  currentLanguage === "ar" ? "left-2" : "right-2"
-                } flex items-center gap-2`}
+                className={`absolute top-2 ${currentLanguage === "ar" ? "left-2" : "right-2"} flex items-center gap-2`}
               >
                 <div
                   onClick={() => handleShare(data)}
@@ -167,23 +172,52 @@ const Featured = () => {
               </div>
               <div className="relative w-full max-w-[420px]">
                 <Link to={`/listing/${data._id}`}>
-                  <div className="overflow-hidden rounded-md">
+                  <div className="overflow-hidden rounded-md relative">
                     <img
                       alt=""
-                      src={`http://api.syriasouq.com/uploads/cars/${data.images[0]}`}
+                      src={`http://api.syriasouq.com/uploads/cars/${data.images[currentImageIndices[data._id] || 0]}`}
                       className="h-56 sm:h-56 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
                     />
+
+                    {/* Image Navigation Controls */}
+                    {data.images && data.images.length > 1 && (
+                      <>
+                        {/* Left arrow */}
+                        <button
+                          onClick={(e) => navigateImage(e, data._id, "prev")}
+                          className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full p-1 z-10"
+                          aria-label="Previous image"
+                        >
+                          <FaChevronLeft size={16} />
+                        </button>
+
+                        {/* Right arrow */}
+                        <button
+                          onClick={(e) => navigateImage(e, data._id, "next")}
+                          className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full p-1 z-10"
+                          aria-label="Next image"
+                        >
+                          <FaChevronRight size={16} />
+                        </button>
+
+                        {/* Image counter */}
+                        <div className="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded-full">
+                          {(currentImageIndices[data._id] || 0) + 1}/{data.images.length}
+                        </div>
+                      </>
+                    )}
                   </div>
                 </Link>
                 <div className=" flex items-center gap-2">
                   <div
                     onClick={() => handleWishlist(data)}
-                    className={`absolute top-2 ${currentLanguage === "ar" ? "left-2" : "right-2"} hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-300 cursor-pointer text-gray-600 ${
+                    className={`absolute top-2 ${
+                      currentLanguage === "ar" ? "right-2" : "left-2"
+                    } hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-300 cursor-pointer text-gray-600 ${
                       wishlist.some((item) => item.car?._id === data._id)
                         ? "bg-[#B80200] border-[#B80200] text-white"
                         : "bg-white"
                     } ${isWishlistLoading ? "opacity-50 cursor-not-allowed" : ""}`}
-                  
                   >
                     <CiHeart className="w-[75%] h-[75%]" />
                   </div>
@@ -197,45 +231,26 @@ const Featured = () => {
                   </h2>
                 </div>
                 <div className="flex items-center gap-2">
-                  <h2 className="text-md">
-                    {data?.make
-                      ? getLocalizedMake(data, currentLanguage)
-                      : "آخر"}
-                  </h2>
+                  <h2 className="text-md">{data?.make ? getLocalizedMake(data, currentLanguage) : "آخر"}</h2>
                   <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
-                  <h2 className="text-md">
-                    {data?.model
-                      ? getArabicModel(data, currentLanguage)
-                      : "آخر"}
-                  </h2>
+                  <h2 className="text-md">{data?.model ? getArabicModel(data, currentLanguage) : "آخر"}</h2>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="flex items-center gap-1 text-md">
                     <CiCalendar />
-                    <span>
-                      {data?.year ? <Translate text={data?.year} /> : "آخر"}
-                    </span>
+                    <span>{data?.year ? <Translate text={data?.year} /> : "آخر"}</span>
                   </div>
                   <div className="flex items-center gap-1 text-md">
                     <AiOutlineDashboard />
                     <span>
-                      {data?.kilometer ? (
-                        <Translate text={data?.kilometer} />
-                      ) : (
-                        "آخر"
-                      )}{" "}
-                      <Translate text={"km"} />
+                      {data?.kilometer ? <Translate text={data?.kilometer} /> : "آخر"} <Translate text={"km"} />
                     </span>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="flex items-center gap-1 text-md">
                     <CiLocationOn />
-                    <span>
-                      {data?.location
-                        ? getLocalizedLocation(data?.location, currentLanguage)
-                        : "آخر"}
-                    </span>
+                    <span>{data?.location ? getLocalizedLocation(data?.location, currentLanguage) : "آخر"}</span>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 mt-2 md:mt-4">
@@ -251,14 +266,12 @@ const Featured = () => {
           ))
         ) : (
           <div className="">
-            <h2 className="text-3xl text-[#B80200] text-center">
-              No Result Found
-            </h2>
+            <h2 className="text-3xl text-[#B80200] text-center">No Result Found</h2>
           </div>
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Featured;
+export default Featured

@@ -1,54 +1,64 @@
-import axios from "axios";
-import { useEffect, useRef, useState } from "react";
-import { CiCalendar, CiHeart, CiLocationOn, CiShare2 } from "react-icons/ci";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import "swiper/css";
-import "swiper/css/navigation";
-import { Navigation } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import Translate from "../utils/Translate";
-import { useTranslation } from "react-i18next";
-import { AiOutlineDashboard } from "react-icons/ai";
-import {
-  getArabicModel,
-  getLocalizedLocation,
-  getLocalizedMake,
-} from "../utils/utils";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
-import { useWishlist } from "../context/WishlistContext";
+"use client"
+
+import axios from "axios"
+import { useEffect, useRef, useState } from "react"
+import { CiCalendar, CiHeart, CiLocationOn, CiShare2 } from "react-icons/ci"
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa"
+import { Link } from "react-router-dom"
+import "swiper/css"
+import "swiper/css/navigation"
+import { Navigation } from "swiper/modules"
+import { Swiper, SwiperSlide } from "swiper/react"
+import Translate from "../utils/Translate"
+import { useTranslation } from "react-i18next"
+import { AiOutlineDashboard } from "react-icons/ai"
+import { getArabicModel, getLocalizedLocation, getLocalizedMake } from "../utils/utils"
+import { toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+import { ToastContainer } from "react-toastify"
+import { useWishlist } from "../context/WishlistContext"
 
 export default function MoreFromUser({ title, button, uid }) {
-  const swiperRef = useRef(null);
-  const [listings, setListings] = useState([]);
-  const { i18n } = useTranslation();
-  const currentLanguage = i18n.language;
-  const { wishlist, handleWishlist, isWishlistLoading } = useWishlist();
+  const swiperRef = useRef(null)
+  const [listings, setListings] = useState([])
+  const { i18n } = useTranslation()
+  const currentLanguage = i18n.language
+  const { wishlist, handleWishlist, isWishlistLoading } = useWishlist()
+
+  // Track current image index for each car
+  const [currentImageIndices, setCurrentImageIndices] = useState({})
+
   useEffect(() => {
-    console.log(uid);
+    console.log(uid)
     const getCars = async () => {
       const url = uid
         ? `${import.meta.env.VITE_API_URL}/cars/uid/${uid}`
-        : `${import.meta.env.VITE_API_URL}/cars?status=available`;
-      const response = await axios.get(url);
+        : `${import.meta.env.VITE_API_URL}/cars?status=available`
+      const response = await axios.get(url)
       if (response.data) {
-        setListings(response.data.data);
+        setListings(response.data.data)
+
+        // Initialize current image indices
+        const indices = {}
+        response.data.data.forEach((car) => {
+          indices[car._id] = 0
+        })
+        setCurrentImageIndices(indices)
       }
-    };
-    getCars();
-  }, [uid]);
+    }
+    getCars()
+  }, [uid])
 
   // Update Swiper when language changes
   useEffect(() => {
     if (swiperRef.current && swiperRef.current.swiper) {
-      swiperRef.current.swiper.update(); // Update Swiper layout
+      swiperRef.current.swiper.update() // Update Swiper layout
     }
-  }, [currentLanguage]);
+  }, [currentLanguage])
+
   const handleShare = (car) => {
-    const url = `${window.location.origin}/listing/${car._id}`;
-    const title = `${getLocalizedMake(car, currentLanguage)} ${getArabicModel(car, currentLanguage)}`;
+    const url = `${window.location.origin}/listing/${car._id}`
+    const title = `${getLocalizedMake(car, currentLanguage)} ${getArabicModel(car, currentLanguage)}`
     if (navigator.share) {
       navigator
         .share({
@@ -56,29 +66,22 @@ export default function MoreFromUser({ title, button, uid }) {
           url: url,
         })
         .catch((err) => {
-          console.error("Share failed: ", err);
-          toast.error(
-            currentLanguage === "ar"
-              ? "فشل في مشاركة الرابط!"
-              : "Failed to share URL!",
-            {
-              position: "top-right",
-              autoClose: 3000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-            }
-          );
-        });
+          console.error("Share failed: ", err)
+          toast.error(currentLanguage === "ar" ? "فشل في مشاركة الرابط!" : "Failed to share URL!", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          })
+        })
     } else {
       navigator.clipboard
         .writeText(url)
         .then(() => {
           toast.success(
-            currentLanguage === "ar"
-              ? "تم نسخ رابط الإعلان إلى الحافظة!"
-              : "Listing URL copied to clipboard!",
+            currentLanguage === "ar" ? "تم نسخ رابط الإعلان إلى الحافظة!" : "Listing URL copied to clipboard!",
             {
               position: "top-right",
               autoClose: 3000,
@@ -86,27 +89,44 @@ export default function MoreFromUser({ title, button, uid }) {
               closeOnClick: true,
               pauseOnHover: true,
               draggable: true,
-            }
-          );
+            },
+          )
         })
         .catch((err) => {
-          console.error("Failed to copy URL: ", err);
-          toast.error(
-            currentLanguage === "ar"
-              ? "فشل في نسخ الرابط!"
-              : "Failed to copy URL!",
-            {
-              position: "top-right",
-              autoClose: 3000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-            }
-          );
-        });
+          console.error("Failed to copy URL: ", err)
+          toast.error(currentLanguage === "ar" ? "فشل في نسخ الرابط!" : "Failed to copy URL!", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          })
+        })
     }
-  };
+  }
+
+  // Handle image navigation within a card
+  const navigateImage = (e, carId, direction) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    const car = listings.find((c) => c._id === carId)
+    if (!car || !car.images || car.images.length <= 1) return
+
+    setCurrentImageIndices((prev) => {
+      const currentIndex = prev[carId] || 0
+      let newIndex
+
+      if (direction === "next") {
+        newIndex = (currentIndex + 1) % car.images.length
+      } else {
+        newIndex = (currentIndex - 1 + car.images.length) % car.images.length
+      }
+
+      return { ...prev, [carId]: newIndex }
+    })
+  }
 
   return (
     <div className="w-full py-6 sm:py-10 relative px-4 sm:px-6 lg:px-8">
@@ -122,14 +142,8 @@ export default function MoreFromUser({ title, button, uid }) {
         pauseOnHover
       />
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4 sm:mb-6">
-        <h2 className="text-xl sm:text-2xl lg:text-3xl text-[#314252] font-bold">
-          {title}
-        </h2>
-        <div
-          className={`flex items-center gap-2 mt-4 sm:mt-0 ${
-            currentLanguage === "ar" && "flex-row-reverse"
-          }`}
-        >
+        <h2 className="text-xl sm:text-2xl lg:text-3xl text-[#314252] font-bold">{title}</h2>
+        <div className={`flex items-center gap-2 mt-4 sm:mt-0 ${currentLanguage === "ar" && "flex-row-reverse"}`}>
           <button
             onClick={() => swiperRef.current?.slideNext()}
             className="bg-[#B80200] text-white p-2 rounded cursor-pointer hover:bg-[#a50200] transition-colors"
@@ -170,17 +184,46 @@ export default function MoreFromUser({ title, button, uid }) {
                     <div className="overflow-hidden h-52 sm:h-58 lg:h-60 rounded-md relative">
                       <img
                         alt={`${getLocalizedMake(car, currentLanguage)} ${getArabicModel(car, currentLanguage)}`}
-                        src={`http://api.syriasouq.com/uploads/cars/${car?.images[0]}`}
+                        src={`http://api.syriasouq.com/uploads/cars/${car?.images[currentImageIndices[car._id] || 0]}`}
                         className="w-full h-48 sm:h-52 lg:h-56 object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
                         loading="lazy"
                       />
+
+                      {/* Image Navigation Controls */}
+                      {car.images && car.images.length > 1 && (
+                        <>
+                          {/* Left arrow */}
+                          <button
+                            onClick={(e) => navigateImage(e, car._id, "prev")}
+                            className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full p-1 z-10"
+                            aria-label="Previous image"
+                          >
+                            <FaChevronLeft size={16} />
+                          </button>
+
+                          {/* Right arrow */}
+                          <button
+                            onClick={(e) => navigateImage(e, car._id, "next")}
+                            className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full p-1 z-10"
+                            aria-label="Next image"
+                          >
+                            <FaChevronRight size={16} />
+                          </button>
+
+                          {/* Image counter */}
+                          <div className="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded-full">
+                            {(currentImageIndices[car._id] || 0) + 1}/{car.images.length}
+                          </div>
+                        </>
+                      )}
+
                       {/* Wishlist Button */}
                       <div
                         onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
+                          e.preventDefault()
+                          e.stopPropagation()
                           if (!isWishlistLoading) {
-                            handleWishlist(car);
+                            handleWishlist(car)
                           }
                         }}
                         className={`absolute top-3 ${currentLanguage === "ar" ? "right-3" : "left-3"} hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-300 cursor-pointer text-gray-600 ${
@@ -202,13 +245,9 @@ export default function MoreFromUser({ title, button, uid }) {
                     </h2>
                   </div>
                   <div className="flex items-center gap-2 md:mt-3">
-                    <h2 className="text-xs sm:text-sm">
-                      {getLocalizedMake(car, currentLanguage)}
-                    </h2>
+                    <h2 className="text-xs sm:text-sm">{getLocalizedMake(car, currentLanguage)}</h2>
                     <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
-                    <h2 className="text-xs sm:text-sm">
-                      {getArabicModel(car, currentLanguage)}
-                    </h2>
+                    <h2 className="text-xs sm:text-sm">{getArabicModel(car, currentLanguage)}</h2>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="flex items-center gap-1 text-xs sm:text-sm">
@@ -218,17 +257,14 @@ export default function MoreFromUser({ title, button, uid }) {
                     <div className="flex items-center gap-1 text-xs sm:text-sm">
                       <AiOutlineDashboard className="w-4 h-4 sm:w-5 sm:h-5" />
                       <span>
-                        {car?.kilometer ? car?.kilometer : "آخر"}{" "}
-                        <Translate text={"km"} />
+                        {car?.kilometer ? car?.kilometer : "آخر"} <Translate text={"km"} />
                       </span>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="flex items-center gap-1 text-xs sm:text-sm">
                       <CiLocationOn className="w-4 h-4 sm:w-5 sm:h-5" />
-                      <span>
-                        {getLocalizedLocation(car?.location, currentLanguage)}
-                      </span>
+                      <span>{getLocalizedLocation(car?.location, currentLanguage)}</span>
                     </div>
                   </div>
                   <div className="flex items-center gap-3 mt-2 md:mt-4">
@@ -248,8 +284,8 @@ export default function MoreFromUser({ title, button, uid }) {
                 >
                   <div
                     onClick={(e) => {
-                      e.stopPropagation();
-                      handleShare(car);
+                      e.stopPropagation()
+                      handleShare(car)
                     }}
                     className="hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-300 cursor-pointer text-gray-600"
                   >
@@ -268,5 +304,5 @@ export default function MoreFromUser({ title, button, uid }) {
         )}
       </Swiper>
     </div>
-  );
+  )
 }
