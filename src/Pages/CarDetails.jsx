@@ -1,71 +1,80 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { FaCheck } from "react-icons/fa"; // Import FaCheck for tick mark
-import "swiper/css";
-import "swiper/css/navigation";
-import { Navigation } from "swiper/modules";
-import axios from "axios";
-import { useEffect, useRef, useState } from "react";
-import { FaWhatsapp } from "react-icons/fa";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import { MdErrorOutline, MdOutlinePhone } from "react-icons/md";
-import Breadcrumb from "./Breadcumb";
-import FeaturedCard from "./FeaturedCard";
-import MoreFromUser from "./MoreFromUser";
-import Translate from "../utils/Translate";
-import { useTranslation } from "react-i18next";
-import { TiMessages } from "react-icons/ti";
-import { CiCalendar, CiLocationOn } from "react-icons/ci";
-import { AiOutlineDashboard } from "react-icons/ai";
+"use client"
+
+import { useNavigate, useParams } from "react-router-dom"
+import { Swiper, SwiperSlide } from "swiper/react"
+import { FaCheck } from "react-icons/fa" // Import FaCheck for tick mark
+import "swiper/css"
+import "swiper/css/navigation"
+import "swiper/css/zoom"
+import { Navigation, Zoom } from "swiper/modules"
+import axios from "axios"
+import { useEffect, useRef, useState } from "react"
+import { FaWhatsapp } from "react-icons/fa"
+import { MdErrorOutline, MdOutlinePhone } from "react-icons/md"
+import Breadcrumb from "./Breadcumb"
+import MoreFromUser from "./MoreFromUser"
+import Translate from "../utils/Translate"
+import { useTranslation } from "react-i18next"
+import { TiMessages } from "react-icons/ti"
+import { CiCalendar, CiLocationOn } from "react-icons/ci"
+import { AiOutlineDashboard } from "react-icons/ai"
 import {
-  arabicMakes,
   getArabicModel,
   getLocalizedFeature,
   getLocalizedLocation,
   getLocalizedMake,
   localizeEngineSize,
-} from "../utils/utils";
-import { motion } from "framer-motion";
+} from "../utils/utils"
+import { motion } from "framer-motion"
 
 const CarDetails = () => {
-  const { id } = useParams();
-  const [carDetails, setCarDetails] = useState({});
-  const [user, setUser] = useState(null);
-  const navigate = useNavigate();
-  const [showMore, setShowMore] = useState(false);
-  const [showMoreFeatures, setShowMoreFeatures] = useState(false); // New state for features toggle
-  const [relatedCars, setRelatedCars] = useState([]);
-  const [isChatLoading, setIsChatLoading] = useState(false);
-  const swiperRef = useRef(null); // Create a ref for the Swiper instance
-  const { i18n } = useTranslation();
-  const currentLanguage = i18n.language;
+  const { id } = useParams()
+  const [carDetails, setCarDetails] = useState({})
+  const [user, setUser] = useState(null)
+  const navigate = useNavigate()
+  const [showMore, setShowMore] = useState(false)
+  const [showMoreFeatures, setShowMoreFeatures] = useState(false) // New state for features toggle
+  const [relatedCars, setRelatedCars] = useState([])
+  const [isChatLoading, setIsChatLoading] = useState(false)
+  const swiperRef = useRef(null) // Create a ref for the Swiper instance
+  const { i18n } = useTranslation()
+  const currentLanguage = i18n.language
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("SyriaSouq-auth"));
+    const storedUser = JSON.parse(localStorage.getItem("SyriaSouq-auth"))
     if (storedUser) {
-      setUser(storedUser);
+      setUser(storedUser)
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_API_URL}/cars/${id}`)
       .then((res) => {
-        console.log(res);
-        setCarDetails(res.data.data);
+        console.log(res)
+        setCarDetails(res.data.data)
       })
       .catch((error) => {
-        console.log("error fetching data:", error);
-      });
-  }, [id]);
+        console.log("error fetching data:", error)
+      })
+  }, [id])
   useEffect(() => {
     if (swiperRef.current && swiperRef.current.swiper) {
-      swiperRef.current.swiper.update(); // Update Swiper layout
+      swiperRef.current.swiper.update() // Update Swiper layout
+
+      // Add custom zoom behavior
+      const swiperContainer = swiperRef.current
+      const swiperInstance = swiperRef.current.swiper
+
+      // Reset zoom on slide change
+      swiperInstance.on("slideChange", () => {
+        swiperInstance.zoom.out()
+      })
     }
-  }, [currentLanguage]);
+  }, [currentLanguage])
 
   const startNewChat = async (receiver) => {
-    if (isChatLoading) return;
-    setIsChatLoading(true);
+    if (isChatLoading) return
+    setIsChatLoading(true)
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/conversations`,
@@ -76,43 +85,41 @@ const CarDetails = () => {
           headers: {
             Authorization: `Bearer ${user.jwt}`,
           },
-        }
-      );
-  
+        },
+      )
+
       if (response.data) {
-        navigate("/messages", { replace: true });
+        navigate("/messages", { replace: true })
       }
     } catch (error) {
-      console.error("Error starting new chat", error);
+      console.error("Error starting new chat", error)
     } finally {
-      setIsChatLoading(false);
+      setIsChatLoading(false)
     }
-  };
-
-
+  }
 
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_API_URL}/cars`)
       .then((res) => {
-        console.log(res);
-        setRelatedCars(res.data.data);
+        console.log(res)
+        setRelatedCars(res.data.data)
       })
       .catch((error) => {
-        console.log("error fetching data:", error);
-      });
-  }, [carDetails]);
+        console.log("error fetching data:", error)
+      })
+  }, [carDetails])
 
   // Animation variants for fade-in and hover
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-  };
+  }
 
   const hoverEffect = {
     scale: 1.05,
     transition: { duration: 0.3 },
-  };
+  }
 
   return (
     <div className="pt-24 px-4 sm:px-6 md:px-16 lg:px-28 pb-safe bg-gradient-to-b  min-h-screen">
@@ -131,29 +138,32 @@ const CarDetails = () => {
         animate="visible"
         variants={fadeIn}
       >
-       <div className="w-full flex flex-col gap-2 relative h-auto">
-      <Swiper
-        direction="horizontal"
-        slidesPerView={1}
-        spaceBetween={10}
-        navigation={true}
-        modules={[Navigation]}
-        ref={swiperRef} // Attach ref to Swiper
-        key={currentLanguage} // Force re-render on language change
-        className="h-auto"
-       dir={currentLanguage === "ar" ?  "ltr":"rtl"}
-      >
-        {carDetails?.images?.map((img, index) => (
-          <SwiperSlide key={index} className="h-auto">
-            <img
-              src={`http://api.syriasouq.com/uploads/cars/${img}`}
-              alt={`Thumbnail ${index}`}
-              className="w-full h-[300px] sm:h-[400px] lg:h-[500px] object-contain rounded-lg cursor-pointer hover:opacity-80 transition-opacity duration-300"
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </div>
+        <div className="w-full flex flex-col gap-2 relative h-auto">
+          <Swiper
+            direction="horizontal"
+            slidesPerView={1}
+            spaceBetween={10}
+            navigation={true}
+            modules={[Navigation, Zoom]}
+            zoom={true}
+            ref={swiperRef}
+            key={currentLanguage}
+            className="h-auto product-swiper"
+            dir={currentLanguage === "ar" ? "ltr" : "rtl"}
+          >
+            {carDetails?.images?.map((img, index) => (
+              <SwiperSlide key={index} className="h-auto flex items-center justify-center">
+                <div className="swiper-zoom-container flex items-center justify-center">
+                  <img
+                    src={`http://api.syriasouq.com/uploads/cars/${img}`}
+                    alt={`Car image ${index + 1}`}
+                    className="w-full h-[300px] sm:h-[400px] lg:h-[500px] object-contain rounded-lg cursor-zoom-in"
+                  />
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
       </motion.div>
 
       {/* Car Details and User Details */}
@@ -161,12 +171,7 @@ const CarDetails = () => {
         {/* Grid Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
           {/* Left Side (3/4) - Car Details */}
-          <motion.div
-            className="lg:col-span-8"
-            initial="hidden"
-            animate="visible"
-            variants={fadeIn}
-          >
+          <motion.div className="lg:col-span-8" initial="hidden" animate="visible" variants={fadeIn}>
             <div className="space-y-5 bg-white shadow-lg rounded-lg p-3 sm:p-4">
               <div className="flex-1 h-full flex flex-col gap-1 justify-between py-0 md:py-2">
                 <div className="flex items-center justify-between gap-2">
@@ -177,9 +182,7 @@ const CarDetails = () => {
                 </div>
                 <div className="flex items-center gap-2">
                   <h2 className="text-base sm:text-xl font-semibold text-gray-700">
-                    {carDetails?.make
-                      ? getLocalizedMake(carDetails, currentLanguage)
-                      : "آخر"}
+                    {carDetails?.make ? getLocalizedMake(carDetails, currentLanguage) : "آخر"}
                   </h2>
                   <span className="w-1 h-1 bg-gray-500 rounded-full hidden md:block"></span>
                   <h2 className="text-sm sm:text-base font-semibold text-gray-700">
@@ -189,196 +192,146 @@ const CarDetails = () => {
                 <div className="flex items-center flex-row  gap-1 sm:gap-2">
                   <div className="flex items-center gap-1 text-lg	 text-gray-600">
                     <motion.div whileHover={{ scale: 1.1 }}>
-                      <CiCalendar className="text-red-500" />
+                      <CiCalendar className="" />
                     </motion.div>
-                    <span>
-                      {carDetails?.year ? (
-                        <Translate text={carDetails?.year} />
-                      ) : (
-                        "آخر"
-                      )}
-                    </span>
+                    <span>{carDetails?.year ? <Translate text={carDetails?.year} /> : "آخر"}</span>
                   </div>
                   <div className="flex items-center gap-1 text-lg text-gray-600">
                     <motion.div whileHover={{ scale: 1.1 }}>
-                      <AiOutlineDashboard className="text-red-500" />
+                      <AiOutlineDashboard  />
                     </motion.div>
                     <span>
-                      {carDetails?.kilometer ? (
-                        <Translate text={carDetails?.kilometer} />
-                      ) : (
-                        "آخر"
-                      )}{" "}
+                      {carDetails?.kilometer ? <Translate text={carDetails?.kilometer} /> : "آخر"}{" "}
                       <Translate text={"km"} />
                     </span>
                   </div>
                   <div className="flex items-center gap-1 text-lg text-gray-600">
-                  <motion.div whileHover={{ scale: 1.1 }}>
-                    <CiLocationOn className="text-red-500" />
-                  </motion.div>
-                  <span>
-                    {carDetails?.location
-                      ? getLocalizedLocation(carDetails?.location, currentLanguage)
-                      : "آخر"}
-                  </span>
+                    <motion.div whileHover={{ scale: 1.1 }}>
+                      <CiLocationOn  />
+                    </motion.div>
+                    <span>
+                      {carDetails?.location ? getLocalizedLocation(carDetails?.location, currentLanguage) : "آخر"}
+                    </span>
+                  </div>
                 </div>
-                
-                </div>
-              
               </div>
             </div>
 
             {/* Car Information */}
-            <motion.div
-  className="p-5 sm:p-8 bg-white shadow-lg rounded-lg mt-4 sm:mt-6"
-  variants={fadeIn}
->
-  <h2 className="text-2xl sm:text-3xl pb-6 text-[#314352] font-bold">
-    {currentLanguage === "ar" ? "نظرة عامة عن السيارة" : "Information:"}
-  </h2>
-  <div className="grid grid-cols-2 sm:grid-cols-2 gap-y-3 sm:gap-y-6 text-[#314352]">
-    <p className="font-semibold text-base sm:text-lg">
-      {currentLanguage === "ar" ? "النوع" : "Make:"}
-    </p>
-    <p className="text-base sm:text-lg">{getLocalizedMake(carDetails, currentLanguage)}</p>
-
-    <p className="font-semibold text-base sm:text-lg">
-      {currentLanguage === "ar" ? "الموديل" : "Model:"}
-    </p>
-    <p className="text-base sm:text-lg">{getArabicModel(carDetails, currentLanguage)}</p>
-
-    <p className="font-semibold text-base sm:text-lg">
-      {currentLanguage === "ar" ? "الكيلومتر" : "Kilometer:"}
-    </p>
-    <p className="text-base sm:text-lg">
-      {carDetails?.kilometer} <Translate text={"km"} />
-    </p>
-
-    <p className="font-semibold text-base sm:text-lg">
-      {currentLanguage === "ar" ? "السعر" : "Price:"}
-    </p>
-    <p className="text-base sm:text-lg">$ {carDetails?.priceUSD}</p>
-
-    <p className="font-semibold text-base sm:text-lg">
-      {currentLanguage === "ar" ? "اللون الداخلي" : "Interior Color:"}
-    </p>
-    <p className="text-base sm:text-lg">
-      {carDetails?.interiorColor ? (
-        <Translate text={carDetails?.interiorColor} />
-      ) : (
-        "N/A"
-      )}
-    </p>
-
-    <p className="font-semibold text-base sm:text-lg">
-      {currentLanguage === "ar" ? "اللون الخارجي" : "Exterior Color:"}
-    </p>
-    <p className="text-base sm:text-lg">
-      {carDetails?.exteriorColor ? (
-        <Translate text={carDetails?.exteriorColor} />
-      ) : (
-        "N/A"
-      )}
-    </p>
-
-    <p className="font-semibold text-base sm:text-lg">
-      {currentLanguage === "ar" ? "حجم المحرك" : "Engine Size:"}
-    </p>
-    <p className="text-base sm:text-lg">
-      {localizeEngineSize(carDetails?.engineSize, currentLanguage)}
-    </p>
-
-    <p className="font-semibold text-base sm:text-lg">
-      {currentLanguage === "ar" ? "نوع الوقود" : "Fuel Type:"}
-    </p>
-    <p className="text-base sm:text-lg">
-      {carDetails?.fuelType ? (
-        <Translate text={carDetails?.fuelType} />
-      ) : (
-        "N/A"
-      )}
-    </p>
-
-    <p className="font-semibold text-base sm:text-lg">
-      {currentLanguage === "ar" ? "ناقل الحركة" : "Transmission:"}
-    </p>
-    <p className="text-base sm:text-lg">
-      {carDetails?.transmission ? (
-        <Translate text={carDetails?.transmission} />
-      ) : (
-        "N/A"
-      )}
-    </p>
-
-    {/* Features Section with Separate Show More/Show Less */}
-    <p className="font-semibold text-base sm:text-lg mt-6">
-      {currentLanguage === "ar" ? "المواصفات" : "Features:"}
-    </p>
-    <div className="flex items-center gap-2">
-      {carDetails?.features?.length > 0 ? (
-        <>
-          {showMoreFeatures ? (
-            <motion.button
-              onClick={() => setShowMoreFeatures(false)}
-              className="text-[#B80200] text-base sm:text-lg hover:underline"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {currentLanguage === "ar" ? "عرض أقل" : "Show Less"}
-            </motion.button>
-          ) : (
-            <motion.button
-              onClick={() => setShowMoreFeatures(true)}
-              className="text-[#B80200] text-base sm:text-lg hover:underline"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {currentLanguage === "ar" ? "أظهر المزيد" : "Show More"}
-            </motion.button>
-          )}
-        </>
-      ) : (
-        <p className="text-base sm:text-lg">N/A</p>
-      )}
-    </div>
-
-    {showMoreFeatures && carDetails?.features?.length > 0 && (
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 sm:gap-y-6">
-        {carDetails?.features.map((fe) => (
-          <div
-            key={fe}
-            className={`flex items-center gap-2 text-base sm:text-lg `}
-          >
-            <FaCheck className="text-red-500 w-4 h-4" />
-            <p>{getLocalizedFeature(fe, currentLanguage)}</p>
-          </div>
-        ))}
-      </div>
-    )}
-   
-  </div>
-   {/* Error Report */}
-   <motion.div
-              className="flex justify-center items-center my-6 sm:my-8 gap-2 text-lg sm:text-xl text-[#B80200] cursor-pointer"
-              whileHover={hoverEffect}
-            >
-              <MdErrorOutline />
-              <h2 className="text-sm sm:text-base">
-                {currentLanguage === "ar" ? "اإلبالغ عن انتهاك" : "Report abuse"}
+            <motion.div className="p-5 sm:p-8 bg-white shadow-lg rounded-lg mt-4 sm:mt-6" variants={fadeIn}>
+              <h2 className="text-2xl sm:text-3xl pb-6 text-[#314352] font-bold">
+                {currentLanguage === "ar" ? "نظرة عامة عن السيارة" : "Information:"}
               </h2>
+              <div className="grid grid-cols-2 sm:grid-cols-2 gap-y-3 sm:gap-y-6 text-[#314352]">
+                <p className="font-semibold text-base sm:text-lg">{currentLanguage === "ar" ? "النوع" : "Make:"}</p>
+                <p className="text-base sm:text-lg">{getLocalizedMake(carDetails, currentLanguage)}</p>
+
+                <p className="font-semibold text-base sm:text-lg">{currentLanguage === "ar" ? "الموديل" : "Model:"}</p>
+                <p className="text-base sm:text-lg">{getArabicModel(carDetails, currentLanguage)}</p>
+
+                <p className="font-semibold text-base sm:text-lg">
+                  {currentLanguage === "ar" ? "الكيلومتر" : "Kilometer:"}
+                </p>
+                <p className="text-base sm:text-lg">
+                  {carDetails?.kilometer} <Translate text={"km"} />
+                </p>
+
+                <p className="font-semibold text-base sm:text-lg">{currentLanguage === "ar" ? "السعر" : "Price:"}</p>
+                <p className="text-base sm:text-lg">$ {carDetails?.priceUSD}</p>
+
+                <p className="font-semibold text-base sm:text-lg">
+                  {currentLanguage === "ar" ? "اللون الداخلي" : "Interior Color:"}
+                </p>
+                <p className="text-base sm:text-lg">
+                  {carDetails?.interiorColor ? <Translate text={carDetails?.interiorColor} /> : "N/A"}
+                </p>
+
+                <p className="font-semibold text-base sm:text-lg">
+                  {currentLanguage === "ar" ? "اللون الخارجي" : "Exterior Color:"}
+                </p>
+                <p className="text-base sm:text-lg">
+                  {carDetails?.exteriorColor ? <Translate text={carDetails?.exteriorColor} /> : "N/A"}
+                </p>
+
+                <p className="font-semibold text-base sm:text-lg">
+                  {currentLanguage === "ar" ? "حجم المحرك" : "Engine Size:"}
+                </p>
+                <p className="text-base sm:text-lg">{localizeEngineSize(carDetails?.engineSize, currentLanguage)}</p>
+
+                <p className="font-semibold text-base sm:text-lg">
+                  {currentLanguage === "ar" ? "نوع الوقود" : "Fuel Type:"}
+                </p>
+                <p className="text-base sm:text-lg">
+                  {carDetails?.fuelType ? <Translate text={carDetails?.fuelType} /> : "N/A"}
+                </p>
+
+                <p className="font-semibold text-base sm:text-lg">
+                  {currentLanguage === "ar" ? "ناقل الحركة" : "Transmission:"}
+                </p>
+                <p className="text-base sm:text-lg">
+                  {carDetails?.transmission ? <Translate text={carDetails?.transmission} /> : "N/A"}
+                </p>
+
+                {/* Features Section with Separate Show More/Show Less */}
+                <p className="font-semibold text-base sm:text-lg mt-6">
+                  {currentLanguage === "ar" ? "المواصفات" : "Features:"}
+                </p>
+                <div className="flex items-center gap-2">
+                  {carDetails?.features?.length > 0 ? (
+                    <>
+                      {showMoreFeatures ? (
+                        <motion.button
+                          onClick={() => setShowMoreFeatures(false)}
+                          className="text-[#B80200] text-base sm:text-lg hover:underline"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          {currentLanguage === "ar" ? "عرض أقل" : "Show Less"}
+                        </motion.button>
+                      ) : (
+                        <motion.button
+                          onClick={() => setShowMoreFeatures(true)}
+                          className="text-[#B80200] text-base sm:text-lg hover:underline"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          {currentLanguage === "ar" ? "أظهر المزيد" : "Show More"}
+                        </motion.button>
+                      )}
+                    </>
+                  ) : (
+                    <p className="text-base sm:text-lg">N/A</p>
+                  )}
+                </div>
+
+                {showMoreFeatures && carDetails?.features?.length > 0 && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 sm:gap-y-6">
+                    {carDetails?.features.map((fe) => (
+                      <div key={fe} className={`flex items-center gap-2 text-base sm:text-lg `}>
+                        <FaCheck className="text-red-500 w-4 h-4" />
+                        <p>{getLocalizedFeature(fe, currentLanguage)}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+              {/* Error Report */}
+              <motion.div
+                className="flex justify-center items-center my-6 sm:my-8 gap-2 text-lg sm:text-xl text-[#B80200] cursor-pointer"
+                whileHover={hoverEffect}
+              >
+                <MdErrorOutline />
+                <h2 className="text-sm sm:text-base">
+                  {currentLanguage === "ar" ? "الإبلاغ عن الإعلان" : "Report abuse"}
+                </h2>
+              </motion.div>
             </motion.div>
-</motion.div>
             {/* Car Description */}
-            <motion.div
-              className="space-y-5 bg-white shadow-lg rounded-lg p-4 sm:p-6 mt-4 sm:mt-6"
-              variants={fadeIn}
-            >
+            <motion.div className="space-y-5 bg-white shadow-lg rounded-lg p-4 sm:p-6 mt-4 sm:mt-6" variants={fadeIn}>
               <h1 className="text-xl sm:text-2xl text-[#314352] font-bold mt-2">
                 {currentLanguage === "ar" ? "الوصف" : "Description:"}
               </h1>
-              <p className="text-[#314352] mt-2 mb-5 text-sm sm:text-base">
-                {carDetails?.description}
-              </p>
+              <p className="text-[#314352] mt-2 mb-5 text-sm sm:text-base">{carDetails?.description}</p>
             </motion.div>
           </motion.div>
 
@@ -394,9 +347,8 @@ const CarDetails = () => {
               <div className="w-12 h-12 rounded-full bg-red-300 text-center flex items-center justify-center font-bold text-xl">
                 <Translate
                   text={(() => {
-                    const firstLetter =
-                      carDetails?.user?.username?.charAt(0).toUpperCase() || "?";
-                    return firstLetter;
+                    const firstLetter = carDetails?.user?.username?.charAt(0).toUpperCase() || "?"
+                    return firstLetter
                   })()}
                 />
               </div>
@@ -409,21 +361,21 @@ const CarDetails = () => {
 
             {/* Action Buttons */}
             <div className="mt-8 sm:mt-12 flex flex-col gap-3 sm:gap-5 justify-between">
-            <motion.button
-  onClick={() => startNewChat(carDetails?.user)}
-  className="w-full bg-gradient-to-r from-[#B80200] to-[#A00000] text-white py-3 sm:py-4 px-6 sm:px-8 font-semibold rounded-md flex items-center justify-center gap-2 cursor-pointer hover:bg-gradient-to-r hover:from-[#A00000] hover:to-[#900000] transition-all shadow-md disabled:opacity-50"
-  whileHover={hoverEffect}
-  whileTap={{ scale: 0.95 }}
-  disabled={isChatLoading}
->
-  {isChatLoading ? (
-    <div className="loader border-t-2 border-white h-5 w-5 animate-spin rounded-full"></div>
-  ) : (
-    <>
-      <TiMessages /> {currentLanguage === "ar" ? `دردشة` : "Chat"}
-    </>
-  )}
-</motion.button>
+              <motion.button
+                onClick={() => startNewChat(carDetails?.user)}
+                className="w-full bg-gradient-to-r from-[#B80200] to-[#A00000] text-white py-3 sm:py-4 px-6 sm:px-8 font-semibold rounded-md flex items-center justify-center gap-2 cursor-pointer hover:bg-gradient-to-r hover:from-[#A00000] hover:to-[#900000] transition-all shadow-md disabled:opacity-50"
+                whileHover={hoverEffect}
+                whileTap={{ scale: 0.95 }}
+                disabled={isChatLoading}
+              >
+                {isChatLoading ? (
+                  <div className="loader border-t-2 border-white h-5 w-5 animate-spin rounded-full"></div>
+                ) : (
+                  <>
+                    <TiMessages /> {currentLanguage === "ar" ? `دردشة` : "Chat"}
+                  </>
+                )}
+              </motion.button>
               <motion.a
                 href={`tel:${carDetails?.user?.phone}`}
                 className="w-full bg-gradient-to-r from-[#B80200] to-[#A00000] text-white py-3 sm:py-4 px-6 sm:px-8 font-semibold rounded-md flex items-center justify-center gap-2 cursor-pointer hover:bg-gradient-to-r hover:from-[#A00000] hover:to-[#900000] transition-all shadow-md"
@@ -443,30 +395,19 @@ const CarDetails = () => {
                 <FaWhatsapp /> <Translate text={"Chat on WhatsApp"} />
               </motion.a>
             </div>
-
-            
           </motion.div>
         </div>
 
         {/* More from User Section */}
-        <motion.div
-          className="mt-6 sm:mt-8"
-          initial="hidden"
-          animate="visible"
-          variants={fadeIn}
-        >
+        <motion.div className="mt-6 sm:mt-8" initial="hidden" animate="visible" variants={fadeIn}>
           <MoreFromUser
-            title={
-              currentLanguage === "ar"
-                ? `قد يهمك ايضاً …`
-                : "You may also like..."
-            }
+            title={currentLanguage === "ar" ? `قد يهمك ايضاً …` : "You may also like..."}
             button={"Start a new search"}
           />
         </motion.div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CarDetails;
+export default CarDetails

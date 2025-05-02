@@ -191,7 +191,7 @@ const BannerSection = () => {
               type="submit"
               className="w-full bg-white hover:bg-slate-200 py-3 sm:py-4 rounded-lg text-[#B80200] text-lg font-semibold transition-colors duration-200"
             >
-              <Translate text={currentLanguage === "ar" ? "بحث" : "Search"} />
+              {currentLanguage === "ar" ? "بحث" : "Search"}
             </button>
           </form>
         </div>

@@ -9,7 +9,7 @@ const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation(); // Destructure t for manual translation
   const currentLanguage = i18n.language;
 
   // Use AuthContext to get user and logout function
@@ -47,25 +47,19 @@ const Navbar = () => {
 
         {showProfileMenu && (
           <div
-            className={`absolute top-10 ${
-              currentLanguage === "ar" ? "right-0" : "left-0"
-            } min-w-60 p-3 rounded-lg shadow-lg bg-slate-200 z-[99999] flex flex-col gap-2 transition-all`}
+            className={`absolute top-10 ${currentLanguage === "ar" ? "right-0" : "left-0"} min-w-60 p-3 rounded-lg shadow-lg bg-slate-200 z-[99999] flex flex-col gap-2 transition-all`}
           >
             <p>{user?.email || user?.phone}</p>
             <hr />
             <Link to={"/change-password"}>
-              {currentLanguage === "ar"
-                ? `تغيير كلمة المرور`
-                : "Change Password"}
+              {currentLanguage === "ar" ? "تغيير كلمة المرور" : "Change Password"}
             </Link>
             <hr />
             <button
-              className={`text-red-400 text-left cursor-pointer ${
-                currentLanguage === "ar" && "text-right"
-              }`}
+              className={`text-red-400 cursor-pointer ${currentLanguage === "ar" ? "text-right" : "text-left"}`}
               onClick={handleLogout}
             >
-              {currentLanguage === "ar" ? `تسجيل الخروج` : "LogOut"}
+              {currentLanguage === "ar" ? "تسجيل الخروج" : "LogOut"}
             </button>
           </div>
         )}
@@ -87,7 +81,10 @@ const Navbar = () => {
                     : "hover:border-b-2 hover:border-[#B80200]"
                 }`}
               >
-                <Translate text={labels[index]} />
+                {labels[index] === "Add New"
+                  ?currentLanguage === "ar" ? "أضافة إعلان جديد" : "Add New"
+
+                  : <Translate text={labels[index]} />}
               </Link>
             );
           }

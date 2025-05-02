@@ -92,37 +92,44 @@ const SearchPage = () => {
   });
 
 
-  useEffect(() => {
-    const location = searchParams.get("location"); // Get location from URL
-  
-    if (make === "null" && location === "null") return; // Skip if both are null
-  
-    let updatedFilters = { ...filters };
-  
-    // Handle make filter
-    if (make && make !== "null") {
-      if (
-        currentLanguage === "ar" &&
-        make !== "الكل" &&
-        make !== "" &&
-        make !== "All"
-      ) {
-        const currentMake = arabicMakes.find((mk) => mk.value === make)?.enValue;
-        updatedFilters.make = [currentMake];
-      } else {
-        updatedFilters.make = [
-          make !== "All" && make !== "Other" && make !== "الكل" ? make : "",
-        ];
-      }
+useEffect(() => {
+  const make = searchParams.get("make");
+  const location = searchParams.get("location"); // Get location from URL
+
+  if (make === "null" && location === "null") return; // Skip if both are null
+
+  let updatedFilters = { ...filters };
+
+  // Handle make filter
+  if (make && make !== "null") {
+    if (
+      currentLanguage === "ar" &&
+      make !== "الكل" &&
+      make !== "" &&
+      make !== "All"
+    ) {
+      const currentMake = arabicMakes.find((mk) => mk.value === make)?.enValue;
+      updatedFilters.make = [currentMake || ""];
+    } else {
+      updatedFilters.make = [
+        make !== "All" && make !== "Other" && make !== "الكل" ? make : "",
+      ];
     }
-  
-    // Handle location filter
-    if (location && location !== "null") {
-      updatedFilters.location = [location];
-    }
-  
-    setFilters(updatedFilters);
-  }, [make, searchParams.get("location")]);
+  } else {
+    updatedFilters.make = [];
+  }
+
+  // Handle location filter
+  if (location && location !== "null") {
+    updatedFilters.location = [
+      location !== "All" && location !== "الكل" ? location : "",
+    ];
+  } else {
+    updatedFilters.location = [];
+  }
+
+  setFilters(updatedFilters);
+}, [searchParams, currentLanguage]); // Dependencies: searchParams, currentLanguage
 
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
