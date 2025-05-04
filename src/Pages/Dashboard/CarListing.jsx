@@ -1,11 +1,13 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 import Translate from "../../utils/Translate";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { CiCalendar, CiLocationOn, CiSettings } from "react-icons/ci";
 import { useTranslation } from "react-i18next";
+import { AuthContext } from "../../context/AuthContext"; // Import AuthContext
+import { getLocalizedLocation } from "../../utils/utils";
 
 const getUidFromUrl = () => {
   const queryParams = new URLSearchParams(window.location.search);
@@ -20,6 +22,7 @@ const CarListing = () => {
   const uid = getUidFromUrl();
   const user = JSON.parse(localStorage.getItem("SyriaSouq-auth"));
   const navigate = useNavigate();
+  const { logout } = useContext(AuthContext); // Access logout from AuthContext
 
   useEffect(() => {
     const fetchCars = async () => {
@@ -70,8 +73,13 @@ const CarListing = () => {
     navigate(`/edit-listing/${carId}`);
   };
 
+  const handleLogout = () => {
+    logout(); // Call logout from AuthContext
+    navigate("/", { replace: true }); // Redirect to homepage
+  };
+
   return (
-    <div className="container mx-auto px-6 py-10">
+    <div className="container mx-auto px-6 py-10 pb-20 relative">
       {loading ? (
         <div className="text-center text-gray-600 text-xl animate-pulse">
           <Translate text={"Loading cars... ⏳"} />
@@ -106,7 +114,13 @@ const CarListing = () => {
                       : "bg-[#B80200]"
                   }`}
                 >
-                  <Translate text={car.status} />
+                  {currentLanguage === "ar"
+                    ? car.status === "pending"
+                      ? "قيد المراجعة"
+                      : car.status === "active"
+                      ? "نشط"
+                      : "مرفوض"
+                    : <Translate text={car.status} />}
                 </span>
               </div>
 
@@ -139,7 +153,12 @@ const CarListing = () => {
 
                 {/* Location */}
                 <p className="text-gray-600 mt-1 flex items-center gap-1">
-                  <CiLocationOn /> <Translate text={car.location} />
+                  <CiLocationOn />{" "}
+                  <span>
+                    {car?.location
+                      ? getLocalizedLocation(car?.location, currentLanguage)
+                      : "آخر"}
+                  </span>
                 </p>
 
                 {/* View Details Button */}
@@ -169,6 +188,15 @@ const CarListing = () => {
           ))}
         </div>
       )}
+      {/* Logout Button in Bottom-Right Corner (Bottom-Left for Arabic) */}
+      <div className={`absolute bottom-0 ${currentLanguage === "ar" ? "left-0" : "right-0"} p-4 mt-20`}>
+        <button
+          onClick={handleLogout}
+          className="bg-[#B80200] text-white px-3 py-2 rounded-lg md:text-lg text-sm font-bold flex items-center justify-center gap-2 shadow-md hover:bg-red-700"
+        >
+          {currentLanguage === "ar" ? "تسجيل الخروج" : "LogOut"}
+        </button>
+      </div>
     </div>
   );
 };

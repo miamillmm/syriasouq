@@ -1,10 +1,12 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Translate from "../../utils/Translate";
 import Navbar from "./NavBar";
 import { CiCalendar, CiLocationOn, CiSettings } from "react-icons/ci";
 import { AiOutlineDashboard } from "react-icons/ai";
+import { AuthContext } from "../../context/AuthContext"; // Import AuthContext
+import { useTranslation } from "react-i18next";
 
 const getUidFromUrl = () => {
   const queryParams = new URLSearchParams(window.location.search);
@@ -16,6 +18,10 @@ const Favorites = () => {
   const [loading, setLoading] = useState(true);
   const uid = getUidFromUrl();
   const user = JSON.parse(localStorage.getItem("SyriaSouq-auth")); // Assume user is stored in localStorage
+  const navigate = useNavigate();
+  const { logout } = useContext(AuthContext); // Access logout from AuthContext
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language;
 
   useEffect(() => {
     const fetchCars = async () => {
@@ -24,7 +30,6 @@ const Favorites = () => {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/wishlist/uid/${uid ? uid : user._id}`
         );
-        // const response = await axios.get(`https://api.example.com/api/cars`);
         if (response.data.success) {
           console.log(response?.data?.data);
           setCars(response?.data?.data);
@@ -38,12 +43,17 @@ const Favorites = () => {
     fetchCars();
   }, [uid, user._id]);
 
+  const handleLogout = () => {
+    logout(); // Call logout from AuthContext
+    navigate("/", { replace: true }); // Redirect to homepage
+  };
+
   return (
     <>
       <main className="pt-32 pb-10">
         <div className="container mx-auto w-full max-w-[1280px]">
           <Navbar />
-          <div className="container mx-auto px-6 py-10">
+          <div className="container mx-auto px-6 py-10 pb-20 relative">
             {loading ? (
               <div className="text-center text-gray-600 text-xl animate-pulse">
                 <Translate text={"Loading cars... ⏳"} />
@@ -80,7 +90,7 @@ const Favorites = () => {
                       </h3>
 
                       {/* Make & Model */}
-                      <h3 className="text-lg  text-gray-900">
+                      <h3 className="text-lg text-gray-900">
                         <Translate text={car.car.make} /> .{" "}
                         <Translate text={car?.car.model} />
                       </h3>
@@ -89,14 +99,6 @@ const Favorites = () => {
                       <p className="text-gray-500 text-sm flex items-center gap-1">
                         <CiCalendar /> <Translate text={car?.car.year} />
                       </p>
-
-                      {/* Mileage */}
-                      {/* <p className="text-gray-700 font-medium">
-                  🛣️ <Translate text={"Mileage:"} /> {car.kilometer} km
-                </p> */}
-
-                      {/* Fuel Type */}
-                      {/* <p className="text-gray-500">⛽ {car.fuelType}</p> */}
 
                       {/* Transmission */}
                       <p className="text-gray-500 flex items-center gap-1">
@@ -125,6 +127,15 @@ const Favorites = () => {
                 ))}
               </div>
             )}
+            {/* Logout Button in Bottom-Right Corner (Bottom-Left for Arabic) */}
+            <div className={`absolute bottom-0 ${currentLanguage === "ar" ? "left-0" : "right-0"} p-4 mt-20`}>
+              <button
+                onClick={handleLogout}
+                className="bg-[#B80200] text-white px-3 py-2 rounded-lg md:text-lg text-sm font-bold flex items-center justify-center gap-2 shadow-md hover:bg-red-700"
+              >
+                {currentLanguage === "ar" ? "تسجيل الخروج" : "LogOut"}
+              </button>
+            </div>
           </div>
         </div>
       </main>

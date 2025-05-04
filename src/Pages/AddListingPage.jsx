@@ -8,13 +8,13 @@ import Translate from "../utils/Translate";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
-import { alllocation, makes, arabicMakes } from "../utils/utils";
+import { alllocation, makes, arabicMakes, allenginesize } from "../utils/utils";
 
 // Import Google Fonts for Arabic and loader styles
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
   .loader {
-   border: 4px solid #f3f3f3;
+    border: 4px solid #f3f3f3;
     border-top: 4px solid #B80200;
     border-radius: 50%;
     width: 24px;
@@ -39,20 +39,6 @@ const carMakes = [
   { value: "BMW", label: "BMW" },
   { value: "Bugatti", label: "Bugatti" },
   { value: "BYD", label: "BYD" },
-];
-
-const allenginesize = [
-  { value: "0-499 cc", label: "0-499 cc", arLabel: "0-499 سي سي" },
-  { value: "500-999 cc", label: "500-999 cc", arLabel: "500-999 سي سي" },
-  { value: "1000-1499 cc", label: "1000-1499 cc", arLabel: "1000-1499 سي سي" },
-  { value: "1500-1999 cc", label: "1500-1999 cc", arLabel: "1500-1999 سي سي" },
-  { value: "2000-2499 cc", label: "2000-2499 cc", arLabel: "2000-2499 سي سي" },
-  { value: "2500-2999 cc", label: "2500-2999 cc", arLabel: "2500-2999 سي سي" },
-  { value: "3000-3499 cc", label: "3000-3499 cc", arLabel: "3000-3499 سي سي" },
-  { value: "3500-3999 cc", label: "3500-3999 cc", arLabel: "3500-3999 سي سي" },
-  { value: "4000+ cc", label: "4000+ cc", arLabel: "4000+ سي سي" },
-  { value: "Other", label: "Other", arLabel: "آخر" },
-  { value: "Unknown", label: "Unknown", arLabel: "غير معروف" },
 ];
 
 const allTransmission = [
@@ -311,7 +297,7 @@ const ListingForm = ({
         <label className="w-full">
           <div className="mb-2 px-3">
             <h3 className="font-semibold">
-              {currentLanguage === "ar" ? "سعة المحرك" : "Engine Size (CC)"}
+              {currentLanguage === "ar" ? "عدد الاسطوانات" : "Number Of Cylinders"}
             </h3>
           </div>
           <Select
@@ -320,7 +306,7 @@ const ListingForm = ({
             onChange={setEngineSize}
             required
             placeholder={
-              currentLanguage === "ar" ? "سعة المحرك" : "Engine Size (CC)"
+              currentLanguage === "ar" ? "عدد الاسطوانات" : "Number Of Cylinders"
             }
             isSearchable
             className="cursor-pointer"
@@ -523,8 +509,11 @@ const ListingForm = ({
           whileTap={{ scale: 0.95 }}
         >
           {isLoading ? (
-            <div>
-              {currentLanguage === "ar" ? "جاري تحميل الإعلان" : "loading"}
+            <div className="flex items-center gap-2">
+              <div className="loader"></div>
+              <span>
+                {currentLanguage === "ar" ? "جاري تحميل الإعلان..." : "Loading..."}
+              </span>
             </div>
           ) : (
             <>
@@ -585,7 +574,7 @@ const AddListingPage = () => {
       );
       navigate("/login-and-register", { replace: true });
     }
-  
+
     if (id) {
       // Fetch car data for editing
       const fetchCarData = async () => {
@@ -601,12 +590,12 @@ const AddListingPage = () => {
           );
           const car = response.data.data;
           setCarData(car);
-  
+
           // Find Arabic make for label
           const arabicMake = arabicMakes.find((am) => am.enValue === car.make);
           const makeLabel =
             currentLanguage === "ar" ? arabicMake?.label || car.make : car.make;
-  
+
           // Pre-fill form fields
           setMake(
             car.make
@@ -616,7 +605,7 @@ const AddListingPage = () => {
                 }
               : null
           );
-  
+
           // Find Arabic model for label
           const englishMake = makes.find((m) => m.value === car.make);
           const modelIndex = englishMake?.models.indexOf(car.model);
@@ -626,7 +615,7 @@ const AddListingPage = () => {
               : car.model;
           const modelLabel =
             currentLanguage === "ar" ? arabicModel : car.model;
-  
+
           setModel(
             car.model
               ? {
@@ -635,7 +624,7 @@ const AddListingPage = () => {
                 }
               : null
           );
-  
+
           setPriceUSD(car.priceUSD || "");
           setPriceSYP(car.priceSYP || 1);
           setYear(car.year || "");
@@ -745,7 +734,7 @@ const AddListingPage = () => {
       return;
     }
 
-    console.log(formData)
+    console.log(formData);
     try {
       const url = id
         ? `${import.meta.env.VITE_API_URL}/cars/${id}`

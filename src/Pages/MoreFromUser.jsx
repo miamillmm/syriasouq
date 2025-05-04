@@ -28,6 +28,10 @@ export default function MoreFromUser({ title, button, uid }) {
   // Track current image index for each car
   const [currentImageIndices, setCurrentImageIndices] = useState({})
 
+  // Add these variables at the top of the component function
+  const [touchStart, setTouchStart] = useState(null)
+  const [touchEnd, setTouchEnd] = useState(null)
+
   useEffect(() => {
     console.log(uid)
     const getCars = async () => {
@@ -128,6 +132,35 @@ export default function MoreFromUser({ title, button, uid }) {
     })
   }
 
+  // Add this function before the return statement
+  const handleTouchStart = (e) => {
+    setTouchStart(e.touches[0].clientX)
+    setTouchEnd(null)
+  }
+
+  const handleTouchMove = (e) => {
+    setTouchEnd(e.touches[0].clientX)
+  }
+
+  const handleTouchEnd = (e, carId) => {
+    if (!touchStart || !touchEnd) return
+
+    const distance = touchStart - touchEnd
+    const isLeftSwipe = distance > 50
+    const isRightSwipe = distance < -50
+
+    if (isLeftSwipe) {
+      navigateImage(e, carId, "next")
+    }
+
+    if (isRightSwipe) {
+      navigateImage(e, carId, "prev")
+    }
+
+    setTouchStart(null)
+    setTouchEnd(null)
+  }
+
   return (
     <div className="w-full py-6 sm:py-10 relative px-4 sm:px-6 lg:px-8">
       <ToastContainer
@@ -181,7 +214,13 @@ export default function MoreFromUser({ title, button, uid }) {
               <div className="flex md:flex-row flex-col-reverse gap-4 bg-slate-100 p-5 sm:p-4 rounded relative">
                 <div className="w-full max-w-[450px] sm:max-w-[350px]">
                   <Link to={`/listing/${car?._id}`} key={car?._id}>
-                    <div className="overflow-hidden h-52 sm:h-58 lg:h-60 rounded-md relative">
+                    {/* Modify the image container div inside the SwiperSlide to add touch events: */}
+                    <div
+                      className="overflow-hidden h-52 sm:h-58 lg:h-60 rounded-md relative"
+                      onTouchStart={handleTouchStart}
+                      onTouchMove={handleTouchMove}
+                      onTouchEnd={(e) => handleTouchEnd(e, car._id)}
+                    >
                       <img
                         alt={`${getLocalizedMake(car, currentLanguage)} ${getArabicModel(car, currentLanguage)}`}
                         src={`http://api.syriasouq.com/uploads/cars/${car?.images[currentImageIndices[car._id] || 0]}`}
@@ -239,22 +278,22 @@ export default function MoreFromUser({ title, button, uid }) {
                 </div>
                 <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
                   <div className="flex items-center justify-between gap-2">
-                    <h2 className="text-lg sm:text-xl font-bold text-red-500">
+                    <h2 className="text-lg sm:text-xl font-bold text-[#B80200]">
                       <span className="text-lg sm:text-xl ">$ </span>
                       {car?.priceUSD ? car?.priceUSD : "آخر"}
                     </h2>
                   </div>
                   <div className="flex items-center gap-2 md:mt-3">
-                    <h2 className="text-xs sm:text-sm">{getLocalizedMake(car, currentLanguage)}</h2>
+                    <h2 className="text-md sm:text-md">{getLocalizedMake(car, currentLanguage)}</h2>
                     <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
-                    <h2 className="text-xs sm:text-sm">{getArabicModel(car, currentLanguage)}</h2>
+                    <h2 className="text-md sm:text-md">{getArabicModel(car, currentLanguage)}</h2>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="flex items-center gap-1 text-xs sm:text-sm">
+                    <div className="flex items-center gap-1 text-md sm:text-md">
                       <CiCalendar className="w-4 h-4 sm:w-5 sm:h-5" />
                       <span>{car?.year ? car?.year : "آخر"}</span>
                     </div>
-                    <div className="flex items-center gap-1 text-xs sm:text-sm">
+                    <div className="flex items-center gap-1 text-md sm:text-md">
                       <AiOutlineDashboard className="w-4 h-4 sm:w-5 sm:h-5" />
                       <span>
                         {car?.kilometer ? car?.kilometer : "آخر"} <Translate text={"km"} />
@@ -262,7 +301,7 @@ export default function MoreFromUser({ title, button, uid }) {
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="flex items-center gap-1 text-xs sm:text-sm">
+                    <div className="flex items-center gap-1 text-md sm:text-md">
                       <CiLocationOn className="w-4 h-4 sm:w-5 sm:h-5" />
                       <span>{getLocalizedLocation(car?.location, currentLanguage)}</span>
                     </div>
@@ -270,7 +309,7 @@ export default function MoreFromUser({ title, button, uid }) {
                   <div className="flex items-center gap-3 mt-2 md:mt-4">
                     <Link
                       to={`/listing/${car?._id}`}
-                      className="block bg-[#B80200] text-white text-sm sm:text-lg py-1 px-3 sm:px-4 rounded hover:bg-[#a50200] transition-colors"
+                      className="block bg-[#B80200] text-white text-lg py-1 px-4 rounded hover:bg-[#a50200] transition-colors"
                     >
                       <Translate text={"View Details"} />
                     </Link>

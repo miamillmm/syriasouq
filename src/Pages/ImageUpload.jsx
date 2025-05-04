@@ -44,14 +44,21 @@ const ImageUpload = ({ uploadedImages, setUploadedImages }) => {
       <label className="block mb-2 font-semibold text-sm sm:text-base">
         {currentLanguage === "ar" ? "رفع الصور" : "Upload Images"}
       </label>
-      <input
-        type="file"
-        multiple
-        accept="image/*"
-        onChange={handleImageChange}
-        className="w-full p-4 sm:p-5 border rounded h-14 sm:h-16 text-lg sm:text-xl"
-        name="images" // Matches multer's expected field
-      />
+      <label className="w-full p-4 sm:p-5 border rounded h-14 sm:h-16 text-lg sm:text-xl flex items-center cursor-pointer bg-white">
+        <input
+          type="file"
+          multiple
+          accept="image/*"
+          onChange={handleImageChange}
+          className="hidden"
+          name="images"
+        />
+        <span className="text-gray-500">
+          {currentLanguage === "ar"
+            ? "يرجى الضغط لإرفاق الصور"
+            : "No file chosen, choose files"}
+        </span>
+      </label>
       <p className="text-xs text-gray-500 mt-1">
         {currentLanguage === "ar"
           ? "الحد الأقصى 20 صور، 5 ميجابايت لكل صورة"

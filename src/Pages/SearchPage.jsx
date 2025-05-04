@@ -497,7 +497,7 @@ const SearchPage = () => {
               {/* Engine Size */}
               <div className="my-4">
                 <label className="block text-gray-700 mb-2">
-                  {currentLanguage === "ar" ? `حجم المحرك (سي سي)` : `Engine Size (CC)`}
+                {currentLanguage === "ar" ? `عدد الاسطوانات` : `Number Of Cylinders`}
                 </label>
                 <div>
                   <select
@@ -508,7 +508,7 @@ const SearchPage = () => {
                     value={filters.engineSize}
                   >
                     <option hidden selected>
-                      <Translate text={"Select Engine Size"} />
+                      <Translate text={"Select Number Of Cylinders"} />
                     </option>
                     {allenginesize.map((size) => (
                       <option key={size.label} value={size.value}>
@@ -796,7 +796,7 @@ const SearchPage = () => {
                     {/* Engine Size */}
                     <div className="mb-4">
                       <label className="block text-gray-700 mb-2">
-                        {currentLanguage === "ar" ? `حجم المحرك (سي سي)` : `Engine Size (CC)`}
+                        {currentLanguage === "ar" ? `عدد الاسطوانات` : `Number Of Cylinders`}
                       </label>
                       <div>
                         <select
@@ -807,7 +807,7 @@ const SearchPage = () => {
                           value={filters.engineSize}
                         >
                           <option hidden selected>
-                            <Translate text={"Select Engine Size"} />
+                            <Translate text={"Select Number Cylinders"} />
                           </option>
                           {allenginesize.map((size) => (
                             <option key={size.label} value={size.value}>
@@ -1187,7 +1187,7 @@ const SearchPage = () => {
                             </Link>
                             <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
                               <div className="flex items-center justify-between gap-2">
-                                <h2 className="text-xl font-bold text-red-500 ">
+                                <h2 className="text-xl font-bold text-[#B80200] ">
                                   <span className="text-lg ">$ </span>
                                   <Translate text={data?.priceUSD ? data?.priceUSD : "آخر"} />
                                 </h2>
@@ -1197,7 +1197,7 @@ const SearchPage = () => {
                                 <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
                                 <h2 className="text-md">{getArabicModel(data, currentLanguage)}</h2>
                               </div>
-                              <div className="flex md:items-center md:flex-row flex-col md:gap-3 gap0">
+                              <div className="flex md:items-center md:flex-row flex-col md:gap-3 gap-0">
                                 <div className="flex items-center gap-1 text-md">
                                   <CiCalendar />
                                   <span>
@@ -1385,24 +1385,24 @@ const SearchPage = () => {
                             </Link>
                             <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
                               <div className="flex items-center justify-between gap-2">
-                                <h2 className="text-xl font-bold text-red-500">
+                                <h2 className="text-xl font-bold text-[#B80200]">
                                   <span className="text-lg">$ </span>
                                   <Translate text={data?.priceUSD ? data?.priceUSD : "آخر"} />
                                 </h2>
                               </div>
                               <div className="flex items-center gap-2 md:mt-3">
-                                <h2 className="text-sm">{getLocalizedMake(data, currentLanguage)}</h2>
+                                <h2 className="text-md">{getLocalizedMake(data, currentLanguage)}</h2>
                                 <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
-                                <h2 className="text-sm">{getArabicModel(data, currentLanguage)}</h2>
+                                <h2 className="text-md">{getArabicModel(data, currentLanguage)}</h2>
                               </div>
                               <div className="flex items-center gap-3">
-                                <div className="flex items-center gap-1 text-sm">
+                                <div className="flex items-center gap-1 text-md">
                                   <CiCalendar />
                                   <span>
                                     <Translate text={data?.year ? data?.year : "آخر"} />
                                   </span>
                                 </div>
-                                <div className="flex items-center gap-1 text-sm">
+                                <div className="flex items-center gap-1 text-md">
                                   <AiOutlineDashboard />
                                   <span>
                                     <Translate text={data?.kilometer ? data?.kilometer : "آخر"} />{" "}
@@ -1411,7 +1411,7 @@ const SearchPage = () => {
                                 </div>
                               </div>
                               <div className="flex items-center gap-3">
-                                <div className="flex items-center gap-1 text-sm">
+                                <div className="flex items-center gap-1 text-md">
                                   <CiLocationOn />
                                   <span>
                                     {data?.location ? getLocalizedLocation(data?.location, currentLanguage) : "آخر"}

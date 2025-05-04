@@ -507,8 +507,8 @@ const CarDetails = () => {
             <div className="space-y-5 bg-white shadow-lg rounded-lg p-3 sm:p-4">
               <div className="flex-1 h-full flex flex-col gap-1 justify-between py-0 md:py-2">
                 <div className="flex items-center justify-between gap-2">
-                  <h2 className="text-xl sm:text-2xl font-bold text-red-500">
-                    <span className="text-lg sm:text-xl text-red-500">$</span>{" "}
+                  <h2 className="text-xl sm:text-2xl font-bold text-[#B80200]">
+                    <span className="text-lg sm:text-xl text-[#B80200]">$</span>{" "}
                     {carDetails?.priceUSD ? carDetails?.priceUSD : "آخر"}
                   </h2>
                 </div>

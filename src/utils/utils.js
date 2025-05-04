@@ -3168,15 +3168,11 @@ export const alllocation = [
   { value: "Tartus", label: "Tartus", arLabel: "طرطوس" },
 ];
 export const allenginesize = [
-  { value: "0-499 cc", label: "0-499 cc", arLabel: "0-499 سي سي" },
-  { value: "500-999 cc", label: "500-999 cc", arLabel: "500-999 سي سي" },
-  { value: "1000-1499 cc", label: "1000-1499 cc", arLabel: "1000-1499 سي سي" },
-  { value: "1500-1999 cc", label: "1500-1999 cc", arLabel: "1500-1999 سي سي" },
-  { value: "2000-2499 cc", label: "2000-2499 cc", arLabel: "2000-2499 سي سي" },
-  { value: "2500-2999 cc", label: "2500-2999 cc", arLabel: "2500-2999 سي سي" },
-  { value: "3000-3499 cc", label: "3000-3499 cc", arLabel: "3000-3499 سي سي" },
-  { value: "3500-3999 cc", label: "3500-3999 cc", arLabel: "3500-3999 سي سي" },
-  { value: "4000+ cc", label: "4000+ cc", arLabel: "4000+ سي سي" },
+  { value: "3", label: "3", arLabel: "٣" },
+  { value: "4", label: "4", arLabel: "٤" },
+  { value: "5", label: "5", arLabel: "٥" },
+  { value: "6", label: "6", arLabel: "٦" },
+  { value: "8", label: "8", arLabel: "٨" },
   { value: "Other", label: "Other", arLabel: "آخر" },
   { value: "Unknown", label: "Unknown", arLabel: "غير معروف" },
 ];
