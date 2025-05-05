@@ -30,6 +30,7 @@ const CarListing = () => {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/cars/uid/${uid ? uid : user._id}`
         );
+        console.log(response)
         if (response.data.success) {
           console.log(response?.data?.data);
           setCars(response?.data?.data);
@@ -148,16 +149,16 @@ const CarListing = () => {
 
                 {/* Engine Size */}
                 <p className="text-gray-500 flex items-center gap-1">
-                  <AiOutlineDashboard /> <Translate text={car.engineSize} />
+                  <AiOutlineDashboard /> <Translate text={car.kilometer
+} />
                 </p>
 
                 {/* Location */}
                 <p className="text-gray-600 mt-1 flex items-center gap-1">
                   <CiLocationOn />{" "}
                   <span>
-                    {car?.location
-                      ? getLocalizedLocation(car?.location, currentLanguage)
-                      : "آخر"}
+                  {car?.location ? getLocalizedLocation(car?.location, currentLanguage) : "آخر"}
+
                   </span>
                 </p>
 

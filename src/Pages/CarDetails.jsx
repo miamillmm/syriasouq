@@ -37,10 +37,19 @@ const CarDetails = () => {
   const [relatedCars, setRelatedCars] = useState([])
   const [isChatLoading, setIsChatLoading] = useState(false)
   const swiperRef = useRef(null)
-  const { i18n } = useTranslation()
+  const { i18n, t } = useTranslation()
   const currentLanguage = i18n.language
   const [isImageModalOpen, setIsImageModalOpen] = useState(false)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false)
+  const [reportForm, setReportForm] = useState({
+    reason: "",
+    description: "",
+    contact: "",
+    phone: "",
+  })
+  const [reportError, setReportError] = useState("")
+  const [isReportSubmitting, setIsReportSubmitting] = useState(false)
 
   // Modern zoom functionality
   const [imageTransform, setImageTransform] = useState({
@@ -206,23 +215,18 @@ const CarDetails = () => {
     const DOUBLE_TAP_DELAY = 300 // ms
 
     if (now - lastTapTimeRef.current < DOUBLE_TAP_DELAY) {
-      // Double tap detected
       clearTimeout(doubleTapTimerRef.current)
 
       if (imageTransform.scale > 1) {
-        // If already zoomed, reset
         resetZoom()
       } else {
-        // Get tap position relative to image for zoom focus point
         const rect = imageContainerRef.current.getBoundingClientRect()
         const x = e.clientX || (e.touches && e.touches[0].clientX) || rect.width / 2
         const y = e.clientY || (e.touches && e.touches[0].clientY) || rect.height / 2
 
-        // Calculate position relative to center
         const offsetX = x - rect.left - rect.width / 2
         const offsetY = y - rect.top - rect.height / 2
 
-        // Zoom to 2.5x at the tapped position
         setImageTransform({
           scale: 2.5,
           positionX: -offsetX,
@@ -233,10 +237,7 @@ const CarDetails = () => {
         })
       }
     } else {
-      // First tap - set timer for potential second tap
-      doubleTapTimerRef.current = setTimeout(() => {
-        // Single tap actions if needed
-      }, DOUBLE_TAP_DELAY)
+      doubleTapTimerRef.current = setTimeout(() => {}, DOUBLE_TAP_DELAY)
     }
 
     lastTapTimeRef.current = now
@@ -247,7 +248,6 @@ const CarDetails = () => {
     e.preventDefault()
 
     if (e.touches.length === 1) {
-      // Single touch - prepare for drag
       isDraggingRef.current = true
       startPointRef.current = {
         x: e.touches[0].clientX,
@@ -255,16 +255,13 @@ const CarDetails = () => {
       }
       lastPointRef.current = { ...startPointRef.current }
     } else if (e.touches.length === 2) {
-      // Two touches - prepare for pinch zoom
       isZoomingRef.current = true
       isDraggingRef.current = false
 
-      // Calculate distance between two touch points
       const dx = e.touches[0].clientX - e.touches[1].clientX
       const dy = e.touches[0].clientY - e.touches[1].clientY
       pinchStartDistanceRef.current = Math.sqrt(dx * dx + dy * dy)
 
-      // Save initial transform values
       setImageTransform((prev) => ({
         ...prev,
         initialScale: prev.scale,
@@ -272,11 +269,9 @@ const CarDetails = () => {
         initialPositionY: prev.positionY,
       }))
 
-      // Calculate midpoint of the two touches
       const midX = (e.touches[0].clientX + e.touches[1].clientX) / 2
       const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2
 
-      // Save as start point for potential dragging during pinch
       startPointRef.current = { x: midX, y: midY }
       lastPointRef.current = { ...startPointRef.current }
     }
@@ -288,29 +283,21 @@ const CarDetails = () => {
     e.preventDefault()
 
     if (isZoomingRef.current && e.touches.length === 2) {
-      // Handle pinch zoom
       const dx = e.touches[0].clientX - e.touches[1].clientX
       const dy = e.touches[0].clientY - e.touches[1].clientY
       const distance = Math.sqrt(dx * dx + dy * dy)
 
-      // Calculate new scale based on pinch distance change
       let newScale = (distance / pinchStartDistanceRef.current) * imageTransform.initialScale
-
-      // Limit scale between 1 and 5
       newScale = Math.max(1, Math.min(5, newScale))
 
-      // Calculate midpoint of the two touches
       const midX = (e.touches[0].clientX + e.touches[1].clientX) / 2
       const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2
 
-      // Calculate position adjustment to keep zoom centered on pinch point
       const dragDeltaX = midX - lastPointRef.current.x
       const dragDeltaY = midY - lastPointRef.current.y
 
-      // Update last point
       lastPointRef.current = { x: midX, y: midY }
 
-      // Calculate new position that combines scaling and dragging
       const scaleFactor = newScale / imageTransform.scale
       const newPositionX = imageTransform.positionX * scaleFactor + dragDeltaX
       const newPositionY = imageTransform.positionY * scaleFactor + dragDeltaY
@@ -322,7 +309,6 @@ const CarDetails = () => {
         positionY: newPositionY,
       }))
     } else if (isDraggingRef.current && e.touches.length === 1 && imageTransform.scale > 1) {
-      // Handle dragging when zoomed in
       const x = e.touches[0].clientX
       const y = e.touches[0].clientY
 
@@ -344,7 +330,6 @@ const CarDetails = () => {
     isDraggingRef.current = false
     isZoomingRef.current = false
 
-    // If scale is very close to 1, snap back to exactly 1
     if (imageTransform.scale < 1.05) {
       resetZoom()
     }
@@ -354,30 +339,22 @@ const CarDetails = () => {
   const handleWheel = (e) => {
     e.preventDefault()
 
-    // Get mouse position relative to container
     const rect = imageContainerRef.current.getBoundingClientRect()
     const mouseX = e.clientX - rect.left
     const mouseY = e.clientY - rect.top
 
-    // Calculate position relative to center
     const offsetX = mouseX - rect.width / 2
     const offsetY = mouseY - rect.height / 2
 
-    // Calculate zoom direction and factor
     const delta = -Math.sign(e.deltaY)
     const zoomFactor = delta > 0 ? 1.1 : 0.9
 
-    // Calculate new scale
     let newScale = imageTransform.scale * zoomFactor
-
-    // Limit scale between 1 and 5
     newScale = Math.max(1, Math.min(5, newScale))
 
     if (newScale === 1) {
-      // If zooming out to 1, reset position
       resetZoom()
     } else {
-      // Calculate new position that keeps mouse point fixed
       const newPositionX = offsetX - (offsetX - imageTransform.positionX) * (newScale / imageTransform.scale)
       const newPositionY = offsetY - (offsetY - imageTransform.positionY) * (newScale / imageTransform.scale)
 
@@ -431,6 +408,51 @@ const CarDetails = () => {
     isDraggingRef.current = false
     document.removeEventListener("mousemove", handleMouseMove)
     document.removeEventListener("mouseup", handleMouseUp)
+  }
+
+  // Report modal handlers
+  const openReportModal = () => {
+    setIsReportModalOpen(true)
+    document.body.style.overflow = "hidden"
+  }
+
+  const closeReportModal = () => {
+    setIsReportModalOpen(false)
+    setReportForm({ reason: "", description: "", contact: "", phone: "" })
+    setReportError("")
+    document.body.style.overflow = "auto"
+  }
+
+  const handleReportChange = (e) => {
+    const { name, value } = e.target
+    setReportForm((prev) => ({ ...prev, [name]: value }))
+    setReportError("")
+  }
+
+  const handleReportSubmit = async (e) => {
+    e.preventDefault()
+    if (!reportForm.reason || !reportForm.description || !reportForm.contact || !reportForm.phone) {
+      setReportError(t("report.fillRequiredFields"))
+      return
+    }
+
+    setIsReportSubmitting(true)
+    try {
+      await axios.post(`${import.meta.env.VITE_API_URL}/report`, {
+        carId: id,
+        reason: reportForm.reason,
+        description: reportForm.description,
+        contact: reportForm.contact,
+        phone: reportForm.phone,
+        language: currentLanguage,
+      })
+      closeReportModal()
+    } catch (error) {
+      console.error("Error submitting report:", error)
+      setReportError(t("report.submitError"))
+    } finally {
+      setIsReportSubmitting(false)
+    }
   }
 
   // Reset zoom when changing images
@@ -651,6 +673,7 @@ const CarDetails = () => {
               <motion.div
                 className="flex justify-center items-center my-6 sm:my-8 gap-2 text-lg sm:text-xl text-[#B80200] cursor-pointer"
                 whileHover={hoverEffect}
+                onClick={openReportModal}
               >
                 <MdErrorOutline />
                 <h2 className="text-sm sm:text-base">
@@ -749,7 +772,6 @@ const CarDetails = () => {
             exit="exit"
             variants={modalVariants}
           >
-            {/* Close button - subtle in top corner */}
             <button
               onClick={closeImageModal}
               className="absolute top-4 right-4 text-white/70 hover:text-white z-50 p-2"
@@ -769,7 +791,6 @@ const CarDetails = () => {
               </svg>
             </button>
 
-            {/* Image navigation - subtle arrows on sides */}
             <button
               className="absolute left-4 text-white/70 hover:text-white z-40 p-2"
               onClick={(e) => {
@@ -812,7 +833,6 @@ const CarDetails = () => {
               </svg>
             </button>
 
-            {/* Main image container with gesture support */}
             <motion.div
               ref={imageContainerRef}
               className="w-full h-full flex items-center justify-center overflow-hidden touch-none"
@@ -837,7 +857,6 @@ const CarDetails = () => {
               />
             </motion.div>
 
-            {/* Subtle image counter */}
             <div className="absolute bottom-4 left-0 right-0 text-center text-white/70 text-sm">
               <span>
                 {currentImageIndex + 1} / {carDetails?.images?.length}
@@ -846,6 +865,139 @@ const CarDetails = () => {
                 {imageTransform.scale > 1 ? "Drag to pan • Double-tap to reset" : "Double-tap to zoom • Pinch to zoom"}
               </div>
             </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Report Modal */}
+      <AnimatePresence>
+        {isReportModalOpen && (
+          <motion.div
+            className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center px-4"
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            variants={modalVariants}
+            onClick={closeReportModal}
+          >
+            <motion.div
+              className="bg-white rounded-lg p-6 sm:p-8 max-w-md w-full shadow-lg"
+              variants={imageVariants}
+              onClick={(e) => e.stopPropagation()}
+              dir={currentLanguage === "ar" ? "rtl" : "ltr"}
+            >
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-xl sm:text-2xl font-bold text-[#314352]">
+                  {t("report.title")}
+                </h2>
+                <button
+                  onClick={closeReportModal}
+                  className="text-[#B80200] hover:text-[#A00000] p-2"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+              <form onSubmit={handleReportSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-semibold text-[#314352] mb-2">
+                    {t("report.reasonLabel")} <span className="text-[#B80200]">*</span>
+                  </label>
+                  <select
+                    name="reason"
+                    value={reportForm.reason}
+                    onChange={handleReportChange}
+                    className="w-full border border-[#B80200] rounded-md p-2 text-sm text-[#314352] !bg-white focus:outline-none focus:ring-2   transition-all duration-300 hover:border-[#A00000]"
+                    required
+                  >
+                    <option value="">{t("report.reasonPlaceholder")}</option>
+                    <option value="inappropriate">{t("report.reasons.inappropriate")}</option>
+                    <option value="spam">{t("report.reasons.spam")}</option>
+                    <option value="fraud">{t("report.reasons.fraud")}</option>
+                    <option value="other">{t("report.reasons.other")}</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-[#314352] mb-2">
+                    {t("report.descriptionLabel")} <span className="text-[#B80200]">*</span>
+                  </label>
+                  <textarea
+                    name="description"
+                    value={reportForm.description}
+                    onChange={handleReportChange}
+                    className="w-full border border-gray-300 rounded-md p-2 text-sm h-32 resize-none focus:outline-none focus:ring-2 focus:ring-[#B80200]"
+                    placeholder={t("report.descriptionPlaceholder")}
+                    required
+                  ></textarea>
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-[#314352] mb-2">
+                    {t("report.contactLabel")} <span className="text-[#B80200]">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    name="contact"
+                    value={reportForm.contact}
+                    onChange={handleReportChange}
+                    className="w-full border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#B80200]"
+                    placeholder={t("report.contactPlaceholder")}
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-[#314352] mb-2">
+                    {t("report.phoneLabel")} <span className="text-[#B80200]">*</span>
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={reportForm.phone}
+                    onChange={handleReportChange}
+                    className="w-full border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#B80200]"
+                    placeholder={t("report.phonePlaceholder")}
+                    required
+                  />
+                </div>
+                {reportError && (
+                  <p className="text-sm text-[#B80200]">{reportError}</p>
+                )}
+                <div className="flex justify-end gap-3">
+                  <motion.button
+                    type="button"
+                    onClick={closeReportModal}
+                    className="px-4 py-2 text-sm font-semibold text-[#314352] rounded-md hover:bg-gray-100"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    {t("report.cancel")}
+                  </motion.button>
+                  <motion.button
+                    type="submit"
+                    className="px-4 py-2 text-sm font-semibold text-white bg-gradient-to-r from-[#B80200] to-[#A00000] rounded-md hover:from-[#A00000] hover:to-[#900000] disabled:opacity-50"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    disabled={isReportSubmitting}
+                  >
+                    {isReportSubmitting ? (
+                      <div className="loader border-t-2 border-white h-5 w-5 animate-spin rounded-full"></div>
+                    ) : (
+                      t("report.submit")
+                    )}
+                  </motion.button>
+                </div>
+              </form>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

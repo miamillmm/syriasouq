@@ -1193,9 +1193,9 @@ const SearchPage = () => {
                                 </h2>
                               </div>
                               <div className="flex items-center flex-row gap-2 ">
-                                <h2 className="text-md">{getLocalizedMake(data, currentLanguage)}</h2>
+                                <h2 className="text-md font-bold">{getLocalizedMake(data, currentLanguage)}</h2>
                                 <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
-                                <h2 className="text-md">{getArabicModel(data, currentLanguage)}</h2>
+                                <h2 className="text-md font-bold">{getArabicModel(data, currentLanguage)}</h2>
                               </div>
                               <div className="flex md:items-center md:flex-row flex-col md:gap-3 gap-0">
                                 <div className="flex items-center gap-1 text-md">
@@ -1391,9 +1391,9 @@ const SearchPage = () => {
                                 </h2>
                               </div>
                               <div className="flex items-center gap-2 md:mt-3">
-                                <h2 className="text-md">{getLocalizedMake(data, currentLanguage)}</h2>
+                                <h2 className="text-md font-bold">{getLocalizedMake(data, currentLanguage)}</h2>
                                 <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
-                                <h2 className="text-md">{getArabicModel(data, currentLanguage)}</h2>
+                                <h2 className="text-md font-bold">{getArabicModel(data, currentLanguage)}</h2>
                               </div>
                               <div className="flex items-center gap-3">
                                 <div className="flex items-center gap-1 text-md">
