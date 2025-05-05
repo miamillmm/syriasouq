@@ -1189,8 +1189,8 @@ const SearchPage = () => {
                             </Link>
                             <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
                               <div className="flex items-center justify-between gap-2">
-                                <h2 className="text-xl font-bold text-[#B80200] ">
-                                  <span className="text-lg ">$ </span>
+                                <h2 className="text-2xl font-bold text-[#B80200] ">
+                                  <span className="text-2xl ">$ </span>
                                   <Translate text={data?.priceUSD ? data?.priceUSD : "آخر"} />
                                 </h2>
                               </div>
@@ -1390,8 +1390,8 @@ const SearchPage = () => {
                             </Link>
                             <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
                               <div className="flex items-center justify-between gap-2">
-                                <h2 className="text-xl font-bold text-[#B80200]">
-                                  <span className="text-lg">$ </span>
+                                <h2 className="text-2xl font-bold text-[#B80200]">
+                                  <span className="text-2xl">$ </span>
                                   <Translate text={data?.priceUSD ? data?.priceUSD : "آخر"} />
                                 </h2>
                               </div>
