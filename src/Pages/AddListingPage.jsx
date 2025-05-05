@@ -752,32 +752,32 @@ const AddListingPage = () => {
       const result = await response.json();
 
       if (response.ok) {
-        toast.success(
-          id
-            ? currentLanguage === "ar"
-              ? "تم تحديث الإعلان بنجاح!"
-              : "Listing updated successfully!"
-            : currentLanguage === "ar"
-            ? "تمت إضافة الإعلان بنجاح! سينتهي هذا بعد 35 يومًا"
-            : "Listing added successfully! This will expire after 35 days"
-        );
+        // toast.success(
+        //   id
+        //     ? currentLanguage === "ar"
+        //       ? "تم تحديث الإعلان بنجاح!"
+        //       : "Listing updated successfully!"
+        //     : currentLanguage === "ar"
+        //     ? "تمت إضافة الإعلان بنجاح! سينتهي هذا بعد 35 يومًا"
+        //     : "Listing added successfully! This will expire after 35 days"
+        // );
         setIsEditModalOpen(false);
         navigate("/dashboard", { replace: true });
       } else {
         console.error("Server Response:", result);
-        toast.error(
-          currentLanguage === "ar"
-            ? `خطأ: ${result.message || "فشل في إرسال الإعلان"}`
-            : `Error: ${result.message || "Failed to submit listing"}`
-        );
+        // toast.error(
+        //   currentLanguage === "ar"
+        //     ? `خطأ: ${result.message || "فشل في إرسال الإعلان"}`
+        //     : `Error: ${result.message || "Failed to submit listing"}`
+        // );
       }
     } catch (error) {
       console.error("Submission Error:", error);
-      toast.error(
-        currentLanguage === "ar"
-          ? "فشل في إرسال الإعلان"
-          : "Failed to submit listing"
-      );
+      // toast.error(
+      //   currentLanguage === "ar"
+      //     ? "فشل في إرسال الإعلان"
+      //     : "Failed to submit listing"
+      // );
     } finally {
       setIsLoading(false);
     }

@@ -22,12 +22,15 @@ const Breadcrumb = ({ carname }) => {
           </Link>
         </li>
         <li className="text-red-400">›</li>
-        <li className="text-gray-900 font-semibold">
+        {/* <li className="text-gray-900 font-semibold">
           <Translate text={carname} />
-        </li>
+        </li> */}
       </ol>
     </nav>
   );
 };
+
+
+
 
 export default Breadcrumb;

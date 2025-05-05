@@ -410,41 +410,41 @@ const SearchPage = () => {
               </div>
               {/* // Price Filter (Desktop) */}
               <div className="mb-16" style={{ direction: currentLanguage === "ar" ? "rtl" : "ltr" }}>
-                <label className="block text-gray-700 font-semibold mb-3">
-                  <Translate text={"Price"} /> ($): {filters.minPrice || 0} -{" "}
-                  {filters.maxPrice || currentLanguage === "ar" ? "أي" : "Any"}
-                </label>
-                <Slider
-                  key={currentLanguage}
-                  range
-                  min={0}
-                  max={125000}
-                  step={1000}
-                  marks={{
-                    0: `$0`,
-                    25000: `$25k`,
-                    50000: `$50k`,
-                    75000: `$75k`,
-                    100000: `$100k`,
-                    125000: currentLanguage === "ar" ? "أي" : "Any",
-                  }}
-                  value={[filters.minPrice || 0, filters.maxPrice || 125000]}
-                  onChange={(value) =>
-                    setFilters((prev) => ({
-                      ...prev,
-                      minPrice: value[0],
-                      maxPrice: value[1],
-                    }))
-                  }
-                  handle={CustomHandle}
-                  direction={currentLanguage === "ar" ? "rtl" : "ltr"}
-                />
-              </div>
+  <label className="block text-gray-700 font-semibold mb-3">
+    <Translate text={"Price"} /> ($): {filters.minPrice || 0} -{""}
+    {filters.maxPrice === 125000 ? (currentLanguage === "ar" ? "الكل" : "Any") : filters.maxPrice}
+  </label>
+  <Slider
+    key={currentLanguage}
+    range
+    min={0}
+    max={125000}
+    step={1000}
+    marks={{
+      0: `$0`,
+      25000: `$25k`,
+      50000: `$50k`,
+      75000: `$75k`,
+      100000: `$100k`,
+      125000: currentLanguage === "ar" ? "الكل" : "Any",
+    }}
+    value={[Number(filters.minPrice) || 0, Number(filters.maxPrice) || 125000]}
+    onChange={(value) =>
+      setFilters((prev) => ({
+        ...prev,
+        minPrice: value[0],
+        maxPrice: value[1],
+      }))
+    }
+    handle={CustomHandle}
+    direction={currentLanguage === "ar" ? "rtl" : "ltr"}
+  />
+</div>
               {/* // Kilometer Filter (Desktop) */}
               <div className="mb-16">
                 <label className="block text-gray-700 font-semibold mb-3">
                   <Translate text={"Kilometer"} />: {filters.kilometer ? filters.kilometer[0] : 0} -{" "}
-                  {filters.kilometer ? filters.kilometer[1] : currentLanguage === "ar" ? "أي" : "Any"}{" "}
+                  {filters.kilometer ? filters.kilometer[1] : currentLanguage === "ar" ? "الكل" : "Any"}{" "}
                   {currentLanguage === "ar" ? "كم" : "km"}
                 </label>
                 <Slider
@@ -458,7 +458,7 @@ const SearchPage = () => {
                     80000: `80k ${currentLanguage === "ar" ? "كم" : "km"}`,
                     120000: `120k ${currentLanguage === "ar" ? "كم" : "km"}`,
                     160000: `160k ${currentLanguage === "ar" ? "كم" : "km"}`,
-                    200000: currentLanguage === "ar" ? "أي" : "Any",
+                    200000: currentLanguage === "ar" ? "الكل" : "Any",
                   }}
                   value={filters.kilometer || [0, 200000]}
                   onChange={(value) => {
@@ -610,7 +610,7 @@ const SearchPage = () => {
               {/* Button */}
               <div className="mb-4 flex flex-col gap-2">
                 <button className="text-white bg-[#fb2c36] w-full py-2 rounded cursor-pointer">
-                  {currentLanguage === "ar" ? "تطبيق التصفية" : "Apply Filters"}
+                  {currentLanguage === "ar" ? "تطبيق الفلترة" : "Apply Filters"}
                 </button>
                 <button
                   className="text-black bg-gray-200 w-full py-2 rounded cursor-pointer"
@@ -631,7 +631,7 @@ const SearchPage = () => {
                     })
                   }
                 >
-                  {currentLanguage === "ar" ? "إعادة تعيين التصفيات" : "Reset Filters"}
+                  {currentLanguage === "ar" ? "إعادة تعيين الفلترة" : "Reset Filters"}
                 </button>
               </div>
             </div>
@@ -706,42 +706,42 @@ const SearchPage = () => {
 
                     {/* // Price Filter (Mobile) */}
                     <div className="mb-14" style={{ direction: currentLanguage === "ar" ? "rtl" : "ltr" }}>
-                      <label className="block text-gray-700 font-semibold mb-3">
-                        <Translate text={"Price"} /> ($): {filters.minPrice || 0} -{" "}
-                        {filters.maxPrice || currentLanguage === "ar" ? "أي" : "Any"}
-                      </label>
-                      <Slider
-                        key={currentLanguage}
-                        range
-                        min={0}
-                        max={125000}
-                        step={1000}
-                        marks={{
-                          0: `$0`,
-                          25000: `$25k`,
-                          50000: `$50k`,
-                          75000: `$75k`,
-                          100000: `$100k`,
-                          125000: currentLanguage === "ar" ? "أي" : "Any",
-                        }}
-                        value={[filters.minPrice || 0, filters.maxPrice || 125000]}
-                        onChange={(value) =>
-                          setFilters((prev) => ({
-                            ...prev,
-                            minPrice: value[0],
-                            maxPrice: value[1],
-                          }))
-                        }
-                        handle={CustomHandle}
-                        direction={currentLanguage === "ar" ? "rtl" : "ltr"}
-                      />
-                    </div>
+  <label className="block text-gray-700 font-semibold mb-3">
+    <Translate text={"Price"} /> ($): {filters.minPrice || 0} -{" "}
+    {filters.maxPrice === 125000 ? (currentLanguage === "ar" ? "الكل" : "Any") : filters.maxPrice}
+  </label>
+  <Slider
+    key={currentLanguage}
+    range
+    min={0}
+    max={125000}
+    step={1000}
+    marks={{
+      0: `$0`,
+      25000: `$25k`,
+      50000: `$50k`,
+      75000: `$75k`,
+      100000: `$100k`,
+      125000: currentLanguage === "ar" ? "الكل" : "Any",
+    }}
+    value={[Number(filters.minPrice) || 0, Number(filters.maxPrice) || 125000]}
+    onChange={(value) =>
+      setFilters((prev) => ({
+        ...prev,
+        minPrice: value[0],
+        maxPrice: value[1],
+      }))
+    }
+    handle={CustomHandle}
+    direction={currentLanguage === "ar" ? "rtl" : "ltr"}
+  />
+</div>
 
                     {/* // Kilometer Filter (Mobile) */}
                     <div className="mb-10">
                       <label className="block text-gray-700 font-semibold mb-3">
                         <Translate text={"Kilometer"} />: {filters.kilometer ? filters.kilometer[0] : 0} -{" "}
-                        {filters.kilometer ? filters.kilometer[1] : currentLanguage === "ar" ? "أي" : "Any"}{" "}
+                        {filters.kilometer ? filters.kilometer[1] : currentLanguage === "ar" ? "الكل" : "Any"}{" "}
                         {currentLanguage === "ar" ? "كم" : "km"}
                       </label>
                       <Slider
@@ -755,7 +755,7 @@ const SearchPage = () => {
                           80000: `80k ${currentLanguage === "ar" ? "كم" : "km"}`,
                           120000: `120k ${currentLanguage === "ar" ? "كم" : "km"}`,
                           160000: `160k ${currentLanguage === "ar" ? "كم" : "km"}`,
-                          200000: currentLanguage === "ar" ? "أي" : "Any",
+                          200000: currentLanguage === "ar" ? "الكل" : "Any",
                         }}
                         value={filters.kilometer || [0, 200000]}
                         onChange={(value) => {
@@ -807,7 +807,9 @@ const SearchPage = () => {
                           value={filters.engineSize}
                         >
                           <option hidden selected>
-                            <Translate text={"Select Number Cylinders"} />
+                            {/* <Translate text={""} /> */}
+                            {currentLanguage === "ar" ? `حدد عدد السلندر` : `Select Number Cylinders`}
+
                           </option>
                           {allenginesize.map((size) => (
                             <option key={size.label} value={size.value}>
@@ -912,7 +914,7 @@ const SearchPage = () => {
                         className="text-white bg-[#fb2c36] w-full py-2 rounded cursor-pointer"
                         onClick={() => setIsMobileFilterOpen(false)}
                       >
-                        {currentLanguage === "ar" ? "تطبيق التصفية" : "Apply Filters"}
+                        {currentLanguage === "ar" ? "تطبيق الفلترة" : "Apply Filters"}
                       </button>
                       <button
                         className="text-black bg-gray-200 w-full py-2 rounded cursor-pointer"
@@ -933,8 +935,8 @@ const SearchPage = () => {
                           })
                         }
                       >
-                        <Translate text={"Reset Filters"} />
-                      </button>
+                  {currentLanguage === "ar" ? "إعادة تعيين الفلترة" : "Reset Filters"}
+                  </button>
                     </div>
                   </div>
                 </div>
@@ -1195,9 +1197,12 @@ const SearchPage = () => {
                               <div className="flex items-center flex-row gap-2 ">
                                 <h2 className="text-md font-bold">{getLocalizedMake(data, currentLanguage)}</h2>
                                 <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
-                                <h2 className="text-md font-bold">{getArabicModel(data, currentLanguage)}</h2>
                               </div>
-                              <div className="flex md:items-center md:flex-row flex-col md:gap-3 gap-0">
+                              <div>
+                              <h2 className="text-md font-bold">{getArabicModel(data, currentLanguage)}</h2>
+
+                              </div>
+                              <div className="flex items-center flex-row md:gap-3 gap-1">
                                 <div className="flex items-center gap-1 text-md">
                                   <CiCalendar />
                                   <span>

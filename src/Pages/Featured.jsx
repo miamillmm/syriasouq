@@ -231,9 +231,9 @@ const Featured = () => {
                   </h2>
                 </div>
                 <div className="flex items-center gap-2">
-                  <h2 className="text-md">{data?.make ? getLocalizedMake(data, currentLanguage) : "آخر"}</h2>
+                  <h2 className="text-md font-bold">{data?.make ? getLocalizedMake(data, currentLanguage) : "آخر"}</h2>
                   <span className="w-[4px] h-[4px] bg-black rounded-full block"></span>
-                  <h2 className="text-md">{data?.model ? getArabicModel(data, currentLanguage) : "آخر"}</h2>
+                  <h2 className="text-md font-bold">{data?.model ? getArabicModel(data, currentLanguage) : "آخر"}</h2>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="flex items-center gap-1 text-md">

@@ -131,7 +131,7 @@ const Favorites = () => {
             <div className={`absolute bottom-0 ${currentLanguage === "ar" ? "left-0" : "right-0"} p-4 mt-20`}>
               <button
                 onClick={handleLogout}
-                className="bg-[#B80200] text-white px-3 py-2 rounded-lg md:text-lg text-sm font-bold flex items-center justify-center gap-2 shadow-md hover:bg-red-700"
+                className="bg-black text-white px-3 py-2 rounded-lg md:text-lg text-sm font-bold flex items-center justify-center gap-2 shadow-md hover:bg-black"
               >
                 {currentLanguage === "ar" ? "تسجيل الخروج" : "LogOut"}
               </button>

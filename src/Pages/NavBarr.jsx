@@ -299,7 +299,7 @@ const Navbar = () => {
                   onClick={() => setIsSidebarOpen(false)}
                   className="block"
                 >
-                  <button className="bg-white px-4 py-2 text-[#B80200] rounded-md text-sm font-semibold hover:bg-gray-100 w-full text-left">
+                  <button className="bg-white px-4 py-2 text-[#B80200] text-center rounded-md text-sm font-semibold hover:bg-gray-100 w-full ">
                     {currentLanguage === "ar" ? "إضافة إعلان" : "Add Listing"}
                   </button>
                 </NavLink>
@@ -307,7 +307,7 @@ const Navbar = () => {
                 <li>
                     <Link
                       to="https://www.facebook.com/share/1HKg5LFhzB/?mibextid=wwXIfr"
-                      className="text-red-500 hover:text-red-400 flex items-center gap-2 capitalize justify-center md:justify-start"
+                      className="text-white hover:text-red-400 flex items-center gap-2 capitalize justify-center md:justify-start"
                     >
                       <FaFacebookF className="text-lg" />
                       {currentLanguage === "ar" ? "فيسبوك" : "Facebook"}
@@ -316,7 +316,7 @@ const Navbar = () => {
                 <li>
                     <Link
                       to="https://www.instagram.com/mysyriasouq?igsh=bHFnNWo2aGszcHF4&utm_source=qr"
-                      className="text-red-500 hover:text-red-400 flex items-center gap-2 capitalize justify-center md:justify-start"
+                      className="text-white hover:text-red-400 flex items-center gap-2 capitalize justify-center md:justify-start"
                     >
                       <FaInstagram className="text-lg" />
                       {currentLanguage === "ar" ? "انستاغرام" : "Instagram"}
@@ -325,7 +325,7 @@ const Navbar = () => {
                 <li>
                     <Link
                       to="mailto:syriasouq@outlook.com"
-                      className="text-red-500 hover:text-red-400 flex items-center gap-2 capitalize justify-center md:justify-start"
+                      className="text-white hover:text-red-400 flex items-center gap-2 capitalize justify-center md:justify-start"
                     >
                       <FaEnvelope className="text-lg" />
                       {currentLanguage === "ar" ? "بريد إلكتروني" : "Email"}

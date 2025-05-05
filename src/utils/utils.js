@@ -2940,7 +2940,7 @@ export const arabicMakes = [
     enValue: "Renault",
     models: [
       "الكل",
-      "الجميع",
+      // "الجميع",
       "Arkana",
       "Captur",
       "كليو",

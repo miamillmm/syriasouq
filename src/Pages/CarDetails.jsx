@@ -102,7 +102,7 @@ const CarDetails = () => {
         ".swiper-button-next, .swiper-button-prev"
       );
       navButtons.forEach((button) => {
-        button.classList.add("!text-blue-500", "!w-10", "!h-10");
+        button.classList.add("!text-[#B80200]", "!w-10", "!h-10");
       });
     }
   }, [currentLanguage]);
@@ -487,36 +487,55 @@ const CarDetails = () => {
         variants={fadeIn}
       >
         <div className="w-full flex flex-col gap-2 relative">
-          <div className="bg-white rounded-lg overflow-hidden shadow-md">
-            <Swiper
-              direction="horizontal"
-              slidesPerView={1}
-              spaceBetween={0}
-              navigation={true}
-              modules={[Navigation, Zoom]}
-              zoom={{
-                maxRatio: 3,
-                minRatio: 1,
-              }}
-              ref={swiperRef}
-              key={currentLanguage}
-              className="product-swiper"
-              dir={currentLanguage === "ar" ? "ltr" : "rtl"}
-            >
-              {carDetails?.images?.map((img, index) => (
-                <SwiperSlide key={index} className="flex items-center justify-center">
-                  <div className="swiper-zoom-container flex items-center justify-center h-[300px] sm:h-[400px] lg:h-[500px] w-full">
-                    <img
-                      src={`http://api.syriasouq.com/uploads/cars/${img}`}
-                      alt={`Car image ${index + 1}`}
-                      className="max-w-full max-h-full object-contain cursor-zoom-in transition-all duration-300 hover:opacity-95"
-                      onClick={() => openImageModal(index)}
-                    />
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
+        <div className="bg-white rounded-lg overflow-hidden shadow-md">
+        <Swiper
+  direction="horizontal"
+  slidesPerView={1}
+  spaceBetween={0}
+  navigation={true}
+  modules={[Navigation, Zoom]}
+  zoom={{
+    maxRatio: 3,
+    minRatio: 1,
+  }}
+  ref={swiperRef}
+  key={currentLanguage}
+  className="product-swiper"
+  dir={currentLanguage === "ar" ? "ltr" : "rtl"}
+  style={{ height: "auto" }} // Prevent Swiper from taking 100% height
+>
+  {carDetails?.images?.map((img, index) => (
+    <SwiperSlide
+      key={index}
+      className="flex items-center justify-center w-full"
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "auto", // Prevent slide from taking 100% height
+      }}
+    >
+      <div
+        className="swiper-zoom-container flex items-center justify-center w-full h-[300px] sm:h-[400px] lg:h-[500px]"
+        style={{ overflow: "hidden" }}
+      >
+        <img
+          src={`http://api.syriasouq.com/uploads/cars/${img}`}
+          alt={`Car image ${index + 1}`}
+          className="w-full max-h-full object-contain object-center cursor-zoom-in transition-all duration-300 hover:opacity-95"
+          style={{
+            maxWidth: "100%",
+            maxHeight: "100%",
+            objectFit: "contain",
+            objectPosition: "center center",
+          }}
+          onClick={() => openImageModal(index)}
+        />
+      </div>
+    </SwiperSlide>
+  ))}
+</Swiper>
+</div>
         </div>
       </motion.div>
 
@@ -529,21 +548,21 @@ const CarDetails = () => {
             <div className="space-y-5 bg-white shadow-lg rounded-lg p-3 sm:p-4">
               <div className="flex-1 h-full flex flex-col gap-1 justify-between py-0 md:py-2">
                 <div className="flex items-center justify-between gap-2">
-                  <h2 className="text-xl sm:text-2xl font-bold text-[#B80200]">
-                    <span className="text-lg sm:text-xl text-[#B80200]">$</span>{" "}
+                  <h2 className="text-2xl sm:text-2xl font-bold text-[#B80200]">
+                    <span className="text-2xl sm:text-xl text-[#B80200]">$</span>{" "}
                     {carDetails?.priceUSD ? carDetails?.priceUSD : "آخر"}
                   </h2>
                 </div>
                 <div className="flex items-center gap-2">
-                  <h2 className="text-base sm:text-xl font-semibold text-gray-700">
+                  <h2 className="text-xl sm:text-xl font-semibold text-gray-700">
                     {carDetails?.make ? getLocalizedMake(carDetails, currentLanguage) : "آخر"}
                   </h2>
                   <span className="w-1 h-1 bg-gray-500 rounded-full hidden md:block"></span>
-                  <h2 className="text-sm sm:text-base font-semibold text-gray-700">
+                  <h2 className="text-xl sm:text-xl font-semibold text-gray-700">
                     {getArabicModel(carDetails, currentLanguage)}
                   </h2>
                 </div>
-                <div className="flex items-center flex-row  gap-1 sm:gap-2">
+                <div className="flex items-center flex-row  gap-4 sm:gap-2">
                   <div className="flex items-center gap-1 text-lg	 text-gray-600">
                     <motion.div whileHover={{ scale: 1.1 }}>
                       <CiCalendar className="" />
@@ -577,57 +596,57 @@ const CarDetails = () => {
                 {currentLanguage === "ar" ? "نظرة عامة عن السيارة" : "Information:"}
               </h2>
               <div className="grid grid-cols-2 sm:grid-cols-2 gap-y-3 sm:gap-y-6 text-[#314352]">
-                <p className="font-semibold text-base sm:text-lg">{currentLanguage === "ar" ? "النوع" : "Make:"}</p>
-                <p className="text-base sm:text-lg">{getLocalizedMake(carDetails, currentLanguage)}</p>
+                <p className="font-semibold text-xl sm:text-lg">{currentLanguage === "ar" ? "النوع" : "Make:"}</p>
+                <p className="text-xl sm:text-lg">{getLocalizedMake(carDetails, currentLanguage)}</p>
 
-                <p className="font-semibold text-base sm:text-lg">{currentLanguage === "ar" ? "الموديل" : "Model:"}</p>
-                <p className="text-base sm:text-lg">{getArabicModel(carDetails, currentLanguage)}</p>
+                <p className="font-semibold text-xl sm:text-lg">{currentLanguage === "ar" ? "الموديل" : "Model:"}</p>
+                <p className="text-xl sm:text-lg">{getArabicModel(carDetails, currentLanguage)}</p>
 
-                <p className="font-semibold text-base sm:text-lg">
+                <p className="font-semibold text-xl sm:text-lg">
                   {currentLanguage === "ar" ? "الكيلومتر" : "Kilometer:"}
                 </p>
-                <p className="text-base sm:text-lg">
+                <p className="text-xl sm:text-lg">
                   {carDetails?.kilometer} <Translate text={"km"} />
                 </p>
 
-                <p className="font-semibold text-base sm:text-lg">{currentLanguage === "ar" ? "السعر" : "Price:"}</p>
-                <p className="text-base sm:text-lg">$ {carDetails?.priceUSD}</p>
+                <p className="font-semibold text-xl sm:text-lg">{currentLanguage === "ar" ? "السعر" : "Price:"}</p>
+                <p className="text-xl sm:text-lg">$ {carDetails?.priceUSD}</p>
 
-                <p className="font-semibold text-base sm:text-lg">
+                <p className="font-semibold text-xl sm:text-lg">
                   {currentLanguage === "ar" ? "اللون الداخلي" : "Interior Color:"}
                 </p>
-                <p className="text-base sm:text-lg">
+                <p className="text-xl sm:text-lg">
                   {carDetails?.interiorColor ? <Translate text={carDetails?.interiorColor} /> : "N/A"}
                 </p>
 
-                <p className="font-semibold text-base sm:text-lg">
+                <p className="font-semibold text-xl sm:text-lg">
                   {currentLanguage === "ar" ? "اللون الخارجي" : "Exterior Color:"}
                 </p>
-                <p className="text-base sm:text-lg">
+                <p className="text-xl sm:text-lg">
                   {carDetails?.exteriorColor ? <Translate text={carDetails?.exteriorColor} /> : "N/A"}
                 </p>
 
-                <p className="font-semibold text-base sm:text-lg">
+                <p className="font-semibold text-xl sm:text-lg">
                   {currentLanguage === "ar" ? "حجم المحرك" : "Engine Size:"}
                 </p>
-                <p className="text-base sm:text-lg">{localizeEngineSize(carDetails?.engineSize, currentLanguage)}</p>
+                <p className="text-xl sm:text-lg">{localizeEngineSize(carDetails?.engineSize, currentLanguage)}</p>
 
-                <p className="font-semibold text-base sm:text-lg">
+                <p className="font-semibold text-xl sm:text-lg">
                   {currentLanguage === "ar" ? "نوع الوقود" : "Fuel Type:"}
                 </p>
-                <p className="text-base sm:text-lg">
+                <p className="text-xl sm:text-lg">
                   {carDetails?.fuelType ? <Translate text={carDetails?.fuelType} /> : "N/A"}
                 </p>
 
-                <p className="font-semibold text-base sm:text-lg">
+                <p className="font-semibold text-xl sm:text-lg">
                   {currentLanguage === "ar" ? "ناقل الحركة" : "Transmission:"}
                 </p>
-                <p className="text-base sm:text-lg">
+                <p className="text-xl sm:text-lg">
                   {carDetails?.transmission ? <Translate text={carDetails?.transmission} /> : "N/A"}
                 </p>
 
                 {/* Features Section with Separate Show More/Show Less */}
-                <p className="font-semibold text-base sm:text-lg mt-6">
+                <p className="font-semibold text-xl sm:text-lg mt-6">
                   {currentLanguage === "ar" ? "المواصفات" : "Features:"}
                 </p>
                 <div className="flex items-center gap-2">
@@ -636,7 +655,7 @@ const CarDetails = () => {
                       {showMoreFeatures ? (
                         <motion.button
                           onClick={() => setShowMoreFeatures(false)}
-                          className="text-[#B80200] text-base sm:text-lg hover:underline"
+                          className="text-[#B80200] text-xl sm:text-lg hover:underline"
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                         >
@@ -654,14 +673,14 @@ const CarDetails = () => {
                       )}
                     </>
                   ) : (
-                    <p className="text-base sm:text-lg">N/A</p>
+                    <p className="text-xl sm:text-lg">N/A</p>
                   )}
                 </div>
 
                 {showMoreFeatures && carDetails?.features?.length > 0 && (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 sm:gap-y-6">
                     {carDetails?.features.map((fe) => (
-                      <div key={fe} className={`flex items-center gap-2 text-base sm:text-lg `}>
+                      <div key={fe} className={`flex items-center gap-2 text-xl sm:text-lg `}>
                         <FaCheck className="text-red-500 w-4 h-4" />
                         <p>{getLocalizedFeature(fe, currentLanguage)}</p>
                       </div>
