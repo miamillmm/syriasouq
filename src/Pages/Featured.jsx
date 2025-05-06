@@ -5,7 +5,6 @@ import { useEffect, useState } from "react"
 import { AiOutlineDashboard } from "react-icons/ai"
 import { CiCalendar, CiHeart, CiLocationOn, CiShare2 } from "react-icons/ci"
 import { TiArrowRight } from "react-icons/ti"
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa"
 import { Link } from "react-router-dom"
 import Translate from "../utils/Translate"
 import { useTranslation } from "react-i18next"
@@ -22,6 +21,8 @@ const Featured = () => {
 
   // Track current image index for each car
   const [currentImageIndices, setCurrentImageIndices] = useState({})
+  // Track touch/swipe events
+  const [touchStart, setTouchStart] = useState(null)
 
   // Debug: Log wishlist to verify its contents
   useEffect(() => {
@@ -105,25 +106,46 @@ const Featured = () => {
   }
 
   // Handle image navigation within a card
-  const navigateImage = (e, carId, direction) => {
-    e.preventDefault()
-    e.stopPropagation()
-
+  const navigateImage = (carId, index) => {
     const car = cars.find((c) => c._id === carId)
     if (!car || !car.images || car.images.length <= 1) return
 
-    setCurrentImageIndices((prev) => {
-      const currentIndex = prev[carId] || 0
-      let newIndex
+    setCurrentImageIndices((prev) => ({
+      ...prev,
+      [carId]: index,
+    }))
+  }
 
-      if (direction === "next") {
-        newIndex = (currentIndex + 1) % car.images.length
-      } else {
-        newIndex = (currentIndex - 1 + car.images.length) % car.images.length
-      }
+  // Handle swipe gestures
+  const handleTouchStart = (e, carId) => {
+    const touch = e.touches[0]
+    setTouchStart({ x: touch.clientX, carId })
+  }
 
-      return { ...prev, [carId]: newIndex }
-    })
+  const handleTouchEnd = (e, carId) => {
+    if (!touchStart || touchStart.carId !== carId) return
+
+    const touch = e.changedTouches[0]
+    const deltaX = touch.clientX - touchStart.x
+    const car = cars.find((c) => c._id === carId)
+    if (!car || !car.images || car.images.length <= 1) return
+
+    const swipeThreshold = 50 // Minimum swipe distance in pixels
+    if (Math.abs(deltaX) > swipeThreshold) {
+      setCurrentImageIndices((prev) => {
+        const currentIndex = prev[carId] || 0
+        let newIndex
+        if (deltaX < 0) {
+          // Swipe left (next)
+          newIndex = (currentIndex + 1) % car.images.length
+        } else {
+          // Swipe right (prev)
+          newIndex = (currentIndex - 1 + car.images.length) % car.images.length
+        }
+        return { ...prev, [carId]: newIndex }
+      })
+    }
+    setTouchStart(null)
   }
 
   return (
@@ -150,7 +172,7 @@ const Featured = () => {
             <button className="bg-[#B80200] text-white text-[16px] sm:text-[18px] font-[400] justify-between py-3 sm:py-4 px-8 sm:px-12 rounded-md flex items-center gap-2 cursor-pointer">
               <Translate text={"View All"} />
               <span>
-                <TiArrowRight className={currentLanguage === "ar" ? "rotate-180" : ""} />
+              <TiArrowRight className={currentLanguage === "ar" ? "rotate-180" : ""} />
               </span>
             </button>
           </Link>
@@ -172,40 +194,16 @@ const Featured = () => {
               </div>
               <div className="relative w-full max-w-[420px]">
                 <Link to={`/listing/${data._id}`}>
-                  <div className="overflow-hidden rounded-md relative">
+                  <div
+                    className="overflow-hidden rounded-md relative"
+                    onTouchStart={(e) => handleTouchStart(e, data._id)}
+                    onTouchEnd={(e) => handleTouchEnd(e, data._id)}
+                  >
                     <img
                       alt=""
                       src={`http://api.syriasouq.com/uploads/cars/${data.images[currentImageIndices[data._id] || 0]}`}
                       className="h-56 sm:h-56 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
                     />
-
-                    {/* Image Navigation Controls */}
-                    {data.images && data.images.length > 1 && (
-                      <>
-                        {/* Left arrow */}
-                        <button
-                          onClick={(e) => navigateImage(e, data._id, "prev")}
-                          className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full p-1 z-10"
-                          aria-label="Previous image"
-                        >
-                          <FaChevronLeft size={16} />
-                        </button>
-
-                        {/* Right arrow */}
-                        <button
-                          onClick={(e) => navigateImage(e, data._id, "next")}
-                          className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full p-1 z-10"
-                          aria-label="Next image"
-                        >
-                          <FaChevronRight size={16} />
-                        </button>
-
-                        {/* Image counter */}
-                        <div className="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded-full">
-                          {(currentImageIndices[data._id] || 0) + 1}/{data.images.length}
-                        </div>
-                      </>
-                    )}
                   </div>
                 </Link>
                 <div className=" flex items-center gap-2">
@@ -222,6 +220,23 @@ const Featured = () => {
                     <CiHeart className="w-[75%] h-[75%]" />
                   </div>
                 </div>
+                {/* Navigation Dots */}
+                {data.images && data.images.length > 1 && (
+                  <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-2">
+                    {data.images.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => navigateImage(data._id, index)}
+                        className={`w-2 h-2 rounded-full ${
+                          index === (currentImageIndices[data._id] || 0)
+                            ? "bg-white"
+                            : "bg-gray-400"
+                        }`}
+                        aria-label={`Go to image ${index + 1}`}
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
               <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
                 <div className="flex items-center justify-between gap-2">

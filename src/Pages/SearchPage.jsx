@@ -88,6 +88,8 @@ const SearchPage = () => {
   })
 
   const [currentImageIndices, setCurrentImageIndices] = useState({})
+  // Track touch/swipe events
+  const [touchStart, setTouchStart] = useState(null)
 
   useEffect(() => {
     const make = searchParams.get("make")
@@ -297,25 +299,67 @@ const SearchPage = () => {
   }
 
   // Handle image navigation within a card
-  const navigateImage = (e, carId, direction) => {
-    e.preventDefault()
-    e.stopPropagation()
-
+  const navigateImage = (carId, index) => {
     const car = datas.find((c) => c._id === carId)
     if (!car || !car.images || car.images.length <= 1) return
 
-    setCurrentImageIndices((prev) => {
-      const currentIndex = prev[carId] || 0
-      let newIndex
+    setCurrentImageIndices((prev) => ({
+      ...prev,
+      [carId]: index,
+    }))
+  }
 
-      if (direction === "next") {
-        newIndex = (currentIndex + 1) % car.images.length
-      } else {
-        newIndex = (currentIndex - 1 + car.images.length) % car.images.length
-      }
+  // Handle swipe gestures
+  const handleTouchStart = (e, carId) => {
+    const touch = e.touches[0]
+    setTouchStart({ x: touch.clientX, carId })
+  }
 
-      return { ...prev, [carId]: newIndex }
-    })
+  const handleTouchEnd = (e, carId) => {
+    if (!touchStart || touchStart.carId !== carId) return
+
+    const touch = e.changedTouches[0]
+    const deltaX = touch.clientX - touchStart.x
+    const car = datas.find((c) => c._id === carId)
+    if (!car || !car.images || car.images.length <= 1) return
+
+    const swipeThreshold = 50 // Minimum swipe distance in pixels
+    if (Math.abs(deltaX) > swipeThreshold) {
+      setCurrentImageIndices((prev) => {
+        const currentIndex = prev[carId] || 0
+        let newIndex
+        if (deltaX < 0) {
+          // Swipe left (next)
+          newIndex = (currentIndex + 1) % car.images.length
+        } else {
+          // Swipe right (prev)
+          newIndex = (currentIndex - 1 + car.images.length) % car.images.length
+        }
+        return { ...prev, [carId]: newIndex }
+      })
+    }
+    setTouchStart(null)
+  }
+
+  // Get visible navigation dots (up to 6)
+  const getVisibleDots = (images, currentIndex) => {
+    const totalImages = images.length
+    if (totalImages <= 6) return images.map((_, index) => index)
+
+    const halfWindow = 2 // Show 2 dots before and after current
+    let start = Math.max(0, currentIndex - halfWindow)
+    let end = Math.min(totalImages, start + 6)
+
+    // Adjust if near the end
+    if (end === totalImages) {
+      start = Math.max(0, end - 6)
+    }
+
+    const visibleIndices = []
+    for (let i = start; i < end; i++) {
+      visibleIndices.push(i)
+    }
+    return visibleIndices
   }
 
   return (
@@ -1108,65 +1152,33 @@ const SearchPage = () => {
                             </div>
                             <Link to={`/listing/${data._id}`}>
                               <div className="relative w-full max-w-[400px]">
-                                <div className="overflow-hidden rounded-md max-w-[400px]">
+                                <div
+                                  className="overflow-hidden rounded-md max-w-[400px]"
+                                  onTouchStart={(e) => handleTouchStart(e, data._id)}
+                                  onTouchEnd={(e) => handleTouchEnd(e, data._id)}
+                                >
                                   <img
                                     alt=""
                                     src={`http://api.syriasouq.com/uploads/cars/${data.images[currentImageIndices[data._id] || 0]}`}
                                     className="h-40 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out sm:h-56"
                                   />
-
-                                  {/* Image Navigation Controls */}
+                                  {/* Navigation Dots */}
                                   {data.images && data.images.length > 1 && (
-                                    <>
-                                      {/* Left arrow */}
-                                      <button
-                                        onClick={(e) => navigateImage(e, data._id, "prev")}
-                                        className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full p-1 z-10"
-                                        aria-label="Previous image"
-                                      >
-                                        <svg
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          width="16"
-                                          height="16"
-                                          viewBox="0 0 24 24"
-                                          fill="none"
-                                          stroke="currentColor"
-                                          strokeWidth="2"
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                        >
-                                          <polyline points="15 18 9 12 15 6"></polyline>
-                                        </svg>
-                                      </button>
-
-                                      {/* Right arrow */}
-                                      <button
-                                        onClick={(e) => navigateImage(e, data._id, "next")}
-                                        className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full p-1 z-10"
-                                        aria-label="Next image"
-                                      >
-                                        <svg
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          width="16"
-                                          height="16"
-                                          viewBox="0 0 24 24"
-                                          fill="none"
-                                          stroke="currentColor"
-                                          strokeWidth="2"
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                        >
-                                          <polyline points="9 18 15 12 9 6"></polyline>
-                                        </svg>
-                                      </button>
-
-                                      {/* Image counter */}
-                                      <div className="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded-full">
-                                        {(currentImageIndices[data._id] || 0) + 1}/{data.images.length}
-                                      </div>
-                                    </>
+                                    <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-2">
+                                      {getVisibleDots(data.images, currentImageIndices[data._id] || 0).map((index) => (
+                                        <button
+                                          key={index}
+                                          onClick={() => navigateImage(data._id, index)}
+                                          className={`w-2 h-2 rounded-full ${
+                                            index === (currentImageIndices[data._id] || 0)
+                                              ? "bg-white"
+                                              : "bg-gray-400"
+                                          }`}
+                                          aria-label={`Go to image ${index + 1}`}
+                                        />
+                                      ))}
+                                    </div>
                                   )}
-
                                   {/* Wishlist Button on Image */}
                                   <div
                                     onClick={(e) => {
@@ -1309,65 +1321,33 @@ const SearchPage = () => {
                             </div>
                             <Link to={`/listing/${data._id}`}>
                               <div className="relative w-full max-w-[400px]">
-                                <div className="overflow-hidden rounded-md">
+                                <div
+                                  className="overflow-hidden rounded-md"
+                                  onTouchStart={(e) => handleTouchStart(e, data._id)}
+                                  onTouchEnd={(e) => handleTouchEnd(e, data._id)}
+                                >
                                   <img
                                     alt=""
                                     src={`http://api.syriasouq.com/uploads/cars/${data.images[currentImageIndices[data._id] || 0]}`}
                                     className="h-56 sm:h-56 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
                                   />
-
-                                  {/* Image Navigation Controls */}
+                                  {/* Navigation Dots */}
                                   {data.images && data.images.length > 1 && (
-                                    <>
-                                      {/* Left arrow */}
-                                      <button
-                                        onClick={(e) => navigateImage(e, data._id, "prev")}
-                                        className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full p-1 z-10"
-                                        aria-label="Previous image"
-                                      >
-                                        <svg
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          width="16"
-                                          height="16"
-                                          viewBox="0 0 24 24"
-                                          fill="none"
-                                          stroke="currentColor"
-                                          strokeWidth="2"
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                        >
-                                          <polyline points="15 18 9 12 15 6"></polyline>
-                                        </svg>
-                                      </button>
-
-                                      {/* Right arrow */}
-                                      <button
-                                        onClick={(e) => navigateImage(e, data._id, "next")}
-                                        className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full p-1 z-10"
-                                        aria-label="Next image"
-                                      >
-                                        <svg
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          width="16"
-                                          height="16"
-                                          viewBox="0 0 24 24"
-                                          fill="none"
-                                          stroke="currentColor"
-                                          strokeWidth="2"
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                        >
-                                          <polyline points="9 18 15 12 9 6"></polyline>
-                                        </svg>
-                                      </button>
-
-                                      {/* Image counter */}
-                                      <div className="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded-full">
-                                        {(currentImageIndices[data._id] || 0) + 1}/{data.images.length}
-                                      </div>
-                                    </>
+                                    <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-2">
+                                      {getVisibleDots(data.images, currentImageIndices[data._id] || 0).map((index) => (
+                                        <button
+                                          key={index}
+                                          onClick={() => navigateImage(data._id, index)}
+                                          className={`w-2 h-2 rounded-full ${
+                                            index === (currentImageIndices[data._id] || 0)
+                                              ? "bg-white"
+                                              : "bg-gray-400"
+                                          }`}
+                                          aria-label={`Go to image ${index + 1}`}
+                                        />
+                                      ))}
+                                    </div>
                                   )}
-
                                   {/* Wishlist Button on Image */}
                                   <div
                                     onClick={(e) => {

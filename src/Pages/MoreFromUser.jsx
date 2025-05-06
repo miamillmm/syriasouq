@@ -19,17 +19,15 @@ import { ToastContainer } from "react-toastify"
 import { useWishlist } from "../context/WishlistContext"
 
 export default function MoreFromUser({ title, button, uid }) {
+  const prevRef = useRef(null)
+  const nextRef = useRef(null)
   const swiperRef = useRef(null)
   const [listings, setListings] = useState([])
   const { i18n } = useTranslation()
   const currentLanguage = i18n.language
   const { wishlist, handleWishlist, isWishlistLoading } = useWishlist()
 
-  // Track current image index for each car
-  const [currentImageIndices, setCurrentImageIndices] = useState({})
-
   useEffect(() => {
-    console.log(uid)
     const getCars = async () => {
       const url = uid
         ? `${import.meta.env.VITE_API_URL}/cars/uid/${uid}`
@@ -37,19 +35,11 @@ export default function MoreFromUser({ title, button, uid }) {
       const response = await axios.get(url)
       if (response.data) {
         setListings(response.data.data)
-
-        // Initialize current image indices
-        const indices = {}
-        response.data.data.forEach((car) => {
-          indices[car._id] = 0
-        })
-        setCurrentImageIndices(indices)
       }
     }
     getCars()
   }, [uid])
 
-  // Update Swiper when language changes or listings update
   useEffect(() => {
     if (swiperRef.current && swiperRef.current.swiper) {
       swiperRef.current.swiper.update()
@@ -106,28 +96,6 @@ export default function MoreFromUser({ title, button, uid }) {
     }
   }
 
-  // Handle image navigation within a card
-  const navigateImage = (e, carId, direction) => {
-    e.preventDefault()
-    e.stopPropagation()
-
-    const car = listings.find((c) => c._id === carId)
-    if (!car || !car.images || car.images.length <= 1) return
-
-    setCurrentImageIndices((prev) => {
-      const currentIndex = prev[carId] || 0
-      let newIndex
-
-      if (direction === "next") {
-        newIndex = (currentIndex + 1) % car.images.length
-      } else {
-        newIndex = (currentIndex - 1 + car.images.length) % car.images.length
-      }
-
-      return { ...prev, [carId]: newIndex }
-    })
-  }
-
   return (
     <div className="w-full py-6 sm:py-10 relative px-4 sm:px-6 lg:px-8">
       <ToastContainer
@@ -145,14 +113,14 @@ export default function MoreFromUser({ title, button, uid }) {
         <h2 className="text-xl sm:text-2xl lg:text-3xl text-[#314252] font-bold">{title}</h2>
         <div className={`flex items-center gap-2 mt-4 sm:mt-0 ${currentLanguage === "ar" && "flex-row-reverse"}`}>
           <button
-            onClick={() => swiperRef.current?.swiper?.slideNext()}
+            ref={prevRef}
             className="bg-[#B80200] text-white p-2 rounded cursor-pointer hover:bg-[#a50200] transition-colors"
             aria-label="Previous slide"
           >
             <FaChevronLeft size={20} className="sm:w-6 sm:h-6" />
           </button>
           <button
-            onClick={() => swiperRef.current?.swiper?.slidePrev()}
+            ref={nextRef}
             className="bg-[#B80200] text-white p-2 rounded cursor-pointer hover:bg-[#a50200] transition-colors"
             aria-label="Next slide"
           >
@@ -169,11 +137,20 @@ export default function MoreFromUser({ title, button, uid }) {
           768: { slidesPerView: 1, spaceBetween: 20 },
           1024: { slidesPerView: 2, spaceBetween: 20 },
         }}
-        onSwiper={(swiper) => (swiperRef.current = swiper)}
+        navigation={{
+          prevEl: prevRef.current,
+          nextEl: nextRef.current,
+        }}
+        onSwiper={(swiper) => {
+          swiperRef.current = swiper
+          swiper.params.navigation.prevEl = prevRef.current
+          swiper.params.navigation.nextEl = nextRef.current
+          swiper.navigation.init()
+          swiper.navigation.update()
+        }}
         className="overflow-hidden"
         dir={currentLanguage === "ar" ? "rtl" : "ltr"}
         key={currentLanguage}
-        ref={swiperRef}
       >
         {listings.length > 0 ? (
           listings.map((car) => (
@@ -184,35 +161,10 @@ export default function MoreFromUser({ title, button, uid }) {
                     <div className="overflow-hidden h-52 sm:h-58 lg:h-60 rounded-md relative">
                       <img
                         alt={`${getLocalizedMake(car, currentLanguage)} ${getArabicModel(car, currentLanguage)}`}
-                        src={`http://api.syriasouq.com/uploads/cars/${car?.images[currentImageIndices[car._id] || 0]}`}
+                        src={`http://api.syriasouq.com/uploads/cars/${car?.images[0]}`}
                         className="w-full h-48 sm:h-52 lg:h-56 object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
                         loading="lazy"
                       />
-
-                      {/* Image Navigation Controls */}
-                      {car.images && car.images.length > 1 && (
-                        <>
-                          <button
-                            onClick={(e) => navigateImage(e, car._id, "prev")}
-                            className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full p-1 z-10"
-                            aria-label="Previous image"
-                          >
-                            <FaChevronLeft size={16} />
-                          </button>
-                          <button
-                            onClick={(e) => navigateImage(e, car._id, "next")}
-                            className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full p-1 z-10"
-                            aria-label="Next image"
-                          >
-                            <FaChevronRight size={16} />
-                          </button>
-                          <div className="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded-full">
-                            {(currentImageIndices[car._id] || 0) + 1}/{car.images.length}
-                          </div>
-                        </>
-                      )}
-
-                      {/* Wishlist Button */}
                       <div
                         onClick={(e) => {
                           e.preventDefault()
@@ -271,7 +223,6 @@ export default function MoreFromUser({ title, button, uid }) {
                     </Link>
                   </div>
                 </div>
-                {/* Share Button */}
                 <div
                   className={`absolute top-3 ${
                     currentLanguage === "ar" ? "left-3" : "right-3"
