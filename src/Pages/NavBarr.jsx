@@ -3,7 +3,7 @@ import { NavLink, Link } from "react-router-dom";
 import logo from "../assets/images/logo/logo-new-transparent-bg.png";
 import Translate from "../utils/Translate";
 import { useTranslation } from "react-i18next";
-import { FaEnvelope, FaFacebookF, FaInstagram, FaRegUserCircle } from "react-icons/fa";
+import { FaEnvelope, FaFacebookF, FaInstagram, FaRegUserCircle, FaWhatsapp } from "react-icons/fa";
 import { AuthContext } from "../context/AuthContext";
 
 const Navbar = () => {
@@ -307,6 +307,8 @@ const Navbar = () => {
                 <li>
                     <Link
                       to="https://www.facebook.com/share/1HKg5LFhzB/?mibextid=wwXIfr"
+                              target="_blank"
+        rel="noopener noreferrer"
                       className="text-white hover:text-red-400 flex items-center gap-2 capitalize justify-center md:justify-start"
                     >
                       <FaFacebookF className="text-lg" />
@@ -316,6 +318,8 @@ const Navbar = () => {
                 <li>
                     <Link
                       to="https://www.instagram.com/mysyriasouq?igsh=bHFnNWo2aGszcHF4&utm_source=qr"
+                              target="_blank"
+        rel="noopener noreferrer"
                       className="text-white hover:text-red-400 flex items-center gap-2 capitalize justify-center md:justify-start"
                     >
                       <FaInstagram className="text-lg" />
@@ -325,12 +329,24 @@ const Navbar = () => {
                 <li>
                     <Link
                       to="mailto:syriasouq@outlook.com"
+                            
                       className="text-white hover:text-red-400 flex items-center gap-2 capitalize justify-center md:justify-start"
                     >
                       <FaEnvelope className="text-lg" />
                       {currentLanguage === "ar" ? "بريد إلكتروني" : "Email"}
                     </Link>
                 </li>
+                <li>
+      <Link
+        to="https://wa.me/+963981278848"
+                target="_blank"
+        rel="noopener noreferrer"
+        className="text-white hover:text-red-400 flex items-center gap-2 capitalize justify-center md:justify-start"
+      >
+        <FaWhatsapp className="text-lg" />
+        {currentLanguage === "ar" ? "واتساب" : "WhatsApp"}
+      </Link>
+    </li>
             </ul>
           </div>
         </div>

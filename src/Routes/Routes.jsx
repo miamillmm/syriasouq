@@ -16,6 +16,7 @@ import ChangePassword from "../Pages/Authentication/ChangePassword";
 import Favorites from "../Pages/Dashboard/Favorites";
 import { AuthProvider } from "../context/AuthContext";
 import { WishlistProvider } from "../context/WishlistContext";
+import ResetPassword from "../Pages/Authentication/ResetPassword";
 
 const Router = () => {
   return (
@@ -30,10 +31,7 @@ const Router = () => {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login-and-register" element={<LoginAndRegister />} />
-          <Route
-            path="/change-password/:token"
-            element={<PasswordChangePage />}
-          />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/change-password" element={<ChangePassword />} />
           <Route path="/listing/:id" element={<CarDetails />} />
           <Route path="/addlisting" element={<AddListingPage />} />

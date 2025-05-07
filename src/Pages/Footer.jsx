@@ -62,7 +62,7 @@ const Footer = () => {
               </h3>
               <p className="text-gray-300 text-sm flex justify-center md:justify-start items-center gap-2 capitalize">
                 <LuMapPin className="text-red-500" />{" "}
-                <Translate text={"Damascus, Syria"} />
+                <Translate text={"Syria"} />
               </p>
               <p className="text-gray-300 text-sm flex justify-center md:justify-start items-center gap-2 capitalize">
                 <CiAt className="text-red-500" /> syriasouq@outlook.com

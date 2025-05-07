@@ -68,9 +68,6 @@ const CarDetails = () => {
   const isDraggingRef = useRef(false)
   const doubleTapTimerRef = useRef(null)
   const lastTapTimeRef = useRef(0)
-  // Swipe functionality
-  const swipeStartXRef = useRef(null)
-  const swipeThreshold = 50 // Minimum distance for a swipe to be detected
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("SyriaSouq-auth"))
@@ -246,18 +243,17 @@ const CarDetails = () => {
     lastTapTimeRef.current = now
   }
 
-  // Handle touch start for dragging, pinch zoom, and swipe
+  // Handle touch start for dragging and pinch zoom
   const handleTouchStart = (e) => {
     e.preventDefault()
 
     if (e.touches.length === 1) {
-      swipeStartXRef.current = e.touches[0].clientX // Store swipe start position
+      isDraggingRef.current = true
       startPointRef.current = {
         x: e.touches[0].clientX,
         y: e.touches[0].clientY,
       }
       lastPointRef.current = { ...startPointRef.current }
-      isDraggingRef.current = imageTransform.scale > 1 // Enable dragging only if zoomed
     } else if (e.touches.length === 2) {
       isZoomingRef.current = true
       isDraggingRef.current = false
@@ -281,9 +277,9 @@ const CarDetails = () => {
     }
   }
 
-  // Handle touch move for dragging, pinch zoom, and swipe
+  // Handle touch move for dragging and pinch zoom
   const handleTouchMove = (e) => {
-    if (!isDraggingRef.current && !isZoomingRef.current && e.touches.length !== 1) return
+    if (!isDraggingRef.current && !isZoomingRef.current) return
     e.preventDefault()
 
     if (isZoomingRef.current && e.touches.length === 2) {
@@ -312,7 +308,7 @@ const CarDetails = () => {
         positionX: newPositionX,
         positionY: newPositionY,
       }))
-    } else if (isDraggingRef.current && e.touches.length === 1) {
+    } else if (isDraggingRef.current && e.touches.length === 1 && imageTransform.scale > 1) {
       const x = e.touches[0].clientX
       const y = e.touches[0].clientY
 
@@ -326,38 +322,13 @@ const CarDetails = () => {
         positionX: prev.positionX + deltaX,
         positionY: prev.positionY + deltaY,
       }))
-    } else if (e.touches.length === 1) {
-      // Update last point for swipe detection
-      lastPointRef.current = {
-        x: e.touches[0].clientX,
-        y: e.touches[0].clientY,
-      }
     }
   }
 
-  // Handle touch end for dragging, pinch zoom, and swipe
+  // Handle touch end
   const handleTouchEnd = (e) => {
-    if (e.touches.length === 0 && swipeStartXRef.current !== null && !isZoomingRef.current) {
-      const swipeEndX = lastPointRef.current.x
-      const swipeDistance = swipeEndX - swipeStartXRef.current
-      const swipeYDistance = lastPointRef.current.y - startPointRef.current.y
-
-      // Only process swipe if vertical movement is minimal to avoid conflicts with drag
-      if (Math.abs(swipeDistance) > swipeThreshold && Math.abs(swipeYDistance) < 50) {
-        if (swipeDistance > 0) {
-          // Swipe right: go to previous image
-          setCurrentImageIndex((prev) => (prev === 0 ? carDetails?.images?.length - 1 : prev - 1))
-        } else {
-          // Swipe left: go to next image
-          setCurrentImageIndex((prev) => (prev === carDetails?.images?.length - 1 ? 0 : prev + 1))
-        }
-        resetZoom()
-      }
-    }
-
     isDraggingRef.current = false
     isZoomingRef.current = false
-    swipeStartXRef.current = null
 
     if (imageTransform.scale < 1.05) {
       resetZoom()
@@ -577,10 +548,10 @@ const CarDetails = () => {
             <div className="space-y-5 bg-white shadow-lg rounded-lg p-3 sm:p-4">
               <div className="flex-1 h-full flex flex-col gap-1 justify-between py-0 md:py-2">
                 <div className="flex items-center justify-between gap-2">
-                <h2 className="text-2xl font-bold text-[#B80200]">
-  <span className="text-2xl">$ </span>
-  {carDetails?.priceUSD ? Number(carDetails?.priceUSD).toLocaleString('en-US') : "آخر"}
-</h2>
+                  <h2 className="text-2xl sm:text-2xl font-bold text-[#B80200]">
+                    <span className="text-2xl sm:text-xl text-[#B80200]">$</span>{" "}
+                    {carDetails?.priceUSD ? carDetails?.priceUSD : "آخر"}
+                  </h2>
                 </div>
                 <div className="flex items-center gap-2">
                   <h2 className="text-xl sm:text-xl font-semibold text-gray-700">
@@ -639,8 +610,8 @@ const CarDetails = () => {
                 </p>
 
                 <p className="font-semibold text-xl sm:text-lg">{currentLanguage === "ar" ? "السعر" : "Price:"}</p>
-                <p className="text-xl sm:text-lg">$ {carDetails?.priceUSD ? Number(carDetails?.priceUSD).toLocaleString('en-US') : "آخر"}</p>
-         
+                <p className="text-xl sm:text-lg">$ {carDetails?.priceUSD}</p>
+
                 <p className="font-semibold text-xl sm:text-lg">
                   {currentLanguage === "ar" ? "اللون الداخلي" : "Interior Color:"}
                 </p>
@@ -730,11 +701,11 @@ const CarDetails = () => {
               </motion.div>
             </motion.div>
             {/* Car Description */}
-            <motion.div className="space-y-5 flip-card bg-white shadow-lg rounded-lg p-4 sm:p-6 mt-4 sm:mt-6" variants={fadeIn}>
+            <motion.div className="space-y-5 bg-white shadow-lg rounded-lg p-4 sm:p-6 mt-4 sm:mt-6" variants={fadeIn}>
               <h1 className="text-xl sm:text-2xl text-[#314352] font-bold mt-2">
                 {currentLanguage === "ar" ? "الوصف" : "Description:"}
               </h1>
-              <p className="text-[#314352] mt-2 mb-5 text-md sm:text-md">{carDetails?.description}</p>
+              <p className="text-[#314352] mt-2 mb-5 text-sm sm:text-base">{carDetails?.description}</p>
             </motion.div>
           </motion.div>
 
@@ -810,7 +781,7 @@ const CarDetails = () => {
         </motion.div>
       </div>
 
-      {/* Modern Image Modal with Gesture Zoom and Swipe */}
+      {/* Modern Image Modal with Gesture Zoom */}
       <AnimatePresence>
         {isImageModalOpen && (
           <motion.div
@@ -910,7 +881,7 @@ const CarDetails = () => {
                 {currentImageIndex + 1} / {carDetails?.images?.length}
               </span>
               <div className="mt-2 text-xs text-white/50">
-                {imageTransform.scale > 1 ? "Drag to pan • Double-tap to reset • Swipe to navigate" : "Double-tap to zoom • Pinch to zoom • Swipe to navigate"}
+                {imageTransform.scale > 1 ? "Drag to pan • Double-tap to reset" : "Double-tap to zoom • Pinch to zoom"}
               </div>
             </div>
           </motion.div>
@@ -971,7 +942,7 @@ const CarDetails = () => {
                   >
                     <option value="">{t("report.reasonPlaceholder")}</option>
                     <option value="inappropriate">{t("report.reasons.inappropriate")}</option>
-                    {/* <option value="spam">{t("report.reasons.spam")}</option> */}
+                    <option value="spam">{t("report.reasons.spam")}</option>
                     <option value="fraud">{t("report.reasons.fraud")}</option>
                     <option value="other">{t("report.reasons.other")}</option>
                   </select>

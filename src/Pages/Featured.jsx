@@ -240,10 +240,10 @@ const Featured = () => {
               </div>
               <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
                 <div className="flex items-center justify-between gap-2">
-                  <h2 className="text-2xl font-bold text-[#B80200]">
-                    <span className="text-2xl">$ </span>
-                    {data?.priceUSD ? data?.priceUSD : "آخر"}
-                  </h2>
+                <h2 className="text-2xl font-bold text-[#B80200]">
+  <span className="text-2xl">$ </span>
+  {data?.priceUSD ? Number(data?.priceUSD).toLocaleString('en-US') : "آخر"}
+</h2>
                 </div>
                 <div className="flex items-center gap-2">
                   <h2 className="text-md font-bold">{data?.make ? getLocalizedMake(data, currentLanguage) : "آخر"}</h2>

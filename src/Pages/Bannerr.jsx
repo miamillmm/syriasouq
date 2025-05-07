@@ -132,7 +132,7 @@ const BannerSection = () => {
 
   return (
     <div
-      className="relative border-t-2 border-[#576877] py-10 pt-52 sm:py-24 flex items-center justify-center md:min-h-[80vh] min-h-[70vh]"
+      className="relative border-t-2 border-[#576877] py-10 pt-52 sm:py-24 flex items-center justify-center md:min-h-[80vh] min-h-[70vh] bg-banner-mobile"
       style={{
         backgroundImage: `url(${bgImage})`,
         backgroundSize: "cover",
@@ -140,6 +140,15 @@ const BannerSection = () => {
         backgroundRepeat: "no-repeat",
       }}
     >
+      <style>
+        {`
+          @media (max-width: 767px) {
+            .bg-banner-mobile {
+              background-position: center -30px !important;
+            }
+          }
+        `}
+      </style>
       <div
         className="absolute inset-0"
         style={{
@@ -149,7 +158,7 @@ const BannerSection = () => {
       ></div>
 
       <div className="relative z-10 container mx-auto px-4 sm:px-8 md:px-16 md:py-10 grid grid-cols-1 gap-4 items-center w-full">
-        <div className="bg-[#323232fa] shadow-xl rounded-2xl w-full max-w-md p-6 sm:p-8 mx-auto mt-28 md:mt-0">
+        <div className="bg-[#323232fa] shadow-xl rounded-2xl w-full max-w-md p-6 sm:p-8 mx-auto mt-12 md:mt-0">
           <h2 className="text-2xl sm:text-3xl font-semibold mb-6 text-white text-center">
             <Translate text={"Find Your Perfect Car"} />
           </h2>

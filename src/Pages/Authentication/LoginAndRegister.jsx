@@ -10,6 +10,8 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import SyrianFlag from "../../assets/flag/syria-flag.png";
 import { AuthContext } from "../../context/AuthContext";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // Import Google Fonts for Arabic
 const styles = `
@@ -482,6 +484,7 @@ const LoginAndRegister = () => {
           </motion.div>
         </motion.div>
       )}
+      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} closeOnClick pauseOnHover />
     </div>
   );
 };

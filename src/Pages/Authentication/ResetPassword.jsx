@@ -64,7 +64,7 @@ const ResetPassword = () => {
         draggable: true,
         theme: "light",
       });
-      navigate('/login');
+      navigate('/');
     } catch (error) {
       console.error("Reset Password Error:", error);
       toast.error(
@@ -83,7 +83,7 @@ const ResetPassword = () => {
   };
 
   const handleCancel = () => {
-    navigate('/login');
+    navigate('/');
   };
 
   return (
@@ -126,10 +126,13 @@ const ResetPassword = () => {
                 <input
                   type="password"
                   {...register("newPassword", {
-                    required: "New password is required",
-                    minLength: {
-                      value: 8,
-                      message: "Password must be at least 8 characters long",
+                    required: currentLanguage === "ar" ? "كلمة المرور الجديدة مطلوبة" : "New password is required",
+                    pattern: {
+                      value: /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/,
+                      message:
+                        currentLanguage === "ar"
+                          ? "يجب أن تحتوي كلمة المرور على حرف كبير واحد على الأقل، وحرف صغير على الأقل، وأن تكون بطول 6 أحرف على الأقل"
+                          : "Password must contain at least one uppercase letter, one lowercase letter, and be at least 6 characters long",
                     },
                   })}
                   className="w-full border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-400"

@@ -26,6 +26,7 @@ const ChangePassword = () => {
   const handleForgotPassword = async (data) => {
     console.log("Forgot Password Data:", data);
     try {
+      console.log(data)
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/auth/forgot-password`,
         { phone: data.phone } // Phone number includes country code

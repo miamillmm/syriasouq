@@ -158,11 +158,11 @@ export default function MoreFromUser({ title, button, uid }) {
               <div className="flex md:flex-row flex-col-reverse gap-4 bg-slate-100 p-5 sm:p-4 rounded relative">
                 <div className="w-full max-w-[450px] sm:max-w-[350px]">
                   <Link to={`/listing/${car?._id}`} key={car?._id}>
-                    <div className="overflow-hidden h-52 sm:h-58 lg:h-60 rounded-md relative">
+                    <div className="overflow-hidden h-60 sm:h-60 rounded-md relative">
                       <img
                         alt={`${getLocalizedMake(car, currentLanguage)} ${getArabicModel(car, currentLanguage)}`}
                         src={`http://api.syriasouq.com/uploads/cars/${car?.images[0]}`}
-                        className="w-full h-48 sm:h-52 lg:h-56 object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
+                        className="w-full  sm:h-60 lg:h-60 object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
                         loading="lazy"
                       />
                       <div
@@ -186,10 +186,10 @@ export default function MoreFromUser({ title, button, uid }) {
                 </div>
                 <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
                   <div className="flex items-center justify-between gap-2">
-                    <h2 className="text-lg sm:text-xl font-bold text-[#B80200]">
-                      <span className="text-lg sm:text-xl">$ </span>
-                      {car?.priceUSD ? car?.priceUSD : "آخر"}
-                    </h2>
+                  <h2 className="text-2xl font-bold text-[#B80200]">
+  <span className="text-2xl">$ </span>
+  {car?.priceUSD ? Number(car?.priceUSD).toLocaleString('en-US') : "آخر"}
+</h2>
                   </div>
                   <div className="flex items-center gap-2 md:mt-3">
                     <h2 className="text-md sm:text-md font-bold">{getLocalizedMake(car, currentLanguage)}</h2>
