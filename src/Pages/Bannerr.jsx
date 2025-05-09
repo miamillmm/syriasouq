@@ -160,7 +160,10 @@ const BannerSection = () => {
       <div className="relative z-10 container mx-auto px-4 sm:px-8 md:px-16 md:py-10 grid grid-cols-1 gap-4 items-center w-full">
         <div className="bg-[#323232fa] shadow-xl rounded-2xl w-full max-w-md p-6 sm:p-8 mx-auto mt-12 md:mt-0">
           <h2 className="text-2xl sm:text-3xl font-semibold mb-6 text-white text-center">
-            <Translate text={"Buy & Sell with Syria Souq"} />
+            {/* <Translate text={"Buy & Sell with Syria Souq"} /> */}
+
+            {currentLanguage === "ar" ? "بيع وشراء مع سوق سوريا" : "Buy & Sell with Syria Souq"}
+           
           </h2>
           <form className="space-y-5" onSubmit={handleSearch}>
             <div className="space-y-4">
