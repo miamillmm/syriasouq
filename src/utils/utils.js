@@ -6,6 +6,12 @@ export const makes = [
     models: ["All", "124", "1999", "595", "695", "F595", "Other"],
   },
   {
+    label: "Subaru",
+    value: "Subaru",
+    arValue: "سوبارو",
+    models: ["BRZ", "Crosstrek", "Forester", "Impreza", "Legacy", "Outback", "Tribeca", "WRX", "XV", "Other"],
+  },
+  {
     label: "Alfa Romeo",
     value: "Alfa Romeo",
     models: [
@@ -1541,6 +1547,13 @@ export const arabicMakes = [
     enValue: "Abarth",
     models: ["الكل", "124", "1999", "595", "695", "595 اف", "آخرى"],
   },
+
+{
+  label: "سوبارو",
+  value: "سوبارو",
+  enValue: "Subaru",
+  models: ["BRZ", "Crosstrek", "فوريستر", "امبريزا", "ليجاسی", "أوتباك", "تريبيك", "WRX", "XV", "أخرى"],
+},
 
   {
     label: "ألفا روميو",

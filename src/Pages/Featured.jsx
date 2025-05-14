@@ -33,27 +33,34 @@ const Featured = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const carRes = await axios.get(`${import.meta.env.VITE_API_URL}/cars?status=available`)
-        setCars(carRes.data.data)
-        console.log("Fetched cars:", carRes.data.data) // Debug log
-
+        const carRes = await axios.get(`${import.meta.env.VITE_API_URL}/cars?status=available`);
+        // Sort by _id (or another field) and slice to get the latest 8
+        const sortedCars = carRes.data.data
+          .sort((a, b) => new Date(b._id) - new Date(a._id)) // Adjust sorting field
+          .slice(0, 8);
+        setCars(sortedCars);
+        console.log("Fetched cars:", sortedCars); // Debug log
+  
         // Initialize current image indices
-        const indices = {}
-        carRes.data.data.forEach((car) => {
-          indices[car._id] = 0
-        })
-        setCurrentImageIndices(indices)
+        const indices = {};
+        sortedCars.forEach((car) => {
+          indices[car._id] = 0;
+        });
+        setCurrentImageIndices(indices);
       } catch (error) {
-        console.log("Error fetching cars:", error)
-        toast.error(currentLanguage === "ar" ? "فشل في جلب السيارات" : "Failed to fetch cars", {
-          position: "top-right",
-          autoClose: 3000,
-        })
+        console.log("Error fetching cars:", error);
+        toast.error(
+          currentLanguage === "ar" ? "فشل في جلب السيارات" : "Failed to fetch cars",
+          {
+            position: "top-right",
+            autoClose: 3000,
+          }
+        );
       }
-    }
-
-    fetchData()
-  }, [currentLanguage, wishlist])
+    };
+  
+    fetchData();
+  }, [currentLanguage, wishlist]);
 
   const handleShare = (car) => {
     const url = `${window.location.origin}/listing/${car._id}`

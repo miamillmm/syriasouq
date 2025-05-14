@@ -14,7 +14,7 @@ const Subscribe = () => {
       <div className="bg-[#f8f9fa] py-12 px-4 sm:px-8 md:px-16 text-center">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#314352] mb-4">
-            {currentLanguage === "ar" ? "سوق سوريا" : "Syria Souq"}
+            {currentLanguage === "ar" ? "سيريا سوق" : "Syria Souq"}
           </h2>
           <p
             className={`text-base sm:text-lg md:text-xl text-gray-700 leading-relaxed ${

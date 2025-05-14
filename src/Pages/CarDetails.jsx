@@ -625,8 +625,9 @@ const CarDetails = () => {
                 {currentLanguage === "ar" ? "نظرة عامة عن السيارة" : "Information:"}
               </h2>
               <div className="grid grid-cols-2 sm:grid-cols-2 gap-y-3 sm:gap-y-6 text-[#314352]">
+                
                 <p className="font-semibold text-xl sm:text-lg">{currentLanguage === "ar" ? "النوع" : "Make:"}</p>
-                <p className="text-xl sm:text-lg">{getLocalizedMake(carDetails, currentLanguage)}</p>
+                <p className="text-xl sm:text-lg ">{getLocalizedMake(carDetails, currentLanguage)}</p>
 
                 <p className="font-semibold text-xl sm:text-lg">{currentLanguage === "ar" ? "الموديل" : "Model:"}</p>
                 <p className="text-xl sm:text-lg">{getArabicModel(carDetails, currentLanguage)}</p>

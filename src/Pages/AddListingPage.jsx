@@ -123,6 +123,7 @@ const ListingForm = ({
       label: currentLanguage === "ar" ? arabicMake?.label || m.label : m.label,
     };
   });
+  
 
   // Prepare model options based on selected make
   const modelOptions = make

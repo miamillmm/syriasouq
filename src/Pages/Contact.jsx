@@ -1,50 +1,48 @@
-import React, { useState } from "react";
-import { MdOutlineKeyboardArrowRight } from "react-icons/md";
-import { TiArrowRight } from "react-icons/ti";
-import { NavLink } from "react-router-dom";
-import cover from "../assets/bg-image/cover-2.jpg";
-import { useTranslation } from "react-i18next";
-import Translate from "../utils/Translate";
-import axios from "axios"; // Import axios for API requests
+"use client"
+
+import { useState } from "react"
+import { TiArrowRight } from "react-icons/ti"
+import cover from "../assets/bg-image/cover-2.jpg"
+import { useTranslation } from "react-i18next"
+import Translate from "../utils/Translate"
+import axios from "axios"
+import FAQ from "./FAQ"
 
 const Contact = () => {
-  const { i18n } = useTranslation();
-  const currentLanguage = i18n.language; // Gets current language
+  const { i18n } = useTranslation()
+  const currentLanguage = i18n.language
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     message: "",
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [statusMessage, setStatusMessage] = useState("");
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [statusMessage, setStatusMessage] = useState("")
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
-    }));
-  };
+    }))
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setStatusMessage("");
+    e.preventDefault()
+    setIsSubmitting(true)
+    setStatusMessage("")
 
     try {
-      const response = await axios.post(
-        "http://localhost:5001/api/contact/send",
-        formData
-      );
-      setStatusMessage("Message sent successfully!");
-      setFormData({ name: "", email: "", phone: "", message: "" }); // Clear form after submission
+      const response = await axios.post("http://localhost:5001/api/contact/send", formData)
+      setStatusMessage("Message sent successfully!")
+      setFormData({ name: "", email: "", phone: "", message: "" })
     } catch (error) {
-      setStatusMessage("Failed to send message.");
+      setStatusMessage("Failed to send message.")
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
-  };
+  }
 
   return (
     <div>
@@ -55,10 +53,7 @@ const Contact = () => {
           backgroundPosition: "center 30%",
         }}
       >
-        <div
-          className="absolute inset-0"
-          style={{ backgroundColor: "#304455", opacity: 0.85 }}
-        ></div>
+        <div className="absolute inset-0" style={{ backgroundColor: "#304455", opacity: 0.85 }}></div>
         <div className="relative z-10 container mx-auto px-4 sm:px-8 lg:px-18 h-full flex flex-col justify-center">
           <h1 className="text-3xl sm:text-5xl font-bold text-white tracking-[-0.04em] pt-10">
             <span className="text-red-500 text-[38px] sm:text-[58px]">
@@ -86,7 +81,7 @@ const Contact = () => {
         </div>
 
         {/* Right Side - Form */}
-        <div className="bg-[#374b5c] z-10 shadow-lg rounded-2xl w-full p-6 sm:p-8 mt-10 md:-mt-30">
+        <div id="contact-form" className="bg-[#374b5c] z-10 shadow-lg rounded-2xl w-full p-6 sm:p-8 mt-10 md:-mt-30">
           <h2 className="text-xl sm:text-2xl font-bold mb-4 text-white text-center">
             <Translate text={"Send a Message"} />
           </h2>
@@ -98,7 +93,7 @@ const Contact = () => {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder={currentLanguage === "ar" ? "اسم *" : "Name *"}
-                className="w-full rounded-lg border-gray-100/50  px-4 py-3 text-white bg-transparent focus:outline-none"
+                className="w-full rounded-lg border-gray-100/50 px-4 py-3 text-white bg-transparent focus:outline-none"
                 required
               />
             </div>
@@ -108,10 +103,8 @@ const Contact = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder={
-                  currentLanguage === "ar" ? "بريد إلكتروني *" : "Email *"
-                }
-                className="w-full rounded-lg border-gray-100/50  px-4 py-3  text-white border-1 bg-transparent focus:outline-none"
+                placeholder={currentLanguage === "ar" ? "بريد إلكتروني *" : "Email *"}
+                className="w-full rounded-lg border-gray-100/50 px-4 py-3 text-white border-1 bg-transparent focus:outline-none"
                 required
               />
               <input
@@ -120,7 +113,7 @@ const Contact = () => {
                 value={formData.phone}
                 onChange={handleChange}
                 placeholder={currentLanguage === "ar" ? "هاتف" : "Phone"}
-                className="w-full rounded-lg border-gray-100/50  px-4 py-3 text-white bg-transparent focus:outline-none"
+                className="w-full rounded-lg border-gray-100/50 px-4 py-3 text-white bg-transparent focus:outline-none"
               />
             </div>
             <textarea
@@ -141,20 +134,20 @@ const Contact = () => {
                   "Sending..."
                 ) : (
                   <>
-                    <Translate text={"Send Message"} />{" "}
-                    <TiArrowRight className="text-2xl text-gray-600" />
+                    <Translate text={"Send Message"} /> <TiArrowRight className="text-2xl text-gray-600" />
                   </>
                 )}
               </button>
             </div>
-            {statusMessage && (
-              <p className="text-center text-red-500 mt-4">{statusMessage}</p>
-            )}
+            {statusMessage && <p className="text-center text-red-500 mt-4">{statusMessage}</p>}
           </form>
         </div>
       </div>
-    </div>
-  );
-};
 
-export default Contact;
+      {/* FAQ Section */}
+      <FAQ />
+    </div>
+  )
+}
+
+export default Contact
