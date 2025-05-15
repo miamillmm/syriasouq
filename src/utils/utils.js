@@ -3341,7 +3341,6 @@ export const features = [
 ];
 export const getArabicModel = (carDetails, currentLanguage) => {
   if (!carDetails?.model || !carDetails?.make) return "آخر"; // Default fallback
-  console.log(carDetails,currentLanguage)
   // Find the English make
   const englishMake = makes.find((mk) => mk.value === carDetails.make);
   if (!englishMake) return "آخر"; // If make not found

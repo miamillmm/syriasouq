@@ -11,6 +11,7 @@ import axios from "axios"
 import { useEffect, useRef, useState } from "react"
 import { FaWhatsapp } from "react-icons/fa"
 import { MdErrorOutline, MdOutlinePhone } from "react-icons/md"
+
 import Breadcrumb from "./Breadcumb"
 import MoreFromUser from "./MoreFromUser"
 import Translate from "../utils/Translate"
@@ -109,7 +110,11 @@ const CarDetails = () => {
       });
     }
   }, [currentLanguage]);
-
+  const handleProfileClick = () => {
+    if (carDetails?.user?._id) {
+      navigate(`/user-cars/${carDetails.user._id}`);
+    }
+  };
   const startNewChat = async (receiver) => {
     if (isChatLoading) return
     setIsChatLoading(true)
@@ -626,52 +631,52 @@ const CarDetails = () => {
               </h2>
               <div className="grid grid-cols-2 sm:grid-cols-2 gap-y-3 sm:gap-y-6 text-[#314352]">
                 
-                <p className="font-semibold text-xl sm:text-lg">{currentLanguage === "ar" ? "النوع" : "Make:"}</p>
-                <p className="text-xl sm:text-lg ">{getLocalizedMake(carDetails, currentLanguage)}</p>
+                <p className="font-semibold text-xl sm:text-lg  border-b border-gray-200 pb-2">{currentLanguage === "ar" ? "النوع" : "Make:"}</p>
+                <p className="text-xl sm:text-lg border-b border-gray-200 pb-2">{getLocalizedMake(carDetails, currentLanguage)}</p>
 
-                <p className="font-semibold text-xl sm:text-lg">{currentLanguage === "ar" ? "الموديل" : "Model:"}</p>
-                <p className="text-xl sm:text-lg">{getArabicModel(carDetails, currentLanguage)}</p>
+                <p className="font-semibold text-xl sm:text-lg  border-b border-gray-200 pb-2">{currentLanguage === "ar" ? "الموديل" : "Model:"}</p>
+                <p className="text-xl sm:text-lg border-b border-gray-200 pb-2">{getArabicModel(carDetails, currentLanguage)}</p>
 
-                <p className="font-semibold text-xl sm:text-lg">
+                <p className="font-semibold text-xl sm:text-lg  border-b border-gray-200 pb-2">
                   {currentLanguage === "ar" ? "الكيلومتر" : "Kilometer:"}
                 </p>
-                <p className="text-xl sm:text-lg">
+                <p className="text-xl sm:text-lg border-b border-gray-200 pb-2">
                   {carDetails?.kilometer} <Translate text={"km"} />
                 </p>
 
-                <p className="font-semibold text-xl sm:text-lg">{currentLanguage === "ar" ? "السعر" : "Price:"}</p>
-                <p className="text-xl sm:text-lg">$ {carDetails?.priceUSD ? Number(carDetails?.priceUSD).toLocaleString('en-US') : "آخر"}</p>
+                <p className="font-semibold text-xl sm:text-lg  border-b border-gray-200 pb-2">{currentLanguage === "ar" ? "السعر" : "Price:"}</p>
+                <p className="text-xl sm:text-lg border-b border-gray-200 pb-2">$ {carDetails?.priceUSD ? Number(carDetails?.priceUSD).toLocaleString('en-US') : "آخر"}</p>
          
-                <p className="font-semibold text-xl sm:text-lg">
+                <p className="font-semibold text-xl sm:text-lg  border-b border-gray-200 pb-2">
                   {currentLanguage === "ar" ? "اللون الداخلي" : "Interior Color:"}
                 </p>
-                <p className="text-xl sm:text-lg">
+                <p className="text-xl sm:text-lg border-b border-gray-200 pb-2">
                   {carDetails?.interiorColor ? <Translate text={carDetails?.interiorColor} /> : "N/A"}
                 </p>
 
-                <p className="font-semibold text-xl sm:text-lg">
+                <p className="font-semibold text-xl sm:text-lg  border-b border-gray-200 pb-2">
                   {currentLanguage === "ar" ? "اللون الخارجي" : "Exterior Color:"}
                 </p>
-                <p className="text-xl sm:text-lg">
+                <p className="text-xl sm:text-lg border-b border-gray-200 pb-2">
                   {carDetails?.exteriorColor ? <Translate text={carDetails?.exteriorColor} /> : "N/A"}
                 </p>
 
-                <p className="font-semibold text-xl sm:text-lg">
+                <p className="font-semibold text-xl sm:text-lg  border-b border-gray-200 pb-2">
                   {currentLanguage === "ar" ? "حجم المحرك" : "Engine Size:"}
                 </p>
-                <p className="text-xl sm:text-lg">{localizeEngineSize(carDetails?.engineSize, currentLanguage)}</p>
+                <p className="text-xl sm:text-lg border-b border-gray-200 pb-2">{localizeEngineSize(carDetails?.engineSize, currentLanguage)}</p>
 
-                <p className="font-semibold text-xl sm:text-lg">
+                <p className="font-semibold text-xl sm:text-lg  border-b border-gray-200 pb-2">
                   {currentLanguage === "ar" ? "نوع الوقود" : "Fuel Type:"}
                 </p>
-                <p className="text-xl sm:text-lg">
+                <p className="text-xl sm:text-lg border-b border-gray-200 pb-2">
                   {carDetails?.fuelType ? <Translate text={carDetails?.fuelType} /> : "N/A"}
                 </p>
 
-                <p className="font-semibold text-xl sm:text-lg">
+                <p className="font-semibold text-xl sm:text-lg  border-b border-gray-200 pb-2">
                   {currentLanguage === "ar" ? "ناقل الحركة" : "Transmission:"}
                 </p>
-                <p className="text-xl sm:text-lg">
+                <p className="text-xl sm:text-lg border-b border-gray-200 pb-2">
                   {carDetails?.transmission ? <Translate text={carDetails?.transmission} /> : "N/A"}
                 </p>
 
@@ -703,7 +708,7 @@ const CarDetails = () => {
                       )}
                     </>
                   ) : (
-                    <p className="text-xl sm:text-lg">N/A</p>
+                    <p className="text-xl sm:text-lg border-b border-gray-200 pb-2">N/A</p>
                   )}
                 </div>
 
@@ -712,7 +717,7 @@ const CarDetails = () => {
                     {carDetails?.features.map((fe) => (
                       <div key={fe} className={`flex items-center gap-2 text-xl sm:text-lg `}>
                         <FaCheck className="text-red-500 w-4 h-4" />
-                        <p>{getLocalizedFeature(fe, currentLanguage)}</p>
+                        <p className=" border-b border-gray-200 pb-2">{getLocalizedFeature(fe, currentLanguage)}</p>
                       </div>
                     ))}
                   </div>
@@ -748,19 +753,26 @@ const CarDetails = () => {
           >
             {/* Seller Info */}
             <div className="flex items-center gap-4 sm:gap-6 text-left">
-              <div className="w-12 h-12 rounded-full bg-red-300 text-center flex items-center justify-center font-bold text-xl">
-                <Translate
-                  text={(() => {
-                    const firstLetter = carDetails?.user?.username?.charAt(0).toUpperCase() || "?"
-                    return firstLetter
-                  })()}
-                />
-              </div>
+            <motion.div
+  className="w-12 h-12 rounded-full bg-red-300 text-center flex items-center justify-center font-bold text-xl cursor-pointer"
+  onClick={handleProfileClick}
+  whileHover={{ scale: 1.1 }}
+  whileTap={{ scale: 0.95 }}
+>
+  <Translate
+    text={(() => {
+      const firstLetter = carDetails?.user?.username?.charAt(0).toUpperCase() || "?"
+      return firstLetter
+    })()}
+  />              </motion.div>
+
               <div className="space-y-2">
-                <p className="mt-2 font-semibold text-[#B80200] underline italic text-sm sm:text-base">
+                <button className="mt-2 font-semibold text-[#B80200] underline italic text-sm sm:text-base"   onClick={handleProfileClick}
+                >
                   {carDetails?.user?.username}
-                </p>
+                </button>
               </div>
+
             </div>
 
             {/* Action Buttons */}

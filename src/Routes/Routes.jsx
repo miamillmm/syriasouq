@@ -9,6 +9,7 @@ import AddListingPage from "../Pages/AddListingPage";
 import Dashboard from "../Pages/Dashboard";
 import MessagesPage from "../Pages/Dashboard/MessagesPage";
 import SearchPage from "../Pages/SearchPage";
+import UserCars from "../Pages/UserCars";
 import PrivacyPolicy from "../Pages/PrivacyPolicy";
 import TermsPage from "../Pages/TermAndUse";
 import PasswordChangePage from "../Pages/Authentication/PasswordChangePage";
@@ -41,6 +42,8 @@ const Router = () => {
           <Route path="/messages" element={<MessagesPage />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/user-cars/:userId" element={<UserCars/>} />
+          
           <Route path="/term-and-use" element={<TermsPage />} />
         </Route>
       </Routes>
