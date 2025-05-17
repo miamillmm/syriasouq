@@ -110,7 +110,7 @@ const CarListing = () => {
                   className={`absolute top-2 right-2 text-white text-sm px-3 py-1 rounded ${
                     car.status === "pending"
                       ? "bg-orange-500"
-                      : car.status === "available"
+                      : car.status === "active"
                       ? "bg-green-500"
                       : "bg-[#B80200]"
                   }`}
@@ -118,7 +118,7 @@ const CarListing = () => {
                   {currentLanguage === "ar"
                     ? car.status === "pending"
                       ? "قيد المراجعة"
-                      : car.status === "available"
+                      : car.status === "active"
                       ? "نشط"
                       : "مرفوض"
                     : "Rejected"}
