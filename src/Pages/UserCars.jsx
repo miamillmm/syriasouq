@@ -16,6 +16,7 @@ import { motion } from "framer-motion"
 
 const UserCars = () => {
   const { userId } = useParams()
+  const [user,setUser]=useState()
   const [cars, setCars] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
@@ -35,6 +36,7 @@ const UserCars = () => {
       try {
         setLoading(true)
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/cars/user/${userId}`)
+        setUser(response.data.data[0].user)
         setCars(response.data.data)
         setLoading(false)
       } catch (err) {
@@ -132,6 +134,34 @@ const UserCars = () => {
       >
         {currentLanguage === "ar" ? "سيارات المستخدم" : "User's Cars"}
       </motion.h2>
+        {/* Profile Circle with Username and Phone */}
+        <div className="flex items-center gap-4">
+          <div
+            className="w-10 h-10 rounded-full border-2 border-gray-400 shadow-xl flex items-center justify-center cursor-pointer overflow-hidden"
+          >
+            {user?.profileImage ? (
+              <img
+                src={`http://api.syriasouq.com/${user.profileImage}`}
+                alt="Profile"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <span className="font-bold">
+                {user?.username?.slice(0, 1).toUpperCase()}
+              </span>
+            )}
+          </div>
+          {/* Display Username and Phone Number */}
+          <div className="flex flex-col">
+            <span className="font-medium text-gray-800">
+              {user?.username || "N/A"}
+            </span>
+            <span className="text-sm text-gray-600">
+              {user?.phone || "N/A"}
+            </span>
+          </div>
+        </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-7">
         {cars.length > 0 ? (
           cars.map((data) => (

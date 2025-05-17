@@ -13,7 +13,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-// Import Google Fonts for Arabic
+// Import Google Fonts for Arabic and custom styles
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
   .react-tel-input .flag.sy {
@@ -41,6 +41,14 @@ const styles = `
   }
   .arabic .react-tel-input .country-list {
     text-align: right !important;
+  }
+  /* Ensure proper input padding */
+  .react-tel-input .phone-input-container input {
+    padding-left: 50px !important;
+  }
+  .arabic .react-tel-input .phone-input-container input {
+    padding-right: 50px !important;
+    padding-left: 40px !important;
   }
 `;
 
@@ -184,40 +192,47 @@ const LoginAndRegister = () => {
               <p className="text-red-500 text-sm">{loginErrors.email.message}</p>
             )}
 
-            <Controller
-              name="phone"
-              control={loginControl}
-              rules={{
-                required: currentLanguage === "ar" ? "رقم الهاتف مطلوب" : "Phone number is required",
-              }}
-              render={({ field }) => {
-                const handlePhoneChange = (value, countryData) => {
-                  const countryCode = `+${countryData.dialCode}`;
-                  const phoneNumber = value.replace(countryCode, "").trim();
-                  field.onChange(phoneNumber);
-                };
+            <div>
+              <Controller
+                name="phone"
+                control={loginControl}
+                rules={{
+                  required: currentLanguage === "ar" ? "رقم الهاتف مطلوب" : "Phone number is required",
+                }}
+                render={({ field }) => {
+                  const handlePhoneChange = (value, countryData) => {
+                    const countryCode = `+${countryData.dialCode}`;
+                    const phoneNumber = value.replace(countryCode, "").trim();
+                    field.onChange(phoneNumber);
+                  };
 
-                return (
-                  <div className="w-full flex items-center gap-2">
-                    <PhoneInput
-                      country={"sy"}
-                      value={field.value ? `+${field.value}` : ""}
-                      onChange={handlePhoneChange}
-                      inputClass={`!w-full !p-3 !border !rounded-lg !border-gray-300 focus:!border-red-500 focus:!ring-2 focus:!ring-red-200 ${
-                        currentLanguage === "ar" ? "!pr-14 !pl-4" : "!pl-14"
-                      }`}
-                      containerClass="!w-full"
-                      buttonClass="!bg-white !border !rounded-l-lg"
-                      dropdownClass="!bg-white !text-black !rounded-lg !shadow-lg"
-                      disableDropdown={false}
-                      enableSearch
-                      specialLabel={false}
-                      countryCodeEditable={false}
-                    />
-                  </div>
-                );
-              }}
-            />
+                  return (
+                    <div className="w-full flex items-center gap-2">
+                      <PhoneInput
+                        country={"sy"}
+                        value={field.value ? `+${field.value}` : ""}
+                        onChange={handlePhoneChange}
+                        inputClass={`!w-full !p-3 !border !rounded-lg !border-gray-300 focus:!border-red-500 focus:!ring-2 focus:!ring-red-200 ${
+                          currentLanguage === "ar" ? "!pr-14 !pl-4" : "!pl-14"
+                        }`}
+                        containerClass="!w-full"
+                        buttonClass="!bg-white !border !rounded-l-lg"
+                        dropdownClass="!bg-white !text-black !rounded-lg !shadow-lg"
+                        disableDropdown={false}
+                        enableSearch
+                        specialLabel={false}
+                        countryCodeEditable={false}
+                      />
+                    </div>
+                  );
+                }}
+              />
+              <p className="text-gray-500 text-sm mt-1">
+                {currentLanguage === "ar"
+                  ? "أدخل رقمًا بدون الصفر في البداية"
+                  : "Enter a number without leading 0"}
+              </p>
+            </div>
             {loginErrors.phone && (
               <p className="text-red-500 text-sm">{loginErrors.phone.message}</p>
             )}
@@ -320,43 +335,50 @@ const LoginAndRegister = () => {
               </p>
             )}
 
-            <Controller
-              name="phone"
-              control={registerControl}
-              rules={{
-                required:
-                  currentLanguage === "ar"
-                    ? "رقم الهاتف مطلوب"
-                    : "Phone number is required",
-              }}
-              render={({ field }) => {
-                const handlePhoneChange = (value, countryData) => {
-                  const countryCode = `+${countryData.dialCode}`;
-                  const phoneNumber = value.replace(countryCode, "").trim();
-                  field.onChange(phoneNumber);
-                };
+            <div>
+              <Controller
+                name="phone"
+                control={registerControl}
+                rules={{
+                  required:
+                    currentLanguage === "ar"
+                      ? "رقم الهاتف مطلوب"
+                      : "Phone number is required",
+                }}
+                render={({ field }) => {
+                  const handlePhoneChange = (value, countryData) => {
+                    const countryCode = `+${countryData.dialCode}`;
+                    const phoneNumber = value.replace(countryCode, "").trim();
+                    field.onChange(phoneNumber);
+                  };
 
-                return (
-                  <div className="w-full flex items-center gap-2">
-                    <PhoneInput
-                      country={"sy"}
-                      value={field.value ? `+${field.value}` : ""}
-                      onChange={handlePhoneChange}
-                      inputClass={`!w-full !p-3 !border !rounded-lg !border-gray-300 focus:!border-red-500 focus:!ring-2 focus:!ring-red-200 ${
-                        currentLanguage === "ar" ? "!pr-14 !pl-4" : "!pl-14"
-                      }`}
-                      containerClass="!w-full"
-                      buttonClass="!bg-white !border !rounded-l-lg"
-                      dropdownClass="!bg-white !text-black !rounded-lg !shadow-lg"
-                      disableDropdown={false}
-                      enableSearch
-                      specialLabel={false}
-                      countryCodeEditable={false}
-                    />
-                  </div>
-                );
-              }}
-            />
+                  return (
+                    <div className="w-full flex items-center gap-2">
+                      <PhoneInput
+                        country={"sy"}
+                        value={field.value ? `+${field.value}` : ""}
+                        onChange={handlePhoneChange}
+                        inputClass={`!w-full !p-3 !border !rounded-lg !border-gray-300 focus:!border-red-500 focus:!ring-2 focus:!ring-red-200 ${
+                          currentLanguage === "ar" ? "!pr-14 !pl-4" : "!pl-14"
+                        }`}
+                        containerClass="!w-full"
+                        buttonClass="!bg-white !border !rounded-l-lg"
+                        dropdownClass="!bg-white !text-black !rounded-lg !shadow-lg"
+                        disableDropdown={false}
+                        enableSearch
+                        specialLabel={false}
+                        countryCodeEditable={false}
+                      />
+                    </div>
+                  );
+                }}
+              />
+              <p className="text-gray-500 text-sm mt-1">
+                {currentLanguage === "ar"
+                  ? "أدخل رقمًا بدون الصفر في البداية"
+                  : "Enter a number without leading 0"}
+              </p>
+            </div>
             {registerErrors.phone && (
               <p className="text-red-500 text-sm">
                 {registerErrors.phone.message}

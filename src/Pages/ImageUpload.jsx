@@ -12,6 +12,7 @@ const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState("");
   const uploadAreaRef = useRef(null);
+  const imageRefs = useRef([]); // Store refs for image elements
 
   // Handle file upload
   const handleFileChange = async (event) => {
@@ -63,13 +64,13 @@ const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
     }
   };
 
-  // Handle drag start
+  // Handle drag start (mouse and touch)
   const handleDragStart = (index) => {
-    setDraggedIndex(index);
+    setTimeout(() => setDraggedIndex(index), 0);
   };
 
   // Handle drag over
-  const handleDragOver = (event) => {
+  const handleDragOver = ( выделитьevent) => {
     event.preventDefault();
     setIsDragging(true);
   };
@@ -87,18 +88,92 @@ const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
     updatedImages.splice(index, 0, draggedItem);
     setUploadedImages(updatedImages);
     setDraggedIndex(null);
+    setIsDragging(false);
+  };
+
+  // Touch state
+  const [touchStart, setTouchStart] = useState(null);
+
+  // Handle touch start
+  const handleTouchStart = (e, index) => {
+    setTouchStart({ index, x: e.touches[0].clientX, y: e.touches[0].clientY });
+    handleDragStart(index);
+  };
+
+  // Handle touch move
+  const handleTouchMove = (e) => {
+    e.preventDefault(); // Prevent scrolling during drag
+    if (touchStart) {
+      setIsDragging(true);
+    }
+  };
+
+  // Handle touch end
+  const handleTouchEnd = (e) => {
+    if (touchStart && draggedIndex !== null) {
+      const touchEndX = e.changedTouches[0].clientX;
+      const touchEndY = e.changedTouches[0].clientY;
+
+      // Find the image under the touch end coordinates
+      let targetIndex = null;
+      for (let i = 0; i < imageRefs.current.length; i++) {
+        const rect = imageRefs.current[i]?.getBoundingClientRect();
+        if (
+          rect &&
+          touchEndX >= rect.left &&
+          touchEndX <= rect.right &&
+          touchEndY >= rect.top &&
+          touchEndY <= rect.bottom
+        ) {
+          targetIndex = i;
+          break;
+        }
+      }
+
+      if (targetIndex !== null && targetIndex !== draggedIndex) {
+        handleDropReorder(targetIndex);
+      }
+    }
+    setTouchStart(null);
+    setIsDragging(false);
   };
 
   // Handle keyboard reordering
   const handleKeyDown = (event, index) => {
     if (event.key === "ArrowLeft" && index > 0) {
       const updatedImages = [...uploadedImages];
-      [updatedImages[index], updatedImages[index - 1]] = [updatedImages[index - 1], updatedImages[index]];
+      [updatedImages[index], updatedImages[index - 1]] = [
+        updatedImages[index - 1],
+        updatedImages[index],
+      ];
       setUploadedImages(updatedImages);
+      imageRefs.current[index - 1]?.focus();
     } else if (event.key === "ArrowRight" && index < uploadedImages.length - 1) {
       const updatedImages = [...uploadedImages];
-      [updatedImages[index], updatedImages[index + 1]] = [updatedImages[index + 1], updatedImages[index]];
+      [updatedImages[index], updatedImages[index + 1]] = [
+        updatedImages[index + 1],
+        updatedImages[index],
+      ];
       setUploadedImages(updatedImages);
+      imageRefs.current[index + 1]?.focus();
+    } else if (event.key === "ArrowUp" && index >= 2) {
+      // Move up (2 columns for mobile grid-cols-2)
+      const updatedImages = [...uploadedImages];
+      [updatedImages[index], updatedImages[index - 2]] = [
+        updatedImages[index - 2],
+        updatedImages[index],
+      ];
+      setUploadedImages(updatedImages);
+      imageRefs.current[index - 2]?.focus();
+    } else if (event.key === "ArrowDown" && index < uploadedImages.length - 2) {
+      // Move down
+      const updatedImages = [...uploadedImages];
+      [updatedImages[index], updatedImages[index + 2]] = [
+        updatedImages[index + 2],
+        updatedImages[index],
+      ];
+      setUploadedImages(updatedImages);
+      imageRefs.current[index + 2]?.focus();
     }
   };
 
@@ -185,15 +260,19 @@ const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
               {uploadedImages.map((image, index) => (
                 <div
                   key={image.id}
+                  ref={(el) => (imageRefs.current[index] = el)} // Store ref for each image
                   className={`relative w-full h-32 bg-gray-100 rounded-lg overflow-hidden shadow-md transition-all duration-200 animate-slideIn ${
                     draggedIndex === index
-                      ? "scale-105 shadow-xl"
+                      ? "scale-105 shadow-xl z-10"
                       : "hover:scale-102 hover:shadow-lg hover:border-2 hover:border-gray-300"
-                  } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                  } focus:outline-none focus:ring-2 focus:ring-blue-500 touch-none select-none`}
                   draggable
                   onDragStart={() => handleDragStart(index)}
                   onDragOver={(e) => e.preventDefault()}
                   onDrop={() => handleDropReorder(index)}
+                  onTouchStart={(e) => handleTouchStart(e, index)}
+                  onTouchMove={handleTouchMove}
+                  onTouchEnd={(e) => handleTouchEnd(e)}
                   role="img"
                   aria-label={`Uploaded image ${index + 1}`}
                   tabIndex={0}
@@ -202,7 +281,7 @@ const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
                   <img
                     src={image.id}
                     alt={`Uploaded image ${index + 1}`}
-                    className="object-cover w-full h-full"
+                    className="object-cover w-full h-full pointer-events-none"
                     loading="lazy"
                   />
                   <button

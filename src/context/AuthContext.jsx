@@ -14,6 +14,44 @@ export const AuthProvider = ({ children }) => {
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language;
 
+  const fetchUserData = async (userId) => {
+    try {
+      // if (!user?._id) {
+      //   throw new Error("No user ID found");
+      // }
+      // const userId = user._id.toString(); // Convert ObjectId to string
+      console.log(user)
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/auth/user/${userId}`,{
+         jwt:user.jwt,
+          },
+        
+      );
+      
+      if (response?.data) {
+        console.log("Fetched User Data:", response.data);
+        const updatedUserData = response.data;
+        localStorage.setItem("SyriaSouq-auth", JSON.stringify(updatedUserData));
+        setUser(updatedUserData);
+        toast.success(
+          currentLanguage === "ar"
+            ? "تم تحديث بيانات المستخدم بنجاح!"
+            : "User data updated successfully!"
+        );
+      } else {
+        throw new Error("No data received");
+      }
+    } catch (error) {
+      toast.error(
+        error?.response?.data?.message ||
+          (currentLanguage === "ar"
+            ? "فشل جلب بيانات المستخدم"
+            : "Failed to fetch user data")
+      );
+      console.error("Fetch User Data Error:", error);
+    }
+  };
+
   const handleLogin = async (data, reset, currentLanguage) => {
     data.email = data.email.toLowerCase();
     console.log("Login Data:", data);
@@ -106,7 +144,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, setUser, handleLogin, handleRegister, logout }}
+      value={{ user, setUser, handleLogin, handleRegister, logout, fetchUserData }}
     >
       {children}
     </AuthContext.Provider>

@@ -157,6 +157,12 @@ const Featured = () => {
 
   return (
     <div className="container mx-auto px-4 sm:px-8 md:px-16 w-screen py-10 md:py-20">
+       <h2 className="text-xl sm:text-sm font-semibold text-black text-center">
+            {/* <Translate text={"Buy & Sell with Syria Souq"} /> */}
+
+            {currentLanguage === "ar" ? "بيع وشراء مع سيريا سوق " : "Buy & Sell with Syria Souq"}
+           
+          </h2>
       <ToastContainer
         position="top-right"
         autoClose={3000}

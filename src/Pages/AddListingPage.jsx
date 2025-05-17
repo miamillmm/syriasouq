@@ -77,6 +77,58 @@ const allInteriorColor = [
   { value: "Other", label: "Other" },
 ];
 
+// Custom error messages for each field in both languages
+const errorMessages = {
+  make: {
+    en: "Please select the car make",
+    ar: "يرجى اختيار نوع السيارة",
+  },
+  model: {
+    en: "Please select the car model",
+    ar: "يرجى اختيار موديل السيارة",
+  },
+  engineSize: {
+    en: "Please select the number of cylinders",
+    ar: "يرجى اختيار عدد الأسطوانات",
+  },
+  location: {
+    en: "Please select the location",
+    ar: "يرجى اختيار الموقع",
+  },
+  transmission: {
+    en: "Please select the transmission type",
+    ar: "يرجى اختيار نوع ناقل الحركة",
+  },
+  fuelType: {
+    en: "Please select the fuel type",
+    ar: "يرجى اختيار نوع الوقود",
+  },
+  exteriorColor: {
+    en: "Please select the exterior color",
+    ar: "يرجى اختيار اللون الخارجي",
+  },
+  interiorColor: {
+    en: "Please select the interior color",
+    ar: "يرجى اختيار اللون الداخلي",
+  },
+  priceUSD: {
+    en: "Please enter the price in USD",
+    ar: "يرجى إدخال السعر بالدولار",
+  },
+  year: {
+    en: "Please enter the year",
+    ar: "يرجى إدخال السنة",
+  },
+  kilometer: {
+    en: "Please enter the kilometer reading",
+    ar: "يرجى إدخال قراءة الكيلومترات",
+  },
+  description: {
+    en: "Please enter a description",
+    ar: "يرجى إدخال وصف",
+  },
+};
+
 // Reusable ListingForm component
 const ListingForm = ({
   currentLanguage,
@@ -115,15 +167,30 @@ const ListingForm = ({
   isEditMode,
   isLoading,
 }) => {
+  // State to track validation errors for all required fields
+  const [errors, setErrors] = useState({
+    make: false,
+    model: false,
+    engineSize: false,
+    location: false,
+    transmission: false,
+    fuelType: false,
+    exteriorColor: false,
+    interiorColor: false,
+    priceUSD: false,
+    year: false,
+    kilometer: false,
+    description: false,
+  });
+
   // Prepare make options
   const makeOptions = makes.map((m) => {
     const arabicMake = arabicMakes.find((am) => am.enValue === m.value);
     return {
-      value: m.value, // Always use English value
+      value: m.value,
       label: currentLanguage === "ar" ? arabicMake?.label || m.label : m.label,
     };
   });
-  
 
   // Prepare model options based on selected make
   const modelOptions = make
@@ -133,14 +200,76 @@ const ListingForm = ({
           const arabicMake = arabicMakes.find((am) => am.enValue === make.value);
           const arabicModel = arabicMake?.models[index] || model;
           return {
-            value: model, // Always use English model value
+            value: model,
             label: currentLanguage === "ar" ? arabicModel : model,
           };
         }) || []
     : [];
 
+  // Custom styles for react-select to show red border on error
+  const customSelectStyles = {
+    control: (provided, state) => ({
+      ...provided,
+      padding: "0.65rem 1rem",
+      borderColor: state.selectProps.hasError ? "#B80200" : provided.borderColor,
+      "&:hover": {
+        borderColor: state.selectProps.hasError ? "#B80200" : provided.borderColor,
+      },
+      boxShadow: state.selectProps.hasError ? "0 0 0 1px #B80200" : provided.boxShadow,
+    }),
+  };
+
+  // Custom styles for input fields to show red border on error
+  const inputErrorStyles = (hasError) =>
+    hasError ? "border-[#B80200] focus:ring-[#B80200] focus:border-[#B80200]" : "border-gray-300";
+
+  // Handle form submission with validation
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    // Validate all required fields
+    const newErrors = {
+      make: !make,
+      model: !model,
+      engineSize: !engineSize,
+      location: !location,
+      transmission: !transmission,
+      fuelType: !fuelType,
+      exteriorColor: !exteriorColor,
+      interiorColor: !interiorColor,
+      priceUSD: !priceUSD,
+      year: !year,
+      kilometer: !kilometer,
+      description: !description,
+    };
+
+    setErrors(newErrors);
+
+    // Check if any required fields are empty
+    const hasErrors = Object.values(newErrors).some((error) => error);
+    if (hasErrors) {
+      toast.error(
+        currentLanguage === "ar"
+          ? "يرجى ملء جميع الحقول المطلوبة"
+          : "Please fill all required fields"
+      );
+      return;
+    }
+
+    if (uploadedImages.length === 0) {
+      toast.error(
+        currentLanguage === "ar"
+          ? "يرجى رفع صورة واحدة على الأقل"
+          : "Please upload at least one image"
+      );
+      return;
+    }
+
+    handleSubmit(e);
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 relative">
+    <form onSubmit={onSubmit} className="space-y-6 relative" noValidate>
       <div className="flex items-center w-full mb-5 pl-5">
         <h2 className="text-2xl font-bold text-[#314252] whitespace-nowrap">
           <Translate text={"General info"} />
@@ -164,22 +293,25 @@ const ListingForm = ({
           <Select
             options={makeOptions}
             value={make}
-            onChange={setMake}
-            required
+            onChange={(value) => {
+              setMake(value);
+              setErrors((prev) => ({ ...prev, make: !value }));
+            }}
             placeholder={
               currentLanguage === "ar" ? "حدد نوع السيارة" : "Select Make"
             }
             isSearchable
             className="cursor-pointer"
             isDisabled={isLoading}
-            styles={{
-              control: (provided) => ({
-                ...provided,
-                padding: "0.65rem 1rem",
-              }),
-            }}
+            styles={customSelectStyles}
+            hasError={errors.make}
             classNamePrefix="select"
           />
+          {errors.make && (
+            <p className="text-[#B80200] text-sm mt-1 px-3">
+              {errorMessages.make[currentLanguage === "ar" ? "ar" : "en"]}
+            </p>
+          )}
         </label>
 
         <label className="w-full">
@@ -191,22 +323,25 @@ const ListingForm = ({
           <Select
             options={modelOptions}
             value={model}
-            onChange={setModel}
-            required
+            onChange={(value) => {
+              setModel(value);
+              setErrors((prev) => ({ ...prev, model: !value }));
+            }}
             placeholder={
               currentLanguage === "ar" ? "حدد النوع أولاً" : "Select Make First"
             }
             isSearchable
             className="cursor-pointer"
-            isDisabled={isLoading}
-            styles={{
-              control: (provided) => ({
-                ...provided,
-                padding: "0.65rem 1rem",
-              }),
-            }}
+            isDisabled={isLoading || !make}
+            styles={customSelectStyles}
+            hasError={errors.model}
             classNamePrefix="select"
           />
+          {errors.model && (
+            <p className="text-[#B80200] text-sm mt-1 px-3">
+              {errorMessages.model[currentLanguage === "ar" ? "ar" : "en"]}
+            </p>
+          )}
         </label>
 
         <label className="w-full">
@@ -222,16 +357,22 @@ const ListingForm = ({
                 ? "يرجى كتابة الأرقام باللغة الإنجليزية"
                 : "$"
             }
-            className="w-full py-4 border-gray-300 rounded px-6 text-right"
+            className={`w-full py-4 rounded px-6 text-right ${inputErrorStyles(errors.priceUSD)}`}
             value={priceUSD}
-            onChange={(e) => setPriceUSD(e.target.value)}
-            required
+            onChange={(e) => {
+              setPriceUSD(e.target.value);
+              setErrors((prev) => ({ ...prev, priceUSD: !e.target.value }));
+            }}
             disabled={isLoading}
           />
+          {errors.priceUSD && (
+            <p className="text-[#B80200] text-sm mt-1 px-3">
+              {errorMessages.priceUSD[currentLanguage === "ar" ? "ar" : "en"]}
+            </p>
+          )}
         </label>
       </div>
 
-      {/* Rest of the form remains the same */}
       <div className="flex justify-between items-center lg:flex-row flex-col gap-10">
         <label className="w-full">
           <div className="mb-2 px-3">
@@ -246,12 +387,19 @@ const ListingForm = ({
                 ? "يرجى كتابة الأرقام باللغة الإنجليزية"
                 : "yr"
             }
-            className="w-full py-4 border-gray-300 rounded px-6 text-right"
+            className={`w-full py-4 rounded px-6 text-right ${inputErrorStyles(errors.year)}`}
             value={year}
-            onChange={(e) => setYear(e.target.value)}
-            required
+            onChange={(e) => {
+              setYear(e.target.value);
+              setErrors((prev) => ({ ...prev, year: !e.target.value }));
+            }}
             disabled={isLoading}
           />
+          {errors.year && (
+            <p className="text-[#B80200] text-sm mt-1 px-3">
+              {errorMessages.year[currentLanguage === "ar" ? "ar" : "en"]}
+            </p>
+          )}
         </label>
 
         <label className="w-full">
@@ -267,12 +415,19 @@ const ListingForm = ({
                 ? "يرجى كتابة الأرقام باللغة الإنجليزية"
                 : "km"
             }
-            className="w-full py-4 border-gray-300 rounded px-6 text-right"
+            className={`w-full py-4 rounded px-6 text-right ${inputErrorStyles(errors.kilometer)}`}
             value={kilometer}
-            onChange={(e) => setKilometer(e.target.value)}
-            required
+            onChange={(e) => {
+              setKilometer(e.target.value);
+              setErrors((prev) => ({ ...prev, kilometer: !e.target.value }));
+            }}
             disabled={isLoading}
           />
+          {errors.kilometer && (
+            <p className="text-[#B80200] text-sm mt-1 px-3">
+              {errorMessages.kilometer[currentLanguage === "ar" ? "ar" : "en"]}
+            </p>
+          )}
         </label>
 
         <label className="w-full hidden">
@@ -287,7 +442,6 @@ const ListingForm = ({
             className="w-full py-4 border-gray-300 rounded px-6 text-end"
             value={priceSYP}
             onChange={(e) => setPriceSYP(e.target.value)}
-            required
             disabled={isLoading}
           />
         </label>
@@ -304,25 +458,28 @@ const ListingForm = ({
           <Select
             options={allenginesize}
             value={engineSize}
-            onChange={setEngineSize}
-            required
+            onChange={(value) => {
+              setEngineSize(value);
+              setErrors((prev) => ({ ...prev, engineSize: !value }));
+            }}
             placeholder={
               currentLanguage === "ar" ? "عدد الاسطوانات" : "Number Of Cylinders"
             }
             isSearchable
             className="cursor-pointer"
             isDisabled={isLoading}
-            styles={{
-              control: (provided) => ({
-                ...provided,
-                padding: "0.65rem 1rem",
-              }),
-            }}
+            styles={customSelectStyles}
+            hasError={errors.engineSize}
             classNamePrefix="select"
             getOptionLabel={(e) =>
               currentLanguage === "ar" ? e.arLabel : e.label
             }
           />
+          {errors.engineSize && (
+            <p className="text-[#B80200] text-sm mt-1 px-3">
+              {errorMessages.engineSize[currentLanguage === "ar" ? "ar" : "en"]}
+            </p>
+          )}
         </label>
 
         <label className="w-full">
@@ -334,23 +491,26 @@ const ListingForm = ({
           <Select
             options={alllocation}
             value={location}
-            onChange={setLocation}
-            required
+            onChange={(value) => {
+              setLocation(value);
+              setErrors((prev) => ({ ...prev, location: !value }));
+            }}
             placeholder={currentLanguage === "ar" ? "\u200Eالموقع" : "Location"}
             isSearchable
             className="cursor-pointer"
             isDisabled={isLoading}
-            styles={{
-              control: (provided) => ({
-                ...provided,
-                padding: "0.65rem 1rem",
-              }),
-            }}
+            styles={customSelectStyles}
+            hasError={errors.location}
             classNamePrefix="select"
             getOptionLabel={(e) =>
               currentLanguage === "ar" ? e.arLabel : e.label
             }
           />
+          {errors.location && (
+            <p className="text-[#B80200] text-sm mt-1 px-3">
+              {errorMessages.location[currentLanguage === "ar" ? "ar" : "en"]}
+            </p>
+          )}
         </label>
 
         <label className="w-full">
@@ -362,25 +522,28 @@ const ListingForm = ({
           <Select
             options={allTransmission}
             value={transmission}
-            onChange={setTransmission}
-            required
+            onChange={(value) => {
+              setTransmission(value);
+              setErrors((prev) => ({ ...prev, transmission: !value }));
+            }}
             placeholder={
               currentLanguage === "ar" ? "ناقل الحركة" : "Transmission"
             }
             isSearchable
             className="cursor-pointer"
             isDisabled={isLoading}
-            styles={{
-              control: (provided) => ({
-                ...provided,
-                padding: "0.65rem 1rem",
-              }),
-            }}
+            styles={customSelectStyles}
+            hasError={errors.transmission}
             classNamePrefix="select"
             getOptionLabel={(e) =>
               currentLanguage === "ar" ? e.arLabel : e.label
             }
           />
+          {errors.transmission && (
+            <p className="text-[#B80200] text-sm mt-1 px-3">
+              {errorMessages.transmission[currentLanguage === "ar" ? "ar" : "en"]}
+            </p>
+          )}
         </label>
       </div>
 
@@ -394,21 +557,24 @@ const ListingForm = ({
           <Select
             options={allFuelType}
             value={fuelType}
-            onChange={setFuelType}
-            required
+            onChange={(value) => {
+              setFuelType(value);
+              setErrors((prev) => ({ ...prev, fuelType: !value }));
+            }}
             placeholder={<Translate text={"Fuel Type"} />}
             isSearchable
             className="cursor-pointer"
             isDisabled={isLoading}
-            styles={{
-              control: (provided) => ({
-                ...provided,
-                padding: "0.65rem 1rem",
-              }),
-            }}
+            styles={customSelectStyles}
+            hasError={errors.fuelType}
             classNamePrefix="select"
             getOptionLabel={(e) => <Translate text={e.label} />}
           />
+          {errors.fuelType && (
+            <p className="text-[#B80200] text-sm mt-1 px-3">
+              {errorMessages.fuelType[currentLanguage === "ar" ? "ar" : "en"]}
+            </p>
+          )}
         </label>
 
         <label className="w-full">
@@ -420,25 +586,28 @@ const ListingForm = ({
           <Select
             options={allExteriorColor}
             value={exteriorColor}
-            onChange={setExteriorColor}
-            required
+            onChange={(value) => {
+              setExteriorColor(value);
+              setErrors((prev) => ({ ...prev, exteriorColor: !value }));
+            }}
             placeholder={
               currentLanguage === "ar" ? "اللون الخارجي" : "Exterior Color"
             }
             isSearchable
             className="cursor-pointer"
             isDisabled={isLoading}
-            styles={{
-              control: (provided) => ({
-                ...provided,
-                padding: "0.65rem 1rem",
-              }),
-            }}
+            styles={customSelectStyles}
+            hasError={errors.exteriorColor}
             classNamePrefix="select"
             getOptionLabel={(e) =>
               currentLanguage === "ar" ? e.arLabel : e.label
             }
           />
+          {errors.exteriorColor && (
+            <p className="text-[#B80200] text-sm mt-1 px-3">
+              {errorMessages.exteriorColor[currentLanguage === "ar" ? "ar" : "en"]}
+            </p>
+          )}
         </label>
 
         <label className="w-full">
@@ -450,23 +619,26 @@ const ListingForm = ({
           <Select
             options={allInteriorColor}
             value={interiorColor}
-            onChange={setInteriorColor}
-            required
+            onChange={(value) => {
+              setInteriorColor(value);
+              setErrors((prev) => ({ ...prev, interiorColor: !value }));
+            }}
             placeholder={
               currentLanguage === "ar" ? "اللون الداخلي" : "Interior Color"
             }
             isSearchable
             className="cursor-pointer"
             isDisabled={isLoading}
-            styles={{
-              control: (provided) => ({
-                ...provided,
-                padding: "0.65rem 1rem",
-              }),
-            }}
+            styles={customSelectStyles}
+            hasError={errors.interiorColor}
             classNamePrefix="select"
             getOptionLabel={(e) => <Translate text={e.label} />}
           />
+          {errors.interiorColor && (
+            <p className="text-[#B80200] text-sm mt-1 px-3">
+              {errorMessages.interiorColor[currentLanguage === "ar" ? "ar" : "en"]}
+            </p>
+          )}
         </label>
       </div>
 
@@ -484,13 +656,20 @@ const ListingForm = ({
           {currentLanguage === "ar" ? "الوصف" : "Description"}
         </h2>
         <textarea
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={(e) => {
+            setDescription(e.target.value);
+            setErrors((prev) => ({ ...prev, description: !e.target.value }));
+          }}
           value={description}
-          className="w-full bg-white outline-none rounded-lg p-2"
+          className={`w-full bg-white outline-none rounded-lg p-2 ${inputErrorStyles(errors.description)}`}
           rows={8}
-          required
           disabled={isLoading}
         ></textarea>
+        {errors.description && (
+          <p className="text-[#B80200] text-sm mt-1 px-3">
+            {errorMessages.description[currentLanguage === "ar" ? "ar" : "en"]}
+          </p>
+        )}
       </div>
 
       <div className="mt-10">
@@ -601,7 +780,7 @@ const AddListingPage = () => {
           setMake(
             car.make
               ? {
-                  value: car.make, // English value
+                  value: car.make,
                   label: makeLabel,
                 }
               : null
@@ -620,7 +799,7 @@ const AddListingPage = () => {
           setModel(
             car.model
               ? {
-                  value: car.model, // English value
+                  value: car.model,
                   label: modelLabel,
                 }
               : null
@@ -714,28 +893,6 @@ const AddListingPage = () => {
       }
     });
 
-    // Validate required fields
-    if (!make || !model || !priceUSD || !year || !kilometer || !description) {
-      toast.error(
-        currentLanguage === "ar"
-          ? "يرجى ملء جميع الحقول المطلوبة"
-          : "Please fill all required fields"
-      );
-      setIsLoading(false);
-      return;
-    }
-
-    if (uploadedImages.length === 0) {
-      toast.error(
-        currentLanguage === "ar"
-          ? "يرجى رفع صورة واحدة على الأقل"
-          : "Please upload at least one image"
-      );
-      setIsLoading(false);
-      return;
-    }
-
-    console.log(formData);
     try {
       const url = id
         ? `${import.meta.env.VITE_API_URL}/cars/${id}`
@@ -753,32 +910,13 @@ const AddListingPage = () => {
       const result = await response.json();
 
       if (response.ok) {
-        // toast.success(
-        //   id
-        //     ? currentLanguage === "ar"
-        //       ? "تم تحديث الإعلان بنجاح!"
-        //       : "Listing updated successfully!"
-        //     : currentLanguage === "ar"
-        //     ? "تمت إضافة الإعلان بنجاح! سينتهي هذا بعد 35 يومًا"
-        //     : "Listing added successfully! This will expire after 35 days"
-        // );
         setIsEditModalOpen(false);
         navigate("/dashboard", { replace: true });
       } else {
         console.error("Server Response:", result);
-        // toast.error(
-        //   currentLanguage === "ar"
-        //     ? `خطأ: ${result.message || "فشل في إرسال الإعلان"}`
-        //     : `Error: ${result.message || "Failed to submit listing"}`
-        // );
       }
     } catch (error) {
       console.error("Submission Error:", error);
-      // toast.error(
-      //   currentLanguage === "ar"
-      //     ? "فشل في إرسال الإعلان"
-      //     : "Failed to submit listing"
-      // );
     } finally {
       setIsLoading(false);
     }
@@ -800,7 +938,7 @@ const AddListingPage = () => {
           <h1>
             <Translate text={"You can also"} />{" "}
             <Link to="/login-and-register" className="text-[#B80200]">
-              <Translate text={"Log In"} />
+              <Translate text={"Log in"} />
             </Link>{" "}
             <Translate text={"or"} />{" "}
             <Link to="/login-and-register" className="text-[#B80200]">

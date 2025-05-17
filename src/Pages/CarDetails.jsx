@@ -753,7 +753,34 @@ const CarDetails = () => {
           >
             {/* Seller Info */}
             <div className="flex items-center gap-4 sm:gap-6 text-left">
-            <motion.div
+                 {/* Profile Circle with Username and Phone */}
+        <div className="flex items-center gap-4">
+          <div
+            className="w-10 h-10 rounded-full border-2 border-gray-400 shadow-xl flex items-center justify-center cursor-pointer overflow-hidden"
+          >
+            {carDetails?.user?.profileImage ? (
+              <img
+                src={`http://api.syriasouq.com/${carDetails?.user?.profileImage}`}
+                alt="Profile"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <span className="font-bold">
+                {carDetails?.user?.username?.slice(0, 1).toUpperCase()}
+              </span>
+            )}
+          </div>
+          {/* Display Username and Phone Number */}
+          {/* <div className="flex flex-col">
+            <span className="font-medium text-gray-800">
+              {user?.username || "N/A"}
+            </span>
+            <span className="text-sm text-gray-600">
+              {user?.phone || "N/A"}
+            </span>
+          </div> */}
+        </div>
+            {/* <motion.div
   className="w-12 h-12 rounded-full bg-red-300 text-center flex items-center justify-center font-bold text-xl cursor-pointer"
   onClick={handleProfileClick}
   whileHover={{ scale: 1.1 }}
@@ -764,7 +791,7 @@ const CarDetails = () => {
       const firstLetter = carDetails?.user?.username?.charAt(0).toUpperCase() || "?"
       return firstLetter
     })()}
-  />              </motion.div>
+  />              </motion.div> */}
 
               <div className="space-y-2">
                 <button className="mt-2 font-semibold text-[#B80200] underline italic text-sm sm:text-base"   onClick={handleProfileClick}
