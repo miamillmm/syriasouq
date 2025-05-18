@@ -156,8 +156,8 @@ const Featured = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 sm:px-8 md:px-16 w-screen py-10 md:py-20">
-       <h2 className="text-xl sm:text-sm font-semibold text-black text-center">
+    <div className="container mx-auto  w-screen ">
+       <h2 className="text-md sm:text-2xl font-semibold text-black text- bg-slate-100 py-4 text-center">
             {/* <Translate text={"Buy & Sell with Syria Souq"} /> */}
 
             {currentLanguage === "ar" ? "بيع وشراء مع سيريا سوق " : "Buy & Sell with Syria Souq"}
@@ -174,7 +174,7 @@ const Featured = () => {
         draggable
         pauseOnHover
       />
-      <div className="header flex flex-col md:flex-row justify-between flex-wrap items-center mb-12">
+      <div className="header flex flex-col md:flex-row justify-between flex-wrap items-center m-8">
         <div className="space-y-4 text-center md:text-left">
           <h2 className="text-[28px] sm:text-[36px] font-bold text-[#314352]">
             <Translate text={"Recent listings"} />
@@ -191,7 +191,7 @@ const Featured = () => {
           </Link>
         </div>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-7">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-7 px-4 sm:px-8 md:px-16">
         {cars.length > 0 ? (
           cars.map((data) => (
             <div key={data._id} className="flex md:flex-row flex-col-reverse gap-4 bg-slate-100 p-3 rounded relative">

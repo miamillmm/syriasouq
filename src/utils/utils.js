@@ -3268,11 +3268,11 @@ export const features = [
     value: "ABS",
     arLabel: "مكابح مانعة للانغلاق ABS",
   },
-  {
-    label: "Backup camera",
-    value: "Backup camera",
-    arLabel: "كاميرا الرجوع للخلف",
-  },
+  // {
+  //   label: "Backup camera",
+  //   value: "Backup camera",
+  //   arLabel: "كاميرا الرجوع للخلف",
+  // },
   {
     label: "Bluetooth",
     value: "Bluetooth",

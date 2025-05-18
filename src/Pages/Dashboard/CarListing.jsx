@@ -30,7 +30,7 @@ const CarListing = () => {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/cars/uid/${uid ? uid : user._id}`
         );
-        console.log(response)
+        // console.log(response)
         if (response.data.success) {
           console.log(response?.data?.data);
           setCars(response?.data?.data);
@@ -121,6 +121,10 @@ const CarListing = () => {
                       : car.status === "active"
                       ? "نشط"
                       : "مرفوض"
+                    : car.status === "pending"
+                    ? "Pending"
+                    : car.status === "active"
+                    ? "Available"
                     : "Rejected"}
                 </span>
               </div>
