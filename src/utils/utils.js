@@ -6,6 +6,13 @@ export const makes = [
     models: ["All", "124", "1999", "595", "695", "F595", "Other"],
   },
   {
+    label: "MG",
+    value: "MG",
+    arValue: "إم جي",
+    models: ["360", "6", "A", "B", "GS", "GT", "HS","MG7", "MG3", "MG350", "MG5", "MG550", "MG6", "MG750", "MGB", "One", "RX5", "RX8", "RX9", "T60", "Whale", "ZS", "ZST", "Other"],
+  },
+
+  {
     label: "Subaru",
     value: "Subaru",
     arValue: "سوبارو",
@@ -1547,7 +1554,12 @@ export const arabicMakes = [
     enValue: "Abarth",
     models: ["الكل", "124", "1999", "595", "695", "595 اف", "آخرى"],
   },
-
+  {
+    label: "إم جي",
+    value:"إم جي",
+    enValue: "MG",
+    models: ["360", "6", "A", "B", "GS", "GT", "HS","MG7", "MG3", "MG350", "MG5", "MG550", "MG6", "MG750", "MGB", "One", "RX5", "RX8", "RX9", "T60", "Whale", "ZS", "ZST", "أخرى"],
+  },
 {
   label: "سوبارو",
   value: "سوبارو",
