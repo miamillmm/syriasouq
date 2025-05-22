@@ -278,6 +278,8 @@ const ListingForm = ({
         <button
           className="text-gray-400 hover:text-gray-600"
           disabled={isLoading}
+          type="button"
+
         >
           ▼
         </button>
@@ -1016,6 +1018,8 @@ const AddListingPage = () => {
                 }}
                 className="text-gray-600 hover:text-gray-800 text-2xl"
                 disabled={isLoading}
+                type="button"
+
               >
                 ✕
               </button>

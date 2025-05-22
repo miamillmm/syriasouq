@@ -188,6 +188,7 @@ const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
         <button
           className="text-gray-500 hover:text-gray-700 transition-colors p-2 rounded-full"
           aria-label="Toggle gallery"
+          type="button"
         >
           ▼
         </button>
@@ -226,6 +227,7 @@ const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
             aria-label="Upload images"
             tabIndex={0}
             onKeyDown={(e) => e.key === "Enter" && document.getElementById("file-input").click()}
+            type="button"
           >
             {isUploading ? (
               <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-gray-500"></div>
@@ -288,6 +290,7 @@ const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
                     onClick={() => handleRemoveImage(image.id)}
                     className="absolute top-2 right-2 bg-red-600 text-white rounded-full p-1.5 hover:bg-red-700 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500"
                     aria-label={`Remove image ${index + 1}`}
+                    type="button"
                     title="Remove image"
                   >
                     <AiOutlineClose className="w-4 h-4" />
@@ -312,6 +315,7 @@ const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
                 }`}
                 onClick={() => !isUploading && document.getElementById("file-input").click()}
                 disabled={isUploading}
+                type="button"
                 aria-label="Add more images"
               >
                 <AiOutlineCloudUpload className="mr-2 w-6 h-6" />
