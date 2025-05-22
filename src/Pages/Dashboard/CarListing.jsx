@@ -7,7 +7,7 @@ import { AiOutlineDashboard } from "react-icons/ai";
 import { CiCalendar, CiLocationOn, CiSettings } from "react-icons/ci";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../context/AuthContext"; // Import AuthContext
-import { getLocalizedLocation } from "../../utils/utils";
+import { getArabicModel, getLocalizedLocation, getLocalizedMake } from "../../utils/utils";
 
 const getUidFromUrl = () => {
   const queryParams = new URLSearchParams(window.location.search);
@@ -110,7 +110,7 @@ const CarListing = () => {
                   className={`absolute top-2 right-2 text-white text-sm px-3 py-1 rounded ${
                     car.status === "pending"
                       ? "bg-orange-500"
-                      : car.status === "active"
+                      : car.status === "available"
                       ? "bg-green-500"
                       : "bg-[#B80200]"
                   }`}
@@ -118,12 +118,12 @@ const CarListing = () => {
                   {currentLanguage === "ar"
                     ? car.status === "pending"
                       ? "قيد المراجعة"
-                      : car.status === "active"
+                      : car.status === "available"
                       ? "نشط"
                       : "مرفوض"
                     : car.status === "pending"
                     ? "Pending"
-                    : car.status === "active"
+                    : car.status === "available"
                     ? "Available"
                     : "Rejected"}
                 </span>
@@ -137,8 +137,15 @@ const CarListing = () => {
 
                 {/* Make & Model */}
                 <h3 className="text-lg text-gray-900">
-                  <Translate text={car.make} /> .{" "}
-                  <Translate text={car?.model} />
+                  {/* <Translate text={car.make} /> .{" "}
+                  
+                  <Translate text={car?.model} /> */}
+
+                    
+                      {car?.make ? getLocalizedMake(car, currentLanguage) : "آخر"}. {" "}
+                  
+                {car?.model ? getArabicModel(car, currentLanguage) : "آخر"}
+                
                 </h3>
 
                 {/* Year */}

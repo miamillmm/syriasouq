@@ -100,7 +100,7 @@ const Navbar = () => {
           >
             {user?.profileImage ? (
               <img
-                src={`http://api.syriasouq.com/${user.profileImage}`}
+                src={`https://api.syriasouq.com${user.profileImage}`}
                 alt="Profile"
                 className="w-full h-full object-cover"
               />
