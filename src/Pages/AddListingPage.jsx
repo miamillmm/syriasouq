@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { motion } from "framer-motion";
 import { alllocation, makes, arabicMakes, allenginesize } from "../utils/utils";
 
-// Import Google Fonts for Arabic and loader styles
+// Import Google Fonts for Arabic and loader styles `
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
   .loader {
@@ -845,8 +845,7 @@ const AddListingPage = () => {
             car.images
               ? car.images.map((img, index) => ({
                   file: null,
-                  preview: `http://api.syriasouq.com/uploads/cars/${img}`,
-                  id: index,
+                  id: `https://api.syriasouq.com/Uploads/cars/${img}`, // Use id for the URL
                 }))
               : []
           );
