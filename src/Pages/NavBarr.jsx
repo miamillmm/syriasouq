@@ -13,7 +13,9 @@ const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
 
   return (
-    <nav className="bg-[#323232fa] text-white py-3 px-4 sm:px-6 md:px-16 lg:px-28 fixed w-full top-0 z-20">
+    <>
+
+    <header className="bg-[#323232fa] text-white py-3 px-4 sm:px-6 md:px-16 lg:px-28 fixed w-full top-0 z-20">
       <div className="flex justify-between items-center max-w-7xl mx-auto">
         {/* Left: Hamburger Menu (Mobile/Tablet) */}
         <button
@@ -351,7 +353,9 @@ const Navbar = () => {
           </div>
         </div>
       )}
-    </nav>
+    </header>
+    </>
+
   );
 };
 
