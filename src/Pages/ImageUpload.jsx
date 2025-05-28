@@ -1,9 +1,9 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { AiOutlineClose, AiOutlineCloudUpload } from "react-icons/ai";
 import Translate from "../utils/Translate";
 import { useTranslation } from "react-i18next";
 
-const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
+const ImageUpload = ({ uploadedImages, setUploadedImages, isDisabled }) => {
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language;
 
@@ -11,55 +11,92 @@ const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState("");
+  const [previewFiles, setPreviewFiles] = useState([]); // State for temporary file previews
   const uploadAreaRef = useRef(null);
   const imageRefs = useRef([]); // Store refs for image elements
 
-  // Handle file upload
+  // Cleanup temporary URLs to prevent memory leaks
+  useEffect(() => {
+    return () => {
+      previewFiles.forEach((file) => URL.revokeObjectURL(file.id));
+      // Only revoke URLs for new images, not server URLs
+      uploadedImages.forEach((file) => {
+        if (file.file) {
+          URL.revokeObjectURL(file.id);
+        }
+      });
+    };
+  }, [previewFiles, uploadedImages]);
+
+  // Handle file selection for preview
   const handleFileChange = async (event) => {
-    if (uploadedImages?.length > 9) {
-      setError("Maximum 10 images allowed. Remove some to add more.");
-      uploadAreaRef.current?.focus();
-      return;
-    }
-    setError("");
-    setIsUploading(true);
     const files = event.target.files;
     if (files) {
-      const newImages = Array.from(files).map((file) => ({
+      if (uploadedImages.length + files.length > 20) {
+        setError("Maximum 10 images allowed. Remove some to add more.");
+        uploadAreaRef.current?.focus();
+        setPreviewFiles([]);
+        return;
+      }
+      setError("");
+      setIsUploading(true);
+      // Create temporary previews
+      const tempPreviews = Array.from(files).map((file) => ({
         id: URL.createObjectURL(file),
         file,
       }));
-      setUploadedImages((prev) => [...prev, ...newImages]);
+      setPreviewFiles(tempPreviews);
+      // Append new images to existing uploadedImages
+      setUploadedImages((prev) => [...prev, ...tempPreviews]);
+      setTimeout(() => {
+        setIsUploading(false);
+        setPreviewFiles([]); // Clear temporary previews after adding
+      }, 500);
     }
-    setTimeout(() => setIsUploading(false), 500);
   };
 
   // Handle drag-and-drop for file upload
   const handleDrop = (event) => {
     event.preventDefault();
     setIsDragging(false);
-    if (uploadedImages?.length > 9) {
-      setError("Maximum 10 images allowed. Remove some to add more.");
-      uploadAreaRef.current?.focus();
-      return;
-    }
-    setError("");
-    setIsUploading(true);
     const files = event.dataTransfer.files;
     if (files) {
-      const newImages = Array.from(files).map((file) => ({
+      if (uploadedImages.length + files.length > 10) {
+        setError("Maximum 10 images allowed. Remove some to add more.");
+        uploadAreaRef.current?.focus();
+        setPreviewFiles([]);
+        return;
+      }
+      setError("");
+      setIsUploading(true);
+      // Create temporary previews
+      const tempPreviews = Array.from(files).map((file) => ({
         id: URL.createObjectURL(file),
         file,
       }));
-      setUploadedImages((prev) => [...prev, ...newImages]);
+      setPreviewFiles(tempPreviews);
+      // Append new images to existing uploadedImages
+      setUploadedImages((prev) => [...prev, ...tempPreviews]);
+      setTimeout(() => {
+        setIsUploading(false);
+        setPreviewFiles([]); // Clear temporary previews after adding
+      }, 500);
     }
-    setTimeout(() => setIsUploading(false), 500);
   };
 
   // Remove an image with confirmation
   const handleRemoveImage = (id) => {
     if (window.confirm("Are you sure you want to remove this image?")) {
-      setUploadedImages((prev) => prev.filter((image) => image.id !== id));
+      setUploadedImages((prev) => {
+        const updated = prev.filter((image) => image.id !== id);
+        // Revoke URL for removed image if it’s a new upload
+        prev.forEach((image) => {
+          if (image.id === id && image.file) {
+            URL.revokeObjectURL(image.id);
+          }
+        });
+        return updated;
+      });
       setError("");
     }
   };
@@ -70,7 +107,7 @@ const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
   };
 
   // Handle drag over
-  const handleDragOver = ( выделитьevent) => {
+  const handleDragOver = (event) => {
     event.preventDefault();
     setIsDragging(true);
   };
@@ -200,9 +237,9 @@ const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
         className={`border-2 border-gray-200 rounded-xl p-6 w-full bg-white shadow-sm transition-all duration-300 ${
           isDragging ? "bg-gradient-to-br from-gray-50 to-gray-100 border-gray-400" : ""
         } ${error ? "animate-shake border-red-300" : ""}`}
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
+        onDrop={isDisabled ? undefined : handleDrop}
+        onDragOver={isDisabled ? undefined : handleDragOver}
+        onDragLeave={isDisabled ? undefined : handleDragLeave}
         role="region"
         aria-label="Image upload area"
         tabIndex={0}
@@ -218,15 +255,15 @@ const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
           </div>
         )}
 
-        {uploadedImages.length === 0 ? (
-          // Initial Interface
+        {uploadedImages.length === 0 && previewFiles.length === 0 ? (
+          // Initial Interface (No images selected)
           <div
             className="flex flex-col items-center justify-center h-56 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
-            onClick={() => !isUploading && document.getElementById("file-input").click()}
+            onClick={() => !isUploading && !isDisabled && document.getElementById("file-input").click()}
             role="button"
             aria-label="Upload images"
             tabIndex={0}
-            onKeyDown={(e) => e.key === "Enter" && document.getElementById("file-input").click()}
+            onKeyDown={(e) => e.key === "Enter" && !isUploading && !isDisabled && document.getElementById("file-input").click()}
             type="button"
           >
             {isUploading ? (
@@ -247,57 +284,64 @@ const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
               type="file"
               accept="image/*"
               multiple
-              required
               className="hidden"
               onChange={handleFileChange}
-              disabled={isUploading}
+              disabled={isUploading || isDisabled}
               aria-hidden="true"
             />
           </div>
         ) : (
-          // Image Preview Interface
+          // Image Preview Interface (or Temporary Preview during selection)
           <div className="flex flex-col lg:flex-row justify-between gap-6">
             {/* Image Previews */}
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 w-full lg:w-3/4">
-              {uploadedImages.map((image, index) => (
+              {(previewFiles.length > 0 ? [...uploadedImages, ...previewFiles] : uploadedImages).map((image, index) => (
                 <div
                   key={image.id}
-                  ref={(el) => (imageRefs.current[index] = el)} // Store ref for each image
-                  className={`relative w-full h-32 bg-gray-100 rounded-lg overflow-hidden shadow-md transition-all duration-200 animate-slideIn ${
-                    draggedIndex === index
+                  ref={(el) => (imageRefs.current[index] = el)}
+                  className={`relative w-full h-32 bg-gray-100 rounded-lg overflow-hidden shadow-md transition-all duration-200 animate-slide-auto ${
+                    draggedIndex === index && previewFiles.length === 0
                       ? "scale-105 shadow-xl z-10"
-                      : "hover:scale-102 hover:shadow-lg hover:border-2 hover:border-gray-300"
+                      : "hover:scale-102 hover:shadow-lg hover:border-2 hover:border-blue-500"
                   } focus:outline-none focus:ring-2 focus:ring-blue-500 touch-none select-none`}
-                  draggable
-                  onDragStart={() => handleDragStart(index)}
-                  onDragOver={(e) => e.preventDefault()}
-                  onDrop={() => handleDropReorder(index)}
-                  onTouchStart={(e) => handleTouchStart(e, index)}
-                  onTouchMove={handleTouchMove}
-                  onTouchEnd={(e) => handleTouchEnd(e)}
+                  draggable={previewFiles.length === 0 && !isDisabled}
+                  onDragStart={() => previewFiles.length === 0 && !isDisabled && handleDragStart(index)}
+                  onDragOver={(e) => previewFiles.length === 0 && !isDisabled && e.preventDefault()}
+                  onDrop={() => previewFiles.length === 0 && !isDisabled && handleDropReorder(index)}
+                  onTouchStart={(e) => previewFiles.length === 0 && !isDisabled && handleTouchStart(e, index)}
+                  onTouchMove={previewFiles.length === 0 && !isDisabled ? handleTouchMove : undefined}
+                  onTouchEnd={(e) => previewFiles.length === 0 && !isDisabled && handleTouchEnd(e)}
                   role="img"
-                  aria-label={`Uploaded image ${index + 1}`}
+                  aria-label={`Image ${index + 1}`}
                   tabIndex={0}
-                  onKeyDown={(e) => handleKeyDown(e, index)}
+                  onKeyDown={(e) => previewFiles.length === 0 && !isDisabled && handleKeyDown(e, index)}
                 >
                   <img
                     src={image.id}
-                    alt={`Uploaded image ${index + 1}`}
+                    alt={`Image ${index + 1}`}
                     className="object-cover w-full h-full pointer-events-none"
                     loading="lazy"
                   />
-                  <button
-                    onClick={() => handleRemoveImage(image.id)}
-                    className="absolute top-2 right-2 bg-red-600 text-white rounded-full p-1.5 hover:bg-red-700 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500"
-                    aria-label={`Remove image ${index + 1}`}
-                    type="button"
-                    title="Remove image"
-                  >
-                    <AiOutlineClose className="w-4 h-4" />
-                  </button>
+                  {index !== 0 && (
+                    <div className="absolute bottom-2 left-2 bg-green-600 text-white text-xs font-medium px-2 py-0.5 rounded">
+                      Image {index + 1}
+                    </div>
+                  )}
+                  {previewFiles.length === 0 && (
+                    <button
+                      onClick={() => handleRemoveImage(image.id)}
+                      className="absolute top-2 right-2 bg-red-600 text-white rounded-full p-1.5 hover:bg-red-700 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500"
+                      aria-label={`Remove image ${index + 1}`}
+                      type="button"
+                      title="Remove image"
+                      disabled={isDisabled}
+                    >
+                      <AiOutlineClose className="w-4 h-4" />
+                    </button>
+                  )}
                   {index === 0 && (
                     <div className="absolute bottom-2 left-2 bg-green-600 text-white text-xs font-medium px-2 py-0.5 rounded">
-                      <Translate text={"Preview"} />
+                      {currentLanguage === "ar" ? "الصورة الرئيسية" : "Preview"}
                     </div>
                   )}
                 </div>
@@ -305,20 +349,20 @@ const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
             </div>
 
             {/* Counter and Add More */}
-            <div className="flex flex-col items-end space-y-3 w-full lg:w-1/4">
-              <p className="text-sm font-medium text-gray-500">
-                {uploadedImages.length} / 10
+            <div className="flex flex-col items-center sm:items-end gap-3 w-full lg:w-1/4">
+              <p className="text-sm font-medium text-gray-600">
+                {uploadedImages.length + previewFiles.length} / 20
               </p>
               <button
-                className={`flex items-center text-blue-600 hover:text-blue-800 hover:underline transition-colors text-lg font-medium ${
-                  isUploading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+                className={`flex items-center text-blue-600 hover:text-blue-800 hover:underline transition-colors text-base font-medium ${
+                  isUploading || isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
                 }`}
-                onClick={() => !isUploading && document.getElementById("file-input").click()}
-                disabled={isUploading}
+                onClick={() => !isUploading && !isDisabled && document.getElementById("file-input").click()}
+                disabled={isUploading || isDisabled}
                 type="button"
                 aria-label="Add more images"
               >
-                <AiOutlineCloudUpload className="mr-2 w-6 h-6" />
+                <AiOutlineCloudUpload className="mr-2 w-5 h-5" />
                 <Translate text={"Add More Images"} />
               </button>
               <input
@@ -328,7 +372,7 @@ const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
                 multiple
                 className="hidden"
                 onChange={handleFileChange}
-                disabled={isUploading}
+                disabled={isUploading || isDisabled}
                 aria-hidden="true"
               />
             </div>
@@ -339,4 +383,4 @@ const ImageUploadPreview = ({ uploadedImages, setUploadedImages }) => {
   );
 };
 
-export default ImageUploadPreview;
+export default ImageUpload;

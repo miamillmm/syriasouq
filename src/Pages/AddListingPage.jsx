@@ -183,6 +183,20 @@ const ListingForm = ({
     description: false,
   });
 
+ const [countdown, setCountdown] = useState(10); // Start at 10 seconds
+
+   // Update countdown every second when loading
+  useEffect(() => {
+    let timer;
+    if (isLoading && countdown > 0) {
+      timer = setInterval(() => {
+        setCountdown((prev) => prev - 1);
+      }, 1000);
+    } else if (!isLoading) {
+      setCountdown(10); // Reset countdown when not loading
+    }
+    return () => clearInterval(timer); // Cleanup timer
+ }, [isLoading, countdown]);
   // Prepare make options
   const makeOptions = makes.map((m) => {
     const arabicMake = arabicMakes.find((am) => am.enValue === m.value);
@@ -693,9 +707,14 @@ const ListingForm = ({
           {isLoading ? (
             <div className="flex items-center gap-2">
               <div className="loader"></div>
-              <span>
+              {/* <span>
                 {currentLanguage === "ar" ? "جاري تحميل الإعلان..." : "Loading..."}
-              </span>
+              </span> */}
+              <span>
+               {currentLanguage === "ar"
+                 ? `جاري تحميل الإعلان... (${countdown} ثوانٍ)`
+                 : `Loading... (${countdown}s)`}
+             </span>
             </div>
           ) : (
             <>
@@ -846,8 +865,9 @@ const AddListingPage = () => {
           setUploadedImages(
             car.images
               ? car.images.map((img, index) => ({
+                  id: `https://api.syriasouq.com/Uploads/cars/${img}`,
                   file: null,
-                  id: `https://api.syriasouq.com/Uploads/cars/${img}`, // Use id for the URL
+                  isExisting: true,
                 }))
               : []
           );
@@ -869,15 +889,77 @@ const AddListingPage = () => {
   }, [id, navigate, currentLanguage]);
 
   // Handle form submission (add or update)
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setIsLoading(true);
 
+  //   const formData = new FormData();
+  //   formData.append("make", make?.value || "");
+  //   formData.append("model", model?.value || "");
+  //   formData.append("priceUSD", priceUSD);
+  //   formData.append("priceSYP", priceSYP);
+  //   formData.append("year", year);
+  //   formData.append("kilometer", kilometer);
+  //   formData.append("engineSize", engineSize?.value || "");
+  //   formData.append("location", location?.value || "");
+  //   formData.append("transmission", transmission?.value || "");
+  //   formData.append("fuelType", fuelType?.value || "");
+  //   formData.append("exteriorColor", exteriorColor?.value || "");
+  //   formData.append("interiorColor", interiorColor?.value || "");
+  //   formData.append("description", description);
+  //   formData.append("selectedFeatures", JSON.stringify(selectedFeatures));
+  //   uploadedImages.forEach((image, index) => {
+  //     if (image.file) {
+  //       formData.append(`images`, image.file);
+  //     }
+  //   });
+
+  //   try {
+  //     const url = id
+  //       ? `${import.meta.env.VITE_API_URL}/cars/${id}`
+  //       : `${import.meta.env.VITE_API_URL}/cars`;
+  //     const method = id ? "PUT" : "POST";
+
+  //     const response = await fetch(url, {
+  //       method,
+  //       headers: {
+  //         Authorization: `Bearer ${user.jwt}`,
+  //       },
+  //       body: formData,
+  //     });
+
+  //     const result = await response.json();
+
+  //     if (response.ok) {
+  //       setIsEditModalOpen(false);
+  //       navigate("/dashboard", { replace: true });
+  //     } else {
+  //       console.error("Server Response:", result);
+  //     }
+  //   } catch (error) {
+  //     console.error("Submission Error:", error);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+// ... imports and other code remain unchanged ...
+
+// ... imports and other code remain unchanged ...
+
+// ... imports and other code remain unchanged ...
+
+// ... imports and other code remain unchanged ...
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsLoading(true);
+
+  try {
     const formData = new FormData();
     formData.append("make", make?.value || "");
     formData.append("model", model?.value || "");
-    formData.append("priceUSD", priceUSD);
-    formData.append("priceSYP", priceSYP);
+    formData.append("priceUSD", priceUSD || "");
+    formData.append("priceSYP", priceSYP || "1");
     formData.append("year", year);
     formData.append("kilometer", kilometer);
     formData.append("engineSize", engineSize?.value || "");
@@ -887,41 +969,97 @@ const AddListingPage = () => {
     formData.append("exteriorColor", exteriorColor?.value || "");
     formData.append("interiorColor", interiorColor?.value || "");
     formData.append("description", description);
-    formData.append("selectedFeatures", JSON.stringify(selectedFeatures));
-    uploadedImages.forEach((image, index) => {
-      if (image.file) {
-        formData.append(`images`, image.file);
-      }
+    formData.append("features", JSON.stringify(selectedFeatures));
+
+    // Append new images
+
+  // Append all images (existing and new) as file objects to 'images'
+   for (const image of uploadedImages) {
+     if (image.isExisting && id) {
+       // Existing image (edit mode): fetch and convert to File
+       try {
+         const response = await fetch(image.id);
+         if (!response.ok) throw new Error(`Failed to fetch image: ${image.id}`);
+         const blob = await response.blob();
+         const urlParts = image.id.split("/");
+         const filename = urlParts[urlParts.length - 1];
+         const file = new File([blob], filename, { type: blob.type });
+         formData.append("images", file);
+       } catch (error) {
+         console.error(`Error fetching existing image ${image.id}:`, error);
+         toast.error(
+           currentLanguage === "ar"
+             ? `فشل في جلب الصورة الحالية: ${filename}`
+             : `Failed to fetch existing image: ${filename}`
+         );
+         continue; // Skip failed images
+       }
+     } else if (image.file) {
+       // New image: append file object
+       formData.append("images", image.file);
+     }
+   }
+
+    // Log FormData for debugging
+    console.log("FormData contents:");
+    for (let [key, value] of formData.entries()) {
+      console.log(`  ${key}:`, value);
+    }
+
+    const url = id
+      ? `${import.meta.env.VITE_API_URL}/cars/${id}`
+      : `${import.meta.env.VITE_API_URL}/cars`;
+    const method = id ? "PUT" : "POST";
+
+    const response = await fetch(url, {
+      method,
+      headers: {
+        Authorization: `Bearer ${user.jwt}`,
+      },
+      body: formData,
     });
 
-    try {
-      const url = id
-        ? `${import.meta.env.VITE_API_URL}/cars/${id}`
-        : `${import.meta.env.VITE_API_URL}/cars`;
-      const method = id ? "PUT" : "POST";
+    const result = await response.json();
 
-      const response = await fetch(url, {
-        method,
-        headers: {
-          Authorization: `Bearer ${user.jwt}`,
-        },
-        body: formData,
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        setIsEditModalOpen(false);
-        navigate("/dashboard", { replace: true });
-      } else {
-        console.error("Server Response:", result);
-      }
-    } catch (error) {
-      console.error("Submission Error:", error);
-    } finally {
-      setIsLoading(false);
+    if (response.ok) {
+      toast.success(
+        currentLanguage === "ar"
+          ? id
+            ? "تم تحديث الإعلان بنجاح!"
+            : "تم إضافة الإعلان بنجاح!"
+          : id
+          ? "Listing updated successfully!"
+          : "Listing added successfully!"
+      );
+      setIsEditModalOpen(false);
+      navigate("/dashboard", { replace: true });
+    } else {
+      console.error("Server Response:", JSON.stringify(result, null, 2), "Status:", response.status);
+      toast.error(
+        currentLanguage === "ar"
+          ? `فشل في حفظ الإعلان: ${result.message || "خطأ غير معروف"}`
+          : `Failed to save listing: ${result.message || "Unknown error"}`
+      );
     }
-  };
+  } catch (error) {
+    console.error("Submission Error:", error);
+    toast.error(
+      currentLanguage === "ar"
+        ? "حدث خطأ أثناء حفظ الإعلان"
+        : "An error occurred while saving"
+    );
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+// ... rest of AddListingPage remains unchanged ...
+
+// ... rest of AddListingPage remains unchanged ...
+
+// ... rest of AddListingPage remains unchanged ...
+
+// ... rest of AddListingPage remains unchanged ...
 
   return (
     <div className="pt-25" dir={currentLanguage === "ar" ? "rtl" : "ltr"}>

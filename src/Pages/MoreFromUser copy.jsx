@@ -13,7 +13,6 @@ import Translate from "../utils/Translate"
 import { useTranslation } from "react-i18next"
 import { AiOutlineDashboard } from "react-icons/ai"
 import { getArabicModel, getLocalizedLocation, getLocalizedMake } from "../utils/utils"
-import { MdArrowLeft, MdArrowRight } from "react-icons/md"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import { ToastContainer } from "react-toastify"
@@ -21,7 +20,6 @@ import { useWishlist } from "../context/WishlistContext"
 
 export default function MoreFromUser({ title, button, uid }) {
   const prevRef = useRef(null)
-  const [currentImageIndices, setCurrentImageIndices] = useState({})
   const nextRef = useRef(null)
   const swiperRef = useRef(null)
   const [listings, setListings] = useState([])
@@ -42,14 +40,6 @@ export default function MoreFromUser({ title, button, uid }) {
     getCars()
   }, [uid])
 
-    useEffect(() => {
-        // Initialize current image indices
-        const indices = {}
-        listings.forEach((car) => {
-          indices[car._id] = 0
-        })
-        setCurrentImageIndices(indices)
-      }, [listings])
   useEffect(() => {
     if (swiperRef.current && swiperRef.current.swiper) {
       swiperRef.current.swiper.update()
@@ -105,43 +95,7 @@ export default function MoreFromUser({ title, button, uid }) {
         })
     }
   }
-// Handle image navigation within a card
-  const navigateImage = (carId, index) => {
-      const car = listings.find((c) => c._id === carId)
-      if (!car || !car.images || car.images.length <= 1) return
-  
-      setCurrentImageIndices((prev) => ({
-        ...prev,
-      [carId]: index,
-      }))
-    }
-  
-    // Handle arrow navigation
-    const handleArrowNavigation = (carId, direction) => {
-      const car = listings.find((c) => c._id === carId)
-      if (!car || !car.images || car.images.length <= 1) return
-  
-      setCurrentImageIndices((prev) => {
-        const currentIndex = prev[carId] || 0
-        let newIndex
-        if (currentLanguage === "ar") {
-          // RTL: Right arrow is previous, left arrow is next
-          if (direction === "right") {
-          newIndex = (currentIndex - 1 + car.images.length) % car.images.length
-          } else {
-            newIndex = (currentIndex + 1) % car.images.length
-          }
-        } else {
-          // LTR: Left arrow is previous, right arrow is next
-          if (direction === "left") {
-            newIndex = (currentIndex - 1 + car.images.length) % car.images.length
-          } else {
-            newIndex = (currentIndex + 1) % car.images.length
-          }
-        }
-        return { ...prev, [carId]: newIndex }
-      })
-    }
+
   return (
     <div className="w-full py-6 sm:py-10 relative px-4 sm:px-6 lg:px-8">
       <ToastContainer
@@ -207,59 +161,10 @@ export default function MoreFromUser({ title, button, uid }) {
                     <div className="overflow-hidden h-60 sm:h-60 rounded-md relative">
                       <img
                         alt={`${getLocalizedMake(car, currentLanguage)} ${getArabicModel(car, currentLanguage)}`}
-                        // src={`http://api.syriasouq.com/uploads/cars/${car?.images[0]}`}
-                         src={`http://api.syriasouq.com/uploads/cars/${car?.images[currentImageIndices[car._id] || 0]}`}
+                        src={`http://api.syriasouq.com/uploads/cars/${car?.images[0]}`}
                         className="w-full  sm:h-60 lg:h-60 object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
                         loading="lazy"
                       />
-                      {/* Navigation Arrows for Larger Screens */}
-                     {car.images && car.images.length > 1 && (
-                       <div className={`hidden md:flex absolute inset-y-0 left-0 right-0 items-center justify-between px-2 ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
-                         <button
-                           onClick={(e) => {
-                             e.preventDefault()
-                             e.stopPropagation()
-                             handleArrowNavigation(car._id, currentLanguage === "ar" ? "left" : "left")
-                           }}
-                           className="bg-black bg-opacity-50 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-opacity-75 transition-opacity"
-                           aria-label={currentLanguage === "ar" ? "Next image" : "Previous image"}
-                         >
-                           <MdArrowLeft className="w-6 h-6" />
-                         </button>
-                         <button
-                           onClick={(e) => {
-                             e.preventDefault()
-                             e.stopPropagation()
-                             handleArrowNavigation(car._id, currentLanguage === "ar" ? "right" : "right")
-                           }}
-                           className="bg-black bg-opacity-50 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-opacity-75 transition-opacity"
-                           aria-label={currentLanguage === "ar" ? "Previous image" : "Next image"}
-                         >
-                           <MdArrowRight className="w-6 h-6" />
-                         </button>
-                       </div>
-                     )}
-                     {/* Navigation Dots */}
-                     {car.images && car.images.length > 1 && (
-                       <div className="absolute hidden md:flex bottom-2 left-1/2 transform -translate-x-1/2  gap-2">
-                         {car.images.map((_, index) => (
-                           <button
-                             key={index}
-                             onClick={(e) => {
-                               e.preventDefault()
-                               e.stopPropagation()
-                               navigateImage(car._id, index)
-                             }}
-                             className={`w-2 h-2 rounded-full ${
-                               index === (currentImageIndices[car._id] || 0)
-                                 ? "bg-white"
-                                 : "bg-gray-400"
-                             }`}
-                             aria-label={`Go to image ${index + 1}`}
-                           />
-                         ))}
-                       </div>
-                     )}
                       <div
                         onClick={(e) => {
                           e.preventDefault()

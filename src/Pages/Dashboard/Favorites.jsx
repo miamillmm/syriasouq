@@ -3,10 +3,11 @@ import { useEffect, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Translate from "../../utils/Translate";
 import Navbar from "./NavBar";
-import { CiCalendar, CiLocationOn, CiSettings } from "react-icons/ci";
+import { CiCalendar, CiHeart, CiLocationOn, CiSettings } from "react-icons/ci";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { AuthContext } from "../../context/AuthContext"; // Import AuthContext
 import { useTranslation } from "react-i18next";
+import { useWishlist } from "../../context/WishlistContext";
 
 const getUidFromUrl = () => {
   const queryParams = new URLSearchParams(window.location.search);
@@ -22,7 +23,7 @@ const Favorites = () => {
   const { logout } = useContext(AuthContext); // Access logout from AuthContext
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language;
-
+ const { handleWishlist, isWishlistLoading } = useWishlist(); // Access wishlist context
   useEffect(() => {
     const fetchCars = async () => {
       try {
@@ -46,6 +47,20 @@ const Favorites = () => {
   const handleLogout = () => {
     logout(); // Call logout from AuthContext
     navigate("/", { replace: true }); // Redirect to homepage
+  };
+    // Handle removing a car from the wishlist
+  const handleRemoveFromWishlist = async (car, e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (isWishlistLoading) return;
+
+    try {
+      await handleWishlist(car.car); // Toggle wishlist status (removes since already in wishlist)
+      // Update local state to remove the car
+      setCars((prevCars) => prevCars.filter((item) => item.car._id !== car.car._id));
+    } catch (error) {
+      console.error("Error removing from wishlist:", error);
+    }
   };
 
   return (
@@ -81,6 +96,14 @@ const Favorites = () => {
                             "https://via.placeholder.com/400x300?text=No+Image")
                         }
                       />
+                      {/* Remove from Wishlist Button
+                     <div
+                       onClick={(e) => handleRemoveFromWishlist(car, e)}
+                       className={`absolute top-3 ${currentLanguage === "ar" ? "left-3" : "right-3"} hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-300 cursor-pointer text-gray-600 bg-[#B80200] border-[#B80200] text-white ${isWishlistLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+                       aria-label={currentLanguage === "ar" ? "إزالة من المفضلة" : "Remove from wishlist"}
+                     >
+                       <CiHeart className="w-5 h-5" />
+                     </div> */}
                     </div>
 
                     <div className="p-6">
@@ -122,6 +145,13 @@ const Favorites = () => {
                           <Translate text={"View Details"} />
                         </button>
                       </Link>
+                      {/* Remove from Wishlist Button */}
+                     <button
+                       onClick={(e) => handleRemoveFromWishlist(car, e)}
+                       className={`mt-3 w-full bg-gray-200 text-black font-bold px-4 py-3 rounded-lg hover:bg-gray-300 transition text-lg cursor-pointer ${isWishlistLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+                     >
+                      <Translate text={currentLanguage === "ar" ? "إزالة من المفضلة" : "Remove from Wishlist"} />
+                    </button>
                     </div>
                   </div>
                 ))}

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import { AiOutlineDashboard } from "react-icons/ai"
 import { CiCalendar, CiHeart, CiLocationOn, CiShare2 } from "react-icons/ci"
 import { TiArrowRight } from "react-icons/ti"
+import { MdArrowLeft, MdArrowRight } from "react-icons/md"
 import { Link } from "react-router-dom"
 import Translate from "../utils/Translate"
 import { useTranslation } from "react-i18next"
@@ -123,6 +124,33 @@ const Featured = () => {
     }))
   }
 
+  // Handle arrow navigation
+  const handleArrowNavigation = (carId, direction) => {
+    const car = cars.find((c) => c._id === carId)
+    if (!car || !car.images || car.images.length <= 1) return
+
+    setCurrentImageIndices((prev) => {
+      const currentIndex = prev[carId] || 0
+      let newIndex
+      if (currentLanguage === "ar") {
+        // RTL: Right arrow is previous, left arrow is next
+        if (direction === "right") {
+          newIndex = (currentIndex - 1 + car.images.length) % car.images.length
+        } else {
+          newIndex = (currentIndex + 1) % car.images.length
+        }
+      } else {
+        // LTR: Left arrow is previous, right arrow is next
+        if (direction === "left") {
+          newIndex = (currentIndex - 1 + car.images.length) % car.images.length
+        } else {
+          newIndex = (currentIndex + 1) % car.images.length
+        }
+      }
+      return { ...prev, [carId]: newIndex }
+    })
+  }
+
   // Handle swipe gestures
   const handleTouchStart = (e, carId) => {
     const touch = e.touches[0]
@@ -156,13 +184,7 @@ const Featured = () => {
   }
 
   return (
-    <div className="container mx-auto  w-screen ">
-       <h2 className="text-md sm:text-2xl font-semibold text-black text- bg-slate-100 py-4 text-center">
-            {/* <Translate text={"Buy & Sell with Syria Souq"} /> */}
-
-            {currentLanguage === "ar" ? "بيع وشراء مع سيريا سوق " : "Buy & Sell with Syria Souq"}
-           
-          </h2>
+    <div className="container mx-auto w-screen">
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -185,7 +207,7 @@ const Featured = () => {
             <button className="bg-[#B80200] text-white text-[16px] sm:text-[18px] font-[400] justify-between py-3 sm:py-4 px-8 sm:px-12 rounded-md flex items-center gap-2 cursor-pointer">
               <Translate text={"View All"} />
               <span>
-              <TiArrowRight className={currentLanguage === "ar" ? "rotate-180" : ""} />
+                <TiArrowRight className={currentLanguage === "ar" ? "rotate-180" : ""} />
               </span>
             </button>
           </Link>
@@ -196,7 +218,7 @@ const Featured = () => {
           cars.map((data) => (
             <div key={data._id} className="flex md:flex-row flex-col-reverse gap-4 bg-slate-100 p-3 rounded relative">
               <div
-                className={`absolute top-2 ${currentLanguage === "ar" ? "left-2" : "right-2"} flex items-center gap-2`}
+                className={`absolute top-2 ${currentLanguage === "ar" ? "left-2" : "right-2"} flex items-center gap-2 z-10`}
               >
                 <div
                   onClick={() => handleShare(data)}
@@ -219,23 +241,50 @@ const Featured = () => {
                     />
                   </div>
                 </Link>
-                <div className=" flex items-center gap-2">
+                <div className="flex items-center gap-2">
                   <div
-                    onClick={() => handleWishlist(data)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      if (!isWishlistLoading) {
+                        console.log("Wishlist button clicked for car ID:", data._id); // Debug log
+                        handleWishlist(data);
+                        console.log("Wishlist after click:", wishlist); // Debug log for wishlist state
+                      }
+                    }}
                     className={`absolute top-2 ${
                       currentLanguage === "ar" ? "right-2" : "left-2"
                     } hover:text-[#B80200] hover:border-[#B80200] duration-500 w-8 h-8 rounded-full flex justify-center items-center border border-gray-300 cursor-pointer text-gray-600 ${
                       wishlist.some((item) => item.car?._id === data._id)
                         ? "bg-[#B80200] border-[#B80200] text-white"
                         : "bg-white"
-                    } ${isWishlistLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+                    } ${isWishlistLoading ? "opacity-50 cursor-not-allowed" : ""} z-20`}
                   >
                     <CiHeart className="w-[75%] h-[75%]" />
                   </div>
                 </div>
+                {/* Navigation Arrows for Larger Screens */}
+                {data.images && data.images.length > 1 && (
+                  <div className={`hidden md:flex absolute inset-y-0 left-0 right-0 items-center justify-between px-2 ${currentLanguage === "ar" ? "flex-row-reverse" : ""} z-10`}>
+                    <button
+                      onClick={() => handleArrowNavigation(data._id, currentLanguage === "ar" ? "left" : "left")}
+                      className="bg-black bg-opacity-50 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-opacity-75 transition-opacity"
+                      aria-label={currentLanguage === "ar" ? "Next image" : "Previous image"}
+                    >
+                      <MdArrowLeft className="w-6 h-6" />
+                    </button>
+                    <button
+                      onClick={() => handleArrowNavigation(data._id, currentLanguage === "ar" ? "right" : "right")}
+                      className="bg-black bg-opacity-50 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-opacity-75 transition-opacity"
+                      aria-label={currentLanguage === "ar" ? "Previous image" : "Next image"}
+                    >
+                      <MdArrowRight className="w-6 h-6" />
+                    </button>
+                  </div>
+                )}
                 {/* Navigation Dots */}
                 {data.images && data.images.length > 1 && (
-                  <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-2">
+                  <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
                     {data.images.map((_, index) => (
                       <button
                         key={index}
@@ -253,10 +302,10 @@ const Featured = () => {
               </div>
               <div className="flex-1 h-full flex flex-col justify-between py-0 md:py-2">
                 <div className="flex items-center justify-between gap-2">
-                <h2 className="text-2xl font-bold text-[#B80200]">
-  <span className="text-2xl">$ </span>
-  {data?.priceUSD ? Number(data?.priceUSD).toLocaleString('en-US') : "آخر"}
-</h2>
+                  <h2 className="text-2xl font-bold text-[#B80200]">
+                    <span className="text-2xl">$ </span>
+                    {data?.priceUSD ? Number(data?.priceUSD).toLocaleString('en-US') : "آخر"}
+                  </h2>
                 </div>
                 <div className="flex items-center gap-2">
                   <h2 className="text-md font-bold">{data?.make ? getLocalizedMake(data, currentLanguage) : "آخر"}</h2>

@@ -83,7 +83,7 @@ const Navbar = () => {
           {/* Left: Nav Links */}
           <div className="flex items-center gap-6">
             <ul className="flex items-center gap-4 lg:gap-6">
-              <li className="relative group">
+              {/* <li className="relative group">
                 <NavLink
                   to="/"
                   className="text-sm lg:text-lg font-medium hover:text-[#B80200] transition-colors duration-300"
@@ -93,7 +93,7 @@ const Navbar = () => {
                   </span>
                   <Translate text="Home" />
                 </NavLink>
-              </li>
+              </li> */}
               <li className="relative group">
                 <div className="dropdown dropdown-hover">
                   <button
@@ -103,7 +103,7 @@ const Navbar = () => {
                     <span className="absolute left-[-20px] opacity-0 group-hover:opacity-100 group-hover:translate-x-2.5 transition-all duration-500 ease-in-out">
                       •
                     </span>
-                    <Translate text="Page" />
+                    {currentLanguage === "ar" ? "الصفحة الرئيسية" : "Home"}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -125,6 +125,14 @@ const Navbar = () => {
                   >
                     <li>
                       <NavLink
+                        to="/"
+                        className="text-sm hover:text-[#B80200] py-2 px-4 rounded transition-colors duration-300"
+                      >
+                  <Translate text="Home" />
+                  </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
                         to="/about"
                         className="text-sm hover:text-[#B80200] py-2 px-4 rounded transition-colors duration-300"
                       >
@@ -136,8 +144,8 @@ const Navbar = () => {
                         to="/contact"
                         className="text-sm hover:text-[#B80200] py-2 px-4 rounded transition-colors duration-300"
                       >
-                        <Translate text="Contact" />
-                      </NavLink>
+                        {currentLanguage === "ar" ? "تواصل معنا" : "Contact"}
+                        </NavLink>
                     </li>
                     <li>
                       {user ? (
@@ -145,8 +153,8 @@ const Navbar = () => {
                           to="/dashboard"
                           className="text-sm hover:text-[#B80200] py-2 px-4 rounded transition-colors duration-300"
                         >
-                          <Translate text="Listing" />
-                        </NavLink>
+                {currentLanguage === "ar" ? "إضافة إعلان" : "Add Listing"}
+                </NavLink>
                       ) : (
                         <NavLink
                           to="/login-and-register"
@@ -164,19 +172,32 @@ const Navbar = () => {
 
           {/* Right: Actions (Including Add Listing on Larger Screens) */}
           <div className="flex items-center gap-4 lg:gap-6">
+           
+            <NavLink to="/addlisting">
+              <button className="bg-[#B80200] text-white px-4 py-2 rounded-md text-sm lg:text-base font-semibold flex items-center gap-1 hover:bg-red-600 transition-colors shadow-md">
+                {currentLanguage === "ar" ? "إضافة إعلان" : "Add Listing"}
+                <span>+</span>
+              </button>
+            </NavLink>
             {user ? (
               <>
-                <Link to="/dashboard">
-                  <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-                    <FaRegUserCircle className="text-[#B80200] w-8 h-8" />
-                  </div>
-                </Link>
+              
                 <button
                   onClick={logout}
                   className="text-sm lg:text-lg text-[#B80200] font-medium hover:underline"
                 >
                   <Translate text="Logout" />
                 </button>
+                <Link to="/dashboard">
+                <div className="flex flex-col items-center gap-1">
+              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center border border-[#B80200] shadow-sm">
+                <FaRegUserCircle className="text-[#B80200] w-6 h-6" />
+              </div>
+              <p className="bg-gradient-to-r  text-white px-2 py-1 rounded-md text-xs font-bold hover:bg-gradient-to-r hover:from-[#A00000] hover:to-[#900000] transition-all hover:scale-105 shadow-md">
+                {currentLanguage === "ar" ? "حسابي" : "My Profile"}
+              </p>
+            </div>
+                </Link>
               </>
             ) : (
               <>
@@ -195,12 +216,6 @@ const Navbar = () => {
                 </Link>
               </>
             )}
-            <NavLink to="/addlisting">
-              <button className="bg-[#B80200] text-white px-4 py-2 rounded-md text-sm lg:text-base font-semibold flex items-center gap-1 hover:bg-red-600 transition-colors shadow-md">
-                {currentLanguage === "ar" ? "إضافة إعلان" : "Add Listing"}
-                <span>+</span>
-              </button>
-            </NavLink>
           </div>
         </div>
       </div>

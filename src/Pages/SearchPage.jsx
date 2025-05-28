@@ -4,6 +4,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { CiCalendar, CiHeart, CiLocationOn, CiShare2 } from "react-icons/ci"
 import { FaList, FaTh, FaTimes } from "react-icons/fa"
+import { MdArrowLeft, MdArrowRight } from "react-icons/md"
 import { Link, useSearchParams } from "react-router-dom"
 import Breadcrumb from "./Breadcumb"
 import {
@@ -100,16 +101,17 @@ const SearchPage = () => {
     const updatedFilters = { ...filters }
 
     // Handle make filter
-    if (make && make !== "null") {
-      if (currentLanguage === "ar" && make !== "الكل" && make !== "" && make !== "All") {
-        const currentMake = arabicMakes.find((mk) => mk.value === make)?.enValue
-        updatedFilters.make = [currentMake || ""]
-      } else {
-        updatedFilters.make = [make !== "All" && make !== "Other" && make !== "الكل" ? make : ""]
-      }
-    } else {
-      updatedFilters.make = []
-    }
+    // if (make && make !== "null") {
+    //   if (currentLanguage === "ar" && make !== "الكل" && make !== "" && make !== "All") {
+    //     const currentMake = arabicMakes.find((mk) => mk.value === make)?.enValue
+    //     updatedFilters.make = [currentMake || ""]
+    //   } else {
+    //     updatedFilters.make = [make !== "All" && make !== "Other" && make !== "الكل" ? make : ""]
+    //   }
+    // } else {
+    //   updatedFilters.make = []
+    // }
+      updatedFilters.make = [make && make !== "All" && make !== "Other" && make !== "الكل" ? make : ""]
 
     // Handle location filter
     if (location && location !== "null") {
@@ -208,6 +210,33 @@ const SearchPage = () => {
       setFilters((prev) => ({ ...prev, [name]: value }))
     }
   }
+
+  // Handle arrow navigation
+  const handleArrowNavigation = (carId, direction) => {
+      const car = datas.find((c) => c._id === carId)
+      if (!car || !car.images || car.images.length <= 1) return
+  
+      setCurrentImageIndices((prev) => {
+        const currentIndex = prev[carId] || 0
+        let newIndex
+        if (currentLanguage === "ar") {
+          // RTL: Right arrow is previous, left arrow is next
+          if (direction === "right") {
+            newIndex = (currentIndex - 1 + car.images.length) % car.images.length
+          } else {
+            newIndex = (currentIndex + 1) % car.images.length
+          }
+        } else {
+          // LTR: Left arrow is previous, right arrow is next
+          if (direction === "left") {
+            newIndex = (currentIndex - 1 + car.images.length) % car.images.length
+          } else {
+            newIndex = (currentIndex + 1) % car.images.length
+          }
+        }
+        return { ...prev, [carId]: newIndex }
+      })
+    }
 
   const filteredData = datas.filter((data) => {
     const {
@@ -1166,6 +1195,34 @@ const SearchPage = () => {
                                     src={`http://api.syriasouq.com/uploads/cars/${data.images[currentImageIndices[data._id] || 0]}`}
                                     className="h-40 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out sm:h-56"
                                   />
+                                  {/* Navigation Arrows for Larger Screens */}
+                              {data.images && data.images.length > 1 && (
+                                <div className={`hidden md:flex absolute inset-y-0 left-0 right-0 items-center justify-between px-2 ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
+                                  <button
+                                    // onClick={() => handleArrowNavigation(data._id, currentLanguage === "ar" ? "left" : "left")}
+                                    onClick={(e) => {
+                                      e.preventDefault()
+                                      e.stopPropagation()
+                                      handleArrowNavigation(data._id, currentLanguage === "ar" ? "left" : "left")
+                                    }}
+                                    className="bg-black bg-opacity-50 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-opacity-75 transition-opacity"
+                                    aria-label={currentLanguage === "ar" ? "Next image" : "Previous image"}
+                                  >
+                                    <MdArrowLeft className="w-6 h-6" />
+                                  </button>
+                                  <button
+                                    // onClick={() => }
+                                    onClick={(e) => {
+                                      e.preventDefault()
+                                      e.stopPropagation()
+                                      handleArrowNavigation(data._id, currentLanguage === "ar" ? "right" : "right")                                    }}
+                                    className="bg-black bg-opacity-50 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-opacity-75 transition-opacity"
+                                    aria-label={currentLanguage === "ar" ? "Previous image" : "Next image"}
+                                  >
+                                    <MdArrowRight className="w-6 h-6" />
+                                  </button>
+                                </div>
+                              )}
                                   {/* Navigation Dots */}
                                   {data.images && data.images.length > 1 && (
                                     <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-2">
@@ -1335,6 +1392,34 @@ const SearchPage = () => {
                                     src={`http://api.syriasouq.com/uploads/cars/${data.images[currentImageIndices[data._id] || 0]}`}
                                     className="h-56 sm:h-56 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
                                   />
+                                  {/* Navigation Arrows for Larger Screens */}
+                              {data.images && data.images.length > 1 && (
+                                <div className={`hidden md:flex absolute inset-y-0 left-0 right-0 items-center justify-between px-2 ${currentLanguage === "ar" ? "flex-row-reverse" : ""}`}>
+                                  <button
+                                    // onClick={() => handleArrowNavigation(data._id, currentLanguage === "ar" ? "left" : "left")}
+                                    onClick={(e) => {
+                                                                            e.preventDefault()
+                                                                            e.stopPropagation()
+                                                                            handleArrowNavigation(data._id, currentLanguage === "ar" ? "left" : "left")
+                                                                          }}
+                                    className="bg-black bg-opacity-50 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-opacity-75 transition-opacity"
+                                    aria-label={currentLanguage === "ar" ? "Next image" : "Previous image"}
+                                  >
+                                    <MdArrowLeft className="w-6 h-6" />
+                                  </button>
+                                  <button
+                                    // onClick={() => }
+                                    onClick={(e) => {
+                                      e.preventDefault()
+                                      e.stopPropagation()
+                                      handleArrowNavigation(data._id, currentLanguage === "ar" ? "right" : "right")                                    }}
+                                    className="bg-black bg-opacity-50 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-opacity-75 transition-opacity"
+                                    aria-label={currentLanguage === "ar" ? "Previous image" : "Next image"}
+                                  >
+                                    <MdArrowRight className="w-6 h-6" />
+                                  </button>
+                                </div>
+                              )}
                                   {/* Navigation Dots */}
                                   {data.images && data.images.length > 1 && (
                                     <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-2">

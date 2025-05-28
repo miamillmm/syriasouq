@@ -17,18 +17,16 @@ const BannerSection = () => {
   const [searchModel, setSearchModel] = useState(null);
   const [searchLocation, setSearchLocation] = useState(null);
 
-  // Prepare make options like AddListingPage
-  const makeOptions = enMakes.map((m) => {
-    const arabicMake = arMake.find((am) => am.enValue === m.value);
-    return {
-      value: m.value,
-      label: currentLanguage === "ar" ? arabicMake?.label || m.label : m.label,
-      models: m.models, // Preserve models for modelOptions
-    };
-  }).concat([
-    { value: "All", label: currentLanguage === "ar" ? "الكل" : "All", models: ["All"] },
-    { value: "Other", label: currentLanguage === "ar" ? "أخرى" : "Other", models: ["Other"] }
-  ]);
+  const makes = [
+    { label: "All", value: "All", models: ["All"] },
+    ...enMakes,
+    { label: "Other", value: "Other", models: ["Other"] },
+  ];
+  const arabicMakes = [
+    { label: "الكل", value: "الكل", models: ["الكل"] },
+    ...arMake,
+    { label: "أخرى", value: "أخرى", models: ["أخرى"] },
+  ];
 
   // Add "All" option to alllocation
   const locations = [
@@ -38,37 +36,31 @@ const BannerSection = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    const query = `/search?make=${searchMake}${searchModel ? `&model=${searchModel}` : ""}${
-      searchLocation ? `&location=${searchLocation}` : ""
-    }`;
-    navigate(query);
+      const query = `/search?make=${searchMake}${searchModel ? `&model=${searchModel}` : ""}${
+        searchLocation ? `&location=${searchLocation}` : ""
+      }`;
+      navigate(query);
+   
   };
 
-  const modelOptions = make
-    ? makeOptions
-        .find((m) => m.value === make.value)
-        ?.models.map((model) => {
-          const enMake = enMakes.find((em) => em.value === make.value);
-          const arMakeEntry = arMake.find((am) => am.enValue === make.value);
-          const modelIndex = enMake?.models.indexOf(model);
-          const arabicModel = modelIndex !== -1 && arMakeEntry ? arMakeEntry.models[modelIndex] : model;
-          return {
+  const modelOptions =
+    currentLanguage === "ar"
+      ? make
+        ? arabicMakes
+            .find((m) => m.value === make.value)
+            ?.models.map((model) => ({
+              value: model,
+              label: model,
+            })) || []
+        : []
+      : make
+      ? makes
+          .find((m) => m.value === make.value)
+          ?.models.map((model) => ({
             value: model,
-            label: currentLanguage === "ar" ? arabicModel : model,
-            searchLabel: model, // For English search in Arabic mode
-          };
-        }) || []
-    : [];
-
-  // Custom filter for model Select to enable English search in Arabic mode
-  const customModelFilter = (option, inputValue) => {
-    const searchText = inputValue.toLowerCase();
-    const label = option.data.label.toLowerCase();
-    const searchLabel = option.data.searchLabel.toLowerCase();
-    return currentLanguage === "ar"
-      ? label.includes(searchText) || searchLabel.includes(searchText)
-      : label.includes(searchText);
-  };
+            label: model,
+          })) || []
+      : [];
 
   const handleChange = (selectedOption) => {
     setMake(selectedOption);
@@ -83,6 +75,8 @@ const BannerSection = () => {
   const handleLocationChange = (selectedOption) => {
     setSearchLocation(selectedOption ? selectedOption.value : null);
   };
+
+  const options = currentLanguage === "ar" ? arabicMakes : makes;
 
   const [bgImage, setBgImage] = useState(
     window.innerWidth < 768 ? imgForMobile : img
@@ -165,13 +159,15 @@ const BannerSection = () => {
 
       <div className="relative z-10 container mx-auto px-4 sm:px-8 md:px-16 md:py-10 grid grid-cols-1 gap-4 items-center w-full">
         <div className="bg-[#323232fa] shadow-xl rounded-2xl w-full max-w-md p-6 sm:p-8 mx-auto mt-12 md:mt-0">
-          <h2 className="text-2xl sm:text-lg font-semibold text-white text-center mb-4">
+        <h2 className="text-2xl sm:text-lg font-semibold text-white text-center mb-4">
             <Translate text={"Find Your Perfect Car"} />
+
+           
           </h2>
           <form className="space-y-5" onSubmit={handleSearch}>
             <div className="space-y-4">
               <Select
-                options={makeOptions}
+                options={options}
                 getOptionLabel={(e) => e.label}
                 getOptionValue={(e) => e.value}
                 onChange={handleChange}
@@ -184,13 +180,12 @@ const BannerSection = () => {
                 options={modelOptions}
                 getOptionLabel={(e) => e.label}
                 getOptionValue={(e) => e.value}
-                onChange={handleModelChange}
+                WORonChange={handleModelChange}
                 placeholder={currentLanguage === "ar" ? "-- الموديل --" : "-- Model --"}
                 className="w-full"
                 styles={selectStyles}
                 isSearchable
                 isDisabled={!make}
-                filterOption={customModelFilter}
               />
               <Select
                 options={locations}
@@ -209,6 +204,7 @@ const BannerSection = () => {
             >
               {currentLanguage === "ar" ? "بحث" : "Search"}
             </button>
+           
           </form>
         </div>
       </div>

@@ -92,6 +92,12 @@ const Subscribe = () => {
           </div>
         </div>
       </div>
+      <h2 className="text-md sm:text-3xl font-semibold text-black text- bg-slate-100 py-4 text-center">
+            {/* <Translate text={"Buy & Sell with Syria Souq"} /> */}
+
+            {currentLanguage === "ar" ? "بيع وشراء مع سيريا سوق " : "Buy & Sell with Syria Souq"}
+           
+          </h2>
     </div>
   );
 };
