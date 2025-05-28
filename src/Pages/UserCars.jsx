@@ -141,7 +141,9 @@ const UserCars = () => {
           >
             {user?.profileImage ? (
               <img
-                src={`http://api.syriasouq.com/${user.profileImage}`}
+              // src={`http://localhost:5001${user.profileImage}`}
+
+                src={`http://api.syriasouq.com${user.profileImage}`}
                 alt="Profile"
                 className="w-full h-full object-cover"
               />

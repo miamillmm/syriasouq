@@ -760,7 +760,9 @@ const CarDetails = () => {
           >
             {carDetails?.user?.profileImage ? (
               <img
-                src={`http://api.syriasouq.com/${carDetails?.user?.profileImage}`}
+              // src={`http://localhost:5001${carDetails?.user?.profileImage}`}
+
+                src={`http://api.syriasouq.com${carDetails?.user?.profileImage}`}
                 alt="Profile"
                 className="w-full h-full object-cover"
               />
