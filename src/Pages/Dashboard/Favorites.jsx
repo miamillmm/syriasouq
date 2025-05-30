@@ -8,6 +8,8 @@ import { AiOutlineDashboard } from "react-icons/ai";
 import { AuthContext } from "../../context/AuthContext"; // Import AuthContext
 import { useTranslation } from "react-i18next";
 import { useWishlist } from "../../context/WishlistContext";
+import { getArabicModel, getLocalizedLocation, getLocalizedMake } from "../../utils/utils";
+
 
 const getUidFromUrl = () => {
   const queryParams = new URLSearchParams(window.location.search);
