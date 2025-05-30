@@ -44,6 +44,16 @@ const Subscribe = () => {
         ></div>
         <div className="z-10 w-full">
           <div className="md:w-2/3 mx-auto text-center mb-8 md:mb-14 space-y-5 md:space-y-7">
+          <p
+  className={`text-base sm:text-lg md:text-xl text-white bg-[#374b5c] leading-relaxed px-4 py-2 md:px-6 md:py-3 text-justify mx-auto max-w-3xl ${
+    currentLanguage === "ar" ? "text-right" : "text-left"
+  }`}
+>
+  {currentLanguage === "ar"
+    ? `بيع سيارتك عبر الإنترنت في سوريا, سيارات مستعملة في سوريا سيارات مستعملة في سوريا, شراء سيارات مستعملة بأسعار معقولة شراء سيارات مستعملة بأسعار معقولة, أفضل السيارات المستعملة في سوريا أفضل السيارات المستعملة في سوريا, بيع سيارات مستعملة في دمشق, اشتري سيارات مستعملة في سوريا, بيع السيارات بسرعة سوريا, سيارات مستعملة في سوريا`
+    : `Sell your car online in Syria, Second-hand cars in Syria, Buy Affordable used cars, Sell used cars in Damascus, best used cars Syria, Sell car fast Syria, Pre-owned vehicles Syria.`}
+</p>
+
             <button className="text-sm md:text-[14px] font-[400] text-white bg-[#374b5c] py-2 px-3 md:px-4 rounded cursor-pointer">
               {currentLanguage === "ar" ? "إشترك" : "Subscribe"}
             </button>

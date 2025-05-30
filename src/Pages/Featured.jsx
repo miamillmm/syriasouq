@@ -235,8 +235,7 @@ const Featured = () => {
                     onTouchEnd={(e) => handleTouchEnd(e, data._id)}
                   >
                     <img
-                      alt=""
-                      src={`http://api.syriasouq.com/uploads/cars/${data.images[currentImageIndices[data._id] || 0]}`}
+alt={`${getLocalizedMake(data, currentLanguage) || "Unknown Make"} ${getArabicModel(data, currentLanguage) || "Unknown Model"} for sale in ${getLocalizedLocation(data?.location, currentLanguage) || "Unknown Location"} - Image ${currentImageIndices[data._id] + 1}`}                      src={`http://api.syriasouq.com/uploads/cars/${data.images[currentImageIndices[data._id] || 0]}`}
                       className="h-56 sm:h-56 w-full object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
                     />
                   </div>

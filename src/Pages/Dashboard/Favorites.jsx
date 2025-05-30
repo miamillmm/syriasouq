@@ -89,8 +89,7 @@ const Favorites = () => {
                     <div className="relative">
                       <img
                         src={`http://api.syriasouq.com/uploads/cars/${car?.car?.images[0]}`}
-                        alt={car.make}
-                        className="w-full h-60 object-cover rounded-t-xl"
+                        alt={`${getLocalizedMake(car.car, currentLanguage) || "Unknown Make"} ${getArabicModel(car.car, currentLanguage) || "Unknown Model"} for sale in ${getLocalizedLocation(car.car?.location, currentLanguage) || "Unknown Location"} - Image 1`}                        className="w-full h-60 object-cover rounded-t-xl"
                         onError={(e) =>
                           (e.target.src =
                             "https://via.placeholder.com/400x300?text=No+Image")

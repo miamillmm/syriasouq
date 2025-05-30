@@ -206,8 +206,7 @@ export default function MoreFromUser({ title, button, uid }) {
                   <Link to={`/listing/${car?._id}`} key={car?._id}>
                     <div className="overflow-hidden h-60 sm:h-60 rounded-md relative">
                       <img
-                        alt={`${getLocalizedMake(car, currentLanguage)} ${getArabicModel(car, currentLanguage)}`}
-                        // src={`http://api.syriasouq.com/uploads/cars/${car?.images[0]}`}
+alt={`${getLocalizedMake(car, currentLanguage) || "Unknown Make"} ${getArabicModel(car, currentLanguage) || "Unknown Model"} for sale in ${getLocalizedLocation(car?.location, currentLanguage) || "Unknown Location"} - Image ${currentImageIndices[car._id] + 1}`}                        // src={`http://api.syriasouq.com/uploads/cars/${car?.images[0]}`}
                          src={`http://api.syriasouq.com/uploads/cars/${car?.images[currentImageIndices[car._id] || 0]}`}
                         className="w-full  sm:h-60 lg:h-60 object-cover transition-transform duration-500 hover:scale-105 ease-in-out"
                         loading="lazy"

@@ -555,8 +555,7 @@ const CarDetails = () => {
       >
         <img
           src={`http://api.syriasouq.com/uploads/cars/${img}`}
-          alt={`Car image ${index + 1}`}
-          className="w-full max-h-full object-contain object-center cursor-zoom-in transition-all duration-300 hover:opacity-95"
+          alt={`${getLocalizedMake(carDetails, currentLanguage)} ${getArabicModel(carDetails, currentLanguage)} for sale in ${getLocalizedLocation(carDetails?.location, currentLanguage)} - Image ${index + 1}`}          className="w-full max-h-full object-contain object-center cursor-zoom-in transition-all duration-300 hover:opacity-95"
           style={{
             maxWidth: "100%",
             maxHeight: "100%",

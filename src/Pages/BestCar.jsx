@@ -48,6 +48,19 @@ const BestCar = () => {
               )}
             </h1>
           </div>
+          <h1
+  style={{
+    position: "absolute",
+    opacity: 0,
+    left: "-9999px",
+    top: "-9999px",
+    height: "1px",
+    width: "1px",
+    overflow: "hidden",
+  }}
+>
+  A Trusted Second Hand Car Dealers in Syria
+</h1>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-10 w-full">
           <div className="w-full h-auto bg-[#323232fa] py-8 px-6 text-center space-y-3 rounded">

@@ -12,6 +12,7 @@ import SyrianFlag from "../../assets/flag/syria-flag.png";
 import { AuthContext } from "../../context/AuthContext";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Helmet } from "react-helmet";
 
 // Import Google Fonts for Arabic and custom styles
 const styles = `
@@ -131,11 +132,24 @@ const LoginAndRegister = () => {
 
   return (
     <div
-      className="relative flex justify-center items-center min-h-screen bg-cover bg-center"
-      style={{ backgroundImage: `url(${cover})` }}
+    className="relative flex flex-col justify-center items-center min-h-screen bg-cover bg-center"
+          style={{ backgroundImage: `url(${cover})` }}
     >
       <style>{styles}</style>
+      <Helmet>
+  <title>
+    {currentLanguage === "ar"
+      ? "بيع وشراء سيارتك عبر الإنترنت بأسعار معقولة في سوريا"
+      : "Buy and Sell Your Car Online at Affordable Prices in Syria"}
+  </title>
+</Helmet>
+     
       <div className="absolute inset-0 bg-gradient-to-r from-[#1e3a8a] to-[#304455] opacity-90"></div>
+      <h1
+  
+>
+Sign Up Now for best used cars syria
+</h1>
       <motion.div
         className={`bg-white shadow-2xl rounded-2xl p-8 w-[90%] sm:w-[28rem] md:w-[32rem] z-10 ${
           currentLanguage === "ar" ? "arabic" : ""
@@ -507,6 +521,17 @@ const LoginAndRegister = () => {
         </motion.div>
       )}
       <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} closeOnClick pauseOnHover />
+     <div className="flex justify-center items-center mt-10">
+     <footer
+        className={`w-full text-center text-white py-4 px-4 text-base sm:text-lg md:text-xl leading-relaxed ${
+          currentLanguage === "ar" ? "text-right" : "text-left"
+        } z-20`}
+      >
+        {currentLanguage === "ar"
+          ? `اشتري سيارات مستعملة في سوريا, تجار سيارات مستعملة في سوريا, بيع وشراء السيارات في سوريا بيع وشراء`
+          : `Buy used cars in Syria, used car dealers in Syria, Buy and sell cars Syria.`}
+      </footer>
+     </div>
     </div>
   );
 };
