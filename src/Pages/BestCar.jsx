@@ -49,15 +49,7 @@ const BestCar = () => {
             </h1>
           </div>
           <h1
-  style={{
-    position: "absolute",
-    opacity: 0,
-    left: "-9999px",
-    top: "-9999px",
-    height: "1px",
-    width: "1px",
-    overflow: "hidden",
-  }}
+  className="hidden"
 >
   A Trusted Second Hand Car Dealers in Syria
 </h1>
