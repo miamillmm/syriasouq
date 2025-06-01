@@ -142,6 +142,12 @@ const LoginAndRegister = () => {
       ? "بيع وشراء سيارتك عبر الإنترنت بأسعار معقولة في سوريا"
       : "Buy and Sell Your Car Online at Affordable Prices in Syria"}
   </title>
+  <meta
+    name="description"
+    content={
+      'Buy and sell your car online in Syria at affordable prices, Fast listings, trusted dealers, and great deals on used cars across the country.'
+    }
+  />
 </Helmet>
      
       <div className="absolute inset-0 bg-gradient-to-r from-[#1e3a8a] to-[#304455] opacity-90"></div>
