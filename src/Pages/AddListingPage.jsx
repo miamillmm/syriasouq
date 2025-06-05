@@ -47,10 +47,10 @@ const allTransmission = [
 ];
 
 const allFuelType = [
+  { value: "Petrol", label: "Petrol" },
   { value: "Diesel", label: "Diesel" },
   { value: "Electric", label: "Electric" },
   { value: "Hybrid", label: "Hybrid" },
-  { value: "Petrol", label: "Petrol" },
 ];
 
 const allExteriorColor = [
@@ -366,21 +366,26 @@ const ListingForm = ({
               {currentLanguage === "ar" ? "السعر (دولار)" : "Price (USD)"}
             </h3>
           </div>
-          <input
-            type="number"
-            placeholder={
-              currentLanguage === "ar"
-                ? "يرجى كتابة الأرقام باللغة الإنجليزية"
-                : "$"
-            }
-            className={`w-full py-4 rounded px-6 text-right ${inputErrorStyles(errors.priceUSD)}`}
-            value={priceUSD}
-            onChange={(e) => {
-              setPriceUSD(e.target.value);
-              setErrors((prev) => ({ ...prev, priceUSD: !e.target.value }));
-            }}
-            disabled={isLoading}
-          />
+        <input
+  type="text" // Change to text to allow comma formatting
+  placeholder={
+    currentLanguage === "ar"
+      ? "يرجى كتابة الأرقام باللغة الإنجليزية"
+      : "$"
+  }
+  className={`w-full py-4 rounded px-6 text-right ${inputErrorStyles(errors.priceUSD)}`}
+  value={priceUSD ? Number(priceUSD).toLocaleString("en-US") : ""} // Format with commas
+  onChange={(e) => {
+    // Remove non-numeric characters except for the decimal point
+    const rawValue = e.target.value.replace(/[^0-9.]/g, "");
+    // Ensure valid number
+    if (rawValue === "" || !isNaN(rawValue)) {
+      setPriceUSD(rawValue); // Store raw number without commas
+      setErrors((prev) => ({ ...prev, priceUSD: !rawValue }));
+    }
+  }}
+  disabled={isLoading}
+/>
           {errors.priceUSD && (
             <p className="text-[#B80200] text-sm mt-1 px-3">
               {errorMessages.priceUSD[currentLanguage === "ar" ? "ar" : "en"]}
@@ -418,33 +423,38 @@ const ListingForm = ({
           )}
         </label>
 
-        <label className="w-full">
-          <div className="mb-2 px-3">
-            <h3 className="font-semibold">
-              <Translate text={"Kilometer"} />
-            </h3>
-          </div>
-          <input
-            type="number"
-            placeholder={
-              currentLanguage === "ar"
-                ? "يرجى كتابة الأرقام باللغة الإنجليزية"
-                : "km"
-            }
-            className={`w-full py-4 rounded px-6 text-right ${inputErrorStyles(errors.kilometer)}`}
-            value={kilometer}
-            onChange={(e) => {
-              setKilometer(e.target.value);
-              setErrors((prev) => ({ ...prev, kilometer: !e.target.value }));
-            }}
-            disabled={isLoading}
-          />
-          {errors.kilometer && (
-            <p className="text-[#B80200] text-sm mt-1 px-3">
-              {errorMessages.kilometer[currentLanguage === "ar" ? "ar" : "en"]}
-            </p>
-          )}
-        </label>
+<label className="w-full">
+  <div className="mb-2 px-3">
+    <h3 className="font-semibold">
+      <Translate text={"Kilometer"} />
+    </h3>
+  </div>
+  <input
+    type="text" // Changed to text to allow comma formatting
+    placeholder={
+      currentLanguage === "ar"
+        ? "يرجى كتابة الأرقام باللغة الإنجليزية"
+        : "km"
+    }
+    className={`w-full py-4 rounded px-6 text-right ${inputErrorStyles(errors.kilometer)}`}
+    value={kilometer ? Number(kilometer).toLocaleString("en-US") : ""} // Format with commas
+    onChange={(e) => {
+      // Remove non-numeric characters except for the decimal point
+      const rawValue = e.target.value.replace(/[^0-9.]/g, "");
+      // Ensure valid number
+      if (rawValue === "" || !isNaN(rawValue)) {
+        setKilometer(rawValue); // Store raw number without commas
+        setErrors((prev) => ({ ...prev, kilometer: !rawValue }));
+      }
+    }}
+    disabled={isLoading}
+  />
+  {errors.kilometer && (
+    <p className="text-[#B80200] text-sm mt-1 px-3">
+      {errorMessages.kilometer[currentLanguage === "ar" ? "ar" : "en"]}
+    </p>
+  )}
+</label>
 
         <label className="w-full hidden">
           <div className="mb-2 px-3">

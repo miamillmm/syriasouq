@@ -181,17 +181,59 @@ const Footer = () => {
               className="space-y-4 flex flex-col items-center md:items-start"
               variants={fadeIn}
             >
-              <h3 className="font-bold mb-4 text-lg capitalize text-center md:text-left">
+              {/* <h3 className="font-bold mb-4 text-lg capitalize text-center md:text-left">
                 <Translate text={"languages"} />
-              </h3>
-              <motion.div whileHover={hoverEffect}>
-                <Link
-                  to="#"
+              </h3> */}
+              {/* <motion.div whileHover={hoverEffect}>
+                <p
                   className="text-red-500 hover:text-red-400 transition-colors capitalize flex justify-center md:justify-start"
                 >
-                  <Translate text={"arabic (arabic language)"} />
-                </Link>
-              </motion.div>
+                  Arabic
+                  {/* <Translate text={"arabic "} /> */}
+                {/* </p>
+                <p className="text-red-500 hover:text-red-400 transition-colors capitalize flex justify-center md:justify-start"
+                >
+                  English
+                </p> */}
+              {/* </motion.div> */}
+              <motion.div
+  className="space-y-4 flex flex-col items-center md:items-start"
+  variants={fadeIn}
+>
+  <h3 className="font-bold mb-4 text-lg capitalize text-center md:text-left">
+    <Translate text={"languages"} />
+  </h3>
+  <div className="flex flex-col space-y-2">
+    <motion.button
+      onClick={() => {
+        i18n.changeLanguage("en");
+        document.documentElement.lang = "en";
+        document.documentElement.dir = "ltr";
+      }}
+      className={`text-red-500 hover:text-red-400 font-bold transition-colors capitalize flex justify-center md:justify-start px-4 py-2 rounded-lg ${
+        currentLanguage === "en" ? "bg-red-500 text-white" : "bg-transparent"
+      }`}
+      whileHover={hoverEffect}
+      disabled={currentLanguage === "en"}
+    >
+      English
+    </motion.button>
+    <motion.button
+      onClick={() => {
+        i18n.changeLanguage("ar");
+        document.documentElement.lang = "ar";
+        document.documentElement.dir = "rtl";
+      }}
+      className={`text-red-500 hover:text-red-400 font-bold transition-colors capitalize flex justify-center md:justify-start px-4 py-2 rounded-lg ${
+        currentLanguage === "ar" ? "bg-red-500 text-white" : "bg-transparent"
+      }`}
+      whileHover={hoverEffect}
+      disabled={currentLanguage === "ar"}
+    >
+      Arabic
+    </motion.button>
+  </div>
+</motion.div>
             </motion.div>
           </div>
         </motion.footer>

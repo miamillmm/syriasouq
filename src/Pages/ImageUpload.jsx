@@ -85,8 +85,27 @@ const ImageUpload = ({ uploadedImages, setUploadedImages, isDisabled }) => {
   };
 
   // Remove an image with confirmation
+  // const handleRemoveImage = (id) => {
+  //   if (window.confirm("Are you sure you want to remove this image?")) {
+  //     setUploadedImages((prev) => {
+  //       const updated = prev.filter((image) => image.id !== id);
+  //       // Revoke URL for removed image if it’s a new upload
+  //       prev.forEach((image) => {
+  //         if (image.id === id && image.file) {
+  //           URL.revokeObjectURL(image.id);
+  //         }
+  //       });
+  //       return updated;
+  //     });
+  //     setError("");
+  //   }
+  // };
   const handleRemoveImage = (id) => {
-    if (window.confirm("Are you sure you want to remove this image?")) {
+    const confirmMessage =
+      currentLanguage === "ar"
+        ? "هل أنت متأكد أنك تريد إزالة هذه الصورة؟"
+        : t("Are you sure you want to remove this image?"); // Fallback to translation or English
+    if (window.confirm(confirmMessage)) {
       setUploadedImages((prev) => {
         const updated = prev.filter((image) => image.id !== id);
         // Revoke URL for removed image if it’s a new upload
@@ -217,11 +236,14 @@ const ImageUpload = ({ uploadedImages, setUploadedImages, isDisabled }) => {
   return (
     <div className="w-full max-w-7xl mx-auto">
       {/* Header */}
-      <div className="flex items-center w-full mb-6 pl-6">
+      <div className="flex items-center w-full mb-6 pl-2">
         <h2 className="text-3xl font-semibold text-gray-800 whitespace-nowrap tracking-tight">
           {currentLanguage === "ar" ? "الصور" : "Gallery"}*
         </h2>
         <div className="flex-1 border-t-2 border-gray-200 mx-4"></div>
+        <p>     {currentLanguage === "ar" ? "يمكنك إعادة ترتيب الصور" : "You can rearrange pictures"}</p>
+        <div className="flex-1 border-t-2 border-gray-200 mx-4"></div>
+
         <button
           className="text-gray-500 hover:text-gray-700 transition-colors p-2 rounded-full"
           aria-label="Toggle gallery"
@@ -324,7 +346,9 @@ const ImageUpload = ({ uploadedImages, setUploadedImages, isDisabled }) => {
                   />
                   {index !== 0 && (
                     <div className="absolute bottom-2 left-2 bg-green-600 text-white text-xs font-medium px-2 py-0.5 rounded">
-                      Image {index + 1}
+                      {currentLanguage === "ar" ? `الصور ${index + 1} `:`Image ${index + 1}`}
+
+                       
                     </div>
                   )}
                   {previewFiles.length === 0 && (

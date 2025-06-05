@@ -287,7 +287,7 @@ Sign Up Now for best used cars syria
                 whileHover={{ scale: 1.2 }}
                 whileTap={{ scale: 0.9 }}
               >
-                {showLoginPassword ? <FaEyeSlash /> : <FaEye />}
+                {showLoginPassword ? <FaEyeSlash size={24} /> : <FaEye  size={24} />}
               </motion.button>
             </motion.div>
             {loginErrors.password && (
@@ -386,6 +386,7 @@ Sign Up Now for best used cars syria
                         dropdownClass="!bg-white !text-black !rounded-lg !shadow-lg"
                         disableDropdown={false}
                         enableSearch
+                     
                         specialLabel={false}
                         countryCodeEditable={false}
                       />
@@ -438,7 +439,7 @@ Sign Up Now for best used cars syria
                 whileHover={{ scale: 1.2 }}
                 whileTap={{ scale: 0.9 }}
               >
-                {showRegisterPassword ? <FaEyeSlash /> : <FaEye />}
+                {showRegisterPassword ? <FaEyeSlash  size={24} /> : <FaEye  size={24} />}
               </motion.button>
             </motion.div>
             {registerErrors.password && (

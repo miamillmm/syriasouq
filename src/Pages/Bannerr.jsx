@@ -18,17 +18,19 @@ const BannerSection = () => {
   const [searchLocation, setSearchLocation] = useState(null);
 
   // Prepare make options like AddListingPage
-  const makeOptions = enMakes.map((m) => {
+const makeOptions = [
+  { value: "All", label: currentLanguage === "ar" ? "الكل" : "All", models: ["All"] },
+  ...enMakes.map((m) => {
     const arabicMake = arMake.find((am) => am.enValue === m.value);
     return {
       value: m.value,
       label: currentLanguage === "ar" ? arabicMake?.label || m.label : m.label,
-      models: m.models, // Preserve models for modelOptions
+      models: m.models,
     };
-  }).concat([
-    { value: "All", label: currentLanguage === "ar" ? "الكل" : "All", models: ["All"] },
-    { value: "Other", label: currentLanguage === "ar" ? "أخرى" : "Other", models: ["Other"] }
-  ]);
+  }),
+  { value: "Other", label: currentLanguage === "ar" ? "أخرى" : "Other", models: ["Other"] },
+
+];
 
   // Add "All" option to alllocation
   const locations = [
@@ -36,9 +38,16 @@ const BannerSection = () => {
     ...alllocation,
   ];
 
+  // const handleSearch = (e) => {
+  //   e.preventDefault();
+  //   const query = `/search?make=${searchMake}${searchModel ? `&model=${searchModel}` : ""}${
+  //     searchLocation ? `&location=${searchLocation}` : ""
+  //   }`;
+  //   navigate(query);
+  // };
   const handleSearch = (e) => {
     e.preventDefault();
-    const query = `/search?make=${searchMake}${searchModel ? `&model=${searchModel}` : ""}${
+    const query = `/search?make=${searchMake || "All"}${searchModel ? `&model=${searchModel}` : ""}${
       searchLocation ? `&location=${searchLocation}` : ""
     }`;
     navigate(query);
@@ -138,7 +147,7 @@ const BannerSection = () => {
 
   return (
     <div
-      className="relative border-t-2 border-[#576877] py-10 pt-52 sm:py-24 flex items-center justify-center md:min-h-[80vh] min-h-[70vh] bg-banner-mobile"
+      className="relative border-t-2 border-[#576877] py-10 pt-54 sm:py-24 flex items-center justify-center md:min-h-[80vh] min-h-[70vh] bg-banner-mobile"
       style={{
         backgroundImage: `url(${bgImage})`,
         backgroundSize: "cover",
